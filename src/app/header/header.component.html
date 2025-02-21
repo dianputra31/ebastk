@@ -45,32 +45,44 @@
       </div>    
     
       <ng-container [ngSwitch]="getCurrentView()">
-        <ng-container *ngSwitchCase="'dashboard'">
+        <ng-container *ngSwitchCase="'/dashboard'">
+          <!-- Konten untuk dashboard -->
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'/inspection-summary'">
+          <!-- Konten untuk dashboard -->
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'/inspeksi-unit'">
           <!-- Konten untuk dashboard -->
         </ng-container>
       
-        <ng-container *ngSwitchCase="'tugas'">
+        <ng-container *ngSwitchCase="'/tugas'">
           <app-the-menus-of-tugas></app-the-menus-of-tugas>
         </ng-container>
       
-        <ng-container *ngSwitchCase="'exterior'">
+        <ng-container *ngSwitchCase="'/exterior-inspection'">
           <app-menu-of-exterior-inspection (panelToScroll)="scrollToPanel($event)"></app-menu-of-exterior-inspection>
         </ng-container>
       
-        <ng-container *ngSwitchCase="'interior'">
+        <ng-container *ngSwitchCase="'/interior-inspection'">
           <app-menu-of-interior-inspection></app-menu-of-interior-inspection>
         </ng-container>
       
-        <ng-container *ngSwitchCase="'engine'">
+        <ng-container *ngSwitchCase="'/engine-inspection'">
           <app-menu-of-engine-inspection></app-menu-of-engine-inspection>
         </ng-container>
       
-        <ng-container *ngSwitchCase="'photos'">
+        <ng-container *ngSwitchCase="'/unit-photos'">
           <app-menu-of-photos-inspection></app-menu-of-photos-inspection>
         </ng-container>
       
-        <ng-container *ngSwitchCase="'riwayat'">
+        <ng-container *ngSwitchCase="'/riwayat'">
           <app-filter-riwayat></app-filter-riwayat>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'/detil-riwayat'">
+          <app-menu-of-detail-riwayat (menuSelected)="onMenuSelected($event)"></app-menu-of-detail-riwayat>
         </ng-container>
       
         <ng-container *ngSwitchCase="'nomenu'">

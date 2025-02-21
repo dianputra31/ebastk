@@ -11,17 +11,33 @@
       <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
     </div>  
 
-    <ng-container *ngIf="!isDetailView; else detailFooter">
-      <div class="the-footer">      
-        <app-footer></app-footer>    
-      </div>
+
+    <ng-container [ngSwitch]="getCurrentView()">
+
+      <ng-container *ngSwitchCase="'main'">
+        <div class="the-footer">      
+          <app-footer></app-footer>    
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'dt-tugas'">
+        <div class="the-detail-footer">      
+          <app-detail-footer [stepNow]="watchThisStep"></app-detail-footer>    
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'dt-riwayat'">
+        <div class="the-detail-footer">      
+          <app-detail-footer [stepNow]="watchThisStep"></app-detail-footer>    
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'none'">
+        <!--empty footer-->
+      </ng-container>
+
     </ng-container>
-    
-    <ng-template #detailFooter>
-      <div class="the-detail-footer">      
-        <app-detail-footer [stepNow]="watchThisStep"></app-detail-footer>    
-      </div>
-    </ng-template>
+
   </div>
 </ng-template>
   <!-- <app-loading-overlay [isVisible]="isLoading"></app-loading-overlay> -->

@@ -1,0 +1,36 @@
+<div class="row" style="width:100%;">
+    <div class="col-md-4 text-left p-3" style="width:50%;float:left;">
+        <div class="top-label">Mitsubishi Pajero</div>
+       
+        <div class="bottom-label">Tribik Jakarta 17 September 2024, 13.00 WIB</div>
+    </div>
+    <div class="col-md-4 text-right p-3" style="width:50%;float:left;" >
+        aa
+    </div>
+</div>
+<div class="row" style="position: relative;float: left;width:100%;">
+    <div class="col-md-12 text-left p-0 mt-0">
+        <div class="header-bottom">
+            <div class="task-summary">
+            </div>
+          
+            <div class="row-container">
+                <div class="chip-container">  
+                    <div class="chip" [class.active]="activeChipIndex === 0" (click)="setActiveChip(0);">Unit Info & Dokumen</div>  
+                    <div class="chip" [class.active]="activeChipIndex === 1" (click)="setActiveChip(1);">Exterior Inspection</div>  
+                    <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2);">Interior Inspection</div>  
+                    <div class="chip" [class.active]="activeChipIndex === 3" (click)="setActiveChip(3);">Engine Inspection</div>  
+                    <div class="chip" [class.active]="activeChipIndex === 4" (click)="setActiveChip(4);">Unit Photos</div>  
+                    <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
+                  </div>
+                  
+                  
+                  <div class="filter-container">  
+                   
+                  </div>
+            </div>
+          
+          
+          </div> 
+    </div>
+</div>

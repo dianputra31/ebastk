@@ -1,56 +1,33 @@
-.header {  
-    display: flex;  
-    flex-direction: column;  
-    width: 100%;  
-    background-color: #fff; // Warna latar belakang header  
-    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk header  
-    
-    .label-page{
-      font-family: 'Nunito Sans';
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 24px;
-      letter-spacing: 0px;
-      color: #312E2E;
+.top-label{
+    font-family: 'Nunito Sans';
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 44.8px;
+    letter-spacing: 0px;
+    color:#312E2E;
 
-      }
+}
 
-    // Bagian atas header  
-    .header-top {  
-      display: flex;  
-      justify-content: space-between;  
-      align-items: center;  
-      padding: 10px 20px;  
-    
-      .logo {  
-        // Gaya untuk logo  
-        img {  
-          height: 40px; // Atur tinggi logo sesuai kebutuhan  
-        }  
-      }  
-    
-      .profile-dropdown {  
-        // Gaya untuk dropdown profil  
-        display: flex;  
-        align-items: center;  
-    
-        .profile-name {  
-          margin-right: 10px;  
-          font-weight: bold;  
-        }  
-    
-        .dropdown {  
-          // Gaya untuk dropdown  
-          cursor: pointer;  
-        }  
-      }  
-    }  
+.bottom-label{
+    font-family: 'Nunito Sans';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color:#908B8B;
+}
+
+
+
+
+  
     
     // Bagian bawah header  
     .header-bottom {    
         display: flex;      
         flex-direction: column; // Mengatur arah flex menjadi kolom    
-        padding: 10px 20px;       
+        padding: 5px 20px 0px 20px;    
+        border-bottom: #EBEBEB solid 1px;   
         
         .task-summary {    
           width: 100%; // Lebar 100%    
@@ -74,7 +51,7 @@
           display: flex;    
           gap: 10px; // Jarak antar chip    
           overflow-x: auto; // Mengizinkan scroll horizontal    
-          padding: 10px 0; // Padding atas dan bawah    
+          padding: 0px 0; // Padding atas dan bawah    
           white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya    
           position: relative; // Untuk posisi elemen kustom    
           font-weight: 800;  
@@ -88,7 +65,7 @@
           .custom-slider {    
             height: 2px; // Tinggi garis    
             max-width: 50px; // Lebar maksimum garis    
-            background-color: #D5230D; // Warna garis    
+            // background-color: #D5230D; // Warna garis    
             position: absolute; // Posisi absolut    
             bottom: 0; // Tempatkan di bawah chip    
             left: 0; // Mulai dari kiri    
@@ -97,15 +74,18 @@
         
           .chip {    
             padding: 8px 12px;    
-            border-radius: 48px;    
-            border: 1px solid #F5F5F5; // Border chip    
-            background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
+            // border-radius: 48px;    
+            // border: 1px solid #F5F5F5; // Border chip    
+            // background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
             color: black; // Warna huruf chip tidak aktif    
             cursor: pointer;    
         
             &.active {    
-              background-color: #D5230D; // Warna latar belakang chip aktif    
-              color: white; // Warna huruf chip aktif    
+              color: #D5230D; // Warna latar belakang chip aktif   
+              border-bottom: #D5230D solid 4px; 
+              font-size: 16px;
+              font-weight: 700;
+            //   color: white; // Warna huruf chip aktif    
             }    
           }    
         }    
@@ -138,7 +118,7 @@
             }    
         
             &.active {    
-              border-color: #C2200C; // Warna border saat aktif    
+              color: #C2200C; // Warna border saat aktif    
             }    
           }    
         
@@ -208,105 +188,8 @@
         }  
       }   
       
-    
-    
-
-
-
-
-
-
-    .header-user {  
-        display: flex; // Mengatur elemen dalam satu baris  
-        align-items: center; // Menyelaraskan secara vertikal  
-        padding: 10px; // Padding di dalam header  
-        background-color: #f9f9f9; // Warna latar belakang header  
-        border: 1px solid #ddd; // Border untuk header  
-        border-radius: 40px; // Border-radius untuk header  
-        cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik  
-        
-        .profile-image {  
-          width: 40px; // Ukuran gambar profil  
-          height: 40px; // Ukuran gambar profil  
-          margin-right: 10px; // Jarak antara gambar profil dan info pengguna  
-        
-          img {  
-            width: 100%; // Mengatur gambar agar memenuhi div  
-            height: 100%; // Mengatur gambar agar memenuhi div  
-            border-radius: 50%; // Membuat gambar profil menjadi bulat  
-          }  
-        }  
-        
-        .user-info {  
-          flex: 1; // Mengisi sisa ruang  
-          display: flex;  
-          flex-direction: column; // Mengatur info pengguna dalam kolom  
-          width: 190px;
-        
-          .user-name {  
-            font-weight: bold; // Menebalkan nama pengguna  
-            color: #333; // Warna teks  
-            text-align: left;
-          }  
-        
-          .user-details {  
-            font-size: 12px; // Ukuran font untuk detail  
-            color: #666; // Warna teks untuk detail  
-            text-align: left;
-          }  
-        }  
-        
-        .dropdown-icon {  
-            width: 20px; // Ukuran ikon dropdown  
-            height: 20px;  
-            
-            img {  
-              width: 100%; // Mengatur ikon agar memenuhi div  
-              height: 100%; // Mengatur ikon agar memenuhi div  
-              transition: transform 0.3s ease; // Animasi transisi saat memutar  
-            
-              &.rotate {  
-                transform: rotate(180deg); // Memutar gambar 180 derajat  
-              }  
-            }  
-          }   
-      }  
 
       
-      
-  }  
-  
-
-  .dropdown-menu {  
-    position: absolute; // Mengatur posisi dropdown  
-    background-color: white; // Warna latar belakang dropdown  
-    border-left: 1px solid #ddd; // Border untuk dropdown  
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    border-top:0px;
-    border-radius: 1px; // Border-radius untuk dropdown  
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman  
-    z-index: 1000; // Memastikan dropdown berada di atas elemen lain  
-    margin-top: 10px; // Jarak antara dropdown dan elemen di atasnya  
-    right:50px;
-    top:80px;
-    width: 160px;
-    
-    ul {  
-      list-style: none; // Menghilangkan bullet points  
-      padding: 0; // Menghilangkan padding  
-      margin: 0; // Menghilangkan margin  
-    
-      li {  
-        padding: 10px; // Padding untuk item dropdown  
-        cursor: pointer; // Menunjukkan bahwa item dapat diklik  
-    
-        &:hover {  
-          background-color: #f0f0f0; // Warna latar belakang saat hover  
-        }  
-      }  
-    }  
-  }  
 
 
   

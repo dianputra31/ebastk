@@ -49,30 +49,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getCurrentView(): string {
-    switch (this.currentRoute) {
-      case '/dashboard':
-        return 'dashboard';
-      case '/tugas':
-        return 'tugas';
-      case '/inspeksi-unit':
-        return 'nomenu';
-      case '/exterior-inspection':
-        return 'exterior';
-      case '/interior-inspection':
-        return 'interior';
-      case '/engine-inspection':
-        return 'engine';
-      case '/unit-photos':
-        return 'photos';
-      case '/riwayat':
-        return 'riwayat';
-      case '/inspeksi-unit':
-        return 'nomenu';
-      case '/inspection-summary':
-        return 'nomenu';
-      default:
-        return 'other';
-    }
+    return this.currentRoute;
   }
 
   setActiveChip(index: number) {  
@@ -125,6 +102,8 @@ export class HeaderComponent implements OnInit {
     // window.history.back();
     if(this.currentRoute==='/detil-tugas'){
       this.router.navigate(['/tugas'])
+    }else if(this.currentRoute==='/detil-riwayat'){
+      this.router.navigate(['/riwayat'])
     }else{
       this.router.navigate(['/detil-tugas'])
     }

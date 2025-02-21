@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';  
 import { AuthService } from './auth.service';
 import { MatAccordion } from '@angular/material/expansion';
+import * as jQuery from 'jquery';
 
 @Component({
   selector: 'app-root',
@@ -61,7 +62,7 @@ export class AppComponent {
       if (event instanceof NavigationEnd) {  
         this.currentRoute = this.router.url; // Mendapatkan URL saat ini  
        
-        if(this.currentRoute ==='/detil-tugas'){
+        if(this.currentRoute ==='/detil-tugas' || this.currentRoute ==='/detil-riwayat'){
           this.isDetailView = true; 
           this.watchThisStep = 'detil-tugas'; 
         }else if(this.currentRoute ==='/dashboard' || this.currentRoute ==='/tugas' || this.currentRoute ==='/inspection-summary'|| this.currentRoute ==='/riwayat'){
@@ -126,6 +127,12 @@ export class AppComponent {
 
 
   onMenuChange(menu: string) {
+    const rwInfo = document.getElementById('rw-info');
+    const rwExterior = document.getElementById('rw-exterior');
+    const rwInterior = document.getElementById('rw-interior');
+    const rwEngine = document.getElementById('rw-engine');
+    const rwPhotos = document.getElementById('rw-photos');
+
     if (menu === 'Info Vendor') {
       const panel = document.getElementById('infoVendorPanel');
       if (panel) {
@@ -143,6 +150,127 @@ export class AppComponent {
       }
     }else if (menu === 'Keterangan Lainnya') {
       const panel = document.getElementById('infoLainnyaPanel');
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth' });
+      }
+    }else if (menu === 'rw-info') {
+
+      const panel = document.getElementById('rw-info');
+
+      if (rwExterior || rwInterior || rwEngine || rwPhotos) {
+        if (rwExterior) {
+          rwExterior.style.display = 'none';
+        }
+        if(rwInterior){
+          rwInterior.style.display = 'none';
+        }
+        if(rwEngine){
+          rwEngine.style.display = 'none';
+        }
+        if(rwPhotos){
+          rwPhotos.style.display = 'none';
+        }
+        if(rwInfo){
+          rwInfo.style.display = 'block';
+        }
+      }
+
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth' });
+      }
+    }else if (menu === 'rw-exterior') {
+      const panel = document.getElementById('rw-exterior');
+
+      if (rwInfo || rwInterior || rwEngine || rwPhotos) {
+        if (rwInfo) {
+          rwInfo.style.display = 'none';
+        }
+        if(rwInterior){
+          rwInterior.style.display = 'none';
+        }
+        if(rwEngine){
+          rwEngine.style.display = 'none';
+        }
+        if(rwPhotos){
+          rwPhotos.style.display = 'none';
+        }
+        if(rwExterior){
+          rwExterior.style.display = 'block';
+        }
+      }
+
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth' });
+      }
+    }else if (menu === 'rw-interior') {
+      const panel = document.getElementById('rw-interior');
+
+      if (rwInfo || rwExterior || rwEngine || rwPhotos) {
+        if (rwInfo) {
+          rwInfo.style.display = 'none';
+        }
+        if(rwExterior){
+          rwExterior.style.display = 'none';
+        }
+        if(rwEngine){
+          rwEngine.style.display = 'none';
+        }
+        if(rwPhotos){
+          rwPhotos.style.display = 'none';
+        }
+        if(rwInterior){
+          rwInterior.style.display = 'block';
+        }
+      }
+
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth' });
+      }
+    }else if (menu === 'rw-engine') {
+      const panel = document.getElementById('rw-engine');
+
+      if (rwInfo || rwInterior || rwExterior || rwPhotos) {
+        if (rwInfo) {
+          rwInfo.style.display = 'none';
+        }
+        if(rwInterior){
+          rwInterior.style.display = 'none';
+        }
+        if(rwExterior){
+          rwExterior.style.display = 'none';
+        }
+        if(rwPhotos){
+          rwPhotos.style.display = 'none';
+        }
+        if(rwEngine){
+          rwEngine.style.display = 'block';
+        }
+      }
+
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth' });
+      }
+    }else if (menu === 'rw-photos') {
+      const panel = document.getElementById('rw-photos');
+
+      if (rwInfo || rwInterior || rwEngine || rwExterior) {
+        if (rwInfo) {
+          rwInfo.style.display = 'none';
+        }
+        if(rwInterior){
+          rwInterior.style.display = 'none';
+        }
+        if(rwEngine){
+          rwEngine.style.display = 'none';
+        }
+        if(rwExterior){
+          rwExterior.style.display = 'none';
+        }
+        if(rwPhotos){
+          rwPhotos.style.display = 'block';
+        }
+      }
+
       if (panel) {
         panel.scrollIntoView({ behavior: 'smooth' });
       }
@@ -173,6 +301,19 @@ export class AppComponent {
         this.router.navigate(['/login']);
       }
   
+    }
+
+
+    getCurrentView(): string {
+      if(this.currentRoute ==='/detil-tugas' || this.currentRoute ==='/inspeksi-unit' || this.currentRoute ==='/exterior-inspection' || this.currentRoute ==='/interior-inspection' || this.currentRoute ==='/engine-inspection' || this.currentRoute ==='/unit-photos'){
+        return 'dt-tugas';
+      }else if(this.currentRoute ==='/detil-riwayat'){
+        return 'dt-riwayat';
+      }else if(this.currentRoute ==='/dashboard' || this.currentRoute ==='/tugas' || this.currentRoute ==='/profil'|| this.currentRoute ==='/riwayat'){
+        return 'main';
+      }else{
+        return 'none';
+      }
     }
 
 }

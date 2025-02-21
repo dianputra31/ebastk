@@ -13,6 +13,7 @@ import { InteriorInspectionComponent } from './interior-inspection/interior-insp
 import { EngineInspectionComponent } from './engine-inspection/engine-inspection.component';
 import { PhotosInspectionComponent } from './photos-inspection/photos-inspection.component';
 import { InspectionSummaryComponent } from './inspection-summary/inspection-summary.component';
+import { TheDetailHistoryComponent } from './the-detail-history/the-detail-history.component';
 
 const routes: Routes = [
   {
@@ -22,12 +23,12 @@ const routes: Routes = [
   },
   {  
     path: 'dashboard',  
-    component: TheDashboardComponent,  
+    component: TheDashboardComponent,  // Rute untuk halaman dashboard
     canActivate: [AuthGuard]   
   },  
   {  
     path: 'tugas',  
-    component: TheTugasComponent,  
+    component: TheTugasComponent,  // Rute untuk halaman tugas
     canActivate: [AuthGuard]   
   },  
   {  
@@ -36,42 +37,47 @@ const routes: Routes = [
   },  
   {  
     path: 'riwayat',  
-    component: TheHistoryComponent, // Rute untuk halaman login  
+    component: TheHistoryComponent, // Rute untuk halaman riwayat  
     canActivate: [AuthGuard]   
   },  
   {  
     path: 'akun',  
-    component: TheAccountComponent, // Rute untuk halaman login 
+    component: TheAccountComponent, // Rute untuk halaman akun 
     canActivate: [AuthGuard]    
   },  
   {  
     path: 'inspeksi-unit',  
-    component: InspeksiUnitComponent, // Rute untuk halaman login  
+    component: InspeksiUnitComponent, // Rute untuk halaman inspeksi unit  
     canActivate: [AuthGuard]   
   },  
   {  
     path: 'exterior-inspection',  
-    component: ExteriorInspectionComponent, // Rute untuk halaman login  
+    component: ExteriorInspectionComponent, // Rute untuk halaman inspeksi exterior  
     canActivate: [AuthGuard]   
   },  
   {  
     path: 'interior-inspection',  
-    component: InteriorInspectionComponent, // Rute untuk halaman login  
+    component: InteriorInspectionComponent, // Rute untuk halaman inspeksi interior  
     canActivate: [AuthGuard] 
   },  
   {  
     path: 'engine-inspection',  
-    component: EngineInspectionComponent, // Rute untuk halaman login  
+    component: EngineInspectionComponent, // Rute untuk halaman inspeksi mesin  
     canActivate: [AuthGuard] 
   },  
   {  
     path: 'unit-photos',  
-    component: PhotosInspectionComponent, // Rute untuk halaman login  
+    component: PhotosInspectionComponent, // Rute untuk halaman input foto inspeksi  
     canActivate: [AuthGuard] 
   },  
   {  
     path: 'inspection-summary',  
-    component: InspectionSummaryComponent, // Rute untuk halaman login  
+    component: InspectionSummaryComponent, // Rute untuk halaman rekap inspeksi  
+    canActivate: [AuthGuard] 
+  },  
+  {  
+    path: 'detil-riwayat',  
+    component: TheDetailHistoryComponent, // Rute untuk halaman detail riwayat  
     canActivate: [AuthGuard] 
   },  
   {  

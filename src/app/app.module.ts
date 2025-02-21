@@ -37,6 +37,13 @@ import { ImageUploaderComponent } from './image-uploader/image-uploader.componen
 import { FilterRiwayatComponent } from './filter-riwayat/filter-riwayat.component';
 import { SharedService } from './services/shared.service';
 import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.component';
+import { TheDetailHistoryComponent } from './the-detail-history/the-detail-history.component';
+import { MenuOfDetailRiwayatComponent } from './menu-of-detail-riwayat/menu-of-detail-riwayat.component';
+import { TheDetailHistoryExteriorComponent } from './the-detail-history-exterior/the-detail-history-exterior.component';
+import { TheDetailHistoryInteriorComponent } from './the-detail-history-interior/the-detail-history-interior.component';
+import { TheDetailHistoryEngineComponent } from './the-detail-history-engine/the-detail-history-engine.component';
+import { TheDetailHistoryPhotosComponent } from './the-detail-history-photos/the-detail-history-photos.component';
+import { TheDetailHistoryInfoComponent } from './the-detail-history-info/the-detail-history-info.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +74,14 @@ import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.compo
     InspectionSummaryComponent,
     ImageUploaderComponent,
     FilterRiwayatComponent,
-    LoadingOverlayComponent
+    LoadingOverlayComponent,
+    TheDetailHistoryComponent,
+    MenuOfDetailRiwayatComponent,
+    TheDetailHistoryExteriorComponent,
+    TheDetailHistoryInteriorComponent,
+    TheDetailHistoryEngineComponent,
+    TheDetailHistoryPhotosComponent,
+    TheDetailHistoryInfoComponent
   ],
   imports: [
     BrowserModule,
