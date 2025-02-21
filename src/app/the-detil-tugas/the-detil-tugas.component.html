@@ -1,0 +1,212 @@
+<div class="product-container">
+    <div class="label-product">Mitsubishi Pajero</div>
+    <div class="anakan-label">Tribik Jakarta &#x25CF; 07 Februari 2025</div>
+    <mat-accordion multi>
+        <mat-expansion-panel [expanded]="true" id="infoVendorPanel" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>Info Vendor</b>
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Informasi Vendor 1 -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            <div class="row">
+                <div class="column">
+                    <label for="vendorName">Nama Vendor</label>
+                    <input id="vendorName" type="text" placeholder="PT Bluebird Indonesia" />
+                    
+                    <label for="vendorAddress">Alamat</label>
+                    <textarea id="vendorAddress" placeholder="JL Mampang Prt. Raya No.60" rows="6"></textarea>
+                    
+                   
+                </div>
+                <div class="column">
+                    <label for="pic">PIC Pengirim</label>
+                    <input id="pic" type="text" placeholder="Daniel Soesanto" />
+                    
+                    <label for="deliveryDate">Tanggal Pengiriman</label>
+                    <input id="deliveryDate" type="date" />
+
+                    <label for="vendorPhone">No. Telepon</label>
+                    <input id="vendorPhone" type="text" placeholder="021 7971245" />
+                </div>
+            </div>
+        </mat-expansion-panel>
+      
+        <mat-expansion-panel [expanded]="true" id="infoKendaraanPanel" >
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <b>Info Kendaraan</b>
+                </mat-panel-title>
+                <mat-panel-description>
+                    <!-- Informasi Kendaraan -->
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="column">
+                    <label for="expedition">Ekspedisi</label>
+                    <select id="expedition">
+                        <option value="derek">Derek</option>
+                        <option value="pengiriman">Pengiriman</option>
+                    </select>
+
+                    <label for="licensePlate">Nomor Polisi</label>
+                    <input id="licensePlate" type="text" placeholder="B 2298 VGU" />
+
+                    <label for="brand">Merek</label>
+                    <select id="brand">
+                        <option value="mitsubishi">Mitsubishi</option>
+                        <option value="toyota">Toyota</option>
+                    </select>
+
+                    <label for="color">Tipe</label>
+                    <select id="color">
+                        <option value="hitam">Power Ranger Merah</option>
+                        <option value="hitam">Power Ranger Biru</option>
+                        <option value="hitam">Power Ranger Hijau</option>
+                        <option value="putih">Putih</option>
+                    </select>
+
+                    <label for="color">Tahun</label>
+                    <select id="color">
+                        <option value="hitam">2001</option>
+                        <option value="hitam">2002</option>
+                        <option value="hitam">2003</option>
+                        <option value="putih">2004</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <label for="category">Kategori</label>
+                    <select id="category">
+                        <option value="passenger">Passenger</option>
+                        <option value="truck">Truck</option>
+                    </select>
+
+                    <label for="engineCapacity">Kapasitas Mesin (CC)</label>
+                    <input id="engineCapacity" type="text" placeholder="2.397" />
+
+                    <label for="color">Warna</label>
+                    <select id="color">
+                        <option value="hitam">Hitam Metalik</option>
+                        <option value="putih">Putih</option>
+                    </select>
+
+                    <label>Transmisi</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="transmission" value="automatic" checked />
+                            Automatic
+                        </label>
+                        <label>
+                            <input type="radio" name="transmission" value="manual" />
+                            Manual
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        
+        <mat-expansion-panel [expanded]="true" id="infoDokumenPanel" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>Dokumen dan Kelengkapan Lainnya</b>
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Informasi Vendor 2 -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="column">
+                <label>Jenis Surat</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="transmission" value="automatic" checked />
+                        Automatic
+                    </label>
+                    <label>
+                        <input type="radio" name="transmission" value="manual" />
+                        Manual
+                    </label>
+                </div>
+
+                <label for="licensePlate">Nomor Polisi</label>
+                <input id="licensePlate" type="text" placeholder="B 2298 VGU" />
+
+                <label for="brand">Merek</label>
+                <select id="brand">
+                    <option value="mitsubishi">Mitsubishi</option>
+                    <option value="toyota">Toyota</option>
+                </select>
+
+                <label for="color">Tipe</label>
+                <select id="color">
+                    <option value="hitam">Power Ranger Merah</option>
+                    <option value="hitam">Power Ranger Biru</option>
+                    <option value="hitam">Power Ranger Hijau</option>
+                    <option value="putih">Putih</option>
+                </select>
+
+                <label for="color">Tahun</label>
+                <select id="color">
+                    <option value="hitam">2001</option>
+                    <option value="hitam">2002</option>
+                    <option value="hitam">2003</option>
+                    <option value="putih">2004</option>
+                </select>
+            </div>
+            <div class="column">
+                <label for="category">Kategori</label>
+                <select id="category">
+                    <option value="passenger">Passenger</option>
+                    <option value="truck">Truck</option>
+                </select>
+
+                <label for="category">Lokasi Unit</label>
+                <select id="category">
+                    <option value="passenger">Tribik Jakarta</option>
+                    <option value="truck">Tribik Surabaya</option>
+                </select>
+
+                <label for="engineCapacity">Kapasitas Mesin (CC)</label>
+                <input id="engineCapacity" type="text" placeholder="2.397" />
+
+                <label for="color">Warna</label>
+                <select id="color">
+                    <option value="hitam">Hitam Metalik</option>
+                    <option value="putih">Putih</option>
+                </select>
+
+                <label>Transmisi</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="transmission" value="automatic" checked />
+                        Automatic
+                    </label>
+                    <label>
+                        <input type="radio" name="transmission" value="manual" />
+                        Manual
+                    </label>
+                </div>
+            </div>
+        </div>
+        </mat-expansion-panel>
+    
+        <mat-expansion-panel [expanded]="true" id="infoLainnyaPanel" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>Keterangan Lainnya</b>
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Informasi Vendor 2 -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p><textarea cols="120" rows="10"></textarea></p>
+        </mat-expansion-panel>
+    
+    
+    
+    </mat-accordion>
+      
+</div>
+

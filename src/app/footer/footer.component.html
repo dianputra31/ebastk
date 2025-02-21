@@ -1,0 +1,22 @@
+<footer class="footer">  
+    <div class="footer-item" [class.active]="activeTab === '/dashboard'" (click)="setActiveTab('dashboard')">  
+      <img [src]="activeTab === '/dashboard' ? '../../assets/icons/dashboard-active.svg' : '../../assets/icons/dashboard.svg'" alt="Dashboard">  
+      <span>Dashboard</span>  
+    </div>  
+    <img class="separator" src="../../assets/icons/navigator-line.svg" alt="Separator">  
+    <div class="footer-item" [class.active]="activeTab === '/tugas'" (click)="setActiveTab('tugas')">  
+      <img [src]="activeTab === '/tugas' ? '../../assets/icons/tugas-active.svg' : '../../assets/icons/tugas.svg'" alt="Tugas">  
+      <span>Tugas</span>  
+    </div>  
+    <img class="separator" src="../../assets/icons/navigator-line.svg" alt="Separator">  
+    <div class="footer-item" [class.active]="activeTab === '/riwayat'" (click)="setActiveTab('riwayat')">  
+      <img [src]="activeTab === '/riwayat' ? '../../assets/icons/riwayat-active.svg' : '../../assets/icons/riwayat.svg'" alt="Riwayat">  
+      <span>Riwayat</span>  
+    </div>  
+    <img class="separator" src="../../assets/icons/navigator-line.svg" alt="Separator">  
+    <div class="footer-item" [class.active]="activeTab === '/akun'" (click)="logout()">  
+    <!-- <div class="footer-item" [class.active]="activeTab === 'akun'" (click)="setActiveTab('akun')">   -->
+      <img [src]="activeTab === '/akun' ? '../../assets/icons/riwayat-active.svg' : '../../assets/icons/akun.svg'" alt="Akun">  
+      <span>Akun</span>  
+    </div>  
+  </footer>  

@@ -1,0 +1,21 @@
+<div class="header-bottom">
+    <div class="task-summary">
+    </div>
+  
+    <div class="row-container">
+        <div class="chip-container">  
+            <div class="chip" [class.active]="activeChipIndex === 0" (click)="setActiveChip(0)">Info Vendor</div>  
+            <div class="chip" [class.active]="activeChipIndex === 1" (click)="setActiveChip(1)">Info Kendaraan</div>  
+            <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2)">Dokumen dan Kelengkapan Lainnya</div>  
+            <div class="chip" [class.active]="activeChipIndex === 3" (click)="setActiveChip(3)">Keterangan Lainnya</div>  
+            <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
+          </div>
+          
+          
+          <div class="filter-container">  
+           
+          </div>
+    </div>
+  
+  
+  </div> 

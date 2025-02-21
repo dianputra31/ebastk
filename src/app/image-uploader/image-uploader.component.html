@@ -1,0 +1,9 @@
+<div *ngIf="!imageUrl" class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full">
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden" id="fileInput">
+    <label for="fileInput" class="cursor-pointer" style="border:0px;">
+      <img src="../../assets/icons/upl-button.svg" alt="Upload" class="w-12 h-12">
+    </label>
+  </div>
+  <div *ngIf="imageUrl" class="border-2 border-gray-400 p-2 flex items-center justify-center h-full">
+    <img [src]="imageUrl" alt="Uploaded Image" class="w-full h-full object-cover" height="200" width="200">
+  </div>

@@ -1,0 +1,56 @@
+<div class="dashboard-container" >
+  <div class="left-column">
+      <div class="welcome-label">Selamat datang,</div>
+      <div class="name-label">John Doe</div>
+      <div class="div-label">Div Inventory &#x25CF; 12507</div>
+
+      <div class="rate-label">Penilaian Anda</div>
+
+      <div class="score-cards-wrapper">
+          <div class="score-card">
+              <div class="label">Total Tugas Bulan Ini</div>
+              <div class="score">
+                <div class="icon">
+                  <img src="../../assets/icons/dsh1.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+              </div>
+              <span style="color:#1F41A5">239</span>
+            </div>
+          </div>
+          <div class="score-card">
+              <div class="label">Tugas Tersedia</div>
+              <div class="score">
+                <div class="icon">
+                  <img src="../../assets/icons/dsh2.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+              </div>
+              <span style="color:#D5230D">12</span>
+              </div>
+          </div>
+          <div class="score-card">
+              <div class="label">Penyelesaian Tugas</div>
+              <div class="score">
+                <div class="icon">
+                  <img src="../../assets/icons/dsh3.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+              </div>
+              <span style="color:#0D824B">75</span>
+              </div>
+          </div>
+          <div class="score-card">
+              <div class="label">Persentase Pekerjaan</div>
+              <div class="score">
+                <div class="icon">
+                  <img src="../../assets/icons/dsh4.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+              </div>
+              <span style="color:#E18308">31.75%</span>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+    <div class="right-column">
+      <div class="task-title">Tugas Tersedia</div>
+      
+      <app-the-tugas [fromDashboard]="true"></app-the-tugas>
+      
+      <!-- Tambahkan lebih banyak kartu tugas sesuai kebutuhan -->
+    </div>
+  </div>

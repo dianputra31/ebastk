@@ -1,0 +1,77 @@
+.product-container {  
+    display: flex;  
+    flex-direction: column;  
+    padding: 0px 30px 0px 30px; // Jarak antar produk
+    font-family: 'NunitoSans';
+}
+
+
+.bigger{
+    font-family: 'Nunito Sans';
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 44.8px;
+    letter-spacing: 0px;
+    color: #312E2E;
+
+}
+
+.mediumer{
+    font-family: 'Nunito Sans';
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #312E2E
+
+}
+
+.batenret{
+    width: 50%;
+    height: 48;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
+    border-radius: 48px;
+    background-color: #D5230D;
+    text-align: left;
+    color: white;
+    font-family: 'Nunito Sans';
+    background-image: url('../../assets/icons/download-white.svg');
+    background-repeat: no-repeat;
+    background-position: right 12px center; /* Adjusted background position */
+    	
+}
+
+.batengrei{
+    width: 50%;
+    height: 48;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
+    border-radius: 48px;
+    background-color: #F5F5F5;
+    text-align: center;
+    color: #312E2E;
+    font-family: 'Nunito Sans';
+    font-weight: 700;
+    // background-image: url('../../assets/icons/download-white.svg');
+    // background-repeat: no-repeat;
+    // background-position: right 12px center; /* Adjusted background position */
+    	
+}
+
+.biru{
+    font-family: 'Nunito Sans';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-offset: Auto;
+    text-decoration-thickness: Auto;
+    color: #183280;
+}

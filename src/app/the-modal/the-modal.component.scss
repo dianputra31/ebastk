@@ -1,0 +1,80 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); // Latar belakang transparan
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width:370px;
+    font-family: 'NunitoSans';
+    padding:30px;
+  }
+
+  .msg1{
+    font-family: 'NunitoSans';
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    text-align: center;
+
+  }
+
+  .msg2{
+    font-family: 'NunitoSans';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: center;
+    color:#312E2E;
+  }
+  
+  .modal-content {
+    background-color: white; // Warna latar belakang modal
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .modal-icon {
+    width: 82px; // Ukuran ikon
+  }
+  
+  .btn-cancel {
+    background-color: #F5F5F5; // Warna tombol Kembali
+    margin-right: 10px;
+    color: #312E2E;
+    width: 204;
+    height: 48;
+    justify-content: space-between;
+    border-radius: 48px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
+    font-weight: bold;
+  }
+  
+  .btn-confirm {
+    background-color: #D5230D; // Warna tombol Lanjutkan
+    color: white;
+    width: 204;
+    height: 48;
+    justify-content: space-between;
+    border-radius: 48px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
+    font-weight: bold;
+  }
+
+  .modal-header{
+    height: 110px;
+  }
+  

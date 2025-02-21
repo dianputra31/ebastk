@@ -1,0 +1,62 @@
+<div class="product-container">  
+    <div class="product-card  text-focus-in" *ngFor="let product of sampleData?.data?.products" 
+    (click)="GoesToDetailRiwayat(product.id)">  
+      <div class="product-image" [ngStyle]="{'background-image': product.img ? 'url(' + product.img + ')' : '../../assets/icons/noimages.png'}">  
+        <div *ngIf="!product.img" class="placeholder"></div>  
+      </div>  
+      <div class="product-details">  
+        <!-- Product Header -->  
+        <div class="product-header">  
+            <h3>{{ product.Model }}</h3>  
+            <div class="status-container" *ngIf="fromDashboard==false">  
+              <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
+              <span class="status" [ngClass]="getStatusClass(product.Status)">{{ product.Status }}</span>    
+            </div>  
+          </div>   
+        <!-- Auction Location and Date -->  
+        <div class="auction-info">
+        <img src="../../assets/icons/location.svg" alt="Logo"> 
+          {{ product.Auction_Location }} - {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB  
+        </div>  
+        <!-- Key-Value pairs for Kategori and Nopol -->  
+        <div class="key-value">  
+          <div class="key-value-item">  
+            <span class="key">Kategori</span>  
+            <span class="value">{{ product.Category }}</span>  
+          </div>  
+          <div class="key-value-item">  
+            <span class="key">Nopol</span>  
+            <span class="value">{{ product.License_Plate }}</span>  
+          </div>  
+          <div class="key-value-item">  
+            <span class="key">Merek</span>  
+            <span class="value">{{ product.Brand }}</span>  
+          </div>  
+          <div class="key-value-item">  
+            <span class="key">Type</span>  
+            <span class="value">{{ product.Model }}</span>  
+          </div>  
+        </div>  
+        <!-- Key-Value pairs for Warna, Transmisi, etc. -->  
+        <div class="key-value">  
+          <div class="key-value-item">  
+            <span class="key">Warna</span>  
+            <span class="value">{{ product.Color }}</span>  
+          </div>  
+          <div class="key-value-item">  
+            <span class="key">Transmisi</span>  
+            <span class="value">{{ product.Transmission }}</span>  
+          </div>  
+          <div class="key-value-item">  
+            <span class="key">CC</span>  
+            <span class="value">{{ product.Engine_Capacity }}</span>  
+          </div>  
+          <div class="key-value-item">  
+            <span class="key">Tahun</span>  
+            <span class="value">{{ product.Year }}</span>  
+          </div>  
+        </div>  
+      </div>  
+    </div>  
+  </div>  
+  

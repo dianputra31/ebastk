@@ -1,0 +1,60 @@
+<div class="grid-container">
+    <!-- <div class="grid-item dan">
+      <div class="item-header">A.</div>
+      <div class="item-title">Exterior Inspection</div>
+      <img src="../../assets/icons/step1.png" alt="Exterior">
+      <button class="item-button">Completed</button>
+    </div>
+    <div class="grid-item">
+      <div class="item-header">B.</div>
+      <div class="item-title">Interior Inspection</div>
+      <img src="../../assets/icons/step2.png" alt="Interior">
+      <button class="item-button">Completed</button>
+    </div>
+    <div class="grid-item">
+      <div class="item-header">C.</div>
+      <div class="item-title">Engine Inspection</div>
+      <img src="../../assets/icons/step3.png" alt="Engine">
+      <button class="item-button">Completed</button>
+    </div>
+    <div class="grid-item">
+      <div class="item-header">D.</div>
+      <div class="item-title">Unit Photos</div>
+      <img src="../../assets/icons/step4.png" alt="Unit">
+      <button class="item-button">Start Inspection ></button>
+    </div> -->
+
+
+    <div class="grid-item wisrampung">
+        <div class="text">
+          <h3 class="labelinspeksi">A. <br/>Exterior Inspection</h3>
+          <div class="status">
+            <button class="item-button btn-rampung" (click)="GoesToInspection(1)">Completed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;></button>
+          </div>
+        </div>
+        <img src="../../assets/icons/step1.png" alt="Exterior Inspection"/>
+      </div>
+      <div class="grid-item saiki">
+        <div class="text">
+          <h3 class="labelinspeksi">B. <br/>Interior Inspection</h3>
+          <div class="status rungrampung">
+            <button class="item-button  btn-saiki" (click)="GoesToInspection(2)">Start Inspection &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;></button>
+          </div>
+        </div>
+        <img src="../../assets/icons/step2.png" alt="Interior Inspection" />
+      </div>
+      <div class="grid-item">
+        <div class="text">
+          <h3 class="labelinspeksi">C. <br/>Engine Inspection</h3>
+          <div class="status rungrampung">Complete previous task to start</div>
+        </div>
+        <img src="../../assets/icons/step3.png" alt="Engine Inspection" />
+      </div>
+      <div class="grid-item">
+        <div class="text">
+          <h3 class="labelinspeksi">D. <br/>Unit Photos</h3>
+          <div class="status rungrampung">Complete previous task to start</div>
+        </div>
+        <img src="../../assets/icons/step4.png" alt="Unit Photos" />
+      </div>
+  </div>

@@ -1,0 +1,122 @@
+.product-container {  
+    display: flex;  
+    flex-direction: column;  
+    padding: 30px; // Jarak antar produk
+    font-family: 'NunitoSans';
+
+    .label-product{
+        font-family: 'NunitoSans-Bolder';
+        font-size: 32px;
+        font-weight: bold;
+        line-height: 44.8px;
+        text-align: left;
+        text-decoration-skip-ink: none;
+        color: #312E2E;
+    }
+
+    .blau{
+        background-color: #EAEFFD;
+        min-height: 200px;
+    }
+
+    .klawu{
+        background-color: #DEDDDD;
+        min-height: 200px;
+    }
+
+    .abu{
+        font-family: 'Nunito Sans';
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0px;
+        text-align: center;
+        color:#746E6E;
+    }
+
+    .anakan-label{
+        //styleName: Text 16/Bold;
+        font-family: 'NunitoSans';
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: left;
+        text-decoration-skip-ink: none;
+        color: #908B8B;
+        margin-bottom: 30px;
+
+    }
+
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin: 16px 0;
+    }
+    
+    .column {
+        flex: 1;
+        margin-right: 16px;
+    }
+    
+    .column:last-child {
+        margin-right: 0; /* Menghapus margin kanan untuk kolom terakhir */
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 4px;
+    }
+    
+    input {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 16px;
+        border: 1px solid #D4D2D2;
+        border-radius: 8px;
+        gap: 8px;
+    }
+    
+    textarea {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 16px;
+        border: 1px solid #D4D2D2;
+        border-radius: 8px;
+        gap: 8px;
+    }
+
+    select {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 16px;
+        border: 1px solid #D4D2D2;
+        border-radius: 8px;
+    }
+    
+    .radio-group {
+        display: flex;
+        align-items: center; /* Menyelaraskan label dan radio button secara vertikal */
+        margin-bottom: 16px; /* Jarak bawah untuk elemen berikutnya */
+    }
+    
+    .radio-group label {
+        margin-right: 20px; /* Jarak antar radio button */
+    }
+
+}
+
+
+.footer-tugas{
+    border-top: solid #d1cfcf 1px;
+    width: 100%;
+    height: 50px;
+    margin-top:30px;
+}
+
+::ng-deep .mat-expansion-panel {
+    // background-color: #f0f0f0; // Mengubah warna latar belakang accordion
+    border-radius: 8px; // Menambahkan border-radius
+    border: solid #EBEBEB 1px;
+    box-shadow: 0 2px 4px rgba(242, 242, 242, 0.1); 
+  }

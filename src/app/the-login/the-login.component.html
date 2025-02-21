@@ -1,0 +1,41 @@
+<div class="login-container">
+    <!-- <div class="background" *ngIf="showBackground"></div> -->
+      
+    <div class="launcher" *ngIf="showLauncher">  
+      <div class="slice" *ngFor="let slice of slices; let i = index" [ngStyle]="{'animation-delay': (i * 0.2) + 's'}">  
+        <img [src]="slice" alt="Launcher Slice" />  
+      </div>  
+    </div> 
+    
+    <div class="divlogin" style="background-image: url('../../assets/icons/bg_login.png');" *ngIf="!showLauncher">
+        <div class="login-form" *ngIf="!showLauncher">  
+            <div class="logo">  
+              <img src="../../assets/icons/login-logo.svg" alt="Logo Tribik" />  
+            </div>  
+            <h2 style="text-align: left;">Masuk ke Tribik</h2>  
+            <label for="username" class="labelfrm">Username</label>  
+            <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="Masukkan Username" required />  
+              
+            <div class="password-container">  
+              <label for="password" class="labelfrm">Password</label>  
+              <a href="#" class="forgot-password">Lupa Password?</a>  
+            </div>  
+            <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Masukkan Password" required />  
+              
+            <div class="help-text">  
+              <span  class="labelfrm">Ada masalah?</span>&nbsp;  
+              <a href="#" class="contact-us">Hubungi Kami</a>  
+            </div>  
+              
+            <button [ngClass]="{'active': username && password && !isButtonDisabled}" type="submit" (click)="login()" [disabled]="isButtonDisabled">Masuk</button>
+
+            <div id="errlog" style="margin-top: 30px;margin-bottom: 0px;padding-bottom: 0px;">  
+              <span style="color:red">{{errlog}}</span>
+            </div> 
+
+          </div> 
+    </div>
+      
+  </div>  
+
+  <app-loading-overlay [isVisible]="isLoading"></app-loading-overlay>

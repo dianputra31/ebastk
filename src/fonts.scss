@@ -1,0 +1,57 @@
+/* import NunitoSans font */
+@font-face {
+    font-family: 'NunitoSans';
+    font-style: normal;
+    font-weight: 200;
+    src: url("/assets/fonts/Nunito_Sans/NunitoSans.ttf") format("opentype");
+}
+@font-face {
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    src: url("/assets/fonts/Nunito_Sans/NunitoSans.ttf") format("opentype");
+}
+@font-face {
+    font-family: 'NunitoSans-Bold';
+    font-style: normal;
+    font-weight: bold;
+    src: url("/assets/fonts/Nunito_Sans/NunitoSans-Bold.ttf") format("opentype");
+}
+@font-face {
+    font-family: 'NunitoSans-Bolder';
+    font-style: normal;
+    font-weight: bold;
+    src: url("/assets/fonts/Nunito_Sans/NunitoSans_7pt_Condensed-Black.ttf") format("opentype");
+}
+@font-face {
+    font-family: 'NunitoSans-Italic';
+    font-style: normal;
+    font-weight: 300;
+    src: url("/assets/fonts/Nunito_Sans/NunitoSans-Italic.ttf") format("opentype");
+}
+/* import Roboto font */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 200;
+    src: url("/assets/fonts/Roboto/Roboto-VariableFont.ttf") format("opentype");
+}
+@font-face {
+    font-family: 'Roboto-Italic';
+    font-style: normal;
+    font-weight: 200;
+    src: url("/assets/fonts/Roboto/Roboto-Italic.ttf") format("opentype");
+}
+
+/* import Poppins font */
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 200;
+    src: url("/assets/fonts/Poppins/Poppins-Regular.ttf") format("opentype");
+}
+@font-face {
+    font-family: 'Poppins-Italic';
+    font-style: normal;
+    font-weight: 200;
+    src: url("/assets/fonts/Poppins/Poppins-Italic.ttf") format("opentype");
+}

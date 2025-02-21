@@ -1,0 +1,277 @@
+* {
+    font-family: 'NunitoSans';
+}
+
+.login-container {  
+    position: relative;  
+    height: 100vh; // Mengatur tinggi penuh  
+    overflow: hidden; // Menyembunyikan elemen yang melampaui  
+    // background: url('../../assets/icons/prelogins.png');
+    // background-color: #ffffff;
+    
+    .background {  
+        position: absolute;  
+        top: 0;  
+        left: 0;  
+        right: 0;  
+        bottom: 0;  
+        background-color: white; // Latar belakang putih  
+        z-index: 1000; // Pastikan di belakang elemen lain  
+      }  
+
+    .launcher {  
+        position: absolute;    
+        top: 0;    
+        left: 0;    
+        right: 0;    
+        bottom: 0;    
+        display: flex;    
+        justify-content: center;    
+        align-items: center;    
+        // background-color: #ff0000; // Warna latar belakang    
+        overflow: hidden; // Menyembunyikan elemen yang melampaui  
+        
+        .slice {  
+          width: 20%; // Lebar setiap slice (6 slice = 100% / 6)  
+          height: 100%; // Tinggi penuh  
+          overflow: hidden; // Menyembunyikan bagian gambar yang melampaui  
+        //   animation: slideIn 0.5s ease forwards; // Animasi muncul  
+          animation: shutter-in-top 1s linear 0s 1 normal none;
+
+        
+          img {  
+            width: 100%; // Mengatur gambar penuh  
+            height: auto; // Menjaga rasio aspek  
+          }  
+        }  
+      }
+      
+      @keyframes slideIn {  
+        from {  
+          transform: translateX(-100%); // Mulai dari kiri  
+        }  
+        to {  
+          transform: translateX(0); // Berhenti di posisi normal  
+        }  
+      }  
+
+    @keyframes shutter-in-top {
+			
+		0% {
+			transform:rotateX(-100deg);
+			transform-origin:top;
+			opacity:0;
+		}
+        50% {
+			transform:rotateX(-50deg);
+			transform-origin:top;
+			opacity:0.4;
+        }
+		
+		100% {
+			transform:rotateX(0deg);
+			transform-origin:top;
+			opacity:1;
+		}
+	}
+
+    .fade-out {  
+        animation: fadeOut 1s forwards; // Menambahkan animasi fade-out  
+      }  
+        
+      @keyframes fadeOut {  
+        0% {  
+          opacity: 1;  
+        }  
+        100% {  
+          opacity: 0;  
+        }  
+      }  
+    
+    
+    .divlogin{
+        position: relative;  
+        height: 100vh; // Mengatur tinggi penuh  
+        overflow: hidden; // Menyembunyikan elemen yang melampaui 
+        background-image: url('../../assets/icons/bg_login.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        border:solid blue 0px;
+        width:100%;
+
+        .login-form {  
+            position: absolute;  
+            top: 50%; // Menempatkan form di tengah  
+            left: 50%;  
+            transform: translate(-50%, -50%); // Mengatur posisi tengah  
+            background-color: white; // Warna latar belakang form  
+            padding: 20px;  
+            border-radius: 8px;  
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  
+            width: 400px; // Lebar form  
+            padding-bottom: 80px;
+            padding-left: 20px;
+            padding-right: 20px;
+          
+            h2 {  
+              margin-bottom: 20px;  
+            }  
+          
+            label {  
+              display: block;  
+              margin-bottom: 5px;  
+            }  
+          
+            // input {  
+            //   width: 100%;  
+            //   padding: 10px;  
+            //   margin-bottom: 15px;  
+            //   border: 1px solid #ccc;  
+            //   border-radius: 4px;  
+            // }  
+          
+            // button {  
+            //   width: 100%;  
+            //   padding: 10px;  
+            //   background-color: #007bff;  
+            //   color: white;  
+            //   border: none;  
+            //   border-radius: 4px;  
+            //   cursor: pointer;  
+          
+            //   &:hover {  
+            //     background-color: #0056b3;  
+            //   }  
+            // }  
+          }
+    }
+    
+      
+  }  
+    
+  @keyframes slideDown {  
+    from {  
+      transform: translateY(-100%); // Mulai dari atas  
+    }  
+    to {  
+      transform: translateY(0); // Berhenti di posisi normal  
+    }  
+  }
+  
+  
+
+
+  .login-form {  
+    background-color: white; // Warna latar belakang form  
+    padding: 20px;  
+    border-radius: 8px;  
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  
+    width: 300px; // Lebar form  
+    display: flex;  
+    flex-direction: column;  
+
+    .labelfrm{
+        //styleName: Text 14/Semibold;
+        font-family: 'NunitoSans';
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+        color:#524E4E;
+
+    }
+  
+    .logo {  
+      display: flex;  
+      justify-content: center;  
+      margin-bottom: 20px;  
+  
+      img {  
+        // width: 100px; // Ukuran logo  
+        height: 60px;
+      }  
+    }  
+  
+    h2 {  
+      font-weight: bold;  
+      text-align: center;  
+      margin-bottom: 20px;  
+
+      //styleName: Title/Bold;
+        font-family: 'NunitoSans';
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 36px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+        color: #312E2E;
+
+    }  
+  
+    label {  
+      font-size: 9px; // Ukuran font label  
+      margin-bottom: 5px;  
+    }  
+  
+    input {  
+      width: 95%;  
+      padding: 10px;  
+      margin-bottom: 15px;  
+      border: 1px solid #ccc;  
+      border-radius: 10px;  
+      placeholder {  
+        color: #cdcdcd; // Warna placeholder  
+      }  
+    }  
+  
+    .password-container {  
+      display: flex;  
+      justify-content: space-between;  
+      align-items: center;  
+      margin-bottom: 15px;  
+  
+      .forgot-password {  
+        color: red; // Warna untuk "Lupa Password?"  
+        // font-size: 9px; // Ukuran font  
+        //styleName: Text 14/Bold;
+        font-family: 'NunitoSans';
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+
+      }  
+    }  
+  
+    .help-text {  
+      text-align: center;  
+      color: #cdcdcd; // Warna untuk "Ada masalah?"  
+      margin-bottom: 15px;  
+  
+      .contact-us {  
+        color: #D5230D; // Warna untuk "Hubungi Kami"  
+      }  
+    }  
+  
+    button {  
+      width: 100%;  
+      padding: 10px;  
+      background-color: #cdcdcd; // Warna default tombol  
+      color: #746E6E; // Warna font default  
+      border: none;  
+      border-radius: 10px;  
+      cursor: pointer;  
+      font-weight: bold;
+  
+      &.active {  
+        background-color: #D5230D; // Warna tombol saat aktif  
+        color: white; // Warna font saat aktif  
+      }  
+    }  
+  }  
+  

@@ -1,0 +1,64 @@
+<div class="header-bottom">
+  <div class="task-summary">
+      Tugas Tersedia (20)
+  </div>
+
+  <div class="row-container">
+      <div class="chip-container">  
+          <div class="chip" [class.active]="activeChipIndex === 0" (click)="setActiveChip(0)">Semua</div>  
+          <div class="chip" [class.active]="activeChipIndex === 1" (click)="setActiveChip(1)">New</div>  
+          <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2)">Under Review</div>  
+          <div class="chip" [class.active]="activeChipIndex === 3" (click)="setActiveChip(3)">Revision</div>  
+          <div class="chip" [class.active]="activeChipIndex === 4" (click)="setActiveChip(4)">Draft</div> 
+          <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
+        </div>
+        
+        
+        <div class="filter-container">  
+          <div class="filter-button" (click)="toggleCategoryDropdown()" [ngClass]="{'active': isCategoryDropdownOpen}">  
+            <img src="../../assets/icons/all-categories.svg" alt="All Categories">  
+            <span>Semua Kategori</span>  
+          </div>  
+          <div class="dropdown-icon" (click)="toggleCategoryDropdown()">  
+          </div> 
+          
+          <div class="filter-button" (click)="toggleSortDropdown()" [ngClass]="{'active': isSortDropdownOpen}">  
+            <img src="../../assets/icons/terbaru.svg" alt="Terbaru">  
+            <span>Terbaru</span>  
+          </div>
+          <div class="dropdown-icon" (click)="toggleSortDropdown()">  
+          </div>   
+          
+          <div class="dropdown-menu-filter" *ngIf="isCategoryDropdownOpen">  
+            <div class="dropdown-item-filter" (click)="selectCategory('Semua Kategori')">  
+              <img src="../../assets/icons/cat-all.svg" alt="Semua Kategori">  
+              <span>Semua Kategori</span>  
+            </div>  
+            <div class="dropdown-item-filter" (click)="selectCategory('Passenger')">  
+              <img src="../../assets/icons/cat-passenger.svg" alt="Passenger">  
+              <span>Passenger</span>  
+            </div>  
+            <div class="dropdown-item-filter" (click)="selectCategory('Komersil')">  
+              <img src="../../assets/icons/cat-komersil.svg" alt="Komersil">  
+              <span>Komersil</span>  
+            </div>  
+            <div class="dropdown-item-filter" (click)="selectCategory('Bus')">  
+              <img src="../../assets/icons/cat-bus.svg" alt="Bus">  
+              <span>Bus</span>  
+            </div>  
+          </div>
+          
+          <div class="dropdown-sort-filter" *ngIf="isSortDropdownOpen">  
+              <div class="dropdown-item-sort-filter" (click)="selectSort('Terbaru')">  
+                <span>Terbaru</span>  
+              </div>  
+              <div class="dropdown-item-sort-filter" (click)="selectSort('Terlama')">  
+                <span>Terlama</span>  
+              </div>    
+            </div> 
+
+        </div>
+  </div>
+
+
+</div> 

@@ -1,0 +1,22 @@
+<div class="header-bottom">
+    <div class="task-summary">
+    </div>
+  
+    <div class="row-container">
+        <div class="chip-container">  
+            <div class="chip" [class.active]="activeChipIndex === 0" (click)="setActiveChip(0);scrollToPanel('Kelengkapan Umum')">Kelengkapan Umum</div>  
+            <div class="chip" [class.active]="activeChipIndex === 1" (click)="setActiveChip(1);scrollToPanel('Bagian Depan')">Bagian Depan</div>  
+            <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2);scrollToPanel('Bagian Kanan')">Bagian Kanan</div>  
+            <div class="chip" [class.active]="activeChipIndex === 3" (click)="setActiveChip(3);scrollToPanel('Bagian Belakang')">Bagian Belakang</div>  
+            <div class="chip" [class.active]="activeChipIndex === 4" (click)="setActiveChip(4);scrollToPanel('Bagian Kiri')">Bagian Kiri</div>  
+            <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
+          </div>
+          
+          
+          <div class="filter-container">  
+           
+          </div>
+    </div>
+  
+  
+  </div> 

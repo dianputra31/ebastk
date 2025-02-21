@@ -1,0 +1,148 @@
+// Variabel untuk warna  
+$header-color: white;  
+$footer-color: white;  
+$content-color: white;  
+  
+// Reset margin dan padding  
+* {  
+  margin: 0;  
+  padding: 0;  
+  box-sizing: border-box;  
+  font-family: 'NunitoSans';
+}  
+  
+// Body styling  
+body, html {  
+  height: 100%;  
+  font-family: Arial, sans-serif;  
+}  
+  
+// Container utama  
+.app-container {  
+  display: flex;  
+  flex-direction: column;  
+  max-height: 90vh;  
+  // padding-bottom: 80px;
+}  
+  
+// Header styling  
+.the-header {  
+  background-color: $header-color;  
+  width: 99%;  
+  padding: 1rem;  
+  text-align: center;  
+  position: fixed;  
+  top: 0;  
+  z-index: 1000;
+  height: 180px;
+  border: solid red 0px;
+}  
+
+
+@keyframes scale-up-center {
+			
+  0% {
+    transform:scale(.2);
+  }
+  100% {
+    transform:scale(1);
+  }
+}
+
+@keyframes shutter-in-top {
+			
+  0% {
+    transform:rotateX(-100deg);
+    transform-origin:top;
+    opacity:0;
+  }
+  100% {
+    transform:rotateX(0deg);
+    transform-origin:top;
+    opacity:1;
+  }
+}
+
+@keyframes focus-in-contract {
+			
+  0% {
+    letter-spacing:1em;
+    filter:blur(12px);
+    opacity:0;
+  }
+  100% {
+    filter:blur(0);
+    opacity:1;
+  }
+}
+
+@keyframes text-focus-in {
+			
+  0% {
+    filter:blur(12px);
+    opacity:0;
+  }
+  100% {
+    filter:blur(0);
+    opacity:1;
+  }
+}
+
+@keyframes focus-in-zoomout {
+			
+  0% {
+    letter-spacing:1em;
+    transform:translateY(300px);
+    filter:blur(12px);
+    opacity:0;
+  }
+  100% {
+    transform:translateY(0px);
+    filter:blur(0);
+    opacity:1;
+  }
+}
+  
+// Content styling  
+.the-content {  
+  flex: 1;  
+  padding: 15px 1rem;  
+  margin-top: 12rem; // Sesuaikan dengan tinggi header  
+  overflow-y: auto;  
+  background-color: $content-color;  
+  // border: solid rgb(172, 112, 0) 2px;
+  // display: none;
+}  
+  
+// Footer styling  
+.the-footer {  
+  background-color: $footer-color;  
+  width: 99%;  
+  padding: 1rem;  
+  text-align: center;  
+  position: fixed;  
+  bottom: 0;  
+  z-index: 1000;
+  border: solid green 0px;
+}  
+
+.the-detail-footer {  
+  background-color: $footer-color;  
+  width: 99%;  
+  padding: 1rem;  
+  text-align: center;  
+  position: fixed;  
+  bottom: 0;  
+  z-index: 1000;
+}  
+  
+// Detail view styling  
+.detail-view { 
+  display: none;   
+  .footer {  
+    display: none;  
+  }  
+  .content {  
+    margin-bottom: 0; // Hapus margin bottom jika footer tidak ada  
+  }  
+}  

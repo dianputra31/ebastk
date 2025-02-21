@@ -1,0 +1,86 @@
+<div class="header">  
+    <div class="header-top"> 
+      
+        <div class="logo">
+
+          
+          <ng-container *ngIf="isDashboard() || isRiwayat() || isInspectionSummary(); else tugasHeader">
+            <img src="../../assets/icons/logo-tribik.svg" alt="Logo" (click)="goHome()" style="cursor: pointer;"> 
+          </ng-container>
+          <ng-template #tugasHeader>
+              <ng-container *ngIf="isTugas(); else otherHeader">
+                <img src="../../assets/icons/logo-tribik.svg" alt="Logo" (click)="goHome()" style="cursor: pointer;">  
+              </ng-container> 
+              <ng-template #otherHeader>
+                <span class="label-page" style="cursor:pointer"  (click)="goBack()">&lt; &nbsp;&nbsp; BASTK &nbsp; &#x25CF; &nbsp; Detil Tugas</span>
+              </ng-template>
+          </ng-template>
+
+          
+
+
+ 
+        </div>
+
+        <div class="profile-dropdown" (click)="toggleDropdown()">  
+          <div class="header-user">  
+            <div class="profile-image">  
+              <img src="../../assets/icons/profil.svg" alt="Profile">  
+            </div>  
+            <div class="user-info">  
+              <span class="user-name">John Doe</span>  
+              <span class="user-details">Div. Inventori • 081222</span>  
+            </div>  
+            <div class="dropdown-icon" (click)="toggleDropdown()">  
+                <img src="../../assets/icons/arrow-down.svg" alt="Dropdown" [ngClass]="{'rotate': isDropdownOpen}" (click)="toggleDropdown()">  
+              </div>  
+          </div>  
+          <div class="dropdown-menu" *ngIf="isDropdownOpen">  
+            <ul>  
+              <li>Edit Foto</li>  
+              <li (click)="logout()">Logout</li>  
+            </ul>  
+          </div>  
+        </div>  
+      </div>    
+    
+      <ng-container [ngSwitch]="getCurrentView()">
+        <ng-container *ngSwitchCase="'dashboard'">
+          <!-- Konten untuk dashboard -->
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'tugas'">
+          <app-the-menus-of-tugas></app-the-menus-of-tugas>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'exterior'">
+          <app-menu-of-exterior-inspection (panelToScroll)="scrollToPanel($event)"></app-menu-of-exterior-inspection>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'interior'">
+          <app-menu-of-interior-inspection></app-menu-of-interior-inspection>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'engine'">
+          <app-menu-of-engine-inspection></app-menu-of-engine-inspection>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'photos'">
+          <app-menu-of-photos-inspection></app-menu-of-photos-inspection>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'riwayat'">
+          <app-filter-riwayat></app-filter-riwayat>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'nomenu'">
+        </ng-container>
+      
+        <ng-container *ngSwitchDefault>
+          <app-the-menu-of-detil-tugas (menuSelected)="onMenuSelected($event)"></app-the-menu-of-detil-tugas>
+        </ng-container>
+      </ng-container>
+        
+          
+  </div>  
+  
