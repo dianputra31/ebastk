@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./the-dashboard.component.scss']
 })
 export class TheDashboardComponent implements OnInit {
-
+  HiThere: string = 'User';
+  HiEmail: string = 'Email';
+  
   constructor() { }
 
   ngOnInit(): void {
+
+    this.HiThere = localStorage.getItem('username') || 'User';
+    this.HiEmail = localStorage.getItem('email') || 'Email';
+
   }
 
 }

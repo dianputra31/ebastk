@@ -44,11 +44,16 @@ export class AppComponent {
   constructor(private router: Router, private authService: AuthService) {}  
 
   ngOnInit() {
+
+    
     this.loggedIn = localStorage.getItem('userToken');
-    if(this.loggedIn!==''){
-      this.authService.login();
+    if(this.loggedIn!==null){
+      this.isLogin = true;
+    }else{
+      this.isLogin = false;
     }
 
+    
 
     
 

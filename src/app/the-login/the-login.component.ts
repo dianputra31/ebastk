@@ -34,10 +34,10 @@ export class TheLoginComponent implements OnInit {
 
   ngOnInit() { 
     this.loggedIn = localStorage.getItem('userToken');
+    
     if(this.loggedIn!==''){
       this.authService.login();
       this.router.navigate(['/dashboard']);
-
     }
 
     setTimeout(() => {  
@@ -90,7 +90,7 @@ export class TheLoginComponent implements OnInit {
 
         this.onSuccessLogin.emit(true);
         
-        // this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard']);
 
       }else{
         console.log('here failed')

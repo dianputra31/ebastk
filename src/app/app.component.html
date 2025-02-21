@@ -1,23 +1,27 @@
-<app-the-login *ngIf="!isLogin" (onSuccessLogin)="onSuccessLogin($event)"></app-the-login> <!-- Komponen login -->  
+<div *ngIf="!isLogin; else mainApp">
+  <app-the-login (onSuccessLogin)="onSuccessLogin($event)"></app-the-login>
+</div>
 
-<div class="app-container" *ngIf="isLogin;">      
+<ng-template #mainApp>
+  <div class="app-container">
     <div class="the-header">      
-      <app-header *ngIf="isLoggedIn" (menuChange)="onMenuChange($event)" [activeChipIndex]="activeChipIndex"></app-header>      
+      <app-header (menuChange)="onMenuChange($event)" [activeChipIndex]="activeChipIndex"></app-header>      
     </div>      
     <div class="the-content">    
       <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
     </div>  
 
-    <ng-container *ngIf="isDetailView===false; else detailFooter">
-      <div class="the-footer" [ngClass]="{'detail-view': isDetailView}">      
+    <ng-container *ngIf="!isDetailView; else detailFooter">
+      <div class="the-footer">      
         <app-footer></app-footer>    
       </div>
     </ng-container>
+    
     <ng-template #detailFooter>
-      <div class="the-detail-footer" >      
+      <div class="the-detail-footer">      
         <app-detail-footer [stepNow]="watchThisStep"></app-detail-footer>    
       </div>
     </ng-template>
-  </div>  
-
-  <app-loading-overlay [isVisible]="isLoading"></app-loading-overlay>
+  </div>
+</ng-template>
+  <!-- <app-loading-overlay [isVisible]="isLoading"></app-loading-overlay> -->

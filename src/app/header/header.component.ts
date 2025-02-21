@@ -17,6 +17,8 @@ export class HeaderComponent implements OnInit {
   selectedPanel: string='';
   @Output() menuChange = new EventEmitter<string>();
   @Input() activeChipIndex: number = 0;
+  HiThere: string = 'User';
+  HiEmail: string = 'Email';
   
   constructor(private router: Router,  private authService: AuthService) { }
 
@@ -27,6 +29,11 @@ export class HeaderComponent implements OnInit {
         this.currentRoute = event.urlAfterRedirects;
       }
     });
+
+    this.HiThere = localStorage.getItem('username') || 'User';
+    this.HiEmail = localStorage.getItem('email') || 'Email';
+    // localStorage.getItem('userToken');
+    // localStorage.getItem('refresh_token');
 
     // this.router.events.subscribe(event => {  
     //   if (event instanceof NavigationEnd) {  
