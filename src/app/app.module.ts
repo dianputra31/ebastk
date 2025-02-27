@@ -44,6 +44,7 @@ import { TheDetailHistoryInteriorComponent } from './the-detail-history-interior
 import { TheDetailHistoryEngineComponent } from './the-detail-history-engine/the-detail-history-engine.component';
 import { TheDetailHistoryPhotosComponent } from './the-detail-history-photos/the-detail-history-photos.component';
 import { TheDetailHistoryInfoComponent } from './the-detail-history-info/the-detail-history-info.component';
+import { TheDetailHistoryFooterComponent } from './detail-history-footer/the-detail-history-footer.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { TheDetailHistoryInfoComponent } from './the-detail-history-info/the-det
     TheDetailHistoryInteriorComponent,
     TheDetailHistoryEngineComponent,
     TheDetailHistoryPhotosComponent,
-    TheDetailHistoryInfoComponent
+    TheDetailHistoryInfoComponent,
+    TheDetailHistoryFooterComponent
   ],
   imports: [
     BrowserModule,
