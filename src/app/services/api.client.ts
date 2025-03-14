@@ -8,11 +8,12 @@ import { environment } from "src/environments/environment";
 export class ApiClientService {
 
   private baseUrl = environment.apiUrl;
+  public ctype = 'application/json'; // Contoh nilai untuk Content-Type
 
   constructor() { }
 
   // Metode GET
-  async get<T>(endpoint: string, params?: any): Promise<T> {
+  async getone<T>(endpoint: string, params?: any): Promise<T> {
     try {
       const response = await axios.get<T>(`${this.baseUrl}${endpoint}`, { params });
       return response.data;
@@ -23,7 +24,7 @@ export class ApiClientService {
   }
 
   // Metode POST
-  async post<T>(endpoint: string, data: any): Promise<T> {
+  async postone<T>(endpoint: string, data: any): Promise<T> {
     try {
       const response = await axios.post<T>(`${this.baseUrl}${endpoint}`, data);
       return response.data;
@@ -54,4 +55,51 @@ export class ApiClientService {
       throw error;
     }
   }
+
+
+  private getToken(): string {
+    // Implementasikan logika untuk mendapatkan token otentikasi
+    // Misalnya, dari local storage atau session storage
+    return localStorage.getItem('userToken') || '';
+  }
+
+
+  // Metode POST dengan headers
+  async post<T>(endpoint: string, data: any): Promise<T> {
+    try {
+      // Membuat objek headers
+      const headers = {
+        'accept': this.ctype,
+        'Authorization': 'Bearer ' + this.getToken(),
+        'Content-Type': this.ctype // Menggunakan this.ctype sebagai Content-Type
+      };
+
+      // Melakukan Axios POST request dengan headers
+      const response = await axios.post<T>(`${this.baseUrl}${endpoint}`, data, { headers });
+      return response.data;
+    } catch (error) {
+      console.error('Error posting data:', error);
+      throw error;
+    }
+  }
+
+
+  async get<T>(endpoint: string): Promise<T> {
+    try {
+      // Membuat objek headers
+      const headers = {
+        'accept': this.ctype,
+        'Authorization': 'Bearer ' + this.getToken(),
+        'Content-Type': this.ctype // Menggunakan this.ctype sebagai Content-Type
+      };
+
+      // Melakukan Axios GET request dengan headers
+      const response = await axios.get<T>(`${this.baseUrl}${endpoint}`, { headers });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+
 }

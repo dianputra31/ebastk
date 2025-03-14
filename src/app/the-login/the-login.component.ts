@@ -37,7 +37,7 @@ export class TheLoginComponent implements OnInit {
     
     if(this.loggedIn!==''){
       this.authService.login();
-      this.router.navigate(['/dashboard']);
+      // this.router.navigate(['/dashboard']);
     }
 
     setTimeout(() => {  
@@ -72,25 +72,46 @@ export class TheLoginComponent implements OnInit {
     };
     this.errlog = "";
     try {
-      const response = await this.apiClient.post<any>('/login', loginData);
+      const response = await this.apiClient.postone<any>('/login', loginData);
       console.log('Data posted:', response);
 
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.username) {
         // Set status login  
-        this.authService.login();
 
-        localStorage.setItem('username', response.username);
-        localStorage.setItem('email', response.email);
-        localStorage.setItem('userToken', response.token);
-        localStorage.setItem('refresh_token', response.refresh_token);
+        // localStorage.setItem('username', response.username);
+        // localStorage.setItem('email', response.email);
+        // localStorage.setItem('userToken', response.token);
+        // localStorage.setItem('refresh_token', response.refresh_token);
         
-        console.log('Login successful:', response);
-        this.isLoading = false;
+        // console.log('Login successful:', response);
+        // this.isLoading = false;
 
-        this.onSuccessLogin.emit(true);
-        
-        this.router.navigate(['/dashboard']);
+        // this.onSuccessLogin.emit(true);
+        // console.log(response.token);
+        // this.authService.login();
+
+        // this.router.navigate(['/dashboard']);
+        console.log("here we go");
+
+        try {
+          localStorage.setItem('username', response.username);
+          localStorage.setItem('email', response.email);
+          localStorage.setItem('userToken', response.token);
+          localStorage.setItem('refresh_token', response.refresh_token);
+
+          console.log('Login successful:', response);
+          this.isLoading = false;
+          this.onSuccessLogin.emit(true);
+          console.log(response.token);
+          this.authService.login();
+          this.router.navigate(['/dashboard']);
+      } catch (localStorageError) {
+          console.error('Error saat menyimpan ke localStorage:', localStorageError);
+          this.errlog = 'Terjadi kesalahan saat menyimpan data.';
+          this.isLoading = false;
+          this.isButtonDisabled = false;
+      }
 
       }else{
         console.log('here failed')

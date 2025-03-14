@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  
 import { catchError } from 'rxjs/operators';  
 import { of } from 'rxjs';  
-import { SampleData } from '../../assets/models/list-task.model'; // Sesuaikan dengan path yang benar  
+import { SampleData } from '../../assets/models/list-task.model-sample'; // Sesuaikan dengan path yang benar  
 import { Router } from '@angular/router';
 import { trigger, style, transition, animate, stagger, query, animateChild } from '@angular/animations';
 

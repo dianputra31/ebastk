@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: false,
+  apiUrl: 'https://admin-tribik.rask.co.id/api/bastk',
+  mediaUrl: 'https://admin-tribik.rask.co.id',
 };
