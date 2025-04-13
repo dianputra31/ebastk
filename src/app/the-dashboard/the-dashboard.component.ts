@@ -1,4 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+import { ApiClientService } from '../services/api.client';
+import { NewApiResponse  } from '../../assets/models/list-dashboard.model'; // Sesuaikan dengan path yang benar  
+import axios from 'axios';
 
 @Component({
   selector: 'app-the-dashboard',
@@ -8,14 +14,57 @@ import { Component, OnInit } from '@angular/core';
 export class TheDashboardComponent implements OnInit {
   HiThere: string = 'User';
   HiEmail: string = 'Email';
-  
-  constructor() { }
+  errlog:string = '';
+  sampleDataDashboard: NewApiResponse | null = null;
+  isButtonDisabled: boolean = false;
+  isLoading: boolean = false;
+
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
 
     this.HiThere = localStorage.getItem('username') || 'User';
     this.HiEmail = localStorage.getItem('email') || 'Email';
+    this.listDashboard();
+  }
 
+  async listDashboard() {
+  
+    const unitData = {
+      page: '1'
+    };
+    this.errlog = "";
+    try {
+      const page = 1; // Parameter yang ingin dikirim
+      const endpoint = `/get-dashboard`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.get<NewApiResponse>(endpoint);
+      console.log('Data posted:', response);
+
+      // Jika login berhasil, simpan data ke localStorage
+      if (response) {
+        this.sampleDataDashboard = response;  
+        console.log('Dashboard:', this.sampleDataDashboard);
+      }else{
+        console.log('here failed')
+        this.errlog = 'Username atau password salah';
+      }
+
+    } catch (error) {
+      this.isButtonDisabled = false;
+      // this.authService.logout();
+      if (axios.isAxiosError(error)) {
+        // Cek status kode dari respons
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+      this.isLoading = false;
+    }
   }
 
 }

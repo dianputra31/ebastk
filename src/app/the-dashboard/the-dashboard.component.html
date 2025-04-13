@@ -13,7 +13,7 @@
                 <div class="icon">
                   <img src="../../assets/icons/dsh1.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
               </div>
-              <span style="color:#1F41A5">239</span>
+              <span style="color:#1F41A5">{{sampleDataDashboard?.total_this_month | number}}</span>
             </div>
           </div>
           <div class="score-card">
@@ -22,7 +22,7 @@
                 <div class="icon">
                   <img src="../../assets/icons/dsh2.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
               </div>
-              <span style="color:#D5230D">12</span>
+              <span style="color:#D5230D">{{sampleDataDashboard?.task_avb | number}}</span>
               </div>
           </div>
           <div class="score-card">
@@ -31,7 +31,7 @@
                 <div class="icon">
                   <img src="../../assets/icons/dsh3.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
               </div>
-              <span style="color:#0D824B">75</span>
+              <span style="color:#0D824B">{{sampleDataDashboard?.task_finished | number }}</span>
               </div>
           </div>
           <div class="score-card">
@@ -40,7 +40,7 @@
                 <div class="icon">
                   <img src="../../assets/icons/dsh4.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
               </div>
-              <span style="color:#E18308">31.75%</span>
+              <span style="color:#E18308">{{sampleDataDashboard?.task_percentage | number}}%</span>
               </div>
           </div>
       </div>

@@ -53,8 +53,8 @@ export class TheTugasComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.readJsonFile();  
-    // this.listTugas();
+    // this.readJsonFile();  
+    this.listTugas();
   }
 
 
