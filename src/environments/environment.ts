@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://admin-tribik.rask.co.id/api/bastk',
+  apiUrlOther: 'https://admin-tribik.rask.co.id/api/masterdata',
   mediaUrl: 'https://admin-tribik.rask.co.id',
 };
 

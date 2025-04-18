@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment";
 export class ApiClientService {
 
   private baseUrl = environment.apiUrl;
+  private baseUrlOther = environment.apiUrlOther;
   public ctype = 'application/json'; // Contoh nilai untuk Content-Type
 
   constructor() { }
@@ -95,6 +96,25 @@ export class ApiClientService {
 
       // Melakukan Axios GET request dengan headers
       const response = await axios.get<T>(`${this.baseUrl}${endpoint}`, { headers });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+
+
+  async getOther<T>(endpoint: string): Promise<T> {
+    try {
+      // Membuat objek headers
+      const headers = {
+        'accept': this.ctype,
+        'Authorization': 'Bearer ' + this.getToken(),
+        'Content-Type': this.ctype // Menggunakan this.ctype sebagai Content-Type
+      };
+
+      // Melakukan Axios GET request dengan headers
+      const response = await axios.get<T>(`${this.baseUrlOther}${endpoint}`, { headers });
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);

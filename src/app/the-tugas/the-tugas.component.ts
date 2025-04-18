@@ -135,7 +135,7 @@ export class TheTugasComponent implements OnInit {
 
 
   GoesToDetailTugas(id: number){
-    this.router.navigate(['/detil-tugas']);
+    this.router.navigate(['/detil-tugas/' + id]);
   }
 
 }

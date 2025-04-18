@@ -14,22 +14,22 @@
             <div class="row">
                 <div class="column">
                     <label for="vendorName">Nama Vendor</label>
-                    <input id="vendorName" type="text" placeholder="PT Bluebird Indonesia" />
+                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" readonly/>
                     
                     <label for="vendorAddress">Alamat</label>
-                    <textarea id="vendorAddress" placeholder="JL Mampang Prt. Raya No.60" rows="6"></textarea>
+                    <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly>{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}</textarea>
                     
                    
                 </div>
                 <div class="column">
                     <label for="pic">PIC Pengirim</label>
-                    <input id="pic" type="text" placeholder="Daniel Soesanto" />
+                    <input id="pic" type="text" placeholder="PIC Pengirim" readonly/>
                     
                     <label for="deliveryDate">Tanggal Pengiriman</label>
-                    <input id="deliveryDate" type="date" />
+                    <input id="deliveryDate" type="date" readonly value=""/>
 
                     <label for="vendorPhone">No. Telepon</label>
-                    <input id="vendorPhone" type="text" placeholder="021 7971245" />
+                    <input id="vendorPhone" type="text" placeholder="No Telp" readonly value="{{sampleDataVendor?.phone}}"/>
                 </div>
             </div>
         </mat-expansion-panel>
@@ -46,54 +46,66 @@
             <div class="row">
                 <div class="column">
                     <label for="expedition">Ekspedisi</label>
-                    <select id="expedition">
+                    <!-- {{sampleData?.ekspedisi}} -->
+                    <select id="expedition" aria-readonly="true">
                         <option value="derek">Derek</option>
                         <option value="pengiriman">Pengiriman</option>
                     </select>
 
                     <label for="licensePlate">Nomor Polisi</label>
-                    <input id="licensePlate" type="text" placeholder="B 2298 VGU" />
+                    <input id="licensePlate" type="text" placeholder="Nomor Polisi" readonly value="{{sampleData?.police_number}}" />
 
                     <label for="brand">Merek</label>
-                    <select id="brand">
+                    <input type="text" id="brand" placeholder="Merek" readonly value="{{sampleData?.brand?.brand_name}}" />
+                    <!-- {{sampleData?.brand?.brand_name}} -->
+                    <!-- <select id="brand">
                         <option value="mitsubishi">Mitsubishi</option>
                         <option value="toyota">Toyota</option>
-                    </select>
+                    </select> -->
 
                     <label for="color">Tipe</label>
-                    <select id="color">
+                    <input type="text" id="tipe" placeholder="Tipe" readonly value="{{sampleData?.variant_model?.model_name}}" />
+                    <!-- <select id="color">
                         <option value="hitam">Power Ranger Merah</option>
                         <option value="hitam">Power Ranger Biru</option>
                         <option value="hitam">Power Ranger Hijau</option>
                         <option value="putih">Putih</option>
-                    </select>
+                    </select> -->
 
                     <label for="color">Tahun</label>
-                    <select id="color">
+                    <input type="text" id="tahun" placeholder="Tahun" readonly value="{{sampleData?.unit_year}}" />
+                    <!-- <select id="color">
                         <option value="hitam">2001</option>
                         <option value="hitam">2002</option>
                         <option value="hitam">2003</option>
                         <option value="putih">2004</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="column">
                     <label for="category">Kategori</label>
-                    <select id="category">
+                    <input type="text" id="category" placeholder="Kategori" readonly value="{{sampleData?.unit_type}}" />
+                    <!-- <select id="category">
                         <option value="passenger">Passenger</option>
                         <option value="truck">Truck</option>
-                    </select>
+                    </select> -->
+
+                    <label for="unit_location">Lokasi Unit</label>
+                    <input type="text" id="unit_location" placeholder="Lokasi Unit" readonly value="{{sampleData?.unit_location}}" />
 
                     <label for="engineCapacity">Kapasitas Mesin (CC)</label>
-                    <input id="engineCapacity" type="text" placeholder="2.397" />
+                    <input type="text" id="engineCapacity" placeholder="Kapasitas Mesin" readonly value="{{sampleData?.unit_type}}" />
 
                     <label for="color">Warna</label>
+                    <input type="text" id="warna" placeholder="Warna" readonly value="{{sampleData?.color?.color_name}}" />
+<!-- 
                     <select id="color">
                         <option value="hitam">Hitam Metalik</option>
                         <option value="putih">Putih</option>
-                    </select>
+                    </select> -->
 
                     <label>Transmisi</label>
-                    <div class="radio-group">
+                    <input type="text" id="transmission" placeholder="Transmisi" readonly value="{{sampleData?.transmission}}" />
+                    <!-- <div class="radio-group">
                         <label>
                             <input type="radio" name="transmission" value="automatic" checked />
                             Automatic
@@ -102,7 +114,7 @@
                             <input type="radio" name="transmission" value="manual" />
                             Manual
                         </label>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </mat-expansion-panel>
@@ -117,79 +129,100 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <div class="row">
+            <div class="column">Jenis Surat</div>
+          </div>
+          <div class="row">
             <div class="column">
-                <label>Jenis Surat</label>
                 <div class="radio-group">
                     <label>
-                        <input type="radio" name="transmission" value="automatic" checked />
+                        <input type="radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
                         Automatic
                     </label>
                     <label>
-                        <input type="radio" name="transmission" value="manual" />
-                        Manual
-                    </label>
-                </div>
-
-                <label for="licensePlate">Nomor Polisi</label>
-                <input id="licensePlate" type="text" placeholder="B 2298 VGU" />
-
-                <label for="brand">Merek</label>
-                <select id="brand">
-                    <option value="mitsubishi">Mitsubishi</option>
-                    <option value="toyota">Toyota</option>
-                </select>
-
-                <label for="color">Tipe</label>
-                <select id="color">
-                    <option value="hitam">Power Ranger Merah</option>
-                    <option value="hitam">Power Ranger Biru</option>
-                    <option value="hitam">Power Ranger Hijau</option>
-                    <option value="putih">Putih</option>
-                </select>
-
-                <label for="color">Tahun</label>
-                <select id="color">
-                    <option value="hitam">2001</option>
-                    <option value="hitam">2002</option>
-                    <option value="hitam">2003</option>
-                    <option value="putih">2004</option>
-                </select>
-            </div>
-            <div class="column">
-                <label for="category">Kategori</label>
-                <select id="category">
-                    <option value="passenger">Passenger</option>
-                    <option value="truck">Truck</option>
-                </select>
-
-                <label for="category">Lokasi Unit</label>
-                <select id="category">
-                    <option value="passenger">Tribik Jakarta</option>
-                    <option value="truck">Tribik Surabaya</option>
-                </select>
-
-                <label for="engineCapacity">Kapasitas Mesin (CC)</label>
-                <input id="engineCapacity" type="text" placeholder="2.397" />
-
-                <label for="color">Warna</label>
-                <select id="color">
-                    <option value="hitam">Hitam Metalik</option>
-                    <option value="putih">Putih</option>
-                </select>
-
-                <label>Transmisi</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="transmission" value="automatic" checked />
-                        Automatic
-                    </label>
-                    <label>
-                        <input type="radio" name="transmission" value="manual" />
+                        <input type="radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" />
                         Manual
                     </label>
                 </div>
             </div>
-        </div>
+            <div class="column">
+                <label for="tglpembuatan">Tanggal Pembuatan</label>
+                <input type="text" id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" readonly [value]="sampleData?.first_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
+            </div>
+            <div class="column">
+                <label for="suratkuasa">No Surat Kuasa</label>
+                <input type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" readonly [value]="sampleData?.last_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
+            </div>
+            <div class="column"></div>
+          </div>
+
+          <div class="row">
+            <div class="column">
+              <button 
+                [ngClass]="{'button-upl-view': sampleData?.fotoBpkb, 'button-upl-now': !sampleData?.fotoBpkb}" 
+                [disabled]="!sampleData?.fotoBpkb">
+                {{sampleData?.fotoBpkb ? 'Lihat Foto BPKB' : 'Upload Foto BPKB'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{sampleData?.fotoBpkb ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+            <div class="column">
+                <button 
+                [ngClass]="{'button-upl-view': sampleData?.fotoStnk, 'button-upl-now': !sampleData?.fotoStnk}" 
+                [disabled]="!sampleData?.fotoStnk">
+                {{sampleData?.fotoStnk ? 'Lihat Foto STNK' : 'Upload Foto STNK'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{sampleData?.fotoStnk ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+            <div class="column">
+                <button 
+                [ngClass]="{'button-upl-view': sampleData?.fotoSuratKuasa, 'button-upl-now': !sampleData?.fotoSuratKuasa}" 
+                [disabled]="!sampleData?.fotoSuratKuasa">
+                {{sampleData?.fotoSuratKuasa ? 'Lihat Foto Surat Kuasa' : 'Upload Foto Surat Kuasa'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{sampleData?.fotoSuratKuasa ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+            <div class="column">
+                <button 
+                [ngClass]="{'button-upl-view': sampleData?.fotoBastk, 'button-upl-now': !sampleData?.fotoBastk}" 
+                [disabled]="!sampleData?.fotoBastk">
+                {{sampleData?.fotoBastk ? 'Lihat Foto BASTK Vendor' : 'Upload Foto BASTK Vendor'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{sampleData?.fotoBastk ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+                <div class="column">Status BPKB</div>
+           </div>
+          <div class="row">
+                <div class="column">
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
+                            Automatic
+                        </label>
+                        <label>
+                            <input type="radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" />
+                            Manual
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+
+          
         </mat-expansion-panel>
     
         <mat-expansion-panel [expanded]="true" id="infoLainnyaPanel" >

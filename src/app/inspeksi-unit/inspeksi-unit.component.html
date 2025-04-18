@@ -58,3 +58,37 @@
         <img src="../../assets/icons/step4.png" alt="Unit Photos" />
       </div>
   </div>
+
+
+  <div *ngFor="let category of objectKeys(groupedSubItems)">
+    <h2>{{ category }}</h2>
+  
+    <div *ngFor="let subCategory of objectKeys(groupedSubItems[category])"  style="padding-left:10px;">
+      <h4 style="color:#d90606;">{{ subCategory }}</h4>
+  
+      <div *ngFor="let item of groupedSubItems[category][subCategory]"  style="padding-left:30px;">
+        <h5>{{ item.item_description }}</h5>
+        
+        <div  style="padding-left:50px;">
+          <ul *ngIf="item.questions && item.questions.length > 0">
+            <li *ngFor="let question of item.questions">
+              <div *ngIf="question.name">
+                <strong>{{ question.name }}:</strong>
+                
+                <div style="padding-left:60px;">
+                  <ul>
+                    <li *ngFor="let option of question.options">
+                      {{ option }} - {{ question.answer }}
+                    </li>
+                  </ul>
+                </div>
+                
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+  
+      </div>
+    </div>
+  </div>

@@ -43,9 +43,12 @@ export class AppComponent {
           '/photos-inspection': 'photos-inspection',
           '/unit-photos': 'unit-photos'
         };
+
+        const matchedRoute = Object.keys(stepRoutes).find(key => this.currentRoute.startsWith(key));
+        this.watchThisStep = matchedRoute ? stepRoutes[matchedRoute] : 'detil-tugas';
   
         this.isDetailView = !mainRoutes.includes(this.currentRoute) || detailRoutes.includes(this.currentRoute);
-        this.watchThisStep = stepRoutes[this.currentRoute] || 'detil-tugas';
+   
       }
     });
   }
@@ -136,18 +139,28 @@ export class AppComponent {
 
 
     getCurrentView(): string {
-      const dtTugasRoutes = [
-        '/detil-tugas', '/inspeksi-unit', '/exterior-inspection',
-        '/interior-inspection', '/engine-inspection', '/unit-photos'
-      ];
-      
-      const mainRoutes = ['/dashboard', '/tugas', '/profil', '/riwayat'];
-    
-      if (dtTugasRoutes.includes(this.currentRoute)) return 'dt-tugas';
-      if (this.currentRoute === '/detil-riwayat') return 'dt-riwayat';
-      if (mainRoutes.includes(this.currentRoute)) return 'main';
-      
-      return 'none';
+      if (this.currentRoute.startsWith('/detil-tugas/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/inspeksi-unit/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/exterior-inspection/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/interior-inspection/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/engine-inspection/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/unit-photos/')) return 'dt-tugas';
+
+      const routeMappings: { [key: string]: string } = {
+      '/detil-tugas': 'dt-tugas',
+      '/inspeksi-unit': 'dt-tugas',
+      '/exterior-inspection': 'dt-tugas',
+      '/interior-inspection': 'dt-tugas',
+      '/engine-inspection': 'dt-tugas',
+      '/unit-photos': 'dt-tugas',
+      '/detil-riwayat': 'dt-riwayat',
+      '/dashboard': 'main',
+      '/tugas': 'main',
+      '/profil': 'main',
+      '/riwayat': 'main'
+      };
+
+      return routeMappings[this.currentRoute] || 'none';
     }
 
 }

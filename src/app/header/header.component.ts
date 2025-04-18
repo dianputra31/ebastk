@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getCurrentView(): string {
-    return this.currentRoute;
+    return this.currentRoute.split('/')[1] ? `/${this.currentRoute.split('/')[1]}` : this.currentRoute;
   }
 
   setActiveChip(index: number) {  
@@ -99,13 +99,26 @@ export class HeaderComponent implements OnInit {
   }  
 
   goBack(): void {
+    const unit_id = this.router.url.split('/').pop();
     // window.history.back();
-    if(this.currentRoute==='/detil-tugas'){
-      this.router.navigate(['/tugas'])
-    }else if(this.currentRoute==='/detil-riwayat'){
-      this.router.navigate(['/riwayat'])
-    }else{
-      this.router.navigate(['/detil-tugas'])
+    if (this.currentRoute.startsWith('/detil-tugas')) {
+      this.router.navigate(['/tugas']);
+    } else if (this.currentRoute.startsWith('/inspeksi-unit')) {
+      this.router.navigate(['/detil-tugas' + '/' + unit_id]);
+    } else if (this.currentRoute.startsWith('/exterior-inspection')) {
+      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+    } else if (this.currentRoute.startsWith('/interior-inspection')) {
+      this.router.navigate(['/exterior-inspection' + '/' + unit_id]);
+    } else if (this.currentRoute.startsWith('/engine-inspection')) {
+      this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+    }  else if (this.currentRoute.startsWith('/unit-photos')) {
+      this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+    }  else if (this.currentRoute.startsWith('/inspection-summary')) {
+      this.router.navigate(['/unit-photos' + '/' + unit_id]);
+    } else if (this.currentRoute.startsWith('/detil-riwayat')) {
+      this.router.navigate(['/riwayat']);
+    } else {
+      this.router.navigate(['/detil-tugas']);
     }
 
   }
