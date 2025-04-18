@@ -1,118 +1,27 @@
 <div class="product-container">
-    <div class="label-product">{{sampleDataInfo?.display_name}}</div>
-    <div class="anakan-label">{{sampleDataInfo?.unit_location}} &#x25CF; {{sampleDataInfo?.first_published_at | date:'dd MMMM yyyy'}}</div>
+    <div class="label-product">Mitsubishi Pajero</div>
+    <div class="anakan-label">Tribik Jakarta &#x25CF; 07 Februari 2025</div>
 
-
-<!--       
-        <div *ngFor="let subCategory of objectKeys(groupedSubItems['Exterior'])"  style="padding-left:10px;">
-          <h4 style="color:#d90606;">{{ subCategory }}</h4>
-      
-          <div *ngFor="let item of groupedSubItems['Exterior'][subCategory]"  style="padding-left:30px;">
-            <h5>{{ item.item_description }}</h5>
-            
-            <div  style="padding-left:50px;">
-              <ul *ngIf="item.questions && item.questions.length > 0">
-                <li *ngFor="let question of item.questions">
-                  <div *ngIf="question.name">
-                    <strong>{{ question.name }}:</strong>
-                    
-                    <div style="padding-left:60px;">
-                      <ul>
-                        <li *ngFor="let option of question.options">
-                          {{ option }} - {{ question.answer }}
-                        </li>
-                      </ul>
-                    </div>
-                    
-                  </div>
-                </li>
-              </ul>
-            </div>
-            
-      
-          </div>
-        </div> -->
-
-
+    
     <mat-accordion multi>
-        <div *ngFor="let subCategory of objectKeys(groupedSubItems['Exterior'])"  style="padding-left:10px;">
-            <mat-expansion-panel [expanded]="true" #{{subCategory}} >
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <b>{{ subCategory }}</b>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-            
-                <div *ngFor="let item of groupedSubItems['Exterior'][subCategory]" >
-                    <div>
-                            
-                            <!-- <div  style="border:solid yellow 2px;width:100%;position:relative;float:left;"> -->
-                                <div *ngIf="item.questions && item.questions.length > 0">
-                                    <label style="font-weight: bold;text-transform: uppercase;width:50%;">{{ item.item_description }}</label>
-                                    <ng-container *ngFor="let question of item.questions">
-                                        <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; ">
-                                            <div>
-                                                
-                                            
-                                                <div>
-                                                    <ng-container *ngIf="question.options.length === 2; else moreThanTwoOptions">
-                                                        <label class="block text-sm font-medium text-gray-700" style="text-transform: capitalize; font-size:14px; font-weight: bolder;">{{ question.name }}</label>
-                                                        <div class="flex" style="gap: 25%">
-                                                            <label
-                                                              *ngFor="let option of question.options"
-                                                              style="display: flex; align-items: center; gap: 15px; font-size: 14px;"
-                                                            >
-                                                              <input
-                                                                type="radio"
-                                                                [name]="question.name + '_' + item.id"
-                                                                [value]="option"
-                                                                style="width: 22px; height: 22px;" 
-                                                              />
-                                                              {{ option }}
-                                                            </label>
-                                                          </div>
-                                                    </ng-container>
-                                                    <ng-template #moreThanTwoOptions>
-                                                        <select class="mt-2 w-full p-2 border rounded" [name]="question.name" style="text-transform: capitalize; font-size:14px; color: #0f0d0d;">
-                                                            <option value="" disabled selected style="color: #908B8B;">{{ question.name }}</option>
-                                                            <option *ngFor="let option of question.options" [value]="option">
-                                                                {{ option }}
-                                                            </option>
-                                                        </select>
-                                                    </ng-template>
-                                                </div>
-                                        
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                                    
-
-
-                            
-                    </div>
-                    
-
-                    
-            
-                </div>
-            </mat-expansion-panel>
-        </div>
-
-        <!-- <mat-expansion-panel [expanded]="true" #kelengkapanUmum >
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <b>Kelengkapan Umum</b>
+              <b>Interior Bagian Depan</b>
             </mat-panel-title>
             <mat-panel-description>
+              <!-- Informasi Vendor 1 -->
             </mat-panel-description>
           </mat-expansion-panel-header>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="col-span-2">
+                <div class="col-span-2 bg-[#971909] text-white text-center" style="padding: 10px;height:40px;text-align: left;">
+                    KANAN - SISI PENGEMUDI
+                </div>
+              </div>
             <div>
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">STNK</label>
+                    <label class="block text-sm font-medium text-gray-700">Jok Kanan Pengemudi</label>
                     <div class="flex items-center space-x-4 mt-2">
                         <label class="inline-flex items-center">
                             <input type="radio" class="form-radio" name="stnk" value="ada">
@@ -125,7 +34,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Notice Pajak</label>
+                    <label class="block text-sm font-medium text-gray-700">Sandaran Kepala</label>
                     <div class="flex items-center space-x-4 mt-2">
                         <label class="inline-flex items-center">
                             <input type="radio" class="form-radio" name="notice_pajak" value="ada">
@@ -140,7 +49,7 @@
             </div>
             <div>
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Kunci Kendaraan</label>
+                    <label class="block text-sm font-medium text-gray-700">Sarung Jok Kanan (Pengemudi)</label>
                     <div class="flex items-center space-x-4 mt-2">
                         <label class="inline-flex items-center">
                             <input type="radio" class="form-radio" name="kunci_kendaraan" value="ada">
@@ -154,7 +63,7 @@
                 </div>
                 <div class="flex space-x-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Jumlah Kunci</label>
+                        <label class="block text-sm font-medium text-gray-700">Safety Belt Kanan (Pengemudi)</label>
                         <div class="flex items-center mt-2">
                             <button class="bg-gray-200 text-gray-700 px-2 py-1 rounded-l">-</button>
                             <input type="text" class="w-5 text-center border-t border-b border-gray-200" value="0">
@@ -173,17 +82,19 @@
             </div>
         </div>
 
-        </mat-expansion-panel> -->
+        </mat-expansion-panel>
 
-        <!-- <mat-expansion-panel [expanded]="true" #bagianDepanKendaraan >
+        <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Bagian Depan Kendaraan</b>
                 </mat-panel-title>
                 <mat-panel-description>
+                  <!-- Informasi Vendor 1 -->
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Kaca Depan -->
                 <div>
                     <label class="block font-medium">Kaca Depan</label>
                     <div class="flex items-center space-x-4">
@@ -200,6 +111,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Kap Mesin -->
                 <div>
                     <label class="block font-medium">Kap Mesin</label>
                     <div class="flex items-center space-x-4">
@@ -216,6 +128,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Wiper Depan -->
                 <div>
                     <label class="block font-medium">Wiper Depan</label>
                     <div class="flex items-center space-x-4">
@@ -237,6 +150,7 @@
                         </select>
                     </div>
                 </div>
+                <!-- Grill Depan -->
                 <div>
                     <label class="block font-medium">Grill Depan</label>
                     <div class="flex items-center space-x-4">
@@ -253,6 +167,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Emblem -->
                 <div>
                     <label class="block font-medium">Emblem</label>
                     <div class="flex items-center space-x-4">
@@ -269,6 +184,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Bumper Depan -->
                 <div>
                     <label class="block font-medium">Bumper Depan</label>
                     <div class="flex items-center space-x-4">
@@ -285,6 +201,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Cover Towing -->
                 <div>
                     <label class="block font-medium">Cover Towing</label>
                     <div class="flex items-center space-x-4">
@@ -301,6 +218,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Plat Nomor -->
                 <div>
                     <label class="block font-medium">Plat Nomor</label>
                     <div class="flex items-center space-x-4">
@@ -317,6 +235,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Pelindung Bumper -->
                 <div>
                     <label class="block font-medium">Pelindung Bumper</label>
                     <div class="flex items-center space-x-4">
@@ -333,6 +252,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Kamera -->
                 <div>
                     <label class="block font-medium">Kamera</label>
                     <div class="flex items-center space-x-4">
@@ -349,6 +269,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Head Lamp Kanan -->
                 <div>
                     <label class="block font-medium">Head Lamp Kanan</label>
                     <div class="flex items-center space-x-4">
@@ -365,6 +286,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Head Lamp Kiri -->
                 <div>
                     <label class="block font-medium">Head Lamp Kiri</label>
                     <div class="flex items-center space-x-4">
@@ -381,6 +303,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Sign Lamp Kanan -->
                 <div>
                     <label class="block font-medium">Sign Lamp Kanan</label>
                     <div class="flex items-center space-x-4">
@@ -397,6 +320,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Sign Lamp Kiri -->
                 <div>
                     <label class="block font-medium">Sign Lamp Kiri</label>
                     <div class="flex items-center space-x-4">
@@ -413,6 +337,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Fog Lamp Kanan -->
                 <div>
                     <label class="block font-medium">Fog Lamp Kanan</label>
                     <div class="flex items-center space-x-4">
@@ -429,6 +354,7 @@
                         <option>Kondisi bagian</option>
                     </select>
                 </div>
+                <!-- Fog Lamp Kiri -->
                 <div>
                     <label class="block font-medium">Fog Lamp Kiri</label>
                     <div class="flex items-center space-x-4">
@@ -446,13 +372,15 @@
                     </select>
                 </div>
             </div>
-        </mat-expansion-panel> -->
+    </mat-expansion-panel>
 
     </mat-accordion>
 
+    
     <app-the-modal 
     [isOpen]="isModalOpen" 
     [message]="'Apakah data yang Anda masukkan sudah benar?'" 
+    [message2]="'Pastikan data yang Anda masukkan sesuai dengan kondisi unit.'" 
     [imageUrl]="'../../assets/icons/warning-icon.svg'">
     </app-the-modal>
 

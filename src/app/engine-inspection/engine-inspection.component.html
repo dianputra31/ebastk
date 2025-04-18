@@ -1,133 +1,106 @@
 <div class="product-container">
-    <div class="label-product">Mitsubishi Pajero</div>
-    <div class="anakan-label">Tribik Jakarta &#x25CF; 07 Februari 2025</div>
+    <div class="label-product">{{sampleDataInfo?.display_name}}</div>
+    <div class="anakan-label">{{sampleDataInfo?.unit_location}} &#x25CF; {{sampleDataInfo?.first_published_at | date:'dd MMMM yyyy'}}</div>
+
+
+<!--       
+        <div *ngFor="let subCategory of objectKeys(groupedSubItems['Exterior'])"  style="padding-left:10px;">
+          <h4 style="color:#d90606;">{{ subCategory }}</h4>
+      
+          <div *ngFor="let item of groupedSubItems['Exterior'][subCategory]"  style="padding-left:30px;">
+            <h5>{{ item.item_description }}</h5>
+            
+            <div  style="padding-left:50px;">
+              <ul *ngIf="item.questions && item.questions.length > 0">
+                <li *ngFor="let question of item.questions">
+                  <div *ngIf="question.name">
+                    <strong>{{ question.name }}:</strong>
+                    
+                    <div style="padding-left:60px;">
+                      <ul>
+                        <li *ngFor="let option of question.options">
+                          {{ option }} - {{ question.answer }}
+                        </li>
+                      </ul>
+                    </div>
+                    
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+      
+          </div>
+        </div> -->
+
 
     <mat-accordion multi>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <b>Vehicle Engine</b>
-            </mat-panel-title>
-            <mat-panel-description>
-              <!-- Informasi Vendor 1 -->
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Engine</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
+        <div *ngFor="let subCategory of objectKeys(groupedSubItems['Engine'])"  style="padding-left:10px;">
+            <mat-expansion-panel [expanded]="true" #{{subCategory}} >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <b>{{ subCategory }}</b>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+            
+                <div *ngFor="let item of groupedSubItems['Engine'][subCategory]" >
+                    <div>
+                            
+                            <!-- <div  style="border:solid yellow 2px;width:100%;position:relative;float:left;"> -->
+                                <div *ngIf="item.questions && item.questions.length > 0">
+                                    <label style="font-weight: bold;text-transform: uppercase;width:50%;">{{ item.item_description }}</label>
+                                    <ng-container *ngFor="let question of item.questions">
+                                        <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; ">
+                                            <div>
+                                                
+                                            
+                                                <div>
+                                                    <ng-container *ngIf="question.options.length === 2; else moreThanTwoOptions">
+                                                        <label class="block text-sm font-medium text-gray-700" style="text-transform: capitalize; font-size:14px; font-weight: bolder;">{{ question.name }}</label>
+                                                        <div class="flex" style="gap: 25%">
+                                                            <label
+                                                              *ngFor="let option of question.options"
+                                                              style="display: flex; align-items: center; gap: 15px; font-size: 14px;"
+                                                            >
+                                                              <input
+                                                                type="radio"
+                                                                [name]="question.name + '_' + item.id"
+                                                                [value]="option"
+                                                                style="width: 22px; height: 22px;" 
+                                                              />
+                                                              {{ option }}
+                                                            </label>
+                                                          </div>
+                                                    </ng-container>
+                                                    <ng-template #moreThanTwoOptions>
+                                                        <select class="mt-2 w-full p-2 border rounded" [name]="question.name" style="text-transform: capitalize; font-size:14px; color: #0f0d0d;">
+                                                            <option value="" disabled selected style="color: #908B8B;">{{ question.name }}</option>
+                                                            <option *ngFor="let option of question.options" [value]="option">
+                                                                {{ option }}
+                                                            </option>
+                                                        </select>
+                                                    </ng-template>
+                                                </div>
+                                        
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                    
+
+
+                            
                     </div>
+                    
+
+                    
+            
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Tiang Kap Mesin</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Accu (Aki)</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Peredam Kap Mesin</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Braket Accu (aki)</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Engine Cover</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Extra Fan</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="stnk" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Fuse Box Cover</label>
-                    <div class="flex items-center space-x-4 mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="ada">
-                            <span class="ml-2">Ada</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="notice_pajak" value="tidak_ada">
-                            <span class="ml-2">Tidak Ada</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+            </mat-expansion-panel>
         </div>
 
-        </mat-expansion-panel>
 
     </mat-accordion>
 
