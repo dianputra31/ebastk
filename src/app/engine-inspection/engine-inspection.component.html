@@ -34,80 +34,65 @@
         </div> -->
 
 
-    <mat-accordion multi>
-        <div *ngFor="let subCategory of objectKeys(groupedSubItems['Engine'])"  style="padding-left:10px;">
-            <mat-expansion-panel [expanded]="true" #{{subCategory}} >
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <b>{{ subCategory }}</b>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-            
-                <div *ngFor="let item of groupedSubItems['Engine'][subCategory]" >
-                    <div>
-                            
-                            <!-- <div  style="border:solid yellow 2px;width:100%;position:relative;float:left;"> -->
-                                <div *ngIf="item.questions && item.questions.length > 0">
-                                    <label style="font-weight: bold;text-transform: uppercase;width:50%;">{{ item.item_description }}</label>
-                                    <ng-container *ngFor="let question of item.questions">
-                                        <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; ">
+        <mat-accordion multi>
+          <form #engineForm="ngForm">
+              <div *ngFor="let subCategory of objectKeys(groupedSubItems['Engine'])" style="padding-left:10px;margin-bottom:30px;">
+                  <mat-expansion-panel [expanded]="true" #{{subCategory}} id="{{subCategory}}">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>
+                              <span style="border:solid red 0px;font-weight:bold;">{{ subCategory }}</span>
+                          </mat-panel-title>
+                          <mat-panel-description>
+                          </mat-panel-description>
+                      </mat-expansion-panel-header>
+  
+                      <div *ngFor="let item of groupedSubItems['Engine'][subCategory]">
+                        <div>
+                            <div *ngIf="item.questions && item.questions.length > 0" style="position:relative;width:100%;float:left;">
+                                <label style="font-weight: bold;text-transform: uppercase;width:50%;border:solid rgb(255, 251, 0) 0px;padding-left:15px;">{{ item.item_description }}</label>
+                                <div class="flex" style="gap: 25%">
+                                  <label style="display: flex; align-items: center; gap: 15px; font-size: 14px;margin-left:10px;">
+                                    <input type="radio" [name]="item.id+ '_' + 'kondisi'" [value]="'Ada'" [(ngModel)]="item.kondisi" (ngModelChange)="onSubmit(engineForm)" style="width: 22px; height: 22px;margin-left:10px;" />Ada
+                                  </label>
+                                  <label style="display: flex; align-items: center; gap: 15px; font-size: 14px;margin-left:10px;">
+                                    <input type="radio" [name]="item.id+ '_' + 'kondisi'" [value]="'Tidak'" [(ngModel)]="item.kondisi" (ngModelChange)="onSubmit(engineForm)" style="width: 22px; height: 22px;margin-left:10px;" />Tidak
+                                  </label>
+                              </div>
+                                <ng-container *ngFor="let question of item.questions">
+                                    <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; ">
+                                        <div>
                                             <div>
-                                                
-                                            
-                                                <div>
-                                                    <ng-container *ngIf="question.options.length === 2; else moreThanTwoOptions">
-                                                        <label class="block text-sm font-medium text-gray-700" style="text-transform: capitalize; font-size:14px; font-weight: bolder;">{{ question.name }}</label>
-                                                        <div class="flex" style="gap: 25%">
-                                                            <label
-                                                              *ngFor="let option of question.options"
-                                                              style="display: flex; align-items: center; gap: 15px; font-size: 14px;"
-                                                            >
-                                                              <input
-                                                                type="radio"
-                                                                [name]="question.name + '_' + item.id"
-                                                                [value]="option"
-                                                                style="width: 22px; height: 22px;" 
-                                                              />
-                                                              {{ option }}
-                                                            </label>
-                                                          </div>
-                                                    </ng-container>
-                                                    <ng-template #moreThanTwoOptions>
-                                                        <select class="mt-2 w-full p-2 border rounded" [name]="question.name" style="text-transform: capitalize; font-size:14px; color: #0f0d0d;">
-                                                            <option value="" disabled selected style="color: #908B8B;">{{ question.name }}</option>
-                                                            <option *ngFor="let option of question.options" [value]="option">
-                                                                {{ option }}
-                                                            </option>
-                                                        </select>
-                                                    </ng-template>
-                                                </div>
-                                        
+                                                <!-- <ng-container *ngIf="question.options.length === 2; else moreThanTwoOptions"> -->
+                                                    <!-- <label class="block text-sm font-medium text-gray-700" style="text-transform: capitalize; font-size:14px; font-weight: bolder;margin-left:15px;">{{ question.name }}</label> -->
+  
+                                                <!-- </ng-container> -->
+                                                <!-- <ng-template #moreThanTwoOptions> -->
+                                                    <span style="padding-left:15px;">
+                                                      <select
+                                                        class="mt-2 w-full p-2 border rounded"
+                                                        [name]="item.id + '_' + question.key"
+                                                        (ngModelChange)="onSubmit(engineForm)"
+                                                        [(ngModel)]="question.answer"
+                                                        style="text-transform: capitalize; font-size:14px; color: #0f0d0d;"
+                                                      >
+                                                      <option value="" style="color:#b4b4b4;">{{question.name}}</option>
+                                                      <option *ngFor="let option of question.options" [value]="option">{{ option }}</option>
+                                                      </select>
+  
+                                                    </span>
+                                                    
+                                                <!-- </ng-template> -->
                                             </div>
                                         </div>
-                                    </ng-container>
-                                </div>
-                                    
-
-
-                            
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
                     </div>
-                    
+                  </mat-expansion-panel>
+              </div>
+          </form>
+      </mat-accordion>
 
-                    
-            
-                </div>
-            </mat-expansion-panel>
-        </div>
-
-
-    </mat-accordion>
-
-    <app-the-modal 
-    [isOpen]="isModalOpen" 
-    [message]="'Apakah data yang Anda masukkan sudah benar?'" 
-    [imageUrl]="'../../assets/icons/warning-icon.svg'">
-    </app-the-modal>
 
 </div>

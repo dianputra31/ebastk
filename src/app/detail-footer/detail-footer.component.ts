@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { ApiClientService } from '../services/api.client';
+import axios from 'axios';
 
 @Component({
   selector: 'app-detail-footer',
@@ -14,8 +16,10 @@ export class DetailFooterComponent implements OnInit {
   labelfooter_top: string = '01.';
   labelfooter_bottom: string = 'Kelengkapan Data';
   isModalOpen: boolean = false;
+  errlog:string = '';
+  payload: any = null;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {  
@@ -117,16 +121,73 @@ export class DetailFooterComponent implements OnInit {
     if(this.stepNow==='inspeksi-unit'){
       this.router.navigate(['/exterior-inspection/'+unit_id]);
     }else if(this.stepNow==='exterior-inspection'){
-      this.router.navigate(['/interior-inspection'+'/'+unit_id]);
+      this.saveStep(1).then(success => {
+        if (!success) {
+          this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+        }
+      });
     }else if(this.stepNow==='interior-inspection'){
-      this.router.navigate(['/engine-inspection'+'/'+unit_id]);
+      this.saveStep(2).then(success => {
+        if (!success) {
+          this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+        }
+      });
     }else if(this.stepNow==='engine-inspection'){
-      this.router.navigate(['/unit-photos'+'/'+unit_id]);
+      this.saveStep(3).then(success => {
+        if (!success) {
+          this.router.navigate(['/unit-photos'+'/'+unit_id]);
+        }
+      });
     }else if(this.stepNow==='unit-photos'){
       this.router.navigate(['/inspection-summary'+'/'+unit_id]);
     }else if(this.stepNow==='detil-tugas'){
       this.router.navigate(['/inspeksi-unit'+'/'+unit_id]);
     }
+  }
+
+
+  async saveStep(a: number) {
+    if(a == 1){
+      this.payload = localStorage.getItem('exteriorPayload');
+      // return payload !== null; // Return true if payload exists, false otherwise
+    }else if(a == 2){
+      this.payload = localStorage.getItem('interiorPayload');
+    }else if(a == 3){
+      this.payload = localStorage.getItem('enginePayload');
+    }
+
+    this.errlog = "";
+    try {
+      const page = 1; // Parameter yang ingin dikirim
+      const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
+      const endpoint = `/input-bastk/`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.post<any>(endpoint, this.payload);
+
+      // Jika login berhasil, simpan data ke localStorage
+      if (response && response.vendor.id) {
+        
+      }else{
+        console.log('here failed')
+        this.errlog = 'Username atau password salah';
+      }
+
+      return true; // Return true if the operation was successful
+
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Cek status kode dari respons
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+      // this.isLoading = false;
+    }
+    return false; // Default return value
   }
 
 

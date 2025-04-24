@@ -33,6 +33,8 @@ export class EngineInspectionComponent implements OnInit {
   groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
   objectKeys = Object.keys;
   sampleDataInfo: UnitDetailResponse | null = null;
+  payload: any = null;
+  engineForm: any;
 
 
   constructor(private router: Router,  private apiClient: ApiClientService) { }
@@ -126,6 +128,57 @@ export class EngineInspectionComponent implements OnInit {
 
 
 
+  onSubmit(form: any): void {
+    console.log('Form Data:', form.value);
+
+    const questions: { [key: string]: any }[] = [];
+
+    // Loop melalui groupedSubItems untuk membangun array questions
+    for (const subCategory in this.groupedSubItems['Engine']) {
+        const items = this.groupedSubItems['Engine'][subCategory];
+        items.forEach((item: any) => {
+
+
+            item.questions.forEach((question: any) => {
+              const questionKondisi = `${item.id}_kondisi`;
+              const valueKondisi = form.value[questionKondisi]; // Ambil nilai dari form
+                const questionKey = `${item.id}_${question.key}`;
+                const value = form.value[questionKey]; // Ambil nilai dari form
+                if (value || valueKondisi) { // Hanya tambahkan jika value tidak kosong
+                    const existingQuestion = questions.find(q => q['bastk_item_id'] === item.id);
+                    if (existingQuestion) {
+                        // Jika sudah ada, tambahkan key-value baru
+                        existingQuestion[question.key] = value;
+                    } else {
+                        // Jika belum ada, buat objek baru dengan "kondisi" default
+                        questions.push({
+                            bastk_item_id: item.id,
+                            kondisi: valueKondisi, // Tambahkan key "kondisi" dengan nilai default
+                            [question.key]: value
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    const unit_id = this.router.url.split('/').pop(); 
+    
+    // Bungkus questions ke dalam format JSON yang diinginkan
+    this.payload = {
+        unit_id: unit_id, // Ganti dengan unit_id yang sesuai
+        bastk_status: 'draft', // Ganti dengan status yang sesuai
+        questions: questions
+    };
+
+    console.log('Payload yang dikirim:', this.payload);
+    localStorage.setItem('enginePayload', JSON.stringify(this.payload)); // Simpan payload ke localStorage
+    // this.isModalOpen = true; // Buka modal
+}
+
+
+
+
   groupItemsByCategoryAndSubCategory(data: any[]) {
     const groups: { [category: string]: { [subCategory: string]: any[] } } = {};
   
@@ -146,6 +199,8 @@ export class EngineInspectionComponent implements OnInit {
   
     return groups;
   }
+
+  
 
 
   openModal() {
