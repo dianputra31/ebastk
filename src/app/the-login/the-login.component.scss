@@ -114,7 +114,7 @@
             padding-right: 20px;
           
             h2 {  
-              margin-bottom: 20px;  
+              margin-bottom: 15px;  
             }  
           
             label {  
@@ -222,7 +222,7 @@
       margin-bottom: 15px;  
       border: 1px solid #ccc;  
       border-radius: 10px;  
-      placeholder {  
+      ::placeholder {  
         color: #cdcdcd; // Warna placeholder  
       }  
     }  

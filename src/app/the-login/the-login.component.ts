@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { SharedService } from '../services/shared.service';
@@ -28,6 +28,7 @@ export class TheLoginComponent implements OnInit {
   @Output() onSuccessLogin = new EventEmitter();
   isLoading: boolean = false;
   loggedIn: string | null | undefined;
+  @ViewChild('passwordInput') passwordField!: ElementRef;
 
 
   constructor(private router: Router, private authService: AuthService, private apiClient: ApiClientService) {}  
@@ -62,6 +63,10 @@ export class TheLoginComponent implements OnInit {
     this.isLoading = false;
     this.login();
   }  
+
+  focusPassword() {
+    this.passwordField.nativeElement.focus();
+  }
 
 
   async login() {
