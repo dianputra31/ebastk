@@ -112,11 +112,14 @@ export class HeaderComponent implements OnInit {
     } else if (this.currentRoute.startsWith('/exterior-inspection')) {
       this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
     } else if (this.currentRoute.startsWith('/interior-inspection')) {
-      this.router.navigate(['/exterior-inspection' + '/' + unit_id]);
+      // this.router.navigate(['/exterior-inspection' + '/' + unit_id]);
+      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
     } else if (this.currentRoute.startsWith('/engine-inspection')) {
-      this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+      // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
     }  else if (this.currentRoute.startsWith('/unit-photos')) {
-      this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+      // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
     }  else if (this.currentRoute.startsWith('/inspection-summary')) {
       this.router.navigate(['/unit-photos' + '/' + unit_id]);
     } else if (this.currentRoute.startsWith('/detil-riwayat')) {

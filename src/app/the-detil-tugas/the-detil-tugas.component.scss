@@ -84,6 +84,30 @@
         margin-right: 20px; /* Jarak antar radio button */
     }
 
+    .custom-radio {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border: 1px solid #971909;
+        border-radius: 50%;
+        position: relative;
+        cursor: pointer;
+        transition: 0.2s ease;
+        margin-top:12px;
+      }
+      
+      .custom-radio:checked::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        background-color: #971909;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
 }
 
 
@@ -103,3 +127,5 @@
 .button-upl-now{
     width: 90%; background-color: #F5F5F5; position: relative; padding-right: 30px; height: 55px;border-radius: 20px;text-align: left;padding:10px;
 }
+
+

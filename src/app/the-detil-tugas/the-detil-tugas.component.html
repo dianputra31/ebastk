@@ -1,8 +1,9 @@
 <div class="product-container">
-    <div class="label-product">Mitsubishi Pajero</div>
-    <div class="anakan-label">Tribik Jakarta &#x25CF; 07 Februari 2025</div>
+  <div class="label-product">{{sampleData?.display_name}}</div>
+  <div class="anakan-label">{{sampleData?.unit_location}} &#x25CF; {{sampleData?.first_published_at | date:'dd MMMM yyyy'}}</div>
+
     <mat-accordion multi>
-        <mat-expansion-panel [expanded]="true" id="infoVendorPanel" >
+        <mat-expansion-panel [expanded]="true" id="Info Vendor" >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <b>Info Vendor</b>
@@ -34,7 +35,7 @@
             </div>
         </mat-expansion-panel>
       
-        <mat-expansion-panel [expanded]="true" id="infoKendaraanPanel" >
+        <mat-expansion-panel [expanded]="true" id="Info Kendaraan" >
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <b>Info Kendaraan</b>
@@ -119,7 +120,7 @@
             </div>
         </mat-expansion-panel>
         
-        <mat-expansion-panel [expanded]="true" id="infoDokumenPanel" >
+        <mat-expansion-panel [expanded]="true" id="Dokumen dan Kelengkapan Lainnya" >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <b>Dokumen dan Kelengkapan Lainnya</b>
@@ -135,11 +136,11 @@
             <div class="column">
                 <div class="radio-group">
                     <label>
-                        <input type="radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
+                        <input  type="radio" class="custom-radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
                         Automatic
                     </label>
                     <label>
-                        <input type="radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" />
+                        <input type="radio" class="custom-radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" />
                         Manual
                     </label>
                 </div>
@@ -208,13 +209,13 @@
           <div class="row">
                 <div class="column">
                     <div class="radio-group">
-                        <label>
-                            <input type="radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
-                            Automatic
+                      <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
+                            Tribik
                         </label>
-                        <label>
-                            <input type="radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" />
-                            Manual
+                        <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="manual" [checked]="sampleData?.transmission === 'MT'" />
+                            Vendor
                         </label>
                     </div>
                 </div>
@@ -225,7 +226,7 @@
           
         </mat-expansion-panel>
     
-        <mat-expansion-panel [expanded]="true" id="infoLainnyaPanel" >
+        <mat-expansion-panel [expanded]="true" id="Keterangan Lainnya" >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <b>Keterangan Lainnya</b>

@@ -78,6 +78,7 @@ export class AppComponent {
 
 
   onMenuChange(menu: string) {
+    console.log('Selected menu:', menu);
     // alert(menu);
     const panels: { [key: string]: string } = {
       'Info Vendor': 'infoVendorPanel',
@@ -106,7 +107,9 @@ export class AppComponent {
 
     // Scroll ke panel yang sesuai
     const panel = document.getElementById(panels[menu]);
+    console.log("sss:", panels[menu]);
     if (panel) {
+      console.log("selected panel:", menu);
       panel.scrollIntoView({ behavior: 'smooth' });
     }
 

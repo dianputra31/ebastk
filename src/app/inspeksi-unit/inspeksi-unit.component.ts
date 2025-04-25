@@ -17,6 +17,7 @@ type CategoryGroup = GroupedItem & {
   item_category_icon?: string;
   item_category_chipclass?: string;
   item_category_buttonclass?: string;
+  item_category_buttonlabel?: string;
 };
 
 @Component({
@@ -40,6 +41,7 @@ export class InspeksiUnitComponent implements OnInit {
   objectKeys = Object.keys;
   // groupedSubItems: { [category: string]: { [subCategory: string]: any[] & { open?: string } } } = {};
   groupedSubItems: { [category: string]: CategoryGroup } = {};
+  wwgombel: number = 1;
 
   constructor(private router: Router,  private apiClient: ApiClientService) { }
 
@@ -140,7 +142,7 @@ export class InspeksiUnitComponent implements OnInit {
 }
 
 
-groupItemsByCategoryAndSubCategory(data: any[]) {
+groupItemsByCategoryAndSubCategory_Modified(data: any[]) {
   const groups: { [category: string]: CategoryGroup } = {};
 
 
@@ -176,17 +178,6 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
       groups[category][subCategory] = [];
     }
 
-
-
-    // Cek apakah ada pertanyaan yang belum dijawab
-    // const hasUnansweredQuestions = item.questions.some((question: any) =>
-    //   question.name !== null && question.answer === null
-    // );
-
-    // Tambahkan status 'open' atau 'closed'
-    // groups[category][subCategory]['open'] = hasUnansweredQuestions ? 'open' : 'closed';
-
-
     // Cek apakah ada pertanyaan yang belum dijawab
     const hasUnansweredQuestions = item.questions.some((question: any) =>
       question.name !== null && question.answer === null
@@ -200,14 +191,107 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
     if (status === 'open') {
       groups[category].item_category_chipclass = 'saiki';
       groups[category].item_category_buttonclass = 'btn-saiki';
+      groups[category].item_category_buttonlabel = 'Start Inspection     >';
     } else {
       groups[category].item_category_chipclass = 'wisrampung';
       groups[category].item_category_buttonclass = 'btn-rampung';
+      groups[category].item_category_buttonlabel = 'Completed     >';
     }
 
     // Push the item
     groups[category][subCategory].push(item);
 
+  });
+
+  return groups;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+groupItemsByCategoryAndSubCategory(data: any[]) {
+  const groups: { [category: string]: CategoryGroup } = {};
+  this.wwgombel = 1;
+
+  data.forEach(item => {
+    const category = item.item_category;
+    const subCategory = item.item_sub_category;
+
+    if (!groups[category]) {
+      groups[category] = {};
+
+      // Tambahkan info tambahan berdasarkan kategori
+      const cat = category.toLowerCase();
+
+      if (cat.includes('exterior')) {
+        groups[category].item_category_chipname = 'Exterior Inspection';
+        groups[category].item_category_chiplabel = 'A';
+        groups[category].item_category_url = '/exterior-inspection';
+        groups[category].item_category_icon = '../../assets/icons/step1.png';
+      } else if (cat.includes('interior')) {
+        groups[category].item_category_chipname = 'Interior Inspection';
+        groups[category].item_category_chiplabel = 'B';
+        groups[category].item_category_url = '/interior-inspection';
+        groups[category].item_category_icon = '../../assets/icons/step2.png';
+      } else if (cat.includes('engine')) {
+        groups[category].item_category_chipname = 'Engine Inspection';
+        groups[category].item_category_chiplabel = 'C';
+        groups[category].item_category_url = '/engine-inspection';
+        groups[category].item_category_icon = '../../assets/icons/step3.png';
+      }
+    }
+
+    if (!groups[category][subCategory]) {
+      groups[category][subCategory] = [];
+    }
+
+    // Filter pertanyaan yang punya name
+    const validQuestions = item.questions.filter((q: any) => q.name !== null);
+    const withNameCount = validQuestions.length;
+    const answeredCount = validQuestions.filter((q: any) => q.answer !== null).length;
+    const unansweredCount = withNameCount - answeredCount;
+
+    // Tentukan status berdasarkan jumlah pertanyaan yang terjawab dan belum terjawab
+    let status = '';
+    if (answeredCount === withNameCount && withNameCount > 0) {
+      status = 'closed';
+      this.wwgombel = this.wwgombel * 1
+    } else if (answeredCount === 0 && withNameCount > 0) {
+      status = 'open';
+      this.wwgombel = this.wwgombel * 0
+    } else if (answeredCount < withNameCount && answeredCount > 0) {
+      status = 'notyet';
+      this.wwgombel = this.wwgombel * 0
+    }
+
+    // Tambahkan status ke sub-kategori
+    groups[category][subCategory]['open'] = status;
+
+    // Tambahkan class tambahan berdasarkan status
+    if (status === 'open') {
+      groups[category].item_category_chipclass = 'saiki';
+      groups[category].item_category_buttonclass = 'btn-saiki';
+      groups[category].item_category_buttonlabel = 'Start Inspection >';
+    } else if (status === 'closed') {
+      groups[category].item_category_chipclass = 'wisrampung';
+      groups[category].item_category_buttonclass = 'btn-rampung';
+      groups[category].item_category_buttonlabel = 'Completed >';
+    } else if (status === 'notyet') {
+      groups[category].item_category_chipclass = 'notyet'; // Atur class sesuai kebutuhan
+      groups[category].item_category_buttonclass = 'btn-notyet'; // Atur class sesuai kebutuhan
+      groups[category].item_category_buttonlabel = 'Start Inspection >'; // Atur label sesuai kebutuhan
+    }
+
+    // Push the item
+    groups[category][subCategory].push(item);
   });
 
   return groups;
