@@ -5,6 +5,20 @@ import { Router } from '@angular/router';
 import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
 
+
+type GroupedItem = {
+  [subCategory: string]: any[] & { open?: string };
+};
+
+type CategoryGroup = GroupedItem & {
+  item_category_chipname?: string;
+  item_category_chiplabel?: string;
+  item_category_url?: string;
+  item_category_icon?: string;
+  item_category_chipclass?: string;
+  item_category_buttonclass?: string;
+};
+
 @Component({
   selector: 'app-inspeksi-unit',
   templateUrl: './inspeksi-unit.component.html',
@@ -21,10 +35,12 @@ export class InspeksiUnitComponent implements OnInit {
   password: string = '';
   sampleData: any[] = [];
   groupedItems: { [key: string]: any[] } = {};
-  groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
+  // groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
   subCategory: { [category: string]: string[] } = {};
   objectKeys = Object.keys;
-  
+  // groupedSubItems: { [category: string]: { [subCategory: string]: any[] & { open?: string } } } = {};
+  groupedSubItems: { [category: string]: CategoryGroup } = {};
+
   constructor(private router: Router,  private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
@@ -89,30 +105,113 @@ export class InspeksiUnitComponent implements OnInit {
   }
 
 
-  groupItemsByCategoryAndSubCategory(data: any[]) {
-    const groups: { [category: string]: { [subCategory: string]: any[] } } = {};
-    const subgroups: { [category: string]: string[] } = {};
-  
+  groupItemsByCategoryAndSubCategory_Old(data: any[]) {
+    const groups: { [category: string]: { [subCategory: string]: any[] & { open?: string } } } = {};
+
     data.forEach(item => {
-      const category = item.item_category;
-      const subCategory = item.item_sub_category;
-      console.log(subCategory);
-  
-      if (!groups[category]) {
-        groups[category] = {};
-      }
-  
-      if (!groups[category][subCategory]) {
-        groups[category][subCategory] = [];
-      }
-  
-      groups[category][subCategory].push(item);
+        const category = item.item_category;
+        const subCategory = item.item_sub_category;
+
+        if (!groups[category]) {
+            groups[category] = {};
+        }
+
+        if (!groups[category][subCategory]) {
+            groups[category][subCategory] = [];
+        }
+
+        // Push the item into the group
+        groups[category][subCategory].push(item);
+
+        // Check the questions array for the current item
+        const hasUnansweredQuestions = item.questions.some((question: any) => 
+            question.name !== null && question.answer === null
+        );
+
+        // Add 'open' or 'closed' status based on the questions
+        if (hasUnansweredQuestions) {
+            groups[category][subCategory]['open'] = 'open';
+        } else {
+            groups[category][subCategory]['open'] = 'closed';
+        }
     });
 
-    console.log(subgroups) ;
-  
     return groups;
-  }
+}
+
+
+groupItemsByCategoryAndSubCategory(data: any[]) {
+  const groups: { [category: string]: CategoryGroup } = {};
+
+
+  data.forEach(item => {
+    const category = item.item_category;
+    const subCategory = item.item_sub_category;
+
+    if (!groups[category]) {
+      groups[category] = {};
+
+      // Tambahkan info tambahan berdasarkan kategori
+      const cat = category.toLowerCase();
+
+      if (cat.includes('exterior')) {
+        groups[category].item_category_chipname = 'Exterior Inspection';
+        groups[category].item_category_chiplabel = 'A';
+        groups[category].item_category_url = '/exterior-inspection';
+        groups[category].item_category_icon = '../../assets/icons/step1.png';
+      } else if (cat.includes('interior')) {
+        groups[category].item_category_chipname = 'Interior Inspection';
+        groups[category].item_category_chiplabel = 'B';
+        groups[category].item_category_url = '/interior-inspection';
+        groups[category].item_category_icon = '../../assets/icons/step2.png';
+      } else if (cat.includes('engine')) {
+        groups[category].item_category_chipname = 'Engine Inspection';
+        groups[category].item_category_chiplabel = 'C';
+        groups[category].item_category_url = '/engine-inspection';
+        groups[category].item_category_icon = '../../assets/icons/step3.png';
+      }
+    }
+
+    if (!groups[category][subCategory]) {
+      groups[category][subCategory] = [];
+    }
+
+
+
+    // Cek apakah ada pertanyaan yang belum dijawab
+    // const hasUnansweredQuestions = item.questions.some((question: any) =>
+    //   question.name !== null && question.answer === null
+    // );
+
+    // Tambahkan status 'open' atau 'closed'
+    // groups[category][subCategory]['open'] = hasUnansweredQuestions ? 'open' : 'closed';
+
+
+    // Cek apakah ada pertanyaan yang belum dijawab
+    const hasUnansweredQuestions = item.questions.some((question: any) =>
+      question.name !== null && question.answer === null
+    );
+
+    // Tambahkan status 'open' atau 'closed'
+    const status = hasUnansweredQuestions ? 'open' : 'closed';
+    groups[category][subCategory]['open'] = status;
+
+    // Tambahkan class tambahan berdasarkan status
+    if (status === 'open') {
+      groups[category].item_category_chipclass = 'saiki';
+      groups[category].item_category_buttonclass = 'btn-saiki';
+    } else {
+      groups[category].item_category_chipclass = 'wisrampung';
+      groups[category].item_category_buttonclass = 'btn-rampung';
+    }
+
+    // Push the item
+    groups[category][subCategory].push(item);
+
+  });
+
+  return groups;
+}
 
 
   groupCategoriesAndSubCategories(data: any[]) {
@@ -139,17 +238,17 @@ export class InspeksiUnitComponent implements OnInit {
 
   GoesToInspection(a: any){
     const unit_id = this.router.url.split('/').pop();
-    if(a==1){
-      this.router.navigate(['/exterior-inspection' + '/' + unit_id]);
-    }else if(a==2){
-      this.router.navigate(['/interior-inspection' + '/' + unit_id]);
-    }else if(a==3){
-      this.router.navigate(['/engine-inspection' + '/' + unit_id]);
-    }else if(a==4){
-      this.router.navigate(['/unit-photos' + '/' + unit_id]);
-    }else{
-      this.router.navigate(['/inspection-summary' + '/' + unit_id]);
-    }
+    // if(a==1){
+      this.router.navigate([a + '/' + unit_id]);
+    // }else if(a==2){
+    //   this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+    // }else if(a==3){
+    //   this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+    // }else if(a==4){
+    //   this.router.navigate(['/unit-photos' + '/' + unit_id]);
+    // }else{
+    //   this.router.navigate(['/inspection-summary' + '/' + unit_id]);
+    // }
   }
 
 }

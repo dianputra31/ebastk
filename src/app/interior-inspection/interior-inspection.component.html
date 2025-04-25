@@ -6,7 +6,7 @@
     <mat-accordion multi>
       <form #interiorForm="ngForm">
           <div *ngFor="let subCategory of objectKeys(groupedSubItems['Interior'])" style="padding-left:10px;margin-bottom:30px;">
-              <mat-expansion-panel [expanded]="true" #{{subCategory}} id="{{subCategory}}">
+              <mat-expansion-panel [expanded]="true"  id="{{subCategory}}" >
                   <mat-expansion-panel-header>
                       <mat-panel-title>
                           <span style="border:solid red 0px;font-weight:bold;">{{ subCategory }}</span>

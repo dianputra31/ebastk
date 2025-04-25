@@ -123,19 +123,24 @@ export class DetailFooterComponent implements OnInit {
     }else if(this.stepNow==='exterior-inspection'){
       this.saveStep(1).then(success => {
         if (!success) {
-          this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+          // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+          this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
         }
       });
     }else if(this.stepNow==='interior-inspection'){
       this.saveStep(2).then(success => {
         if (!success) {
-          this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+          // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+          this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+
         }
       });
     }else if(this.stepNow==='engine-inspection'){
       this.saveStep(3).then(success => {
         if (!success) {
-          this.router.navigate(['/unit-photos'+'/'+unit_id]);
+          // this.router.navigate(['/unit-photos'+'/'+unit_id]);
+          this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+
         }
       });
     }else if(this.stepNow==='unit-photos'){

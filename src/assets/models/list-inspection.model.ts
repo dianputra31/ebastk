@@ -18,4 +18,5 @@ export interface QuestionOption {
     appraisal_only: boolean;
     item_description: string;
     kondisi: string;
+    open:string;
   }

@@ -1,31 +1,48 @@
+<!-- <div *ngFor="let categoryKey of objectKeys(groupedSubItems)">
+  <div class="category-header">
+    <h2>{{ groupedSubItems[categoryKey].item_category_chipname }}</h2>
+    <span>{{ groupedSubItems[categoryKey].item_category_chiplabel }}</span>
+    <img [src]="groupedSubItems[categoryKey].item_category_icon" alt="Icon">
+  </div>
+
+  <div *ngFor="let subCategoryKey of objectKeys(groupedSubItems[categoryKey])">
+    <ng-container *ngIf="subCategoryKey !== 'item_category_chipname' &&
+                         subCategoryKey !== 'item_category_chiplabel' &&
+                         subCategoryKey !== 'item_category_url' &&
+                         subCategoryKey !== 'item_category_icon'">
+      <h3>{{ subCategoryKey }} ({{ groupedSubItems[categoryKey][subCategoryKey].open }})</h3>
+
+      <ul>
+        <li *ngFor="let item of groupedSubItems[categoryKey][subCategoryKey]">
+          {{ item.name }}
+        </li>
+      </ul>
+    </ng-container>
+  </div>
+</div> -->
+
 <div class="grid-container">
-    <!-- <div class="grid-item dan">
-      <div class="item-header">A.</div>
-      <div class="item-title">Exterior Inspection</div>
-      <img src="../../assets/icons/step1.png" alt="Exterior">
-      <button class="item-button">Completed</button>
-    </div>
-    <div class="grid-item">
-      <div class="item-header">B.</div>
-      <div class="item-title">Interior Inspection</div>
-      <img src="../../assets/icons/step2.png" alt="Interior">
-      <button class="item-button">Completed</button>
-    </div>
-    <div class="grid-item">
-      <div class="item-header">C.</div>
-      <div class="item-title">Engine Inspection</div>
-      <img src="../../assets/icons/step3.png" alt="Engine">
-      <button class="item-button">Completed</button>
-    </div>
-    <div class="grid-item">
-      <div class="item-header">D.</div>
-      <div class="item-title">Unit Photos</div>
-      <img src="../../assets/icons/step4.png" alt="Unit">
-      <button class="item-button">Start Inspection ></button>
-    </div> -->
 
+<div *ngFor="let categoryKey of objectKeys(groupedSubItems)" style="flex-direction: row;">
+  <div class="grid-item {{groupedSubItems[categoryKey].item_category_chipclass}}" >
+    <div class="text">
+      <h3 class="labelinspeksi">{{ groupedSubItems[categoryKey].item_category_chiplabel }}. <br/>{{ groupedSubItems[categoryKey].item_category_chipname }}</h3>
+      <div class="status">
+        <button class="item-button {{groupedSubItems[categoryKey].item_category_buttonclass}}" (click)="GoesToInspection(groupedSubItems[categoryKey].item_category_url)">Completed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;></button>
+      </div>
+    </div>
+    <img [src]="groupedSubItems[categoryKey].item_category_icon" alt="Icon">
+  </div>
+</div>
+<div class="grid-item">
+  <div class="text">
+    <h3 class="labelinspeksi">D. <br/>Unit Photos</h3>
+    <div class="status rungrampung">Complete previous task to start</div>
+  </div>
+  <img src="../../assets/icons/step4.png" alt="Unit Photos" />
+</div>
 
-    <div class="grid-item wisrampung">
+      <!-- <div class="grid-item wisrampung">
         <div class="text">
           <h3 class="labelinspeksi">A. <br/>Exterior Inspection</h3>
           <div class="status">
@@ -56,39 +73,8 @@
           <div class="status rungrampung">Complete previous task to start</div>
         </div>
         <img src="../../assets/icons/step4.png" alt="Unit Photos" />
-      </div>
-  </div>
+      </div> -->
 
 
-  <!-- <div *ngFor="let category of objectKeys(groupedSubItems)">
-    <h2 style="color:#078e6a;">{{ category }}</h2>
-  
-    <div *ngFor="let subCategory of objectKeys(groupedSubItems[category])"  style="padding-left:10px;">
-      <h4 style="color:#d90606;">{{ subCategory }}</h4>
-  
-      <div *ngFor="let item of groupedSubItems[category][subCategory]"  style="padding-left:30px;">
-        <h5>{{ item.item_description }}</h5>
-        
-        <div  style="padding-left:50px;">
-          <ul *ngIf="item.questions && item.questions.length > 0">
-            <li *ngFor="let question of item.questions">
-              <div *ngIf="question.name">
-                <strong>{{ question.name }}:</strong>
-                
-                <div style="padding-left:60px;">
-                  <ul>
-                    <li *ngFor="let option of question.options">
-                      {{ option }} - {{ question.answer }}
-                    </li>
-                  </ul>
-                </div>
-                
-              </div>
-            </li>
-          </ul>
-        </div>
-        
-  
-      </div>
-    </div>
-  </div> -->
+</div>
+

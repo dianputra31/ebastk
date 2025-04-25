@@ -3,41 +3,10 @@
     <div class="anakan-label">{{sampleDataInfo?.unit_location}} &#x25CF; {{sampleDataInfo?.first_published_at | date:'dd MMMM yyyy'}}</div>
 
 
-<!--       
-        <div *ngFor="let subCategory of objectKeys(groupedSubItems['Exterior'])"  style="padding-left:10px;">
-          <h4 style="color:#d90606;">{{ subCategory }}</h4>
-      
-          <div *ngFor="let item of groupedSubItems['Exterior'][subCategory]"  style="padding-left:30px;">
-            <h5>{{ item.item_description }}</h5>
-            
-            <div  style="padding-left:50px;">
-              <ul *ngIf="item.questions && item.questions.length > 0">
-                <li *ngFor="let question of item.questions">
-                  <div *ngIf="question.name">
-                    <strong>{{ question.name }}:</strong>
-                    
-                    <div style="padding-left:60px;">
-                      <ul>
-                        <li *ngFor="let option of question.options">
-                          {{ option }} - {{ question.answer }}
-                        </li>
-                      </ul>
-                    </div>
-                    
-                  </div>
-                </li>
-              </ul>
-            </div>
-            
-      
-          </div>
-        </div> -->
-
-
         <mat-accordion multi>
           <form #engineForm="ngForm">
               <div *ngFor="let subCategory of objectKeys(groupedSubItems['Engine'])" style="padding-left:10px;margin-bottom:30px;">
-                  <mat-expansion-panel [expanded]="true" #{{subCategory}} id="{{subCategory}}">
+                  <mat-expansion-panel [expanded]="true"  id="{{subCategory}}" >
                       <mat-expansion-panel-header>
                           <mat-panel-title>
                               <span style="border:solid red 0px;font-weight:bold;">{{ subCategory }}</span>
