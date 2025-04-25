@@ -136,10 +136,10 @@ export class ExteriorInspectionComponent implements AfterViewInit {
         items.forEach((item: any) => {
             item.questions.forEach((question: any) => {
                 const questionKey = `${item.id}_${question.key}`;
-                const questionKondisi = `${item.id}_${question.key}_kondisi`;
+                const questionKondisi = `${item.id}_kondisi`;
                 const value = form.value[questionKey]; // Ambil nilai dari form
                 const valueKondisi = form.value[questionKondisi]; // Ambil nilai dari form
-                if (value) { // Hanya tambahkan jika value tidak kosong
+                if (value || valueKondisi) { // Hanya tambahkan jika value tidak kosong
                     const existingQuestion = questions.find(q => q['bastk_item_id'] === item.id);
                     if (existingQuestion) {
                         // Jika sudah ada, tambahkan key-value baru
