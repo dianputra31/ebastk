@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   @Input() activeChipIndex: number = 0;
   HiThere: string = 'User';
   HiEmail: string = 'Email';
+  subCategory: { [key: string]: string[] } = {};
   
   constructor(private router: Router,  private authService: AuthService) { }
 
@@ -41,6 +42,9 @@ export class HeaderComponent implements OnInit {
     //   }  
     // });  
     console.log("activeChipIndex==>", this.activeChipIndex);
+    // {"Exterior":["DEPAN","KUNCI KONTAK"],"Engine":["ENGINE"],"Interior":["DEPAN"]}
+    console.log("subCategory::", localStorage.getItem('subCategory'));
+    this.subCategory = JSON.parse(localStorage.getItem('subCategory') || '{}');
   }
 
 

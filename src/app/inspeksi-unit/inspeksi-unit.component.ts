@@ -22,6 +22,7 @@ export class InspeksiUnitComponent implements OnInit {
   sampleData: any[] = [];
   groupedItems: { [key: string]: any[] } = {};
   groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
+  subCategory: { [category: string]: string[] } = {};
   objectKeys = Object.keys;
   
   constructor(private router: Router,  private apiClient: ApiClientService) { }
@@ -49,6 +50,8 @@ export class InspeksiUnitComponent implements OnInit {
         // Kelompokkan berdasarkan item_category
         // this.groupedItems = this.groupItemsByCategory(this.sampleData);
         this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
+        this.subCategory = this.groupCategoriesAndSubCategories(this.sampleData);
+        localStorage.setItem('subCategory', JSON.stringify(this.subCategory));
 
   
         console.log('Grouped Items:', this.groupedItems);
@@ -88,10 +91,12 @@ export class InspeksiUnitComponent implements OnInit {
 
   groupItemsByCategoryAndSubCategory(data: any[]) {
     const groups: { [category: string]: { [subCategory: string]: any[] } } = {};
+    const subgroups: { [category: string]: string[] } = {};
   
     data.forEach(item => {
       const category = item.item_category;
       const subCategory = item.item_sub_category;
+      console.log(subCategory);
   
       if (!groups[category]) {
         groups[category] = {};
@@ -103,7 +108,32 @@ export class InspeksiUnitComponent implements OnInit {
   
       groups[category][subCategory].push(item);
     });
+
+    console.log(subgroups) ;
   
+    return groups;
+  }
+
+
+  groupCategoriesAndSubCategories(data: any[]) {
+    const groups: { [category: string]: string[] } = {};
+
+    data.forEach(item => {
+      const category = item.item_category;
+      const subCategory = item.item_sub_category;
+      // const subCategory = item.item_sub_category
+      //   .toLowerCase()
+      //   .replace(/\b\w/g, (char: string) => char.toUpperCase());
+
+      if (!groups[category]) {
+        groups[category] = [];
+      }
+
+      if (!groups[category].includes(subCategory)) {
+        groups[category].push(subCategory);
+      }
+    });
+
     return groups;
   }
 

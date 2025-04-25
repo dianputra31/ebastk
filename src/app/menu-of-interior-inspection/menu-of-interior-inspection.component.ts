@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-menu-of-interior-inspection',
@@ -7,7 +7,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class MenuOfInteriorInspectionComponent implements OnInit {
 
-  @Output() chipSelected = new EventEmitter<number>();
+  @Output() panelToScroll = new EventEmitter<string>();
+  @Output() menuSelected = new EventEmitter<string>();
 
 
   activeChipIndex: number = 0; // Indeks chip yang aktif  
@@ -15,6 +16,8 @@ export class MenuOfInteriorInspectionComponent implements OnInit {
   isCategoryDropdownOpen: boolean = false;  
   isSortDropdownOpen: boolean = false;  
 
+  @Input() availableChip: { [key: string]: string[] } = {};
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -22,7 +25,8 @@ export class MenuOfInteriorInspectionComponent implements OnInit {
 
   setActiveChip(index: number) {  
     this.activeChipIndex = index; 
-    this.chipSelected.emit(index);
-  }  
+    const menuItems =  this.availableChip['Interior'];
+    this.menuSelected.emit(menuItems[index]);
+  } 
 
 }

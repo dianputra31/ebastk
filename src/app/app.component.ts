@@ -78,6 +78,7 @@ export class AppComponent {
 
 
   onMenuChange(menu: string) {
+    // alert(menu);
     const panels: { [key: string]: string } = {
       'Info Vendor': 'infoVendorPanel',
       'Info Kendaraan': 'infoKendaraanPanel',
@@ -87,8 +88,10 @@ export class AppComponent {
       'rw-exterior': 'rw-exterior',
       'rw-interior': 'rw-interior',
       'rw-engine': 'rw-engine',
-      'rw-photos': 'rw-photos'
+      'rw-photos': 'rw-photos',
+      [menu]: menu // Dynamically add the menu key-value pair
     };
+
   
 
   

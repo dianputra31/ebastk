@@ -3,8 +3,13 @@
     </div>
   
     <div class="row-container">
-        <div class="chip-container">  
-            <div class="chip" [class.active]="activeChipIndex === 0" >Engine</div> 
+            <div class="chip-container">  
+              <div *ngFor="let chip of availableChip['Engine']; let i = index" 
+              class="chip" 
+              [class.active]="activeChipIndex === i" 
+              (click)="setActiveChip(i); ">
+                {{ chip }}
+            </div>
             <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
           </div>
           
