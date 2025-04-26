@@ -74,7 +74,7 @@ currentDate: Date;
 
 
   GoesToDetailRiwayat(id: number){
-    this.router.navigate(['/detil-riwayat']);
+    this.router.navigate(['/detil-riwayat/' + id]);
   }
 
 }
