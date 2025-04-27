@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';  
+import { Component, HostListener, Input, OnInit } from '@angular/core';  
 import { HttpClient } from '@angular/common/http';  
 import { catchError } from 'rxjs/operators';  
 import { of } from 'rxjs';  
@@ -34,7 +34,7 @@ import { environment } from '../../environments/environment';
 
 
 export class TheTugasComponent implements OnInit {
-  sampleData: NewApiResponse | null = null;  
+  // sampleData: NewApiResponse | null = null;  
   sampleDataOld: SampleData | null = null;  
   currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini  
   @Input() fromDashboard:any;
@@ -43,6 +43,9 @@ export class TheTugasComponent implements OnInit {
   password: string = '';
   isButtonDisabled: boolean = false;
   isLoading: boolean = false;
+  currentPage: number = 1;
+  sampleData: NewApiResponse = { total_items: 0, total_pages: 0, current_page: 0, results: [] };
+
 
   // constructor() {} 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) {
@@ -54,27 +57,49 @@ export class TheTugasComponent implements OnInit {
 
   ngOnInit(): void {
     // this.readJsonFile();  
-    this.listTugas();
+    this.listTugas(this.currentPage);
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event:any): void {
+    console.log("here we go again");
+    const scrollPosition= window.innerHeight + window.scrollY;
+    const scrollHeight= document.documentElement.scrollHeight;
+
+    if(scrollPosition >= scrollHeight -100 && !this.isLoading){
+      this.isLoading=true;
+      this.currentPage++;
+      this.listTugas(this.currentPage).then(() => {
+        this.isLoading=false;
+      });
+    }
   }
 
 
 
 
-  async listTugas() {
+  async listTugas(page: number) {
   
-    const unitData = {
-      page: '1'
-    };
+    // const unitData = {
+    //   page: '1'
+    // };
     this.errlog = "";
     try {
-      const page = 1; // Parameter yang ingin dikirim
-      const endpoint = `/units/?page=${page}`; // Menambahkan parameter ke endpoint
+      // const page = 1; // Parameter yang ingin dikirim
+      const page_size = 3;
+      const endpoint = `/units/?page=${page}&page_size=${page_size}`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.get<NewApiResponse>(endpoint);
       console.log('Data posted:', response);
 
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.results) {
-        this.sampleData = response;  
+        if (page === 1) {
+          this.sampleData = response;  
+        } else {
+          this.sampleData.results = this.sampleData.results.concat(response.results);
+        }
+
+        // this.sampleData = response;  
         console.log('Sample Data:', this.sampleData);
       }else{
         console.log('here failed')

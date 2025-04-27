@@ -28,17 +28,21 @@ export class TheLoginComponent implements OnInit {
   @Output() onSuccessLogin = new EventEmitter();
   isLoading: boolean = false;
   loggedIn: string | null | undefined;
+  isLogin = false;
+
   @ViewChild('passwordInput') passwordField!: ElementRef;
 
 
   constructor(private router: Router, private authService: AuthService, private apiClient: ApiClientService) {}  
 
   ngOnInit() { 
+    this.isLogin = localStorage.getItem('userToken') !== null;
+
     this.loggedIn = localStorage.getItem('userToken');
     
-    if(this.loggedIn!==''){
+    if(this.isLogin){
       this.authService.login();
-      // this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard']);
     }
 
     setTimeout(() => {  
