@@ -1,7 +1,7 @@
 <div *ngIf="!isLogin; else mainApp">
   <app-the-login (onSuccessLogin)="onSuccessLogin($event)"></app-the-login>
 </div>
-{{isLogin}}
+
 <ng-template #mainApp>
   <div class="app-container" *ngIf="isLogin">
     <div class="the-header" >      
