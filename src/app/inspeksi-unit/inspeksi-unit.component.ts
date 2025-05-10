@@ -10,7 +10,7 @@ type GroupedItem = {
   [subCategory: string]: any[] & { open?: string };
 };
 
-type CategoryGroup = GroupedItem & {
+type CategoryGroup = {
   item_category_chipname?: string;
   item_category_chiplabel?: string;
   item_category_url?: string;
@@ -18,6 +18,9 @@ type CategoryGroup = GroupedItem & {
   item_category_chipclass?: string;
   item_category_buttonclass?: string;
   item_category_buttonlabel?: string;
+  item_posizione?: string;
+
+  [subCategory: string]: any;
 };
 
 @Component({
@@ -142,13 +145,11 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
       groups[category][subCategory] = [];
     }
 
-    // Filter pertanyaan yang punya name
     const validQuestions = item.questions.filter((q: any) => q.name !== null);
     const withNameCount = validQuestions.length;
     const answeredCount = validQuestions.filter((q: any) => q.answer !== null).length;
     const unansweredCount = withNameCount - answeredCount;
 
-    // Tentukan status berdasarkan jumlah pertanyaan yang terjawab dan belum terjawab
     let status = '';
     if (answeredCount === withNameCount && withNameCount > 0) {
       status = 'closed';
@@ -161,30 +162,62 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
       this.wwgombel = this.wwgombel * 0
     }
 
-    // Tambahkan status ke sub-kategori
     groups[category][subCategory]['open'] = status;
 
-    // Tambahkan class tambahan berdasarkan status
     if (status === 'open') {
       groups[category].item_category_chipclass = 'saiki';
       groups[category].item_category_buttonclass = 'btn-saiki';
       groups[category].item_category_buttonlabel = 'Start Inspection >';
+      groups[category].item_posizione = 'Open';
     } else if (status === 'closed') {
       groups[category].item_category_chipclass = 'wisrampung';
       groups[category].item_category_buttonclass = 'btn-rampung';
       groups[category].item_category_buttonlabel = 'Completed >';
+      groups[category].item_posizione = 'Done';
     } else if (status === 'notyet') {
-      groups[category].item_category_chipclass = 'notyet'; // Atur class sesuai kebutuhan
-      groups[category].item_category_buttonclass = 'btn-notyet'; // Atur class sesuai kebutuhan
-      groups[category].item_category_buttonlabel = 'Start Inspection >'; // Atur label sesuai kebutuhan
+      groups[category].item_category_chipclass = 'notyet';
+      groups[category].item_category_buttonclass = 'btn-notyet';
+      groups[category].item_category_buttonlabel = 'Start Inspection >';
+      groups[category].item_posizione = 'Nope';
     }
 
-    // Push the item
     groups[category][subCategory].push(item);
   });
 
+  if (groups['Exterior']?.item_posizione === 'Open') {
+    if (groups['Interior']) {
+      groups['Interior'].item_category_chipclass = 'notyet';
+      groups['Interior'].item_category_buttonclass = 'btn-notyet';
+      groups['Interior'].item_category_buttonlabel = 'Start Inspection >';
+    }
+    if (groups['Engine']) {
+      groups['Engine'].item_category_chipclass = 'notyet';
+      groups['Engine'].item_category_buttonclass = 'btn-notyet';
+      groups['Engine'].item_category_buttonlabel = 'Start Inspection >';
+    }
+  } else if (groups['Interior']?.item_posizione === 'Open') {
+    if (groups['Engine']) {
+      groups['Engine'].item_category_chipclass = 'notyet';
+      groups['Engine'].item_category_buttonclass = 'btn-notyet';
+      groups['Engine'].item_category_buttonlabel = 'Start Inspection >';
+    }
+  }
+
+  // Tambahkan kategori manual "Photos"
+  groups['Photos'] = {
+    item_category_chipname: "Unit Photos",
+    item_category_chiplabel: "D",
+    item_category_url: "/unit-photos",
+    item_category_icon: "../../assets/icons/step4.png",
+    item_category_chipclass: groups['Engine']?.item_posizione === 'Done' ? 'saiki' : 'notyet',
+    item_category_buttonclass: groups['Engine']?.item_posizione === 'Done' ? 'btn-saiki' : 'btn-notyet',
+    item_category_buttonlabel: "Start Inspection >",
+    item_posizione: "Nope"
+  };
+
   return groups;
 }
+
 
 
   groupCategoriesAndSubCategories(data: any[]) {

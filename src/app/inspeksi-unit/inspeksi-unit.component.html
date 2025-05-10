@@ -5,6 +5,7 @@
     <div class="grid-item {{groupedSubItems[categoryKey].item_category_chipclass}}" >
       <div class="text">
         <h3 class="labelinspeksi">{{ groupedSubItems[categoryKey].item_category_chiplabel }}. <br/>{{ groupedSubItems[categoryKey].item_category_chipname }}</h3>
+        <!-- <h5>{{groupedSubItems[categoryKey].item_posizione}}</h5> -->
         
 
           <ng-container *ngIf="groupedSubItems[categoryKey].item_category_chipclass==='notyet';else showbaten">
@@ -23,7 +24,7 @@
     </div>
   </div>
 
-  <div [class.grid-item]="true"
+  <!-- <div [class.grid-item]="true"
      [class.notyet]="wwgombel === 0"
      [class.saiki]="wwgombel === 1">
     <div class="text">
@@ -41,7 +42,7 @@
 
     </div>
     <img src="../../assets/icons/step4.png" alt="Unit Photos" />
-  </div>
+  </div> -->
 
   
 
