@@ -58,7 +58,7 @@
         </ng-container>
       
         <ng-container *ngSwitchCase="'/tugas'">
-          <app-the-menus-of-tugas></app-the-menus-of-tugas>
+          <app-the-menus-of-tugas  (filterTugasChange)="filterTugasChange($event)"></app-the-menus-of-tugas>
         </ng-container>
       
         <ng-container *ngSwitchCase="'/exterior-inspection'">

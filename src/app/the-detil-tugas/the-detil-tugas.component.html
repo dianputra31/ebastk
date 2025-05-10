@@ -24,10 +24,10 @@
                 </div>
                 <div class="column">
                     <label for="pic">PIC Pengirim</label>
-                    <input id="pic" type="text" placeholder="PIC Pengirim" readonly/>
+                    <input id="pic" type="text" placeholder="PIC Pengirim" readonly value="{{pic}}"/>
                     
                     <label for="deliveryDate">Tanggal Pengiriman</label>
-                    <input id="deliveryDate" type="date" readonly value=""/>
+                    <input id="deliveryDate" type="text" readonly value="" value="{{tgl_mobilisasi}}"/>
 
                     <label for="vendorPhone">No. Telepon</label>
                     <input id="vendorPhone" type="text" placeholder="No Telp" readonly value="{{sampleDataVendor?.phone}}"/>
@@ -158,50 +158,50 @@
 
           <div class="row">
             <div class="column">
-              <!-- [disabled]="!sampleData?.fotoBpkb" -->
+              <!-- [disabled]="!bpkbDocuments" -->
               <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoBpkb, 'button-upl-now': !sampleData?.fotoBpkb}" (click)="openGallery()"
+                [ngClass]="{'button-upl-view': bpkbDocuments.length > 0, 'button-upl-now': bpkbDocuments.length == 0}" (click)="openGallery('BPKB')"
                 >
-                {{sampleData?.fotoBpkb ? 'Lihat Foto BPKB' : 'Upload Foto BPKB'}}
+                {{bpkbDocuments.length > 0 ? 'Foto BPKB' : 'Upload Foto BPKB'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{sampleData?.fotoBpkb ? 'visibility' : 'upload'}}</mat-icon>
+                  <mat-icon>{{bpkbDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
                 </span>
               </button>
             </div>
             <div class="column">
-              <!-- [disabled]="!sampleData?.fotoStnk" -->
+              <!-- [disabled]="!stnkDocuments" -->
                 <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoStnk, 'button-upl-now': !sampleData?.fotoStnk}" (click)="openGallery()"
+                [ngClass]="{'button-upl-view': stnkDocuments.length > 0, 'button-upl-now': stnkDocuments.length == 0}" (click)="openGallery('STNK')"
                 >
-                {{sampleData?.fotoStnk ? 'Lihat Foto STNK' : 'Upload Foto STNK'}}
+                {{stnkDocuments.length > 0 ? 'Foto STNK' : 'Upload Foto STNK'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{sampleData?.fotoStnk ? 'visibility' : 'upload'}}</mat-icon>
+                  <mat-icon>{{stnkDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
                 </span>
               </button>
             </div>
             <div class="column">
               <!-- [disabled]="!sampleData?.fotoSuratKuasa"  -->
                 <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoSuratKuasa, 'button-upl-now': !sampleData?.fotoSuratKuasa}" (click)="openGallery()"
+                [ngClass]="{'button-upl-view': suratKuasaDocuments.length > 0, 'button-upl-now': suratKuasaDocuments.length == 0}" (click)="openGallery('SURATKUASA')"
                 >
-                {{sampleData?.fotoSuratKuasa ? 'Lihat Foto Surat Kuasa' : 'Upload Foto Surat Kuasa'}}
+                {{suratKuasaDocuments.length > 0 ? 'Foto Surat Kuasa' : 'Upload Foto Surat Kuasa'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{sampleData?.fotoSuratKuasa ? 'visibility' : 'upload'}}</mat-icon>
+                  <mat-icon>{{suratKuasaDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
                 </span>
               </button>
             </div>
             <div class="column">
               <!-- [disabled]="!sampleData?.fotoBastk" -->
                 <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoBastk, 'button-upl-now': !sampleData?.fotoBastk}" (click)="openGallery()"
+                [ngClass]="{'button-upl-view': bastkVendorDocuments.length > 0, 'button-upl-now': bastkVendorDocuments.length == 0}" (click)="openGallery('BASTK')"
                 >
-                {{sampleData?.fotoBastk ? 'Lihat Foto BASTK Vendor' : 'Upload Foto BASTK Vendor'}}
+                {{bastkVendorDocuments.length > 0 ? 'Foto BASTK Vendor' : 'Upload Foto BASTK Vendor'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{sampleData?.fotoBastk ? 'visibility' : 'upload'}}</mat-icon>
+                  <mat-icon>{{bastkVendorDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
                 </span>
               </button>
             </div>

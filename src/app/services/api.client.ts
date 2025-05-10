@@ -85,6 +85,26 @@ export class ApiClientService {
   }
 
 
+  // Metode POST dengan headers
+  async postDoc<T>(endpoint: string, data: any): Promise<T> {
+    try {
+      // Membuat objek headers
+      const headers = {
+        'accept': this.ctype,
+        'Authorization': 'Bearer ' + this.getToken(),
+        'Content-Type': 'multipart/form-data'
+      };
+
+      // Melakukan Axios POST request dengan headers
+      const response = await axios.post<T>(`${this.baseUrl}${endpoint}`, data, { headers });
+      return response.data;
+    } catch (error) {
+      console.error('Error posting data:', error);
+      throw error;
+    }
+  }
+
+
   async get<T>(endpoint: string): Promise<T> {
     try {
       // Membuat objek headers

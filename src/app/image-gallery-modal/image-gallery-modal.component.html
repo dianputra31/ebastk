@@ -15,8 +15,8 @@
       <div class="modal-body text-center">
         <div class="slider-container">
           <button class="btn btn-link" (click)="prevImage()" [disabled]="selectedImageIndex === 0" style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">‹</button>
-          <img [src]="images[selectedImageIndex]" class="main-image img-fluid" *ngIf="images.length > 0" />
-          <button class="btn btn-link" (click)="nextImage()" [disabled]="selectedImageIndex === images.length - 1"  style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">›</button>
+          <img [src]="displayedImages[selectedImageIndex]" class="main-image img-fluid" *ngIf="displayedImages.length > 0"  style="max-width: 90%;"/>
+          <button class="btn btn-link" (click)="nextImage()" [disabled]="selectedImageIndex === displayedImages.length - 1"  style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">›</button>
         </div>
       </div>
 
@@ -24,9 +24,9 @@
 
       <!-- Baris 3: Thumbnail + Tombol Hapus -->
       <div class="row px-3 mb-3">
-        <div class="col-3" *ngFor="let img of images; let i = index">
+        <div class="col-3" *ngFor="let img of displayedImages; let i = index">
           <div class="position-relative" style="margin:0px;padding:3px;cursor: pointer;">
-            <img [src]="img" class="img-thumbnail" (click)="selectedImageIndex = i" style="height: 120px;"/>
+            <img [src]="img" class="img-thumbnail" (click)="selectedImageIndex = i"  style="height: 120px;width:95%;"/>
             <img src="./../../assets/icons/delphot.png" class="btn btn-danger btn-sm position-absolute top-2 end-2" style="background-color: transparent;border:0px;"  (click)="removeImage(i)">
             <!-- <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" style="background-image: src('./../../assets/icons/delphot.png');" (click)="removeImage(i)"> -->
               <!-- &times; -->
@@ -36,11 +36,10 @@
        <div class="col-3">
         <div class="block" >
           <div class="col-sm-12" style="align-content: center;text-align: center;">
-            <img src="./../../assets/icons/upload.svg" (click)="onImageUpload($event)"  style="text-align: center;margin-top:40px;padding-left:60px;">
-            <label class="labelblock">Unggah Foto Lainnya<input type="file" accept="image/*" hidden (change)="onImageUpload($event)"></label>
+            <img src="./../../assets/icons/upload.svg"  style="text-align: center;margin-top:40px;padding-left:60px;">
+            <label class="labelblock"  style="cursor: pointer;">Unggah Foto Lainnya<input type="file" accept="image/*" hidden (change)="onImageUpload($event)"></label>
           </div>
         </div>
-        
       </div>
       </div>
 

@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   currentRoute: string='/dashboard';  
   selectedPanel: string='';
   @Output() menuChange = new EventEmitter<string>();
+  @Output() filterChange = new EventEmitter<string>();
   @Input() activeChipIndex: number = 0;
   HiThere: string = 'User';
   HiEmail: string = 'Email';
@@ -50,6 +51,10 @@ export class HeaderComponent implements OnInit {
 
   onMenuSelected(menu: string) {
     this.menuChange.emit(menu);
+  }
+
+  filterTugasChange(a: string) {
+    this.filterChange.emit(a);
   }
 
   getCurrentView(): string {

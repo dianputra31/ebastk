@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-the-menus-of-tugas',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./the-menus-of-tugas.component.scss']
 })
 export class TheMenusOfTugasComponent implements OnInit {
+  @Output() filterTugasChange = new EventEmitter<string>();
 
   activeChipIndex: number = 0; // Indeks chip yang aktif  
   isDropdownOpen: boolean = false;  
@@ -38,12 +39,15 @@ export class TheMenusOfTugasComponent implements OnInit {
   
   selectCategory(category: string) {  
     console.log('Selected category:', category);  
-    this.isCategoryDropdownOpen = false; // Menutup dropdown setelah memilih kategori  
+    this.isCategoryDropdownOpen = false; // Menutup dropdown setelah memilih kategori
+    
   }  
   
   selectSort(sortingBy: string) {  
     console.log('Selected sortingBy:', sortingBy);  
     this.isSortDropdownOpen = false; // Menutup dropdown setelah memilih kategori  
+    this.filterTugasChange.emit(sortingBy);
+
   }  
 
 

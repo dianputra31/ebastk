@@ -86,7 +86,7 @@ export class TheTugasComponent implements OnInit {
     this.errlog = "";
     try {
       // const page = 1; // Parameter yang ingin dikirim
-      const page_size = 3;
+      const page_size = 60;
       const endpoint = `/units/?page=${page}&page_size=${page_size}`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.get<NewApiResponse>(endpoint);
       console.log('Data posted:', response);

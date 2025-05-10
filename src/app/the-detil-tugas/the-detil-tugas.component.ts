@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
+import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand, UnitDocument  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
 import { HttpClient } from '@angular/common/http';  
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-the-detil-tugas',
@@ -29,6 +30,16 @@ export class TheDetilTugasComponent implements OnInit {
   isLoading: boolean = false;
   username: string = '';
   password: string = '';
+  pic: string = '';
+  tgl_mobilisasi: string = '';
+  unit_id: any = '';
+  unitdocuments: UnitDocument[] = [];
+  bpkbDocuments: UnitDocument[] = [];
+  stnkDocuments: UnitDocument[] = [];
+  suratKuasaDocuments: UnitDocument[] = [];
+  bastkVendorDocuments: UnitDocument[] = [];
+  lainnyaDocuments: UnitDocument[] = [];
+
   
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -77,11 +88,26 @@ export class TheDetilTugasComponent implements OnInit {
       const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
       console.log('Data posted:', response.vendor.id);
+      this.unit_id = unit_id;
 
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.vendor.id) {
         this.sampleData = response;  
         console.log('Sample Data:', this.sampleData);
+        console.log('Unit Doc:', this.sampleData.unitdocuments);
+        this.unitdocuments = this.sampleData.unitdocuments;
+        // this.bpkbDocuments: UnitDocument[] = this.unitdocuments.filter((document: UnitDocument) => document.file_type === 'BPKB');
+        this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
+        this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
+        this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
+        this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
+        this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
+        console.log('bpkbDocuments:', this.bpkbDocuments);
+
+        this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
+        const tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.first_published_at;
+        this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
+        console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
         this.infoVendor(response.vendor.id);
       }else{
         console.log('here failed')
@@ -151,17 +177,48 @@ export class TheDetilTugasComponent implements OnInit {
     this.expandedPanelIndex = index; // Set index panel yang diperluas
   }
 
-  openGallery() {
-  const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
-  modalRef.componentInstance.carName = 'Mitsubishi Pajero';
-  modalRef.componentInstance.images = [
-    'https://cdn.motor1.com/images/mgl/02EE3/s1/4x3/toyota-fortuner-gr-sport-indonesia.webp',
-    'https://cdnmedia.insureka.co.id/images/Toyota_Fortuner_2023.width-800.jpg',
-    'https://mediaindonesia.gumlet.io/news/2024/09/06/1725624407_f356aec8fa70ed94c237.jpeg?w=376&dpr=2.6',
-    'https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/83/2024/09/11/Toyota-Fortuner-4x4-GR-S-3698456571.jpg',
-    'https://imgcdnblog.carvaganza.com/wp-content/uploads/2020/06/Toyota-Fortuner-Facelift-2020-9.jpg',
-    'https://imgx.gridoto.com/crop/0x0:0x0/700x465/filters:watermark(file/2017/gridoto/img/watermark.png,5,5,60)/photo/2023/08/01/whatsapp-image-2023-08-01-at-01-20230801013700.jpeg'
-  ];
+  async openGallery(a:string) {
+
+    try{
+      this.infoUnit();
+
+          const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
+          modalRef.componentInstance.carName = 'Mitsubishi Pajero';
+          modalRef.componentInstance.unitId = this.unit_id;
+          modalRef.componentInstance.tipeDoc = a;
+          if(a=='BPKB'){
+            modalRef.componentInstance.images = this.bpkbDocuments;
+          }else if(a=='STNK'){
+            modalRef.componentInstance.images = this.stnkDocuments;
+          }else if(a=='SURATKUASA'){
+            modalRef.componentInstance.images = this.suratKuasaDocuments;
+          }else if(a=='BASTK'){
+            modalRef.componentInstance.images = this.bastkVendorDocuments;
+          }else{
+            modalRef.componentInstance.images = this.lainnyaDocuments;
+          }
+    }catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Cek status kode dari respons
+          if (error.response && error.response.status === 401) {
+            this.errlog = 'Username atau password salah.';
+          } else {
+            this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+          }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+    }
+    
+    // modalRef.componentInstance.images = [
+    //   'https://cdn.motor1.com/images/mgl/02EE3/s1/4x3/toyota-fortuner-gr-sport-indonesia.webp',
+    //   'https://cdnmedia.insureka.co.id/images/Toyota_Fortuner_2023.width-800.jpg',
+    //   'https://mediaindonesia.gumlet.io/news/2024/09/06/1725624407_f356aec8fa70ed94c237.jpeg?w=376&dpr=2.6',
+    //   'https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/83/2024/09/11/Toyota-Fortuner-4x4-GR-S-3698456571.jpg',
+    //   'https://imgcdnblog.carvaganza.com/wp-content/uploads/2020/06/Toyota-Fortuner-Facelift-2020-9.jpg',
+    //   'https://imgx.gridoto.com/crop/0x0:0x0/700x465/filters:watermark(file/2017/gridoto/img/watermark.png,5,5,60)/photo/2023/08/01/whatsapp-image-2023-08-01-at-01-20230801013700.jpeg'
+    // ];
 }
 
 

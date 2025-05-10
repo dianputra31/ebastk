@@ -93,6 +93,8 @@ export class AppComponent {
       [menu]: menu // Dynamically add the menu key-value pair
     };
 
+
+
   
 
   
@@ -107,7 +109,7 @@ export class AppComponent {
 
     // Scroll ke panel yang sesuai
     const panel = document.getElementById(panels[menu]);
-    console.log("sss:", panels[menu]);
+    console.log("selected scroll panel:", panels[menu]);
     if (panel) {
       console.log("selected panel:", menu);
       panel.scrollIntoView({ behavior: 'smooth' });
@@ -115,6 +117,13 @@ export class AppComponent {
 
   }
   
+
+  
+    onFilterChange(a: string){
+      console.log("HAHAHAHAHA::::::",a);
+    }
+
+
 
     get isLoggedIn(): boolean {  
       return this.authService.isLoggedIn(); // Memeriksa status login  

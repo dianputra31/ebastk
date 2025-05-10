@@ -15,6 +15,32 @@ export interface Brand {
     descriptions: string;
   }
   
+  export interface UnitDocument {
+    id: number;
+    file_type: string;
+    image_url: string;
+  }
+  
+  export interface Mobilization {
+    id: number;
+    status: string;
+    notes: string;
+    mobiliztion_id: string;
+    mobiliztion: DetailMobilization
+  }
+
+  export interface DetailMobilization {
+    id: number;
+    first_published_at: string;
+    go_live_at: string;
+    assignment_number: string;
+    assignment_date: string;
+    unit_location: string;
+    pic: string;
+    notes: string;
+    status: string;
+  }
+  
   export interface VariantModel {
     id: number;
     model_name: string;
@@ -49,6 +75,15 @@ export interface Brand {
     bastk_status: string;
     appraisal_status: string;
     vendor: Vendor;
+    unitdocuments: UnitDocument[];
+    proxy_file: string;
+    chassis_number: string;
+    engine_number: string;
+    fuel: string;
+    engine_grade: string;
+    exterior_grade: string;
+    interior_grade: string;
+    mobilization_units: Mobilization[]
     fotoBpkb: string | null;
     fotoBastk: string | null;
     fotoStnk: string | null;
