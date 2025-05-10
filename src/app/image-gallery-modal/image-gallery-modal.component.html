@@ -1,0 +1,48 @@
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+      <!-- Baris 1: Judul -->
+      <div class="modal-header">
+        <h5 class="modal-title">{{ carName }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="selectedImageIndex = 0">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- Baris 2: Slider Swipe Gambar -->
+      <div class="modal-body text-center">
+        <div class="slider-container">
+          <button class="btn btn-link" (click)="prevImage()" [disabled]="selectedImageIndex === 0">‹</button>
+          <img [src]="images[selectedImageIndex]" class="main-image img-fluid" *ngIf="images.length > 0" />
+          <button class="btn btn-link" (click)="nextImage()" [disabled]="selectedImageIndex === images.length - 1">›</button>
+        </div>
+      </div>
+
+      <div class="px-3">
+        <label class="btn btn-outline-primary btn-sm mb-2">
+            Unggah Foto
+            <input type="file" accept="image/*" hidden (change)="onImageUpload($event)">
+        </label>
+        </div>
+
+      <!-- Baris 3: Thumbnail + Tombol Hapus -->
+      <div class="row px-3 mb-3">
+        <div class="col-3" *ngFor="let img of images; let i = index">
+          <div class="position-relative">
+            <img [src]="img" class="img-thumbnail" (click)="selectedImageIndex = i" />
+            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" (click)="removeImage(i)">
+              &times;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Baris 4: Tombol Tutup -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="selectedImageIndex = 0">Tutup</button>
+      </div>
+
+    </div>
+  </div>
+</div>

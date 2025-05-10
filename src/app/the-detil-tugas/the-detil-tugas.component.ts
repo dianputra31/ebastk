@@ -8,6 +8,7 @@ import { ApiClientService } from '../services/api.client';
 import { AuthService } from '../auth.service';
 import axios from 'axios';
 import { environment } from '../../environments/environment';
+import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
 
 @Component({
   selector: 'app-the-detil-tugas',
@@ -148,5 +149,7 @@ export class TheDetilTugasComponent implements OnInit {
   onChipSelected(index: number) {
     this.expandedPanelIndex = index; // Set index panel yang diperluas
   }
+
+
 
 }

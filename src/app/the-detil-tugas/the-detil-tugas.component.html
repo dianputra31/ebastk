@@ -147,11 +147,11 @@
             </div>
             <div class="column">
                 <label for="tglpembuatan">Tanggal Pembuatan</label>
-                <input type="text" id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" readonly [value]="sampleData?.first_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
+                <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" [value]="sampleData?.first_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
             </div>
             <div class="column">
                 <label for="suratkuasa">No Surat Kuasa</label>
-                <input type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" readonly [value]="sampleData?.last_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
+                <input type="date" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" [value]="sampleData?.last_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
             </div>
             <div class="column"></div>
           </div>
@@ -241,6 +241,16 @@
     
     
     </mat-accordion>
-      
+<app-image-gallery-modal
+  [carName]="'Mitsubishi Pajero'"
+  [images]="[
+    'assets/bpkb1.jpg',
+    'assets/bpkb2.jpg',
+    'assets/bpkb3.jpg',
+    'assets/bpkb4.jpg'
+  ]">
+</app-image-gallery-modal>
+
 </div>
+
 
