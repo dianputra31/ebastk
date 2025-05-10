@@ -113,7 +113,7 @@ export class TheDetilTugasComponent implements OnInit {
     try {
       const page = 1; // Parameter yang ingin dikirim
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
-      const endpoint = `/vendor-detail?vendor_id=${unit_id}`; // Menambahkan parameter ke endpoint
+      const endpoint = `/vendor-detail?vendor_id=${id}`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.getOther<VendorDetailResponse>(endpoint);
       console.log('Data posted:', response);
 
