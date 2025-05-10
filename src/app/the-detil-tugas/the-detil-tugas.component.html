@@ -151,16 +151,17 @@
             </div>
             <div class="column">
                 <label for="suratkuasa">No Surat Kuasa</label>
-                <input type="date" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" [value]="sampleData?.last_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
+                <input  type="date" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" [value]="sampleData?.last_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
             </div>
             <div class="column"></div>
           </div>
 
           <div class="row">
             <div class="column">
+              <!-- [disabled]="!sampleData?.fotoBpkb" -->
               <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoBpkb, 'button-upl-now': !sampleData?.fotoBpkb}" 
-                [disabled]="!sampleData?.fotoBpkb">
+                [ngClass]="{'button-upl-view': sampleData?.fotoBpkb, 'button-upl-now': !sampleData?.fotoBpkb}" (click)="openGallery()"
+                >
                 {{sampleData?.fotoBpkb ? 'Lihat Foto BPKB' : 'Upload Foto BPKB'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
@@ -169,9 +170,10 @@
               </button>
             </div>
             <div class="column">
+              <!-- [disabled]="!sampleData?.fotoStnk" -->
                 <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoStnk, 'button-upl-now': !sampleData?.fotoStnk}" 
-                [disabled]="!sampleData?.fotoStnk">
+                [ngClass]="{'button-upl-view': sampleData?.fotoStnk, 'button-upl-now': !sampleData?.fotoStnk}" (click)="openGallery()"
+                >
                 {{sampleData?.fotoStnk ? 'Lihat Foto STNK' : 'Upload Foto STNK'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
@@ -180,9 +182,10 @@
               </button>
             </div>
             <div class="column">
+              <!-- [disabled]="!sampleData?.fotoSuratKuasa"  -->
                 <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoSuratKuasa, 'button-upl-now': !sampleData?.fotoSuratKuasa}" 
-                [disabled]="!sampleData?.fotoSuratKuasa">
+                [ngClass]="{'button-upl-view': sampleData?.fotoSuratKuasa, 'button-upl-now': !sampleData?.fotoSuratKuasa}" (click)="openGallery()"
+                >
                 {{sampleData?.fotoSuratKuasa ? 'Lihat Foto Surat Kuasa' : 'Upload Foto Surat Kuasa'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
@@ -191,9 +194,10 @@
               </button>
             </div>
             <div class="column">
+              <!-- [disabled]="!sampleData?.fotoBastk" -->
                 <button 
-                [ngClass]="{'button-upl-view': sampleData?.fotoBastk, 'button-upl-now': !sampleData?.fotoBastk}" 
-                [disabled]="!sampleData?.fotoBastk">
+                [ngClass]="{'button-upl-view': sampleData?.fotoBastk, 'button-upl-now': !sampleData?.fotoBastk}" (click)="openGallery()"
+                >
                 {{sampleData?.fotoBastk ? 'Lihat Foto BASTK Vendor' : 'Upload Foto BASTK Vendor'}}
                 <span 
                   style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
@@ -241,7 +245,12 @@
     
     
     </mat-accordion>
-<app-image-gallery-modal
+
+
+</div>
+
+
+<!-- <app-image-gallery-modal
   [carName]="'Mitsubishi Pajero'"
   [images]="[
     'assets/bpkb1.jpg',
@@ -249,8 +258,4 @@
     'assets/bpkb3.jpg',
     'assets/bpkb4.jpg'
   ]">
-</app-image-gallery-modal>
-
-</div>
-
-
+</app-image-gallery-modal> -->

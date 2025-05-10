@@ -47,6 +47,7 @@ import { TheDetailHistoryInfoComponent } from './the-detail-history-info/the-det
 import { TheDetailHistoryFooterComponent } from './detail-history-footer/the-detail-history-footer.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ImageGalleryModalComponent } from './image-gallery-modal/image-gallery-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { ImageGalleryModalComponent } from './image-gallery-modal/image-gallery-
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    NgbModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

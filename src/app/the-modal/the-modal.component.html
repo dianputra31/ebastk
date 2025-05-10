@@ -1,15 +1,15 @@
 <div class="modal" *ngIf="isOpen">
-    <div class="modal-content">
-      <div class="modal-header" style="text-align: center;">
+    <div class="modal-contento">
+      <div class="modal-headero" style="text-align: center;">
         <div align="center">
             <img src="../../assets/icons/alert-circle.svg" alt="Warning" class="modal-icon">
         </div>
       </div>
-      <div class="modal-body">
+      <div class="modal-bodyo">
         <div class="msg1">{{ message }}</div>
         <div class="msg2">{{ message2 }}</div>
       </div>
-      <div class="modal-footer" style="margin-top:20px;">
+      <div class="modal-footero" style="margin-top:20px;">
         <button (click)="closeModal()" class="btn-cancel">Kembali</button>
         <button (click)="onConfirm()" class="btn-confirm">Ya, lanjutkan</button>
     </div>

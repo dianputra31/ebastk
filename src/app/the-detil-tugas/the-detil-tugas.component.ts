@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-the-detil-tugas',
@@ -57,7 +58,7 @@ export class TheDetilTugasComponent implements OnInit {
     );
   }
   
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.infoUnit();
@@ -150,6 +151,18 @@ export class TheDetilTugasComponent implements OnInit {
     this.expandedPanelIndex = index; // Set index panel yang diperluas
   }
 
+  openGallery() {
+  const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
+  modalRef.componentInstance.carName = 'Mitsubishi Pajero';
+  modalRef.componentInstance.images = [
+    'https://cdn.motor1.com/images/mgl/02EE3/s1/4x3/toyota-fortuner-gr-sport-indonesia.webp',
+    'https://cdnmedia.insureka.co.id/images/Toyota_Fortuner_2023.width-800.jpg',
+    'https://mediaindonesia.gumlet.io/news/2024/09/06/1725624407_f356aec8fa70ed94c237.jpeg?w=376&dpr=2.6',
+    'https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/83/2024/09/11/Toyota-Fortuner-4x4-GR-S-3698456571.jpg',
+    'https://imgcdnblog.carvaganza.com/wp-content/uploads/2020/06/Toyota-Fortuner-Facelift-2020-9.jpg',
+    'https://imgx.gridoto.com/crop/0x0:0x0/700x465/filters:watermark(file/2017/gridoto/img/watermark.png,5,5,60)/photo/2023/08/01/whatsapp-image-2023-08-01-at-01-20230801013700.jpeg'
+  ];
+}
 
 
 }

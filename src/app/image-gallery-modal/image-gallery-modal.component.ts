@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-image-gallery-modal',
@@ -8,7 +9,15 @@ import { Component, Input } from '@angular/core';
 export class ImageGalleryModalComponent {
   @Input() carName: string = 'Mitsubishi Pajero';
   @Input() images: string[] = [];
+  isModalOpen = true;
 
+  constructor(public activeModal: NgbActiveModal) {}
+
+
+  TutupModal() {
+    this.activeModal.close();
+  }
+  
   selectedImageIndex = 0;
 
   removeImage(index: number) {
@@ -41,4 +50,6 @@ export class ImageGalleryModalComponent {
     reader.readAsDataURL(input.files[0]);
   }
 }
+
+
 }
