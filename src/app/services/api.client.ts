@@ -142,4 +142,31 @@ export class ApiClientService {
     }
   }
 
+  async downloadPdf(endpoint: string, filename: string): Promise<void> {
+    try {
+      const headers = {
+        'accept': '*/*',
+        'Authorization': 'Bearer ' + this.getToken()
+      };
+
+      const response = await axios.get(`${this.baseUrl}${endpoint}`, {
+        headers,
+        responseType: 'blob'
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      throw error;
+    }
+  }
+
 }

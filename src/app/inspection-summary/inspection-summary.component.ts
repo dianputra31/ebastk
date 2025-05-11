@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiClientService } from '../services/api.client';
 
 @Component({
   selector: 'app-inspection-summary',
@@ -11,7 +12,7 @@ export class InspectionSummaryComponent implements OnInit {
   HiEmail: string = 'Email';
   sekarang: string = '';
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,  private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
     
@@ -46,6 +47,17 @@ export class InspectionSummaryComponent implements OnInit {
 
   backToTugasPage(){
     this.router.navigate(['/tugas']);
+  }
+
+  async downloadDokUnit(a:string){
+    const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
+    try {
+      const endpoint = `/document/?unit_id=${unit_id}`; // Endpoint API
+      const response = await this.apiClient.downloadPdf(endpoint, 'document_bastk.pdf');
+      return true;
+    }catch(error){
+      return false;
+    }
   }
 
 }
