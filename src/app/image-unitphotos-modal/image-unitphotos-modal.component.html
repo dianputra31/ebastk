@@ -1,0 +1,56 @@
+<div  class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+      <!-- Baris 1: Judul -->
+      <div class="modal-header" style="height: 45px;margin-top:10px;border-bottom: 0px;padding-bottom:0px;margin-bottom:0px;">
+          <div class="col-lg-11">
+            <h3 class="modal-title">{{ carName }}</h3>
+            <h4 class="modal-title" style="color:rgb(169, 5, 5);">{{ labelDoc }}</h4>
+          </div>
+          <div class="col-lg-1">
+          </div>
+      </div>
+
+      <!-- Baris 2: Slider Swipe Gambar -->
+      <div class="modal-body text-center">
+        <div class="slider-container">
+          <button class="btn btn-link" (click)="prevImage()" [disabled]="selectedImageIndex === 0" style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">‹</button>
+          <img [src]="displayedImages[selectedImageIndex]" class="main-image img-fluid" *ngIf="displayedImages.length > 0"  style="max-width: 90%;"/>
+          <button class="btn btn-link" (click)="nextImage()" [disabled]="selectedImageIndex === displayedImages.length - 1"  style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">›</button>
+        </div>
+      </div>
+
+
+
+      <!-- Baris 3: Thumbnail + Tombol Hapus -->
+      <div class="row px-3 mb-3">
+        <div class="col-3" *ngFor="let img of displayedImages; let i = index">
+          <div class="position-relative" style="margin:0px;padding:3px;cursor: pointer;">
+            <img [src]="img" class="img-thumbnail" (click)="selectedImageIndex = i"  style="height: 120px;width:95%;"/>
+            <img src="./../../assets/icons/delphot.png" class="btn btn-danger btn-sm position-absolute top-2 end-2" style="background-color: transparent;border:0px;"  (click)="removeImage(i)">
+            <!-- <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" style="background-image: src('./../../assets/icons/delphot.png');" (click)="removeImage(i)"> -->
+              <!-- &times; -->
+            <!-- </button> -->
+          </div>
+        </div>
+       <div class="col-3">
+        <div class="block" >
+          <div class="col-sm-12" style="align-content: center;text-align: center;">
+            <img src="./../../assets/icons/upload.svg"  style="text-align: center;margin-top:40px;padding-left:60px;">
+            <label class="labelblock"  style="cursor: pointer;">Unggah Foto Lainnya<input type="file" accept="image/*" hidden (change)="onImageUpload($event)"></label>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Baris 4: Tombol Tutup -->
+      <div class="modal-footer" style="border:0px;margin-top:0px;padding-top:0px;">
+         <button class="flex items-center space-x-1 bg-red-600 text-white px-4 py-2 rounded-full" style="width:17%;" (click)="TutupModal()" data-dismiss="modal">
+            <span style="font-family:'NunitoSans';font-weight:bold;text-align: center;padding-left: 20px;">Tutup</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

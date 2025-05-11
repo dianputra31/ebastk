@@ -104,6 +104,31 @@
         margin-right: 20px; /* Jarak antar radio button */
     }
 
+.border-blau-400 {
+    --tw-border-opacity: 1;
+    border-radius: 10px;
+    border-color: #567CED;
+}
+
+.labelnya{
+        font-family: 'Nunito Sans';
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 28px;
+        letter-spacing: 0px;
+        color:#312E2E;
+
+}
+
+.gbrFile{
+    height: 200px;
+    border-radius: 6px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+}
+
 }
 
 

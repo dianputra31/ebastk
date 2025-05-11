@@ -1,0 +1,29 @@
+.main-image {
+  max-height: 320px;
+  margin: 0 5px;
+  border: transparent;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #312E2E;
+}
+
+.block {
+   width: 160px;
+   height: 120px;
+   /* dashed border */
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23567CEDFF' stroke-width='3' stroke-dasharray='6%2c 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+
+.labelblock {
+  font-family: 'Nunito Sans';
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #746E6E;
+}

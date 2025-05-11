@@ -1,0 +1,13 @@
+.div-container {
+  width: 300px;
+  height: 200px;
+  overflow: hidden; /* agar bagian gambar yang keluar terpotong */
+}
+
+.div-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* atau 'contain' sesuai kebutuhan */
+  display: block;
+  border-radius: 5px;
+}

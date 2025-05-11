@@ -39,7 +39,7 @@ export class TheDetilTugasComponent implements OnInit {
   suratKuasaDocuments: UnitDocument[] = [];
   bastkVendorDocuments: UnitDocument[] = [];
   lainnyaDocuments: UnitDocument[] = [];
-
+  display_name: string = '';
   
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -96,6 +96,7 @@ export class TheDetilTugasComponent implements OnInit {
         console.log('Sample Data:', this.sampleData);
         console.log('Unit Doc:', this.sampleData.unitdocuments);
         this.unitdocuments = this.sampleData.unitdocuments;
+        this.display_name = this.sampleData.display_name;
         // this.bpkbDocuments: UnitDocument[] = this.unitdocuments.filter((document: UnitDocument) => document.file_type === 'BPKB');
         this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
@@ -183,7 +184,7 @@ export class TheDetilTugasComponent implements OnInit {
       this.infoUnit();
 
           const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
-          modalRef.componentInstance.carName = 'Mitsubishi Pajero';
+          modalRef.componentInstance.carName = this.display_name;
           modalRef.componentInstance.unitId = this.unit_id;
           modalRef.componentInstance.tipeDoc = a;
           if(a=='BPKB'){

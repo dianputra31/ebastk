@@ -48,6 +48,8 @@ import { TheDetailHistoryFooterComponent } from './detail-history-footer/the-det
 import { MatIconModule } from '@angular/material/icon';
 import { ImageGalleryModalComponent } from './image-gallery-modal/image-gallery-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageUnitPhotosModalComponent } from './image-unitphotos-modal/image-unitphotos-modal.component';
+import { ImageUnitPhotosUploaderComponent } from './image-unitphotos-uploader/image-unitphotos-uploader.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TheDetailHistoryPhotosComponent,
     TheDetailHistoryInfoComponent,
     TheDetailHistoryFooterComponent,
-    ImageGalleryModalComponent
+    ImageGalleryModalComponent,
+    ImageUnitPhotosModalComponent,
+    ImageUnitPhotosUploaderComponent
   ],
   imports: [
     BrowserModule,

@@ -203,14 +203,15 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
     }
   }
 
+
   // Tambahkan kategori manual "Photos"
   groups['Photos'] = {
     item_category_chipname: "Unit Photos",
     item_category_chiplabel: "D",
     item_category_url: "/unit-photos",
     item_category_icon: "../../assets/icons/step4.png",
-    item_category_chipclass: groups['Engine']?.item_posizione === 'Done' ? 'saiki' : 'notyet',
-    item_category_buttonclass: groups['Engine']?.item_posizione === 'Done' ? 'btn-saiki' : 'btn-notyet',
+    item_category_chipclass: groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done' ? 'saiki' : 'notyet',
+    item_category_buttonclass: groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done' ? 'btn-saiki' : 'btn-notyet',
     item_category_buttonlabel: "Start Inspection >",
     item_posizione: "Nope"
   };
