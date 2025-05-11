@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-menu-of-photos-inspection',
@@ -6,12 +6,12 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./menu-of-photos-inspection.component.scss']
 })
 export class MenuOfPhotosInspectionComponent implements OnInit {
-
+  @Output() menuSelected = new EventEmitter<string>();
+  @Input() activeChipIndex: number = 0;
 
   @Output() chipSelected = new EventEmitter<number>();
 
 
-  activeChipIndex: number = 0; // Indeks chip yang aktif  
   isDropdownOpen: boolean = false;  
   isCategoryDropdownOpen: boolean = false;  
   isSortDropdownOpen: boolean = false;  
@@ -21,9 +21,12 @@ export class MenuOfPhotosInspectionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   setActiveChip(index: number) {  
     this.activeChipIndex = index; 
-    this.chipSelected.emit(index);
-  } 
+    const menuItems = ['Bagian Luar', 'Bagian Dalam', 'Bagian Mesin', 'Foto Minus', 'Foto Sistem'];
+    this.menuSelected.emit(menuItems[index]);
+  }  
+
 
 }

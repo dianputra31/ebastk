@@ -3,106 +3,127 @@
     <div class="anakan-label">{{sampleData?.unit_location}} &#x25CF; {{sampleData?.first_published_at | date:'dd MMMM yyyy'}}</div>
 
     <div class="container mx-auto">
-        <h2 class="text-red-600 font-bold text-lg mb-4">
-        Foto Bagian Luar (Exterior)
-        </h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <img alt="Foto Depan" class="w-full h-full object-cover" height="200" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Mitsubishi_V98_Pajero_Long_Body_Super_Exceed_3200_DI-D.JPG" width="200"/>
+        <div id="Bagian Luar">
+            <h2 class="text-red-600 font-bold text-lg mb-4">Foto Bagian Luar (Exterior)</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                    <img alt="Foto Depan" class="w-full h-full object-cover" height="200" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Mitsubishi_V98_Pajero_Long_Body_Super_Exceed_3200_DI-D.JPG" width="200"/>
+                </div>
+                <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                    <app-image-uploader></app-image-uploader>
+                </div>
+                <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                    <app-image-uploader></app-image-uploader>
+                </div>
+                <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                    <app-image-uploader></app-image-uploader>
+                </div>
+                <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                    <app-image-uploader></app-image-uploader>
+                </div>
+                <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                    <app-image-uploader></app-image-uploader>
+                </div>
+            </div>
         </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
+
+        <div id="Bagian Dalam">
+                <h2 class="text-red-600 font-bold text-lg mb-4">
+                Foto Bagian Dalam (Interior &amp; Bagasi)
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                </div>
         </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
+
+        <div id="Bagian Mesin">
+                <h2 class="text-red-600 font-bold text-lg mb-4">Foto Bagian Mesin</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                </div>
         </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
+        
+        <div id="Foto Minus">
+                <h2 class="text-red-600 font-bold text-lg mb-4">Foto Kerusakan / Kekurangan Unit (Minus)</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                </div>
         </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
+
+        <div id="Foto Sistem">
+                <h2 class="text-red-600 font-bold text-lg mb-4">Foto Sistem</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                    <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
+                        <app-image-uploader></app-image-uploader>
+                    </div>
+                </div>
         </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        </div>
-        <h2 class="text-red-600 font-bold text-lg mb-4">
-        Foto Bagian Dalam (Interior &amp; Bagasi)
-        </h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        </div>
-        <h2 class="text-red-600 font-bold text-lg mb-4">
-        Foto Bagian Mesin
-        </h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        </div>
-        <h2 class="text-red-600 font-bold text-lg mb-4">
-        Foto Kerusakan / Kekurangan Unit (Minus)
-        </h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full blau">
-        <app-image-uploader></app-image-uploader>
-        </div>
-        <div class="border-2 border-dashed border-gray-400 p-2 flex items-center justify-center h-full klawu">
-        <img src="../../assets/icons/tambah.svg" alt="Upload" class="w-12 h-12"/>
-        <div class="abu">
-            Tambahkan Slot
-        </div>
-        </div>
-        </div>
+
     </div>
 </div>

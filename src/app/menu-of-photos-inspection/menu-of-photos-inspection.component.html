@@ -6,8 +6,9 @@
         <div class="chip-container">  
             <div class="chip" [class.active]="activeChipIndex === 0" (click)="setActiveChip(0)">Bagian Luar</div>  
             <div class="chip" [class.active]="activeChipIndex === 1" (click)="setActiveChip(1)">Bagian Dalam</div>  
-            <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2)">Mesin</div>  
+            <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2)">Bagian Mesin</div>  
             <div class="chip" [class.active]="activeChipIndex === 3" (click)="setActiveChip(3)">Foto Minus</div>  
+            <div class="chip" [class.active]="activeChipIndex === 4" (click)="setActiveChip(4)">Foto Sistem</div>  
             <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
           </div>
           
@@ -19,3 +20,4 @@
   
   
   </div> 
+  

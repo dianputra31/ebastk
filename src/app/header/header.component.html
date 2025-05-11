@@ -74,7 +74,7 @@
         </ng-container>
       
         <ng-container *ngSwitchCase="'/unit-photos'">
-          <app-menu-of-photos-inspection></app-menu-of-photos-inspection>
+          <app-menu-of-photos-inspection  (menuSelected)="onMenuSelected($event)"></app-menu-of-photos-inspection>
         </ng-container>
       
         <ng-container *ngSwitchCase="'/riwayat'">

@@ -90,6 +90,11 @@ export class AppComponent {
       'rw-interior': 'rw-interior',
       'rw-engine': 'rw-engine',
       'rw-photos': 'rw-photos',
+      'Bagian Luar': 'ft-exterior',
+      'Bagian Dalam': 'ft-interior',
+      'Bagian Mesin': 'ft-mesin',
+      'Foto Minus': 'ft-minus',
+      'Foto Sitem': 'ft-sistem',
       [menu]: menu // Dynamically add the menu key-value pair
     };
 
