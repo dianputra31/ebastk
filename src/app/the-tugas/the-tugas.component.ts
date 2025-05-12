@@ -144,7 +144,7 @@ export class TheTugasComponent implements OnInit {
   }
   
   getStatusClass(status: string): string {  
-    switch (status) {  
+    switch (status.toUpperCase()) {  
       case 'NEW':  
         return 'status-new';  
       case 'REVIEW':  

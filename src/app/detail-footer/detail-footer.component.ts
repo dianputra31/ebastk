@@ -18,12 +18,14 @@ export class DetailFooterComponent implements OnInit {
   isModalOpen: boolean = false;
   errlog:string = '';
   payload: any = null;
+  unit_id: any = '';
 
   constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {  
       const unit_id = this.router.url.split('/').pop();
+      this.unit_id = unit_id;
       console.log(unit_id)
 
           if (event instanceof NavigationEnd) {  
@@ -144,7 +146,12 @@ export class DetailFooterComponent implements OnInit {
         }
       });
     }else if(this.stepNow==='unit-photos'){
-      this.router.navigate(['/inspection-summary'+'/'+unit_id]);
+        this.saveStep(3).then(success => {
+        if (!success) {
+          // this.router.navigate(['/unit-photos'+'/'+unit_id]);
+          this.router.navigate(['/inspection-summary'+'/'+unit_id]);
+        }
+      });
     }else if(this.stepNow==='detil-tugas'){
       this.router.navigate(['/inspeksi-unit'+'/'+unit_id]);
     }
@@ -159,6 +166,8 @@ export class DetailFooterComponent implements OnInit {
       this.payload = localStorage.getItem('interiorPayload');
     }else if(a == 3){
       this.payload = localStorage.getItem('enginePayload');
+    }else if(a == 4){
+      this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
     }
 
     this.errlog = "";

@@ -9,14 +9,17 @@
             <h3>{{ product.display_name }}</h3>  
             <div class="status-container" *ngIf="fromDashboard==false">  
               <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
-              <span class="status" [ngClass]="getStatusClass(product.display_name)">{{ product.unit_year }}</span>    
+              <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ product.bastk_status.toUpperCase() }}</span>    
             </div>  
           </div>   
-        <!-- Auction Location and Date -->  
-        <div class="auction-info">
-        <img src="../../assets/icons/location.svg" alt="Logo"> 
-          {{ product.location_auction }} - {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB  
-        </div>  
+        <!-- Auction Location and Date --> 
+        <div class="container">
+          <div class="auction-info" class="row">
+            <div class="col-sm-1 p-0" style="width: 30px;"><img src="../../assets/icons/location.svg" alt="Logo"></div>
+            <div class="col-sm-11 p-0">{{ product.unit_location }} - {{ product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy' }}<!--, HH:mm--></div>
+          </div> 
+        </div>
+ 
         <!-- Key-Value pairs for Kategori and Nopol -->  
         <div class="key-value">  
           <div class="key-value-item">  

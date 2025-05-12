@@ -3,7 +3,7 @@
 </div>
 
 <ng-template #mainApp>
-  <div class="app-container" *ngIf="isLogin">
+  <div class="container app-container" *ngIf="isLogin">
     <div class="the-header" >      
       <app-header (menuChange)="onMenuChange($event)" (filterChange)="onFilterChange($event)" [activeChipIndex]="activeChipIndex"></app-header>      
     </div>      

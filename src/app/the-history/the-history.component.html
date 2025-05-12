@@ -13,11 +13,13 @@
               <span class="status" [ngClass]="getStatusClass(product.Status)">{{ product.Status }}</span>    
             </div>  
           </div>   
-        <!-- Auction Location and Date -->  
-        <div class="auction-info">
-        <img src="../../assets/icons/location.svg" alt="Logo"> 
-          {{ product.Auction_Location }} - {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB  
-        </div>  
+        <!-- Auction Location and Date -->
+        <div class="container">
+          <div class="auction-info" class="row">
+            <div class="col-sm-1 p-0" style="width: 30px;"><img src="../../assets/icons/location.svg" alt="Logo"></div>
+            <div class="col-sm-11 p-0">{{ product.Auction_Location }} - {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</div>
+          </div> 
+        </div>
         <!-- Key-Value pairs for Kategori and Nopol -->  
         <div class="key-value">  
           <div class="key-value-item">  

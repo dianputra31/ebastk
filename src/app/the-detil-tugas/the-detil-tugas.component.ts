@@ -106,9 +106,10 @@ export class TheDetilTugasComponent implements OnInit {
         console.log('bpkbDocuments:', this.bpkbDocuments);
 
         this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
-        const tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.first_published_at;
+        const tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
         this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
         console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
+        console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
         this.infoVendor(response.vendor.id);
       }else{
         console.log('here failed')
