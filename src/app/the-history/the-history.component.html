@@ -1,61 +1,61 @@
-<div class="product-container">  
-    <div class="product-card  text-focus-in" *ngFor="let product of sampleData?.data?.products" 
-    (click)="GoesToDetailRiwayat(product.id)">  
-      <div class="product-image" [ngStyle]="{'background-image': product.img ? 'url(' + product.img + ')' : '../../assets/icons/noimages.png'}">  
-        <div *ngIf="!product.img" class="placeholder"></div>  
+<div class="product-container" @productCardStagger>  
+    <div class="product-card" *ngFor="let product of sampleData?.results"  @productCardAnimation (click)="GoesToDetailRiwayat(product.id)">  
+      <div class="product-image" [ngStyle]="{'background-image': getThumbnailUrl(product.thumbnail_url) ? 'url(' + getThumbnailUrl(product.thumbnail_url) + ')' : '../../assets/icons/noimages.png'}">  
+        <div *ngIf="!product.thumbnail_url" class="placeholder"></div>  
       </div>  
       <div class="product-details">  
         <!-- Product Header -->  
         <div class="product-header">  
-            <h3>{{ product.Model }}</h3>  
+            <h3>{{ product.display_name }}</h3>  
             <div class="status-container" *ngIf="fromDashboard==false">  
               <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
-              <span class="status" [ngClass]="getStatusClass(product.Status)">{{ product.Status }}</span>    
+              <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ product.bastk_status.toUpperCase() }}</span>    
             </div>  
           </div>   
-        <!-- Auction Location and Date -->
+        <!-- Auction Location and Date --> 
         <div class="container">
           <div class="auction-info" class="row">
             <div class="col-sm-1 p-0" style="width: 30px;"><img src="../../assets/icons/location.svg" alt="Logo"></div>
-            <div class="col-sm-11 p-0">{{ product.Auction_Location }} - {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</div>
+            <div class="col-sm-11 p-0">{{ product.unit_location }} - {{ product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy' }}<!--, HH:mm--></div>
           </div> 
         </div>
+ 
         <!-- Key-Value pairs for Kategori and Nopol -->  
         <div class="key-value">  
           <div class="key-value-item">  
             <span class="key">Kategori</span>  
-            <span class="value">{{ product.Category }}</span>  
+            <span class="value">{{ product.unit_type }}</span>  
           </div>  
           <div class="key-value-item">  
             <span class="key">Nopol</span>  
-            <span class="value">{{ product.License_Plate }}</span>  
+            <span class="value">{{ product.police_number }}</span>  
           </div>  
           <div class="key-value-item">  
             <span class="key">Merek</span>  
-            <span class="value">{{ product.Brand }}</span>  
+            <span class="value">{{ product.brand.brand_name }}</span>  
           </div>  
           <div class="key-value-item">  
             <span class="key">Type</span>  
-            <span class="value">{{ product.Model }}</span>  
+            <span class="value">{{ product.unit_type }}</span>  
           </div>  
         </div>  
         <!-- Key-Value pairs for Warna, Transmisi, etc. -->  
         <div class="key-value">  
           <div class="key-value-item">  
             <span class="key">Warna</span>  
-            <span class="value">{{ product.Color }}</span>  
+            <span class="value">{{ product.color.color_name }}</span>  
           </div>  
           <div class="key-value-item">  
             <span class="key">Transmisi</span>  
-            <span class="value">{{ product.Transmission }}</span>  
+            <span class="value">{{ product.transmission }}</span>  
           </div>  
           <div class="key-value-item">  
             <span class="key">CC</span>  
-            <span class="value">{{ product.Engine_Capacity }}</span>  
+            <span class="value">{{ product.odo_meter }}</span>  
           </div>  
           <div class="key-value-item">  
             <span class="key">Tahun</span>  
-            <span class="value">{{ product.Year }}</span>  
+            <span class="value">{{ product.unit_year }}</span>  
           </div>  
         </div>  
       </div>  

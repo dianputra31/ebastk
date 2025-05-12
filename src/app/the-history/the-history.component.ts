@@ -1,10 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';  
+import { Component, HostListener, Input, OnInit } from '@angular/core';  
 import { HttpClient } from '@angular/common/http';  
 import { catchError } from 'rxjs/operators';  
 import { of } from 'rxjs';  
 import { SampleData } from '../../assets/models/list-task.model-sample'; // Sesuaikan dengan path yang benar  
 import { Router } from '@angular/router';
 import { trigger, style, transition, animate, stagger, query, animateChild } from '@angular/animations';
+import { AuthService } from '../auth.service';
+import { ApiClientService } from '../services/api.client';
+import { environment } from '../../environments/environment';
+import axios from 'axios';
+import { NewApiResponse, Result  } from '../../assets/models/list-task.model'; // Sesuaikan dengan path yang benar  
 
 @Component({
   selector: 'app-the-history',
@@ -28,19 +33,26 @@ import { trigger, style, transition, animate, stagger, query, animateChild } fro
 })
 export class TheHistoryComponent implements OnInit {
 
-sampleData: SampleData | null = null;  
+// sampleData: SampleData | null = null;  
 currentDate: Date;
 @Input() fromDashboard:any;
+errlog:string = '';
+sampleData: NewApiResponse = { total_items: 0, total_pages: 0, current_page: 0, results: [] };
+isButtonDisabled: boolean = false;
+isLoading: boolean = false;
+currentPage: number = 1;
 
 // constructor() {} 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) {
     this.currentDate = new Date();
     this.fromDashboard = false;
   } 
 
 
   ngOnInit(): void {
-    this.readJsonFile();  
+    // this.readJsonFile();
+    this.listTugas(this.currentPage);
+
   }
 
   readJsonFile() {  
@@ -52,7 +64,7 @@ currentDate: Date;
         })  
       )  
       .subscribe(data => {  
-        this.sampleData = data;  
+        // this.sampleData = data;  
         console.log('Sample Data:', this.sampleData);  
       });  
   }
@@ -70,11 +82,63 @@ currentDate: Date;
       default:  
         return '';  
     }  
-  }  
+  }
+
+  
+  async listTugas(page: number) {
+  
+    // const unitData = {
+    //   page: '1'
+    // };
+    this.errlog = "";
+    try {
+      // const page = 1; // Parameter yang ingin dikirim
+      const page_size = 60;
+      const bastk_status = 'submit';
+      const endpoint = `/units/?page=${page}&page_size=${page_size}&bastk_status=${bastk_status}`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.get<NewApiResponse>(endpoint);
+      console.log('Data posted:', response);
+
+      // Jika login berhasil, simpan data ke localStorage
+      if (response && response.results) {
+        if (page === 1) {
+          this.sampleData = response;  
+        } else {
+          this.sampleData.results = this.sampleData.results.concat(response.results);
+        }
+
+        // this.sampleData = response;  
+        console.log('Sample Data:', this.sampleData);
+      }else{
+        console.log('here failed')
+        this.errlog = 'Username atau password salah';
+      }
+
+    } catch (error) {
+      this.isButtonDisabled = false;
+      // this.authService.logout();
+      if (axios.isAxiosError(error)) {
+        // Cek status kode dari respons
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+      this.isLoading = false;
+    }
+  }
 
 
   GoesToDetailRiwayat(id: number){
     this.router.navigate(['/detil-riwayat/' + id]);
+  }
+
+  getThumbnailUrl(thumbnail: string): string {
+    return thumbnail ? `${environment.mediaUrl}${thumbnail}` : '../../assets/icons/noimages.png';
   }
 
 }
