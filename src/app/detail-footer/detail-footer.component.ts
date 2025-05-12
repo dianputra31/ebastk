@@ -146,7 +146,7 @@ export class DetailFooterComponent implements OnInit {
         }
       });
     }else if(this.stepNow==='unit-photos'){
-        this.saveStep(3).then(success => {
+        this.saveStep(4).then(success => {
         if (!success) {
           // this.router.navigate(['/unit-photos'+'/'+unit_id]);
           this.router.navigate(['/inspection-summary'+'/'+unit_id]);
@@ -167,6 +167,8 @@ export class DetailFooterComponent implements OnInit {
     }else if(a == 3){
       this.payload = localStorage.getItem('enginePayload');
     }else if(a == 4){
+      const unit_id = this.router.url.split('/').pop();
+      this.unit_id = unit_id;
       this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
     }
 
