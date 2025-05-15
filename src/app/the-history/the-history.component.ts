@@ -77,12 +77,16 @@ currentPage: number = 1;
         return 'status-review';  
       case 'REVISION':  
         return 'status-revision';  
+      case 'submit':  
+        return 'status-done';  
       case 'DRAFT':  
         return 'status-draft';  
       default:  
         return '';  
     }  
   }
+  
+
 
   
   async listTugas(page: number) {
