@@ -169,7 +169,9 @@ export class DetailFooterComponent implements OnInit {
     }else if(a == 4){
       const unit_id = this.router.url.split('/').pop();
       this.unit_id = unit_id;
-      this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
+      this.payload = localStorage.getItem('enginePayload');
+      this.payload.bastk_status = 'submit';
+      // this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
     }
 
     this.errlog = "";

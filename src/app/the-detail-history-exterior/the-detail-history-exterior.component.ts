@@ -12,6 +12,7 @@ export class TheDetailHistoryExteriorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("EXTERIOR::::",this.sampleData);
   }
 
 }
