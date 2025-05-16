@@ -92,15 +92,31 @@ export class TheTugasComponent implements OnInit {
       console.log('Data posted:', response);
 
       // Jika login berhasil, simpan data ke localStorage
-      if (response && response.results) {
-        if (page === 1) {
-          this.sampleData = response;  
-        } else {
-          this.sampleData.results = this.sampleData.results.concat(response.results);
-        }
+      // if (response && response.results) {
+      //   if (page === 1) {
+      //     this.sampleData = response;  
+      //   } else {
+      //     this.sampleData.results = this.sampleData.results.concat(response.results);
+      //   }
 
-        // this.sampleData = response;  
-        console.log('Sample Data:', this.sampleData);
+      //   // this.sampleData = response;  
+      //   console.log('Sample Data:', this.sampleData);
+
+        if (response && response.results) {
+
+        const filteredResults = response.results.filter(result =>
+          Array.isArray(result.mobilization_units) && result.mobilization_units.length > 0
+        );
+        
+        if (page === 1) {
+          this.sampleData = {
+      ...response,
+      results: filteredResults
+    };
+        } else {
+          this.sampleData.results = this.sampleData.results.concat(filteredResults);
+        }
+        
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';

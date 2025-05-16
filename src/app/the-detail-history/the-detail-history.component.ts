@@ -10,6 +10,7 @@ import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NoahService } from '../noah.service';
 
 @Component({
   selector: 'app-the-detail-history',
@@ -17,30 +18,32 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./the-detail-history.component.scss']
 })
 export class TheDetailHistoryComponent implements OnInit {
-  @Input() stepHistory: any;
-  expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
-  @Output() panelChange = new EventEmitter<string>();
-  errlog:string = '';
-  sampleData: UnitDetailResponse | null = null;
-  sampleDataVendor: VendorDetailResponse | null = null;
-  currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
-  @Input() fromDashboard:any;
-  isButtonDisabled: boolean = false;
-  isLoading: boolean = false;
-  username: string = '';
-  password: string = '';
-  pic: string = '';
-  tgl_mobilisasi: string = '';
-  unit_id: any = '';
-  unitdocuments: UnitDocument[] = [];
-  bpkbDocuments: UnitDocument[] = [];
-  stnkDocuments: UnitDocument[] = [];
-  suratKuasaDocuments: UnitDocument[] = [];
-  bastkVendorDocuments: UnitDocument[] = [];
-  lainnyaDocuments: UnitDocument[] = [];
-  display_name: string = '';
+@Input() stepHistory: any;
+expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
+@Output() panelChange = new EventEmitter<string>();
+errlog:string = '';
+sampleData: UnitDetailResponse | null = null;
+sampleDataVendor: VendorDetailResponse | null = null;
+currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
+@Input() fromDashboard:any;
+isButtonDisabled: boolean = false;
+isLoading: boolean = false;
+username: string = '';
+password: string = '';
+pic: string = '';
+tgl_mobilisasi: string = '';
+unit_id: any = '';
+unitdocuments: UnitDocument[] = [];
+bpkbDocuments: UnitDocument[] = [];
+stnkDocuments: UnitDocument[] = [];
+suratKuasaDocuments: UnitDocument[] = [];
+bastkVendorDocuments: UnitDocument[] = [];
+lainnyaDocuments: UnitDocument[] = [];
+display_name: string = '';
+@Output() noah = new EventEmitter<string>();
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
+
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal, private noahService: NoahService) { }
 
   ngOnInit(): void {
     this.infoUnit();
@@ -74,6 +77,15 @@ export class TheDetailHistoryComponent implements OnInit {
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
         console.log('bpkbDocuments:', this.bpkbDocuments);
+
+        /** NOAH HEADER */
+        this.noahService.emitNoah(this.display_name);
+        this.noahService.emitNoahLoc(this.sampleData.unit_location);
+        this.noahService.emitNoahDate(this.sampleData.mobilization_units[0].mobiliztion.assignment_date);
+        this.noahService.emitDoneBy(this.sampleData.mobilization_units[0].mobiliztion.pic);
+        this.noahService.emitDoneDate(this.sampleData.mobilization_units[0].mobiliztion.assignment_date);
+
+        // alert(this.sampleData.display_name);
 
         this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
         const tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;

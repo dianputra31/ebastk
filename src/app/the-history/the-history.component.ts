@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';  
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';  
 import { HttpClient } from '@angular/common/http';  
 import { catchError } from 'rxjs/operators';  
 import { of } from 'rxjs';  
@@ -10,6 +10,7 @@ import { ApiClientService } from '../services/api.client';
 import { environment } from '../../environments/environment';
 import axios from 'axios';
 import { NewApiResponse, Result  } from '../../assets/models/list-task.model'; // Sesuaikan dengan path yang benar  
+import { NoahService } from '../noah.service';
 
 @Component({
   selector: 'app-the-history',
@@ -105,10 +106,18 @@ currentPage: number = 1;
 
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.results) {
+
+        const filteredResults = response.results.filter(result =>
+          Array.isArray(result.mobilization_units) && result.mobilization_units.length > 0
+        );
+        
         if (page === 1) {
-          this.sampleData = response;  
+          this.sampleData = {
+      ...response,
+      results: filteredResults
+    };
         } else {
-          this.sampleData.results = this.sampleData.results.concat(response.results);
+          this.sampleData.results = this.sampleData.results.concat(filteredResults);
         }
 
         // this.sampleData = response;  
@@ -138,6 +147,7 @@ currentPage: number = 1;
 
 
   GoesToDetailRiwayat(id: number){
+    // this.noah.emit('DINOSAURUS');
     this.router.navigate(['/detil-riwayat/' + id]);
   }
 

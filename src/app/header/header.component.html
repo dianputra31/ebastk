@@ -82,7 +82,7 @@
         </ng-container>
       
         <ng-container *ngSwitchCase="'/detil-riwayat'">
-          <app-menu-of-detail-riwayat (menuSelected)="onMenuSelected($event)"></app-menu-of-detail-riwayat>
+          <app-menu-of-detail-riwayat (menuSelected)="onMenuSelected($event)" [activeNoah]="activeNoah" [activeLoc]="activeLoc" [activeDatetime]="activeDatetime" [activeDoneBy]="activeDoneBy" [activeDoneDate]="activeDoneDate"></app-menu-of-detail-riwayat>
         </ng-container>
       
         <ng-container *ngSwitchCase="'nomenu'">

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-menu-of-detail-riwayat',
@@ -9,6 +9,12 @@ export class MenuOfDetailRiwayatComponent implements OnInit {
   @Output() chipSelected = new EventEmitter<number>();
   @Output() panelToScroll = new EventEmitter<string>();
   @Output() menuSelected = new EventEmitter<string>();
+
+  @Input() activeNoah: string = '';
+  @Input() activeLoc: string = 'Tribik Jakarta';
+  @Input() activeDatetime: string = '17 September 2024, 13.00 WIB';
+  @Input() activeDoneBy: string = '';
+  @Input() activeDoneDate: string = '07 Februari 2025, 15:22 WIB';
 
 
   activeChipIndex: number = 0; // Indeks chip yang aktif  

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { UnitDetailResponse } from 'src/assets/models/detail-unit.model';
 
 @Component({
   selector: 'app-the-detail-history-exterior',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./the-detail-history-exterior.component.scss']
 })
 export class TheDetailHistoryExteriorComponent implements OnInit {
+@Input() sampleData: UnitDetailResponse | null = null;
 
   constructor() { }
 

@@ -21,10 +21,19 @@ export class HeaderComponent implements OnInit {
   HiThere: string = 'User';
   HiEmail: string = 'Email';
   subCategory: { [key: string]: string[] } = {};
+
+  @Input() activeNoah: string = '';
+  @Input() activeLoc: string = '';
+  @Input() activeDatetime: string = '';
+  @Input() activeDoneBy: string = '';
+  @Input() activeDoneDate: string = '';
+
   
   constructor(private router: Router,  private authService: AuthService) { }
 
   ngOnInit(): void {
+    // this.activeNoah = 'HELLO WORLD';
+    console.log("activeNoah::", this.activeNoah);
     // Update currentRoute setiap kali ada perubahan navigasi
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

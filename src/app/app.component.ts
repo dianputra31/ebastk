@@ -2,6 +2,7 @@ import { Component, ViewChild, HostListener  } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';  
 import { filter } from 'rxjs/operators';  
 import { AuthService } from './auth.service';
+import { NoahService } from './noah.service';
 import { MatAccordion } from '@angular/material/expansion';
 import * as jQuery from 'jquery';
 
@@ -21,9 +22,13 @@ export class AppComponent {
   isLogin = false;
   isLoading: boolean = true;
 
+  noah: string = '';
+  noahloc: string = '';
+  noahdate: string = '';
+  noahdoneby: string = '';
+  noahdonedate: string = '';
 
-
-  constructor(private router: Router, private authService: AuthService) {}  
+  constructor(private router: Router, private authService: AuthService, private noahService: NoahService) {}  
 
 
   ngOnInit() {
@@ -51,10 +56,32 @@ export class AppComponent {
    
       }
     });
+
+    this.noahService.noah$.subscribe(noah => {
+      this.noah = noah;
+    });
+
+    this.noahService.noahloc$.subscribe(noahloc => {
+      this.noahloc = noahloc;
+    });
+
+    this.noahService.noahdate$.subscribe(noahdate => {
+      this.noahdate = noahdate;
+    });
+
+    this.noahService.noahdoneby$.subscribe(noahdoneby => {
+      this.noahdoneby = noahdoneby;
+    });
+
+    this.noahService.noahdonedate$.subscribe(noahdonedate => {
+      this.noahdonedate = noahdonedate;
+    });
+
   }
 
 
   setActiveChip(menu: any) {
+    console.log('Selected menu:', menu);
     switch (menu) {
       case 'Info Vendor':
         this.activeChipIndex = 0;
@@ -72,6 +99,13 @@ export class AppComponent {
         this.activeChipIndex = 0; // Atau nilai default lainnya
     }
   }
+
+
+  setNoah(noah: any) {
+    alert('Selected noah: ' + noah);
+    console.log('Selected noah:', noah);
+    this.noah = noah;
+  } 
 
 
 
@@ -165,6 +199,7 @@ export class AppComponent {
       if (this.currentRoute.startsWith('/interior-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/engine-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/unit-photos/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/detil-riwayat/')) return 'dt-riwayat';
 
       const routeMappings: { [key: string]: string } = {
       '/detil-tugas': 'dt-tugas',
