@@ -170,6 +170,7 @@ export class DetailFooterComponent implements OnInit {
       const unit_id = this.router.url.split('/').pop();
       this.unit_id = unit_id;
       this.payload = localStorage.getItem('enginePayload');
+      this.payload = JSON.parse(this.payload);
       this.payload.bastk_status = 'submit';
       // this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
     }
