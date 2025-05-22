@@ -10,11 +10,13 @@ export class NoahService {
   private noahdateSubject = new Subject<string>();
   private noahdonebySubject = new Subject<string>();
   private noahdonedateSubject = new Subject<string>();
+  private filterRiwayatSubject = new Subject<string>();
   noah$ = this.noahSubject.asObservable();
   noahloc$ = this.noahlocSubject.asObservable();
   noahdate$ = this.noahdateSubject.asObservable();
   noahdoneby$ = this.noahdonebySubject.asObservable();
   noahdonedate$ = this.noahdonedateSubject.asObservable();
+  filterriwayat$ = this.filterRiwayatSubject.asObservable();
 
   emitNoah(value: string) {
     this.noahSubject.next(value);
@@ -34,6 +36,10 @@ export class NoahService {
 
   emitDoneDate(value: string) {
     this.noahdonedateSubject.next(value);
+  }
+
+  emitFilterRiwayat(value: string) {
+    this.filterRiwayatSubject.next(value);
   }
 
 

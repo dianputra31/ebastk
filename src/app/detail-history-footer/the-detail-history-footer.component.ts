@@ -15,7 +15,7 @@ export class TheDetailHistoryFooterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-    async downloadDokUnit(a:string){
+    async downloadDokUnit(a:string){ 
     const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
     // alert(unit_id);
     try {
@@ -25,6 +25,12 @@ export class TheDetailHistoryFooterComponent implements OnInit {
     }catch(error){
       return false;
     }
+  }
+
+
+  goesToSummary(){
+    const unit_id = this.router.url.split('/').pop();
+    this.router.navigate(['/inspection-summary'+'/'+unit_id]);
   }
 
 }

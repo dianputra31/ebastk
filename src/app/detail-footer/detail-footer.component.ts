@@ -159,8 +159,31 @@ export class DetailFooterComponent implements OnInit {
 
 
   async saveStep(a: number) {
+    const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
+
     if(a == 1){
-      this.payload = localStorage.getItem('exteriorPayload');
+      const exteriorPayload = localStorage.getItem('exteriorPayload');
+      const unitPayload = localStorage.getItem('payloadUnit_' + unit_id);
+
+      if (exteriorPayload) {
+        this.payload = JSON.parse(exteriorPayload);
+      }
+
+      if (unitPayload) {
+        console.log('unitPayload', unitPayload);
+        const parsedUnitPayload = JSON.parse(unitPayload);
+
+        // Jika payload awal belum ada, pakai unitPayload sebagai dasar
+        if (!this.payload) {
+          this.payload = parsedUnitPayload;
+        } else {
+          // Gabungkan payload existing dengan unitPayload
+          this.payload = {
+            ...this.payload,
+            ...parsedUnitPayload
+          };
+      }
+    }
       // return payload !== null; // Return true if payload exists, false otherwise
     }else if(a == 2){
       this.payload = localStorage.getItem('interiorPayload');
@@ -178,7 +201,6 @@ export class DetailFooterComponent implements OnInit {
     this.errlog = "";
     try {
       const page = 1; // Parameter yang ingin dikirim
-      const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/input-bastk/`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.post<any>(endpoint, this.payload);
 

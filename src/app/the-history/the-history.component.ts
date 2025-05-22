@@ -26,7 +26,7 @@ import { NoahService } from '../noah.service';
     trigger('productCardStagger', [
       transition('* => *', [
         query(':enter', stagger('0.5s', [
-          animateChild()
+          animateChild() 
         ]), { optional: true })
       ])
     ])
@@ -42,9 +42,10 @@ sampleData: NewApiResponse = { total_items: 0, total_pages: 0, current_page: 0, 
 isButtonDisabled: boolean = false;
 isLoading: boolean = false;
 currentPage: number = 1;
+filterriwayat: string = '';
 
 // constructor() {} 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private noahService: NoahService) {
     this.currentDate = new Date();
     this.fromDashboard = false;
   } 
@@ -52,6 +53,10 @@ currentPage: number = 1;
 
   ngOnInit(): void {
     // this.readJsonFile();
+    this.noahService.filterriwayat$.subscribe(filterriwayat => {
+      this.filterriwayat = filterriwayat;
+    });
+
     this.listTugas(this.currentPage);
 
   }
@@ -91,7 +96,7 @@ currentPage: number = 1;
 
   
   async listTugas(page: number) {
-  
+  console.log('this.filterriwayat::::', this.filterriwayat);
     // const unitData = {
     //   page: '1'
     // };

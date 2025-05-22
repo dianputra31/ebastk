@@ -15,22 +15,25 @@
             <div class="row">
                 <div class="column">
                     <label for="vendorName">Nama Vendor</label>
-                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" readonly/>
+                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:0px;line-height: 10px;" readonly/>
                     
                     <label for="vendorAddress">Alamat</label>
-                    <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly>{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}</textarea>
+                    <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;" readonly/>
+                    <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
+                      {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
+                    </textarea> -->
                     
                    
                 </div>
                 <div class="column">
                     <label for="pic">PIC Pengirim</label>
-                    <input id="pic" type="text" placeholder="PIC Pengirim" readonly value="{{pic}}"/>
+                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" readonly value="{{pic}}"/>
                     
                     <label for="deliveryDate">Tanggal Pengiriman</label>
-                    <input id="deliveryDate" type="text" readonly value="" value="{{tgl_mobilisasi}}"/>
+                    <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;" value="{{tgl_mobilisasi}}" />
 
                     <label for="vendorPhone">No. Telepon</label>
-                    <input id="vendorPhone" type="text" placeholder="No Telp" readonly value="{{sampleDataVendor?.phone}}"/>
+                    <input id="vendorPhone" type="text" placeholder="No Telp" readonly value="{{sampleDataVendor?.phone}}"  style="border:0px;line-height: 10px;" />
                 </div>
             </div>
         </mat-expansion-panel>
@@ -47,75 +50,89 @@
             <div class="row">
                 <div class="column">
                     <label for="expedition">Ekspedisi</label>
-                    <!-- {{sampleData?.ekspedisi}} -->
-                    <select id="expedition" aria-readonly="true">
-                        <option value="derek">Derek</option>
-                        <option value="pengiriman">Pengiriman</option>
+
+                    <select id="expedition" name="expedition"  (change)="onExpeditionChange($event)" >
+                      <option *ngFor="let choice of choices" 
+                              [value]="choice[0]" 
+                              [attr.selected]="choice[0] === sampleData?.expedition ? '' : null">
+                        {{ choice[1] }}
+                      </option>
                     </select>
 
                     <label for="licensePlate">Nomor Polisi</label>
-                    <input id="licensePlate" type="text" placeholder="Nomor Polisi" readonly value="{{sampleData?.police_number}}" />
+                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"  value="{{sampleData?.police_number}}" readonly />
 
                     <label for="brand">Merek</label>
-                    <input type="text" id="brand" placeholder="Merek" readonly value="{{sampleData?.brand?.brand_name}}" />
-                    <!-- {{sampleData?.brand?.brand_name}} -->
-                    <!-- <select id="brand">
-                        <option value="mitsubishi">Mitsubishi</option>
-                        <option value="toyota">Toyota</option>
-                    </select> -->
 
-                    <label for="color">Tipe</label>
-                    <input type="text" id="tipe" placeholder="Tipe" readonly value="{{sampleData?.variant_model?.model_name}}" />
-                    <!-- <select id="color">
-                        <option value="hitam">Power Ranger Merah</option>
-                        <option value="hitam">Power Ranger Biru</option>
-                        <option value="hitam">Power Ranger Hijau</option>
-                        <option value="putih">Putih</option>
-                    </select> -->
+                    <select id="brand" name="brand" placeholder="Merek" (change)="onBrandChange($event)" >
+                      <option value="" disabled [selected]="!sampleData?.brand?.brand_name">Pilih Merek</option>
+                      <option *ngFor="let brand of brands?.results" 
+                              [value]="brand.brand_name" 
+                              [attr.selected]="brand.brand_name === sampleData?.brand?.brand_name ? '' : null"
+                              [attr.data-brand-id]="brand?.id">
+                        {{ brand.brand_name }}
+                      </option>
+                    </select>
+
+                    <label for="tipe">Tipe</label>
+                    <!-- {{sampleData?.variant_model?.model_name}}#
+                    {{sampleData?.variant_model?.id}} -->
+                    <select id="tipe" name="tipe" placeholder="Tipe" (change)="onVariantChange($event)">
+                      <option  *ngIf="modelname==''">Pilih Tipe</option>
+                      <option *ngFor="let variant of variants?.results" 
+                             [value]="variant.variant_name" 
+                             [attr.data-id]="variant.id"
+                             [attr.selected]="variant.id === sampleData?.variant_model?.id ? '' : null">
+                       {{ variant.variant_name }}
+                      </option>
+                    </select>
 
                     <label for="color">Tahun</label>
-                    <input type="text" id="tahun" placeholder="Tahun" readonly value="{{sampleData?.unit_year}}" />
-                    <!-- <select id="color">
-                        <option value="hitam">2001</option>
-                        <option value="hitam">2002</option>
-                        <option value="hitam">2003</option>
-                        <option value="putih">2004</option>
-                    </select> -->
+                    <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)"/>
                 </div>
                 <div class="column">
                     <label for="category">Kategori</label>
-                    <input type="text" id="category" placeholder="Kategori" readonly value="{{sampleData?.unit_type}}" />
-                    <!-- <select id="category">
-                        <option value="passenger">Passenger</option>
-                        <option value="truck">Truck</option>
-                    </select> -->
+                    
+                    <select id="category" name="category" placeholder="Pilih Kategori" (change)="onVehicTypeChange($event)">
+                      <option *ngFor="let vehictype of vehicletype?.results"
+                              [value]="vehictype.type_name"
+                              [attr.data-id]="vehictype.id"
+                              [attr.data-name]="vehictype.type_name"
+                              [attr.selected]="vehictype.id === sampleData?.unit_category_id ? '' : null">
+                        {{ vehictype.type_name }}
+                      </option>
+                    </select>
+
 
                     <label for="unit_location">Lokasi Unit</label>
-                    <input type="text" id="unit_location" placeholder="Lokasi Unit" readonly value="{{sampleData?.unit_location}}" />
+                    <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" (keyup)="onChangeTextInput($event, 1)" />
 
                     <label for="engineCapacity">Kapasitas Mesin (CC)</label>
-                    <input type="text" id="engineCapacity" placeholder="Kapasitas Mesin" readonly value="{{sampleData?.unit_type}}" />
+                    <input type="text" id="engineCapacity" placeholder="Kapasitas Mesin" value="{{sampleData?.unit_type}}"  (keyup)="onChangeTextInput($event, 2)" />
 
                     <label for="color">Warna</label>
-                    <input type="text" id="warna" placeholder="Warna" readonly value="{{sampleData?.color?.color_name}}" />
-<!-- 
-                    <select id="color">
-                        <option value="hitam">Hitam Metalik</option>
-                        <option value="putih">Putih</option>
-                    </select> -->
+
+                    <select id="warna" name="warna" placeholder="Pilih Warna" (change)="onColorChange($event)">
+                      <option *ngFor="let color of colors?.results"
+                              [value]="color.color_name"
+                              [attr.color-id]="color.id"
+                              [attr.selected]="color.color_name === sampleData?.color?.color_name ? '' : null">
+                        {{ color.color_name }}
+                      </option>
+                    </select>
 
                     <label>Transmisi</label>
-                    <input type="text" id="transmission" placeholder="Transmisi" readonly value="{{sampleData?.transmission}}" />
-                    <!-- <div class="radio-group">
-                        <label>
-                            <input type="radio" name="transmission" value="automatic" checked />
-                            Automatic
-                        </label>
-                        <label>
-                            <input type="radio" name="transmission" value="manual" />
-                            Manual
-                        </label>
-                    </div> -->
+
+                    <select id="transmission" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
+                      <option *ngFor="let choice of transmissionOptions" 
+                              [value]="choice[0]" 
+                              [attr.transmission-id]="choice[0]"
+                              [attr.selected]="choice[0] === sampleData?.transmission ? '' : null"
+                              >
+                        {{ choice[1] }}
+                      </option>
+                    </select>
+
                 </div>
             </div>
         </mat-expansion-panel>

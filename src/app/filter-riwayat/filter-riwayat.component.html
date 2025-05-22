@@ -4,7 +4,7 @@
         <span class="icon">
           <i class="fas fa-search"></i> <!-- Anda bisa menggunakan icon library yang Anda inginkan -->
         </span>
-        <input type="text" [placeholder]="placeholder" [(ngModel)]="inputValue" class="input-field">
+        <input type="text" [placeholder]="placeholder" [(ngModel)]="inputValue" class="input-field" (keyup)="onInputChange($event)" />
       </div>
 </div>
 

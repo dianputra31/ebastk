@@ -5,7 +5,7 @@
 <ng-template #mainApp>
   <div class="container app-container" *ngIf="isLogin">
     <div class="the-header">      
-      <app-header (menuChange)="onMenuChange($event)" (filterChange)="onFilterChange($event)" [activeNoah]="noah" [activeLoc]="noahloc" [activeDatetime]="noahdate" [activeDoneBy]="noahdoneby" [activeDoneDate]="noahdonedate"></app-header>      
+      <app-header (menuChange)="onMenuChange($event)" (filterChange)="onFilterChange($event)" (filterHistoryChange)="onFilterHistoryChange($event)" [activeNoah]="noah" [activeLoc]="noahloc" [activeDatetime]="noahdate" [activeDoneBy]="noahdoneby" [activeDoneDate]="noahdonedate"></app-header>      
     </div>      
     <div class="the-content">    
       <router-outlet  (panelChange)="setActiveChip($event)" (noah)="setNoah($event)"></router-outlet>      

@@ -88,4 +88,10 @@ export interface Brand {
     fotoBastk: string | null;
     fotoStnk: string | null;
     fotoSuratKuasa: string | null;
+    notes: string | null;
+    recommendation_price: string | null;
+    bastk_timestamp: string | null;
+    appraisal_timestamp: string | null;
+    expedition: string | null;
+    unit_category_id: number;
   }

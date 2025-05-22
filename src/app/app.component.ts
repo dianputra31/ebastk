@@ -162,6 +162,10 @@ export class AppComponent {
       console.log("HAHAHAHAHA::::::",a);
     }
 
+    onFilterHistoryChange(a: string){
+      console.log("HAHAHAHAHA::::::",a);
+    }
+
 
 
     get isLoggedIn(): boolean {  

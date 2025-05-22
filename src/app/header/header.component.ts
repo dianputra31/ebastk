@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   selectedPanel: string='';
   @Output() menuChange = new EventEmitter<string>();
   @Output() filterChange = new EventEmitter<string>();
+  @Output() filterHistoryChange = new EventEmitter<string>();
   @Input() activeChipIndex: number = 0;
   HiThere: string = 'User';
   HiEmail: string = 'Email';
@@ -64,6 +65,10 @@ export class HeaderComponent implements OnInit {
 
   filterTugasChange(a: string) {
     this.filterChange.emit(a);
+  }
+
+  onInputChange(event: any) {
+     this.filterHistoryChange.emit(event);
   }
 
   getCurrentView(): string {

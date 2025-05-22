@@ -78,7 +78,7 @@
         </ng-container>
       
         <ng-container *ngSwitchCase="'/riwayat'">
-          <app-filter-riwayat></app-filter-riwayat>
+          <app-filter-riwayat (inputChange)="onInputChange($event)"></app-filter-riwayat>
         </ng-container>
       
         <ng-container *ngSwitchCase="'/detil-riwayat'">
