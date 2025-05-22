@@ -1,5 +1,6 @@
-<div class="product-container" @productCardStagger>  
-    <div class="product-card" *ngFor="let product of sampleData?.results"  @productCardAnimation (click)="GoesToDetailTugas(product.id)">  
+<div class="product-container" @productCardStagger>
+  <!-- filterStatus:::{{filterStatus}}::: -->
+    <div class="product-card" *ngFor="let product of sampleData?.results"  @productCardAnimation (click)="GoesToDetailTugas(product.id, product.bastk_status)">  
       <div class="product-image" [ngStyle]="{'background-image': getThumbnailUrl(product.thumbnail_url) ? 'url(' + getThumbnailUrl(product.thumbnail_url) + ')' : '../../assets/icons/noimages.png'}">  
         <div *ngIf="!product.thumbnail_url" class="placeholder"></div>  
       </div>  
@@ -62,3 +63,12 @@
     </div>  
   </div>  
   
+
+<app-the-modal 
+*ngIf="isModalOpen" (confirm)="onModalClose()"  (close)="onModalClose()" 
+[isOpen]="isModalOpen" 
+[message]="'Request Revision'" 
+[message2]="'Anda belum dapat mengakses halaman ini, silakan tunggu approval terlebih dahulu!'" 
+[imageUrl]="'../../assets/icons/warning-icon.svg'"
+[showButtonYeah]="false">
+</app-the-modal>

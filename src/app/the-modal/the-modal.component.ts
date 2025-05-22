@@ -6,6 +6,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./the-modal.component.scss']
 })
 export class TheModalComponent {
+  @Input() showButtonNope: boolean = true; // Untuk mengontrol apakah modal terbuka
+  @Input() showButtonYeah: boolean = true; // Untuk mengontrol apakah modal terbuka
   @Input() isOpen: boolean = false; // Untuk mengontrol apakah modal terbuka
   @Input() message: string = ''; // Pesan yang akan ditampilkan
   @Input() message2: string = ''; // Pesan tambahan

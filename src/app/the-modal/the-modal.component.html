@@ -10,8 +10,8 @@
         <div class="msg2">{{ message2 }}</div>
       </div>
       <div class="modal-footero" style="margin-top:20px;">
-        <button (click)="closeModal()" class="btn-cancel">Kembali</button>
-        <button (click)="onConfirm()" class="btn-confirm">Ya, lanjutkan</button>
+        <button (click)="closeModal()" class="btn-cancel" *ngIf="showButtonNope">Kembali</button>
+        <button (click)="onConfirm()" class="btn-confirm" *ngIf="showButtonYeah">Ya, lanjutkan</button>
     </div>
     </div>
   </div>

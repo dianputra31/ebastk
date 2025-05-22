@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
+import { UnitDetailResponse } from 'src/assets/models/detail-unit.model';
 
 @Component({
   selector: 'app-detail-footer',
@@ -19,6 +20,8 @@ export class DetailFooterComponent implements OnInit {
   errlog:string = '';
   payload: any = null;
   unit_id: any = '';
+  sampleData: UnitDetailResponse | null = null;
+  bastk_status: string = '';
 
   constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
 
@@ -56,7 +59,7 @@ export class DetailFooterComponent implements OnInit {
           }  
         });
         
-        
+       
   }
 
   // Tab aktif default  
@@ -116,47 +119,98 @@ export class DetailFooterComponent implements OnInit {
     this.closeModal(); // Menutup modal
     // this.router.navigate(['/your-target-route']); // Redirect ke halaman yang diinginkan
     const unit_id = this.router.url.split('/').pop();
+
+
+    this.infoUnit();
     // alert(unit_id)
     // alert(this.stepNow)
     
 
-    if(this.stepNow==='inspeksi-unit'){
-      this.router.navigate(['/exterior-inspection/'+unit_id]);
-    }else if(this.stepNow==='exterior-inspection'){
-      this.saveStep(1).then(success => {
-        if (!success) {
-          // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
-          this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-        }
-      });
-    }else if(this.stepNow==='interior-inspection'){
-      this.saveStep(2).then(success => {
-        if (!success) {
-          // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
-          this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-
-        }
-      });
-    }else if(this.stepNow==='engine-inspection'){
-      this.saveStep(3).then(success => {
-        if (!success) {
-          // this.router.navigate(['/unit-photos'+'/'+unit_id]);
-          this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-
-        }
-      });
-    }else if(this.stepNow==='unit-photos'){
-        this.saveStep(4).then(success => {
-        if (!success) {
-          // this.router.navigate(['/unit-photos'+'/'+unit_id]);
-          this.router.navigate(['/inspection-summary'+'/'+unit_id]);
-        }
-      });
-    }else if(this.stepNow==='detil-tugas'){
-      this.router.navigate(['/inspeksi-unit'+'/'+unit_id]);
-    }
+    
   }
 
+
+
+  async infoUnit() {
+    
+      const unitData = {
+        page: '1'
+      };
+      this.errlog = "";
+      try {
+        const page = 1; // Parameter yang ingin dikirim
+        const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
+        const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
+        const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
+        console.log('Data posted:', response.vendor.id);
+        this.unit_id = unit_id;
+  
+        // Jika login berhasil, simpan data ke localStorage
+        if (response && response.vendor.id) {
+          this.sampleData = response;  
+          if(response.bastk_status === 'revision'){
+            this.bastk_status = 'submit';
+          }else{
+            this.bastk_status = 'draft';
+          }
+
+
+          if(this.stepNow==='inspeksi-unit'){
+            this.router.navigate(['/exterior-inspection/'+unit_id]);
+          }else if(this.stepNow==='exterior-inspection'){
+            this.saveStep(1).then(success => {
+              if (!success) {
+                // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+                this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+              }
+            });
+          }else if(this.stepNow==='interior-inspection'){
+            this.saveStep(2).then(success => {
+              if (!success) {
+                // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
+                this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+
+              }
+            });
+          }else if(this.stepNow==='engine-inspection'){
+            this.saveStep(3).then(success => {
+              if (!success) {
+                // this.router.navigate(['/unit-photos'+'/'+unit_id]);
+                this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+
+              }
+            });
+          }else if(this.stepNow==='unit-photos'){
+              this.saveStep(4).then(success => {
+              if (!success) {
+                // this.router.navigate(['/unit-photos'+'/'+unit_id]);
+                this.router.navigate(['/inspection-summary'+'/'+unit_id]);
+              }
+            });
+          }else if(this.stepNow==='detil-tugas'){
+            this.router.navigate(['/inspeksi-unit'+'/'+unit_id]);
+          }
+
+        }else{
+          console.log('here failed')
+          this.errlog = 'Username atau password salah';
+        }
+  
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Cek status kode dari respons
+          if (error.response && error.response.status === 401) {
+            this.errlog = 'Username atau password salah.';
+          } else {
+            this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+          }
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+        console.error('Error during login:', error);
+      }
+    }
+    
 
   async saveStep(a: number) {
     const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
@@ -183,12 +237,18 @@ export class DetailFooterComponent implements OnInit {
             ...parsedUnitPayload
           };
       }
+      // this.payload = JSON.parse(this.payload);
+      this.payload.bastk_status = this.bastk_status;
     }
       // return payload !== null; // Return true if payload exists, false otherwise
     }else if(a == 2){
       this.payload = localStorage.getItem('interiorPayload');
+      this.payload = JSON.parse(this.payload);
+      this.payload.bastk_status = this.bastk_status;
     }else if(a == 3){
       this.payload = localStorage.getItem('enginePayload');
+      this.payload = JSON.parse(this.payload);
+      this.payload.bastk_status = this.bastk_status;
     }else if(a == 4){
       const unit_id = this.router.url.split('/').pop();
       this.unit_id = unit_id;
@@ -197,6 +257,8 @@ export class DetailFooterComponent implements OnInit {
       this.payload.bastk_status = 'submit';
       // this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
     }
+
+
 
     this.errlog = "";
     try {

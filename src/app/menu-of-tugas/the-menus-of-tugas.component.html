@@ -1,6 +1,6 @@
 <div class="header-bottom">
   <div class="task-summary">
-      Tugas Tersedia (20)
+      Tugas Tersedia ({{totalTugas}}) 
   </div>
 
   <div class="row-container">
@@ -29,12 +29,20 @@
           <div class="dropdown-icon" (click)="toggleSortDropdown()">  
           </div>   
           
-          <div class="dropdown-menu-filter" *ngIf="isCategoryDropdownOpen">  
-            <div class="dropdown-item-filter" (click)="selectCategory('Semua Kategori')">  
+          <div class="dropdown-menu-filter" *ngIf="isCategoryDropdownOpen">
+            <div *ngFor="let vehictype of vehicletype?.results">
+              <div class="dropdown-item-filter" (click)="selectCategory(vehictype.id.toString())">  
+                <img src="../../assets/icons/all-categories.svg" alt="Semua Kategori">  
+                <span>{{vehictype.type_name}}</span>
+              </div>
+            </div>
+
+<!-- 
+            <div class="dropdown-item-filter" (click)="selectCategory('')">  
               <img src="../../assets/icons/cat-all.svg" alt="Semua Kategori">  
               <span>Semua Kategori</span>  
             </div>  
-            <div class="dropdown-item-filter" (click)="selectCategory('Passenger')">  
+            <div class="dropdown-item-filter" (click)="selectCategory('2')">  
               <img src="../../assets/icons/cat-passenger.svg" alt="Passenger">  
               <span>Passenger</span>  
             </div>  
@@ -46,6 +54,11 @@
               <img src="../../assets/icons/cat-bus.svg" alt="Bus">  
               <span>Bus</span>  
             </div>  
+            <div class="dropdown-item-filter" (click)="selectCategory('Others')">  
+              <img src="../../assets/icons/terbaru.svg" alt="Others">  
+              <span>Others</span>  
+            </div> -->
+
           </div>
           
           <div class="dropdown-sort-filter" *ngIf="isSortDropdownOpen">  

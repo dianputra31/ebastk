@@ -27,6 +27,7 @@ export class AppComponent {
   noahdate: string = '';
   noahdoneby: string = '';
   noahdonedate: string = '';
+  filterStatus: string = '';
 
   constructor(private router: Router, private authService: AuthService, private noahService: NoahService) {}  
 
@@ -77,6 +78,10 @@ export class AppComponent {
       this.noahdonedate = noahdonedate;
     });
 
+    this.noahService.filterstatus$.subscribe(noah => {
+      this.filterStatus = noah;
+    });
+
   }
 
 
@@ -106,6 +111,12 @@ export class AppComponent {
     console.log('Selected noah:', noah);
     this.noah = noah;
   } 
+
+  setFilterStatus(filterstatus: any) {
+    console.log('Selected filterstatus:', filterstatus);
+    this.filterStatus = filterstatus;
+  }
+    
 
 
 

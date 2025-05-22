@@ -10,6 +10,7 @@ import { ApiClientService } from '../services/api.client';
 import { AuthService } from '../auth.service';
 import axios from 'axios';
 import { environment } from '../../environments/environment';
+import { NoahService } from '../noah.service';
 
 @Component({
   selector: 'app-the-tugas',
@@ -45,10 +46,17 @@ export class TheTugasComponent implements OnInit {
   isLoading: boolean = false;
   currentPage: number = 1;
   sampleData: NewApiResponse = { total_items: 0, total_pages: 0, current_page: 0, results: [] };
+  filterStatus: string = '';
+  filterCategory: string = '';
+  filter_bastk_status: string = '';
+  filter_category: string = '';
+  filterSortBy: string = 'asc';
+  filter_sort_by: string = '';
+  isModalOpen: boolean = false;
 
 
   // constructor() {} 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private noahService: NoahService) {
 
     this.currentDate = new Date();
     this.fromDashboard = false;
@@ -57,7 +65,25 @@ export class TheTugasComponent implements OnInit {
 
   ngOnInit(): void {
     // this.readJsonFile();  
-    this.listTugas(this.currentPage);
+     this.listTugas(this.currentPage);
+    
+    this.noahService.filterstatus$.subscribe(filterstatus => {
+      this.filterStatus = filterstatus;
+      this.currentPage = 1; // reset ke halaman pertama jika filter berubah
+      this.listTugas(this.currentPage);
+    });
+    
+    this.noahService.filtercategory$.subscribe(filtercategory => {
+      this.filterCategory = filtercategory;
+      this.currentPage = 1; // reset ke halaman pertama jika filter berubah
+      this.listTugas(this.currentPage);
+    });
+    
+    this.noahService.filtersort$.subscribe(filtersort => {
+      this.filterSortBy = filtersort;
+      this.currentPage = 1; // reset ke halaman pertama jika filter berubah
+      this.listTugas(this.currentPage);
+    });
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -79,7 +105,7 @@ export class TheTugasComponent implements OnInit {
 
 
   async listTugas(page: number) {
-  
+
     // const unitData = {
     //   page: '1'
     // };
@@ -87,7 +113,31 @@ export class TheTugasComponent implements OnInit {
     try {
       // const page = 1; // Parameter yang ingin dikirim
       const page_size = 60;
-      const endpoint = `/units/?page=${page}&page_size=${page_size}`; // Menambahkan parameter ke endpoint
+      const bastk_status = this.filterStatus;
+      if(this.filterStatus=="0" || this.filterStatus== null || this.filterStatus==undefined){
+        this.filter_bastk_status = '&bastk_status=';
+      }else if(this.filterStatus=="1"){
+        this.filter_bastk_status = '&bastk_status=new';
+      }else if(this.filterStatus=="2"){
+        this.filter_bastk_status = '&bastk_status=request_revision';
+      }else if(this.filterStatus=="3"){
+        this.filter_bastk_status = '&bastk_status=revision';
+      }else if(this.filterStatus=="4"){
+        this.filter_bastk_status = '&bastk_status=draft';
+      }else{
+        this.filter_bastk_status = '';
+      }
+
+      if(this.filterCategory==''){
+        this.filter_category = '&categories='
+      }else{
+        this.filter_category = '&categories=' + this.filterCategory;
+      }
+
+      this.filter_sort_by = '&sort_by=' + this.filterSortBy;
+      // this.filter_category = this.filterCategory;
+
+      const endpoint = `/units/?page=${page}&page_size=${page_size}` + this.filter_bastk_status + this.filter_category + this.filter_sort_by; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.get<NewApiResponse>(endpoint);
       console.log('Data posted:', response);
 
@@ -116,6 +166,8 @@ export class TheTugasComponent implements OnInit {
         } else {
           this.sampleData.results = this.sampleData.results.concat(filteredResults);
         }
+
+        this.noahService.emitTotalTugas(this.sampleData.results.length);
         
       }else{
         console.log('here failed')
@@ -175,8 +227,26 @@ export class TheTugasComponent implements OnInit {
   }  
 
 
-  GoesToDetailTugas(id: number){
-    this.router.navigate(['/detil-tugas/' + id]);
+  GoesToDetailTugas(id: number, status: string){
+    if(status != 'request_revision'){
+      this.router.navigate(['/detil-tugas/' + id]);
+    }else{
+      this.isModalOpen = true; // Set modal terbuka
+    }
+  }
+
+
+  
+  onModalClose() {
+    this.closeModal(); // Menutup modal
+  }
+
+  openModal() {
+    this.isModalOpen = true; // Membuka modal
+  }
+
+  closeModal() {
+    this.isModalOpen = false; // Set modal tertutup
   }
 
 }

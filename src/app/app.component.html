@@ -7,8 +7,11 @@
     <div class="the-header">      
       <app-header (menuChange)="onMenuChange($event)" (filterChange)="onFilterChange($event)" (filterHistoryChange)="onFilterHistoryChange($event)" [activeNoah]="noah" [activeLoc]="noahloc" [activeDatetime]="noahdate" [activeDoneBy]="noahdoneby" [activeDoneDate]="noahdonedate"></app-header>      
     </div>      
-    <div class="the-content">    
-      <router-outlet  (panelChange)="setActiveChip($event)" (noah)="setNoah($event)"></router-outlet>      
+    <div class="the-content">
+      <!-- THIS NOAH:{{noah}}
+      <br/>THIS NOAHLOC:{{noahloc}}
+      <br/>THIS FILTERSTATUS:{{filterStatus}} -->
+      <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
     </div>  
 
 
