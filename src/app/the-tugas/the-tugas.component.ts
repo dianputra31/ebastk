@@ -226,6 +226,23 @@ export class TheTugasComponent implements OnInit {
     }  
   }  
 
+  getStatusName(status: string): string {
+    switch (status.toUpperCase()) {
+      case 'NEW':
+        return 'NEW';
+      case 'REQUEST_REVISION':
+        return 'REVIEW';
+      case 'REVISION':
+        return 'REVISION';
+      case 'DRAFT':
+        return 'DRAFT';
+      case 'DONE':
+        return 'DONE';
+      default:
+        return status;
+    }
+  }
+
 
   GoesToDetailTugas(id: number, status: string){
     if(status != 'request_revision'){

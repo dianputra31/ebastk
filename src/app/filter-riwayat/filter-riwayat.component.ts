@@ -7,9 +7,12 @@ import { NoahService } from '../noah.service';
   styleUrls: ['./filter-riwayat.component.scss']
 })
 export class FilterRiwayatComponent implements OnInit {
-  @Input() placeholder: string = 'cari unit';
+  @Input() placeholder: string = 'cari unit (Nopol/Tipe Unit)';
   @Output() inputChange: EventEmitter<string> = new EventEmitter<string>();
   inputValue: string = '';
+  private debounceTimeout: any; // tambahkan ini
+  private debounceDelay: number = 300; // waktu dalam milidetik
+
 
   constructor(private noahService: NoahService) { } 
 
@@ -17,11 +20,13 @@ export class FilterRiwayatComponent implements OnInit {
   }
 
   onInputChange(event: any) {
-    this.inputValue = event.target.value;
-    console.log(this.inputValue);
-    this.inputChange.emit(this.inputValue);
-
-    this.noahService.emitFilterRiwayat(this.inputValue);
-  }
+  this.inputValue = event.target.value;
+      if (this.debounceTimeout) {
+        clearTimeout(this.debounceTimeout);
+      }
+      this.debounceTimeout = setTimeout(() => {
+        this.noahService.emitFilterRiwayat(this.inputValue);
+      }, 500); // delay 300ms, bisa diubah sesuai kebutuhan
+    }
 
 }

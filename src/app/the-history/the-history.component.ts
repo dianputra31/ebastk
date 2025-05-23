@@ -43,6 +43,8 @@ isButtonDisabled: boolean = false;
 isLoading: boolean = false;
 currentPage: number = 1;
 filterriwayat: string = '';
+filterRiwayat: string = '';
+filter_bastk_riwayat: string = '';
 
 // constructor() {} 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private noahService: NoahService) {
@@ -53,11 +55,13 @@ filterriwayat: string = '';
 
   ngOnInit(): void {
     // this.readJsonFile();
+    this.listTugas(this.currentPage);
+
     this.noahService.filterriwayat$.subscribe(filterriwayat => {
-      this.filterriwayat = filterriwayat;
+      this.filterRiwayat = filterriwayat;
+          this.listTugas(this.currentPage);
     });
 
-    this.listTugas(this.currentPage);
 
   }
 
@@ -96,16 +100,23 @@ filterriwayat: string = '';
 
   
   async listTugas(page: number) {
-  console.log('this.filterriwayat::::', this.filterriwayat);
+  console.log('this.filterRiwayat::::', this.filterRiwayat);
     // const unitData = {
     //   page: '1'
     // };
     this.errlog = "";
     try {
+
+      if(this.filterRiwayat=="" || this.filterRiwayat== null || this.filterRiwayat==undefined){
+        this.filter_bastk_riwayat = '&keyword=';
+      }else{
+        this.filter_bastk_riwayat = '&keyword=' + this.filterRiwayat;
+      }
+
       // const page = 1; // Parameter yang ingin dikirim
       const page_size = 60;
       const bastk_status = 'submit';
-      const endpoint = `/units/?page=${page}&page_size=${page_size}&bastk_status=${bastk_status}`; // Menambahkan parameter ke endpoint
+      const endpoint = `/units/?page=${page}&page_size=${page_size}&bastk_status=${bastk_status}` + this.filter_bastk_riwayat; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.get<NewApiResponse>(endpoint);
       console.log('Data posted:', response);
 

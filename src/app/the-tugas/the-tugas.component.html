@@ -10,7 +10,7 @@
             <h3>{{ product.display_name }}</h3>  
             <div class="status-container" *ngIf="fromDashboard==false">  
               <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
-              <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ product.bastk_status.toUpperCase() }}</span>    
+              <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ getStatusName(product.bastk_status).toUpperCase() }}</span>    
             </div>  
           </div>   
         <!-- Auction Location and Date --> 
