@@ -111,6 +111,10 @@ export class HeaderComponent implements OnInit {
   isRiwayat(): boolean {  
     return this.currentRoute === '/riwayat';  
   }  
+
+  isDetailRiwayat(): boolean {  
+    return this.currentRoute.startsWith('/detil-riwayat');  
+  }  
   
 
   isInspectionSummary(): boolean {  

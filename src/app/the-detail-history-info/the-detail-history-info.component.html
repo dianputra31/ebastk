@@ -17,7 +17,7 @@
             </div>
             <div>
                 <p>PIC Pengirim</p>
-                <p class="font-semibold">Daniel Soesanto</p>
+                <p class="font-semibold">{{pic}}</p>
             </div>
             <div>
                 <p>Tanggal Pengiriman</p>
@@ -32,23 +32,45 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <p>Ekspedisi</p>
-                <p class="font-semibold">PT Bluebird Indonesia</p>
+                <select id="expedition" name="expedition"  disabled class="font-semibold">
+                      <option *ngFor="let choice of choices" 
+                              [value]="choice[0]" 
+                              [attr.selected]="choice[0] === sampleData?.expedition ? '' : null">
+                        {{ choice[1] }}
+                      </option>
+                    </select>
             </div>
             <div>
                 <p>Kategori</p>
-                <p class="font-semibold">021 7971245</p>
+                 <select id="category" name="category" placeholder="Pilih Kategori" disabled class="font-semibold">
+                      <option *ngFor="let vehictype of vehicletype?.results"
+                              [value]="vehictype.type_name"
+                              [attr.data-id]="vehictype.id"
+                              [attr.data-name]="vehictype.type_name"
+                              [attr.selected]="vehictype.id === sampleData?.unit_category_id ? '' : null">
+                        {{ vehictype.type_name }}
+                      </option>
+                    </select>
             </div>
             <div>
                 <p>Nomor Polisi</p>
-                <p class="font-semibold">021 7971245</p>
+                <input id="licensePlate" type="text" placeholder="Nomor Polisi"  value="{{sampleData?.police_number}}" readonly class="font-semibold"/>
             </div>
             <div>
                 <p>Lokasi Unit</p>
-                <p class="font-semibold">Daniel Soesanto</p>
+                <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" class="font-semibold" readonly/>
             </div>
             <div>
                 <p>Merek</p>
-                <p class="font-semibold">Mitsubishi</p>
+                <select id="brand" name="brand" placeholder="Merek"  disabled class="font-semibold">
+                      <option value="" disabled [selected]="!sampleData?.brand?.brand_name">Pilih Merek</option>
+                      <option *ngFor="let brand of brands?.results" 
+                              [value]="brand.brand_name" 
+                              [attr.selected]="brand.brand_name === sampleData?.brand?.brand_name ? '' : null"
+                              [attr.data-brand-id]="brand?.id">
+                        {{ brand.brand_name }}
+                      </option>
+                    </select>
             </div>
             <div>
                 <p>Kapasitas Mesin (CC)</p>
@@ -64,7 +86,7 @@
             </div>
             <div>
                 <p>Tahun</p>
-                <p class="font-semibold">2021</p>
+                <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  class="font-semibold" readonly/>
             </div>
             <div>
                 <p>Transmisi</p>

@@ -12,7 +12,9 @@
                 <img src="../../assets/icons/logo-tribik.svg" alt="Logo" (click)="goHome()" style="cursor: pointer;">  
               </ng-container> 
               <ng-template #otherHeader>
-                <span class="label-page" style="cursor:pointer"  (click)="goBack()">&lt; &nbsp;&nbsp; BASTK &nbsp; &#x25CF; &nbsp; Detil Tugas</span>
+                <span class="label-page" style="cursor:pointer" (click)="goBack()">
+                  &lt; &nbsp;&nbsp; BASTK &nbsp; &#x25CF; &nbsp; {{ isDetailRiwayat() ? 'Detil Riwayat' : 'Detil Tugas' }}
+                </span>
               </ng-template>
           </ng-template>
 
