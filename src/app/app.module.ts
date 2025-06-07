@@ -50,6 +50,7 @@ import { ImageGalleryModalComponent } from './image-gallery-modal/image-gallery-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageUnitPhotosModalComponent } from './image-unitphotos-modal/image-unitphotos-modal.component';
 import { ImageUnitPhotosUploaderComponent } from './image-unitphotos-uploader/image-unitphotos-uploader.component';
+import { TheModalRevisionComponent } from './the-modal-revision/the-modal-revision.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { ImageUnitPhotosUploaderComponent } from './image-unitphotos-uploader/im
     TheDetailHistoryFooterComponent,
     ImageGalleryModalComponent,
     ImageUnitPhotosModalComponent,
-    ImageUnitPhotosUploaderComponent
+    ImageUnitPhotosUploaderComponent,
+    TheModalRevisionComponent
   ],
   imports: [
     BrowserModule,

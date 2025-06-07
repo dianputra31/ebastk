@@ -1,7 +1,7 @@
 <div class="bg-white flex justify-end items-center p-2" style="padding-top:0px; border-top:solid #EBEBEB 1px;">
     <div class="flex space-x-4" style="padding-top:5px;">
         <button class="flex items-center space-x-2 bg-white text-[#D5230D] px-6 py-2 rounded-full min-w-[120px] border border-[#D5230D] hover:bg-[#D5230D] hover:text-black wakacimpruy"
-         (click)="goesToRevision()">
+         (click)="openModal()">
             <i class="fas fa-chevron-left"></i>
             <span style="font-family:'NunitoSans';font-weight:bold;">Request Edit</span>
         </button>
@@ -13,3 +13,13 @@
 
     </div> 
 </div>
+
+<app-the-modal-revision 
+*ngIf="isModalOpen" 
+(confirm)="onModalConfirm($event)"  
+(close)="onModalClose()" 
+[isOpen]="isModalOpen" 
+[message]="'Apakah anda yakin ingin mengajukan revisi?'" 
+[message2]="'Berikan alasannya:'" 
+[imageUrl]="'../../assets/icons/warning-icon.svg'">
+</app-the-modal-revision>

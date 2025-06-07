@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
@@ -12,6 +12,8 @@ import axios from 'axios';
 export class TheDetailHistoryFooterComponent implements OnInit {
   errlog:string = '';
   payload: any = null;
+  isModalOpen: boolean = false;
+
 
   constructor(private router:Router,  private apiClient: ApiClientService) { }
 
@@ -36,12 +38,13 @@ export class TheDetailHistoryFooterComponent implements OnInit {
     this.router.navigate(['/inspection-summary'+'/'+unit_id]);
   }
 
-  async goesToRevision(){
+  async goesToRevision(alasan: string){
     const unit_id = this.router.url.split('/').pop();
 
     try {
       this.payload = {
         unit_id: unit_id,
+        revision_notes: alasan
       }
       const page = 1; // Parameter yang ingin dikirim
       const endpoint = `/request_revision/`; // Menambahkan parameter ke endpoint
@@ -73,6 +76,31 @@ export class TheDetailHistoryFooterComponent implements OnInit {
     }
     return false; // Default return value
 
+  }
+
+
+  openModal() {
+    this.isModalOpen = true; // Membuka modal
+  }
+
+  closeModal() {
+    this.isModalOpen = false; // Set modal tertutup
+  }
+
+  onModalClose() {
+    this.closeModal(); // Menutup modal
+  }
+
+
+  onModalConfirm(alasan: string) {
+    this.goesToRevision(alasan);
+    this.isModalOpen = false; // Tutup modal
+    this.closeModal(); // Menutup modal
+    // this.router.navigate(['/your-target-route']); // Redirect ke halaman yang diinginkan
+    const unit_id = this.router.url.split('/').pop();
+
+
+    
   }
 
 }

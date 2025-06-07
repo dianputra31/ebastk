@@ -1,0 +1,22 @@
+<div class="modal" *ngIf="isOpen">
+    <div class="modal-contento">
+      <div class="modal-headero" style="text-align: center;">
+        <div align="center">
+            <img src="../../assets/icons/alert-circle.svg" alt="Warning" class="modal-icon">
+        </div>
+      </div>
+      <div class="modal-bodyo">
+        <div class="msg1">{{ message }}</div>
+        <div class="msg3">{{ message2 }}</div>
+        <div class="msg2">
+          <textarea required id="alasan" name="alasan" style="border:solid #cecece 1px; width:90%; height:60px;border-radius:8px;color:black;font-weight:800;"
+            [(ngModel)]="alasan"></textarea>
+        </div>
+        <div class="msg2" style="color:rgb(221, 3, 3);font-weight: 800;">{{ alerta }}</div>
+      </div>
+      <div class="modal-footero" style="margin-top:20px;">
+        <button (click)="closeModal()" class="btn-cancel" *ngIf="showButtonNope">Kembali</button>
+        <button (click)="onConfirm()" class="btn-confirm" *ngIf="showButtonYeah">Ya, lanjutkan</button>
+    </div>
+    </div>
+  </div>
