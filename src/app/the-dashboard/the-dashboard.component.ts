@@ -18,6 +18,7 @@ export class TheDashboardComponent implements OnInit {
   sampleDataDashboard: NewApiResponse | null = null;
   isButtonDisabled: boolean = false;
   isLoading: boolean = false;
+  currentDateTime: string = '';
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) { }
 
@@ -26,6 +27,19 @@ export class TheDashboardComponent implements OnInit {
     this.HiThere = localStorage.getItem('username') || 'User';
     this.HiEmail = localStorage.getItem('email') || 'Email';
     this.listDashboard();
+
+    this.updateDateTime();
+    setInterval(() => this.updateDateTime(), 1000);
+  }
+
+  updateDateTime() {
+  const now = new Date();
+  const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
+  const dateStr = now.toLocaleDateString('id-ID', options);
+  // Ganti semua titik menjadi titik dua
+  let timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
+  timeStr = timeStr.replace(/\./g, ':');
+  this.currentDateTime = `${dateStr} ${timeStr}`;
   }
 
   async listDashboard() {
