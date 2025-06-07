@@ -21,6 +21,7 @@ export class TheMenusOfTugasComponent implements OnInit {
   errlog: string = '';
   vehicletype: ApiVehicleTypeResponse | null = null
   isLoading: boolean = false;
+  selectedCategoryName: string = 'Semua Kategori';
 
   constructor(private noahService: NoahService, private apiClient: ApiClientService) { }
 
@@ -46,7 +47,11 @@ export class TheMenusOfTugasComponent implements OnInit {
       const endpoint = `/unit-type`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.getOther<ApiVehicleTypeResponse>(endpoint);
       if (response) {
-        this.vehicletype = response;
+        const allCategory = { id: 0, type_name: 'Semua Kategori' };
+        this.vehicletype = {
+          ...response,
+          results: [allCategory, ...(response.results || [])]
+        };
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';
@@ -83,12 +88,14 @@ export class TheMenusOfTugasComponent implements OnInit {
     this.isCategoryDropdownOpen = false; 
   }  
   
-  selectCategory(category: string) {  
-    console.log('Selected category:', category);  
-    this.isCategoryDropdownOpen = false; // Menutup dropdown setelah memilih kategori
-    this.noahService.emitFilterCategories(category);
-  }  
-  
+
+  selectCategory(categoryId: string) {
+    const selected = this.vehicletype?.results.find(v => v.id.toString() === categoryId);
+    this.selectedCategoryName = selected ? selected.type_name : 'Semua Kategori';
+    this.isCategoryDropdownOpen = false;
+    this.noahService.emitFilterCategories(categoryId);
+  }
+
   selectSort(sortingBy: string) {
     this.noahService.emitFilterSort(sortingBy);
     console.log('Selected sortingBy:', sortingBy);  

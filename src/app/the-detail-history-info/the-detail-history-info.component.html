@@ -54,43 +54,35 @@
             </div>
             <div>
                 <p>Nomor Polisi</p>
-                <input id="licensePlate" type="text" placeholder="Nomor Polisi"  value="{{sampleData?.police_number}}" readonly class="font-semibold"/>
+                <p class="font-semibold">{{ sampleData?.police_number }}</p>
             </div>
             <div>
                 <p>Lokasi Unit</p>
-                <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" class="font-semibold" readonly/>
+                <p class="font-semibold">{{ sampleData?.unit_location }}</p>
             </div>
             <div>
                 <p>Merek</p>
-                <select id="brand" name="brand" placeholder="Merek"  disabled class="font-semibold">
-                      <option value="" disabled [selected]="!sampleData?.brand?.brand_name">Pilih Merek</option>
-                      <option *ngFor="let brand of brands?.results" 
-                              [value]="brand.brand_name" 
-                              [attr.selected]="brand.brand_name === sampleData?.brand?.brand_name ? '' : null"
-                              [attr.data-brand-id]="brand?.id">
-                        {{ brand.brand_name }}
-                      </option>
-                    </select>
+                <p class="font-semibold">{{ sampleData?.brand?.brand_name }}</p>
             </div>
             <div>
                 <p>Kapasitas Mesin (CC)</p>
-                <p class="font-semibold">2.397</p>
+                <p class="font-semibold">{{ sampleData?.odo_meter }}</p>
             </div>
             <div>
                 <p>Tipe</p>
-                <p class="font-semibold">Pajero Dakar Ultimate 4x4 AT</p>
+                <p class="font-semibold">{{sampleData?.variant_model?.model_name}}</p>
             </div>
             <div>
                 <p>Warna</p>
-                <p class="font-semibold">Hitam Metalik</p>
+                <p class="font-semibold">{{sampleData?.color?.color_name}}</p>
             </div>
             <div>
                 <p>Tahun</p>
-                <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  class="font-semibold" readonly/>
+                <p class="font-semibold">{{sampleData?.unit_year}}</p>
             </div>
             <div>
                 <p>Transmisi</p>
-                <p class="font-semibold">A/T</p>
+                <p class="font-semibold">{{sampleData?.transmission}}</p>
             </div>
         </div>
     </div>
@@ -101,11 +93,19 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <p>Jenis Surat</p>
-                <p class="font-semibold">Surat Kuasa</p>
+                <label>
+                        <input  type="radio" class="custom-radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" readonly disabled/>
+                        <p class="font-semibold">Automatic</p>
+                    </label>
+                    &nbsp;
+                    <label>
+                        <input type="radio" class="custom-radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" readonly disabled/>
+                        <p class="font-semibold">Manual</p>
+                    </label>
             </div>
             <div>
                 <p>Tanggal Pembuatan</p>
-                <p class="font-semibold">17 September 2024</p>
+                <p class="font-semibold">{{sampleData?.first_published_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
             </div>
             <div>
                 <p>No. Surat Kuasa</p>
@@ -115,18 +115,19 @@
         <div class="mt-4">
             <p class="font-semibold">Lampiran Dokumen</p>
             <div class="flex space-x-4 mt-2">
-                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg">Foto BPKB</button>
-                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg">Foto STNK</button>
-                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg">Surat Kuasa</button>
+                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg button-upl-view" (click)="openGallery('BPKB')">Foto BPKB</button>
+                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg button-upl-view" (click)="openGallery('STNK')">Foto STNK</button>
+                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg button-upl-view" (click)="openGallery('SURATKUASA')">Foto Surat Kuasa</button>
+                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg button-upl-view" (click)="openGallery('BASTK')">Foto BASTK</button>
             </div>
         </div>
         <div class="mt-4">
             <p>Status BPKB</p>
-            <p class="font-semibold">Tribik Jakarta</p>
+            <p class="font-semibold">{{sampleData?.bpkb}}</p>
         </div>
         <div class="mt-4">
             <p>Keterangan Lainnya</p>
-            <p class="font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p class="font-semibold">{{sampleData?.notes}}</p>
         </div>
     </div>
 </div>

@@ -1,173 +1,170 @@
-
-  
+@media (min-width: 900px) {  
     
     // Bagian bawah header  
-    .header-bottom {    
-        display: flex;      
-        flex-direction: column; // Mengatur arah flex menjadi kolom    
-        padding: 10px 20px;       
-        
-        .task-summary {    
-          width: 100%; // Lebar 100%    
-          font-size: 18px; // Ukuran font    
-          font-weight: bold; // Menebalkan teks    
-          color: #333; // Warna teks    
-          margin-bottom: 5px; // Jarak antara task summary dan chip-container    
-          text-align: left;  
-          font-weight: 700;
+  .header-bottom {    
+      display: flex;      
+      flex-direction: column; // Mengatur arah flex menjadi kolom    
+      padding: 10px 20px;       
+      
+      .task-summary {    
+        width: 100%; // Lebar 100%    
+        font-size: 18px; // Ukuran font    
+        font-weight: bold; // Menebalkan teks    
+        color: #333; // Warna teks    
+        margin-bottom: 5px; // Jarak antara task summary dan chip-container    
+        text-align: left;  
+        font-weight: 700;
+      }    
+      
+      // Membuat container baru untuk chip dan filter  
+      .row-container {  
+        display: flex; // Mengatur chip-container dan filter-container dalam satu baris  
+        justify-content: space-between; // Mengatur jarak antara chip-container dan filter-container  
+        width: 100%; // Lebar 100%  
+      }  
+      
+      .chip-container {    
+        width: 65%; // Lebar chip-container  
+        display: flex;    
+        gap: 10px; // Jarak antar chip    
+        overflow-x: auto; // Mengizinkan scroll horizontal    
+        padding: 10px 0; // Padding atas dan bawah    
+        white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya    
+        position: relative; // Untuk posisi elemen kustom    
+        font-weight: 800;  
+      
+        // Sembunyikan scrollbar default    
+        &::-webkit-scrollbar {    
+          display: none; // Menyembunyikan scrollbar    
         }    
-        
-        // Membuat container baru untuk chip dan filter  
-        .row-container {  
-          display: flex; // Mengatur chip-container dan filter-container dalam satu baris  
-          justify-content: space-between; // Mengatur jarak antara chip-container dan filter-container  
-          width: 100%; // Lebar 100%  
-        }  
-        
-        .chip-container {    
-          width: 65%; // Lebar chip-container  
-          display: flex;    
-          gap: 10px; // Jarak antar chip    
-          overflow-x: auto; // Mengizinkan scroll horizontal    
-          padding: 10px 0; // Padding atas dan bawah    
-          white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya    
-          position: relative; // Untuk posisi elemen kustom    
-          font-weight: 800;  
-        
-          // Sembunyikan scrollbar default    
-          &::-webkit-scrollbar {    
-            display: none; // Menyembunyikan scrollbar    
-          }    
-        
-          // Gaya untuk garis kustom    
-          .custom-slider {    
-            height: 2px; // Tinggi garis    
-            max-width: 50px; // Lebar maksimum garis    
-            background-color: #D5230D; // Warna garis    
-            position: absolute; // Posisi absolut    
-            bottom: 0; // Tempatkan di bawah chip    
-            left: 0; // Mulai dari kiri    
-            transition: transform 0.3s ease; // Transisi saat aktif    
-          }    
-        
-          .chip {    
-            padding: 8px 12px;    
-            border-radius: 48px;    
-            border: 1px solid #F5F5F5; // Border chip    
-            background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
-            color: black; // Warna huruf chip tidak aktif    
-            cursor: pointer;    
-        
-            &.active {    
-              background-color: #D5230D; // Warna latar belakang chip aktif    
-              color: white; // Warna huruf chip aktif    
-            }    
+      
+        // Gaya untuk garis kustom    
+        .custom-slider {    
+          height: 2px; // Tinggi garis    
+          max-width: 50px; // Lebar maksimum garis    
+          background-color: #D5230D; // Warna garis    
+          position: absolute; // Posisi absolut    
+          bottom: 0; // Tempatkan di bawah chip    
+          left: 0; // Mulai dari kiri    
+          transition: transform 0.3s ease; // Transisi saat aktif    
+        }    
+      
+        .chip {    
+          padding: 8px 12px;    
+          border-radius: 48px;    
+          border: 1px solid #F5F5F5; // Border chip    
+          background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
+          color: black; // Warna huruf chip tidak aktif    
+          cursor: pointer;    
+      
+          &.active {    
+            background-color: #D5230D; // Warna latar belakang chip aktif    
+            color: white; // Warna huruf chip aktif    
           }    
         }    
-        
-        .filter-container {    
-          width: 35%; // Lebar maksimum 35%    
-          display: flex;    
-          justify-content: flex-end; // Mengatur konten ke kanan    
-          align-items: center;    
-          position: relative; // Agar dropdown dapat diposisikan dengan benar    
-          gap: 10px;  
-        
-          .filter-button {    
+      }    
+      
+      .filter-container {    
+        width: 35%; // Lebar maksimum 35%    
+        display: flex;    
+        justify-content: flex-end; // Mengatur konten ke kanan    
+        align-items: center;    
+        position: relative; // Agar dropdown dapat diposisikan dengan benar    
+        gap: 10px;  
+      
+        .filter-button {    
+          display: flex; // Mengatur ikon dan teks dalam satu baris    
+          align-items: center; // Menyelaraskan ikon dan teks    
+          padding: 8px 16px; // Padding untuk tombol    
+          background-color: #ffffff; // Warna latar belakang button    
+          color: #312E2E; // Warna huruf button    
+          border: solid 1px #D4D2D2; // Menghilangkan border default    
+          border-radius: 48px; // Border-radius untuk tombol    
+          cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik    
+          width: 50%;
+      
+          img {    
+            margin-right: 5px; // Jarak antara ikon dan teks    
+          }    
+      
+          &:hover {    
+            background-color: #F5F5F5; // Warna latar belakang saat hover    
+            font-weight: bold;  
+          }    
+      
+          &.active {    
+            border-color: #C2200C; // Warna border saat aktif    
+          }    
+        }    
+      
+        .dropdown-menu-filter {    
+          position: absolute; // Mengatur posisi dropdown    
+          background-color: white; // Warna latar belakang dropdown    
+          border: 1px solid #ddd; // Border untuk dropdown    
+          border-radius: 16px; // Border-radius untuk dropdown    
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
+          z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
+          margin-top: 10px; // Jarak antara dropdown dan tombol    
+          top: 45px;  
+          right: 180px;  
+          width: 300px;  
+      
+          .dropdown-item-filter {    
             display: flex; // Mengatur ikon dan teks dalam satu baris    
             align-items: center; // Menyelaraskan ikon dan teks    
-            padding: 8px 16px; // Padding untuk tombol    
-            background-color: #ffffff; // Warna latar belakang button    
-            color: #312E2E; // Warna huruf button    
-            border: solid 1px #D4D2D2; // Menghilangkan border default    
-            border-radius: 48px; // Border-radius untuk tombol    
-            cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik    
-        
+            padding: 10px; // Padding untuk item dropdown    
+            cursor: pointer; // Menunjukkan bahwa item dapat diklik    
+      
             img {    
-              margin-right: 5px; // Jarak antara ikon dan teks    
+              width: 20px; // Ukuran tetap untuk ikon    
+              height: 20px; // Ukuran tetap untuk ikon    
+              margin-right: 10px; // Jarak antara ikon dan teks    
             }    
-        
+      
             &:hover {    
               background-color: #F5F5F5; // Warna latar belakang saat hover    
-              font-weight: bold;  
-            }    
-        
-            &.active {    
-              border-color: #C2200C; // Warna border saat aktif    
+              color: #C2200C; // Warna teks saat hover   
+              font-weight: bold;   
             }    
           }    
-        
-          .dropdown-menu-filter {    
-            position: absolute; // Mengatur posisi dropdown    
-            background-color: white; // Warna latar belakang dropdown    
-            border: 1px solid #ddd; // Border untuk dropdown    
-            border-radius: 16px; // Border-radius untuk dropdown    
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
-            z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
-            margin-top: 10px; // Jarak antara dropdown dan tombol    
-            top: 45px;  
-            right: 130px;  
-            width: 300px;  
-        
-            .dropdown-item-filter {    
-              display: flex; // Mengatur ikon dan teks dalam satu baris    
-              align-items: center; // Menyelaraskan ikon dan teks    
-              padding: 10px; // Padding untuk item dropdown    
-              cursor: pointer; // Menunjukkan bahwa item dapat diklik    
-        
-              img {    
-                width: 20px; // Ukuran tetap untuk ikon    
-                height: 20px; // Ukuran tetap untuk ikon    
-                margin-right: 10px; // Jarak antara ikon dan teks    
-              }    
-        
-              &:hover {    
-                background-color: #F5F5F5; // Warna latar belakang saat hover    
-                color: #C2200C; // Warna teks saat hover   
-                font-weight: bold;   
-              }    
+        }    
+      
+        .dropdown-sort-filter {    
+          position: absolute; // Mengatur posisi dropdown    
+          background-color: white; // Warna latar belakang dropdown    
+          border: 1px solid #ddd; // Border untuk dropdown    
+          border-radius: 16px; // Border-radius untuk dropdown    
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
+          z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
+          margin-top: 10px; // Jarak antara dropdown dan tombol    
+          top: 45px;  
+          right: 10px;  
+          width: 200px;  
+      
+          .dropdown-item-sort-filter {    
+            display: flex; // Mengatur ikon dan teks dalam satu baris    
+            align-items: center; // Menyelaraskan ikon dan teks    
+            padding: 10px; // Padding untuk item dropdown    
+            cursor: pointer; // Menunjukkan bahwa item dapat diklik    
+      
+            img {    
+              width: 20px; // Ukuran tetap untuk ikon    
+              height: 20px; // Ukuran tetap untuk ikon    
+              margin-right: 10px; // Jarak antara ikon dan teks    
+            }    
+      
+            &:hover {    
+              background-color: #F5F5F5; // Warna latar belakang saat hover    
+              color: #C2200C; // Warna teks saat hover   
+              font-weight: bold;   
             }    
           }    
-        
-          .dropdown-sort-filter {    
-            position: absolute; // Mengatur posisi dropdown    
-            background-color: white; // Warna latar belakang dropdown    
-            border: 1px solid #ddd; // Border untuk dropdown    
-            border-radius: 16px; // Border-radius untuk dropdown    
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
-            z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
-            margin-top: 10px; // Jarak antara dropdown dan tombol    
-            top: 45px;  
-            right: 10px;  
-            width: 200px;  
-        
-            .dropdown-item-sort-filter {    
-              display: flex; // Mengatur ikon dan teks dalam satu baris    
-              align-items: center; // Menyelaraskan ikon dan teks    
-              padding: 10px; // Padding untuk item dropdown    
-              cursor: pointer; // Menunjukkan bahwa item dapat diklik    
-        
-              img {    
-                width: 20px; // Ukuran tetap untuk ikon    
-                height: 20px; // Ukuran tetap untuk ikon    
-                margin-right: 10px; // Jarak antara ikon dan teks    
-              }    
-        
-              &:hover {    
-                background-color: #F5F5F5; // Warna latar belakang saat hover    
-                color: #C2200C; // Warna teks saat hover   
-                font-weight: bold;   
-              }    
-            }    
-          }  
         }  
-      }   
+      }  
+    }   
       
 
       
-  
-  
-
   .dropdown-menu {  
     position: absolute; // Mengatur posisi dropdown  
     background-color: white; // Warna latar belakang dropdown  
@@ -197,7 +194,424 @@
         }  
       }  
     }  
-  }  
-
-
+  }
   
+  
+}
+
+
+
+
+@media (max-width: 540px) {
+
+      // Bagian bawah header  
+  .header-bottom {    
+      display: flex;      
+      flex-direction: column; // Mengatur arah flex menjadi kolom    
+      padding: 10px 20px;       
+      
+      .task-summary {    
+        width: 100%; // Lebar 100%    
+        font-size: 14px; // Ukuran font    
+        font-weight: bold; // Menebalkan teks    
+        color: #333; // Warna teks    
+        margin-bottom: 5px; // Jarak antara task summary dan chip-container    
+        text-align: left;  
+        font-weight: 700;
+      }    
+      
+      // Membuat container baru untuk chip dan filter  
+      .row-container {  
+        display: block; // Mengatur chip-container dan filter-container dalam satu baris  
+        justify-content: space-between; // Mengatur jarak antara chip-container dan filter-container  
+        width: 100%; // Lebar 100%  
+        position: relative;
+      }  
+      
+      .chip-container {   
+        width: 100%; // Lebar chip-container  
+        display: block; 
+        position: relative;   
+        gap: 10px; // Jarak antar chip    
+        overflow-x: auto; // Mengizinkan scroll horizontal    
+        padding: 10px 0; // Padding atas dan bawah    
+        white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya    
+        font-weight: 800;  
+      
+        // Sembunyikan scrollbar default    
+        &::-webkit-scrollbar {    
+          display: none; // Menyembunyikan scrollbar    
+        }    
+      
+        // Gaya untuk garis kustom    
+        .custom-slider {    
+          height: 2px; // Tinggi garis    
+          max-width: 50px; // Lebar maksimum garis    
+          background-color: #D5230D; // Warna garis    
+          position: absolute; // Posisi absolut    
+          bottom: 0; // Tempatkan di bawah chip    
+          left: 0; // Mulai dari kiri    
+          transition: transform 0.3s ease; // Transisi saat aktif    
+        }    
+      
+        .chip {    
+          padding: 5px 3px;    
+          border-radius: 15px;    
+          border: 1px solid #F5F5F5; // Border chip    
+          background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
+          color: black; // Warna huruf chip tidak aktif    
+          cursor: pointer;
+          width: 20%;
+          float: left;
+          position: relative;
+          font-size:0.7em;
+      
+          &.active {    
+            background-color: #D5230D; // Warna latar belakang chip aktif    
+            color: white; // Warna huruf chip aktif    
+          }    
+        }    
+      }    
+      
+      .filter-container {    
+        width: 100%; // Lebar maksimum 35%    
+        display: block;    
+        // justify-content: flex-end; // Mengatur konten ke kanan    
+        // align-items: center;    
+        position: relative; // Agar dropdown dapat diposisikan dengan benar    
+        gap: 10px;
+        font-size: 0.8em;
+        float: left;
+      
+        .filter-button {    
+          display: block; // Mengatur ikon dan teks dalam satu baris    
+          // align-items: center; // Menyelaraskan ikon dan teks    
+          padding: 8px 8px; // Padding untuk tombol    
+          background-color: #ffffff; // Warna latar belakang button    
+          color: #312E2E; // Warna huruf button    
+          border: solid 1px #D4D2D2; // Menghilangkan border default    
+          border-radius: 18px; // Border-radius untuk tombol    
+          cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik    
+          position: relative;
+          float: left;
+          width: 50%;
+      
+          img {    
+            margin-right: 5px; // Jarak antara ikon dan teks    
+          }    
+      
+          &:hover {    
+            background-color: #F5F5F5; // Warna latar belakang saat hover    
+            font-weight: bold;  
+          }    
+      
+          &.active {    
+            border-color: #C2200C; // Warna border saat aktif    
+          }    
+        }    
+      
+        .dropdown-menu-filter {    
+          position: absolute; // Mengatur posisi dropdown    
+          background-color: white; // Warna latar belakang dropdown    
+          border: 1px solid #ddd; // Border untuk dropdown    
+          border-radius: 16px; // Border-radius untuk dropdown    
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
+          z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
+          margin-top: 10px; // Jarak antara dropdown dan tombol    
+          top: 45px;  
+          left: 0px;  
+          width: 50%;  
+      
+          .dropdown-item-filter {    
+            display: flex; // Mengatur ikon dan teks dalam satu baris    
+            align-items: center; // Menyelaraskan ikon dan teks    
+            padding: 10px; // Padding untuk item dropdown    
+            cursor: pointer; // Menunjukkan bahwa item dapat diklik    
+      
+            img {    
+              width: 20px; // Ukuran tetap untuk ikon    
+              height: 20px; // Ukuran tetap untuk ikon    
+              margin-right: 10px; // Jarak antara ikon dan teks    
+            }    
+      
+            &:hover {    
+              background-color: #F5F5F5; // Warna latar belakang saat hover    
+              color: #C2200C; // Warna teks saat hover   
+              font-weight: bold;   
+            }    
+          }    
+        }    
+      
+        .dropdown-sort-filter {    
+          position: absolute; // Mengatur posisi dropdown    
+          background-color: white; // Warna latar belakang dropdown    
+          border: 1px solid #ddd; // Border untuk dropdown    
+          border-radius: 16px; // Border-radius untuk dropdown    
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
+          z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
+          margin-top: 10px; // Jarak antara dropdown dan tombol    
+          top: 45px;  
+          right: 0px;  
+          width: 50%;
+          
+      
+          .dropdown-item-sort-filter {    
+            display: block; // Mengatur ikon dan teks dalam satu baris    
+            padding: 10px; // Padding untuk item dropdown    
+            cursor: pointer; // Menunjukkan bahwa item dapat diklik    
+            text-align: right;
+      
+            img {    
+              width: 20px; // Ukuran tetap untuk ikon    
+              height: 20px; // Ukuran tetap untuk ikon    
+              margin-right: 10px; // Jarak antara ikon dan teks    
+            }    
+      
+            &:hover {    
+              background-color: #F5F5F5; // Warna latar belakang saat hover    
+              color: #C2200C; // Warna teks saat hover   
+              font-weight: bold;   
+            }    
+          }    
+        }  
+      }  
+    }   
+      
+
+      
+  .dropdown-menu {  
+    position: absolute; // Mengatur posisi dropdown  
+    background-color: white; // Warna latar belakang dropdown  
+    border-left: 1px solid #ddd; // Border untuk dropdown  
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-top:0px;
+    border-radius: 1px; // Border-radius untuk dropdown  
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman  
+    z-index: 1000; // Memastikan dropdown berada di atas elemen lain  
+    margin-top: 10px; // Jarak antara dropdown dan elemen di atasnya  
+    right:50px;
+    top:80px;
+    width: 160px;
+    
+    ul {  
+      list-style: none; // Menghilangkan bullet points  
+      padding: 0; // Menghilangkan padding  
+      margin: 0; // Menghilangkan margin  
+    
+      li {  
+        padding: 10px; // Padding untuk item dropdown  
+        cursor: pointer; // Menunjukkan bahwa item dapat diklik  
+    
+        &:hover {  
+          background-color: #f0f0f0; // Warna latar belakang saat hover  
+        }  
+      }  
+    }  
+  }
+ 
+
+}
+
+
+@media (min-width: 600px) and (max-width: 900px) {
+     // Bagian bawah header  
+  .header-bottom {    
+      display: flex;      
+      flex-direction: column; // Mengatur arah flex menjadi kolom    
+      padding: 10px 20px;       
+      
+      .task-summary {    
+        width: 100%; // Lebar 100%    
+        font-size: 14px; // Ukuran font    
+        font-weight: bold; // Menebalkan teks    
+        color: #333; // Warna teks    
+        margin-bottom: 5px; // Jarak antara task summary dan chip-container    
+        text-align: left;  
+        font-weight: 700;
+      }    
+      
+      // Membuat container baru untuk chip dan filter  
+      .row-container {  
+        display: block; // Mengatur chip-container dan filter-container dalam satu baris  
+        justify-content: space-between; // Mengatur jarak antara chip-container dan filter-container  
+        width: 100%; // Lebar 100%  
+        position: relative;
+      }  
+      
+      .chip-container {   
+        width: 100%; // Lebar chip-container  
+        display: block; 
+        position: relative;   
+        gap: 10px; // Jarak antar chip    
+        overflow-x: auto; // Mengizinkan scroll horizontal    
+        padding: 10px 0; // Padding atas dan bawah    
+        white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya    
+        font-weight: 800;  
+      
+        // Sembunyikan scrollbar default    
+        &::-webkit-scrollbar {    
+          display: none; // Menyembunyikan scrollbar    
+        }    
+      
+        // Gaya untuk garis kustom    
+        .custom-slider {    
+          height: 2px; // Tinggi garis    
+          max-width: 50px; // Lebar maksimum garis    
+          background-color: #D5230D; // Warna garis    
+          position: absolute; // Posisi absolut    
+          bottom: 0; // Tempatkan di bawah chip    
+          left: 0; // Mulai dari kiri    
+          transition: transform 0.3s ease; // Transisi saat aktif    
+        }    
+      
+        .chip {    
+          padding: 5px 3px;    
+          border-radius: 15px;    
+          border: 1px solid #F5F5F5; // Border chip    
+          background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
+          color: black; // Warna huruf chip tidak aktif    
+          cursor: pointer;
+          width: 20%;
+          float: left;
+          position: relative;
+          font-size:0.9em;
+      
+          &.active {    
+            background-color: #D5230D; // Warna latar belakang chip aktif    
+            color: white; // Warna huruf chip aktif    
+          }    
+        }    
+      }    
+      
+      .filter-container {    
+        width: 100%; // Lebar maksimum 35%    
+        display: block;    
+        justify-content: flex-end; // Mengatur konten ke kanan    
+        align-items: center;    
+        position: relative; // Agar dropdown dapat diposisikan dengan benar    
+        gap: 10px;  
+      
+        .filter-button {    
+          display: flex; // Mengatur ikon dan teks dalam satu baris    
+          align-items: center; // Menyelaraskan ikon dan teks    
+          padding: 8px 16px; // Padding untuk tombol    
+          background-color: #ffffff; // Warna latar belakang button    
+          color: #312E2E; // Warna huruf button    
+          border: solid 1px #D4D2D2; // Menghilangkan border default    
+          border-radius: 48px; // Border-radius untuk tombol    
+          cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik    
+      
+          img {    
+            margin-right: 5px; // Jarak antara ikon dan teks    
+          }    
+      
+          &:hover {    
+            background-color: #F5F5F5; // Warna latar belakang saat hover    
+            font-weight: bold;  
+          }    
+      
+          &.active {    
+            border-color: #C2200C; // Warna border saat aktif    
+          }    
+        }    
+      
+        .dropdown-menu-filter {    
+          position: absolute; // Mengatur posisi dropdown    
+          background-color: white; // Warna latar belakang dropdown    
+          border: 1px solid #ddd; // Border untuk dropdown    
+          border-radius: 16px; // Border-radius untuk dropdown    
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
+          z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
+          margin-top: 10px; // Jarak antara dropdown dan tombol    
+          top: 45px;  
+          right: 130px;  
+          width: 300px;  
+      
+          .dropdown-item-filter {    
+            display: flex; // Mengatur ikon dan teks dalam satu baris    
+            align-items: center; // Menyelaraskan ikon dan teks    
+            padding: 10px; // Padding untuk item dropdown    
+            cursor: pointer; // Menunjukkan bahwa item dapat diklik    
+      
+            img {    
+              width: 20px; // Ukuran tetap untuk ikon    
+              height: 20px; // Ukuran tetap untuk ikon    
+              margin-right: 10px; // Jarak antara ikon dan teks    
+            }    
+      
+            &:hover {    
+              background-color: #F5F5F5; // Warna latar belakang saat hover    
+              color: #C2200C; // Warna teks saat hover   
+              font-weight: bold;   
+            }    
+          }    
+        }    
+      
+        .dropdown-sort-filter {    
+          position: absolute; // Mengatur posisi dropdown    
+          background-color: white; // Warna latar belakang dropdown    
+          border: 1px solid #ddd; // Border untuk dropdown    
+          border-radius: 16px; // Border-radius untuk dropdown    
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
+          z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
+          margin-top: 10px; // Jarak antara dropdown dan tombol    
+          top: 45px;  
+          right: 10px;  
+          width: 200px;  
+      
+          .dropdown-item-sort-filter {    
+            display: flex; // Mengatur ikon dan teks dalam satu baris    
+            align-items: center; // Menyelaraskan ikon dan teks    
+            padding: 10px; // Padding untuk item dropdown    
+            cursor: pointer; // Menunjukkan bahwa item dapat diklik    
+      
+            img {    
+              width: 20px; // Ukuran tetap untuk ikon    
+              height: 20px; // Ukuran tetap untuk ikon    
+              margin-right: 10px; // Jarak antara ikon dan teks    
+            }    
+      
+            &:hover {    
+              background-color: #F5F5F5; // Warna latar belakang saat hover    
+              color: #C2200C; // Warna teks saat hover   
+              font-weight: bold;   
+            }    
+          }    
+        }  
+      }  
+    }   
+      
+
+      
+  .dropdown-menu {  
+    position: absolute; // Mengatur posisi dropdown  
+    background-color: white; // Warna latar belakang dropdown  
+    border-left: 1px solid #ddd; // Border untuk dropdown  
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-top:0px;
+    border-radius: 1px; // Border-radius untuk dropdown  
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman  
+    z-index: 1000; // Memastikan dropdown berada di atas elemen lain  
+    margin-top: 10px; // Jarak antara dropdown dan elemen di atasnya  
+    right:50px;
+    top:80px;
+    width: 160px;
+    
+    ul {  
+      list-style: none; // Menghilangkan bullet points  
+      padding: 0; // Menghilangkan padding  
+      margin: 0; // Menghilangkan margin  
+    
+      li {  
+        padding: 10px; // Padding untuk item dropdown  
+        cursor: pointer; // Menunjukkan bahwa item dapat diklik  
+    
+        &:hover {  
+          background-color: #f0f0f0; // Warna latar belakang saat hover  
+        }  
+      }  
+    }  
+  }
+}

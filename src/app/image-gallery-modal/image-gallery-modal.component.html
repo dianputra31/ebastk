@@ -35,7 +35,7 @@
         </div>
        <div class="col-3">
         <div class="block" >
-          <div class="col-sm-12" style="align-content: center;text-align: center;">
+          <div class="col-sm-12" style="align-content: center;text-align: center;" *ngIf="!isViewOnly">
             <img src="./../../assets/icons/upload.svg"  style="text-align: center;margin-top:40px;padding-left:60px;">
             <label class="labelblock"  style="cursor: pointer;">Unggah Foto Lainnya<input type="file" accept="image/*" hidden (change)="onImageUpload($event)"></label>
           </div>

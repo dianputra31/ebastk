@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UnitDetailResponse } from 'src/assets/models/detail-unit.model';
+import { UnitDetailResponse, UnitDocument } from 'src/assets/models/detail-unit.model';
 import { ApiVehicleTypeResponse } from 'src/assets/models/list-vehicle-tipe.model';
 import { VendorDetailResponse } from 'src/assets/models/vendor-detail.model';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import { ApiClientService } from '../services/api.client';
 import { ApiBrandResponse } from 'src/assets/models/list-brand.model';
 import { ApiVariantResponse } from 'src/assets/models/list-variant.model';
 import { ApiColorResponse } from 'src/assets/models/list-color.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
 
 @Component({
   selector: 'app-the-detail-history-info',
@@ -36,6 +38,7 @@ payloadUnit: any = null;
 variant_model_id: string = '';
 brandid:any = '';
 brandName:any = '';
+unitdocuments: UnitDocument[] = [];
 
 errlog:string = '';
 isButtonDisabled: boolean = false;
@@ -60,15 +63,54 @@ transmissionOptions: [string, string][] = [
   // ['Other', 'Other']
 ];
 
-  constructor(private apiClient: ApiClientService) { }
+  constructor(private apiClient: ApiClientService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.pic = this.sampleData?.mobilization_units[0].mobiliztion.pic;
-
+    console.log('this.sampleData?.brand.brand_name:', this.sampleData);
     this.showVehicleType();
     this.showBrand();
     this.showColor();
   }
+
+
+  async openGallery(a:string) {
+
+    try{
+
+          const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
+          modalRef.componentInstance.carName = this.sampleData?.display_name;
+          modalRef.componentInstance.unitId = this.sampleData?.id;
+          modalRef.componentInstance.tipeDoc = a;
+          modalRef.componentInstance.isViewOnly = true;
+          
+          if(a=='BPKB'){
+            modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'BPKB');
+          }else if(a=='STNK'){
+            modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'STNK');
+          }else if(a=='SURATKUASA'){
+            modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
+          }else if(a=='BASTK'){
+            modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'BASTK');
+          }else{
+            modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
+          }
+    }catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Cek status kode dari respons
+          if (error.response && error.response.status === 401) {
+            this.errlog = 'Username atau password salah.';
+          } else {
+            this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+          }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+    }
+  }
+
+
 
   async showVariant(brand_id: number) {
     const brand_name = {
@@ -182,11 +224,12 @@ transmissionOptions: [string, string][] = [
     };
     this.errlog = "";
     try {
-      const endpoint = `/brands?keyword=${this.brandName}`; // Menambahkan parameter ke endpoint
+      // alert(this.sampleData?.brand.brand_name);
+      const endpoint = `/brands?keyword=${this.sampleData?.brand.brand_name}`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.getOther<ApiBrandResponse>(endpoint);
       if (response) {
         this.brands = response;  
-        this.showVariant(this.brandid);
+        this.showVariant(this.brands?.results[0].id);
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';

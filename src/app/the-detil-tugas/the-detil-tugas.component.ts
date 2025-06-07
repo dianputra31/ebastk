@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand, UnitDocument  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
 import { ApiBrandResponse } from '../../assets/models/list-brand.model';
@@ -14,6 +14,7 @@ import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+declare var $: any;
 
 
 @Component({
@@ -21,7 +22,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './the-detil-tugas.component.html',
   styleUrls: ['./the-detil-tugas.component.scss']
 })
-export class TheDetilTugasComponent implements OnInit {
+export class TheDetilTugasComponent implements OnInit, AfterViewInit {
   // isExpanded: boolean = true;
   expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
   @Output() panelChange = new EventEmitter<string>();
@@ -112,6 +113,21 @@ transmissionOptions: [string, string][] = [
   
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
 
+  ngAfterViewInit(): void {
+    // Inisialisasi select2
+    $('#tipeSelect2').select2({
+      placeholder: 'Pilih Tipe',
+      width: 'resolve'
+    });
+
+    // Handle event select2
+    $('#tipeSelect2').on('change', (e: any) => {
+      const selectedId = e.target.value;
+      this.selectedVariant = selectedId;
+      this.savePayloadUnit();
+    });
+  }
+  
   ngOnInit(): void {
     this.infoUnit();
     this.showColor();

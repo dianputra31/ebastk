@@ -77,7 +77,7 @@
                     <label for="tipe">Tipe</label>
                     <!-- {{sampleData?.variant_model?.model_name}}#
                     {{sampleData?.variant_model?.id}} -->
-                    <select id="tipe" name="tipe" placeholder="Tipe" (change)="onVariantChange($event)">
+                    <select id="tipeSelect2" name="tipe" placeholder="Tipe" (change)="onVariantChange($event)">
                       <option  *ngIf="modelname==''">Pilih Tipe</option>
                       <option *ngFor="let variant of variants?.results" 
                              [value]="variant.variant_name" 
@@ -86,6 +86,7 @@
                        {{ variant.variant_name }}
                       </option>
                     </select>
+                    
 
                     <label for="color">Tahun</label>
                     <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)"/>

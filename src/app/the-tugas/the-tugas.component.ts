@@ -128,7 +128,7 @@ export class TheTugasComponent implements OnInit {
         this.filter_bastk_status = '';
       }
 
-      if(this.filterCategory==''){
+      if(this.filterCategory=='' || this.filterCategory=='0'){
         this.filter_category = '&categories='
       }else{
         this.filter_category = '&categories=' + this.filterCategory;

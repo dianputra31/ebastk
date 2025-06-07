@@ -233,4 +233,31 @@ export class AppComponent {
       return routeMappings[this.currentRoute] || 'none';
     }
 
+
+    getCurrentRouterView(): string {
+      if (this.currentRoute.startsWith('/detil-tugas/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/inspeksi-unit/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/exterior-inspection/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/interior-inspection/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/engine-inspection/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/unit-photos/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/detil-riwayat/')) return 'dt-riwayat';
+
+      const routeMappings: { [key: string]: string } = {
+      '/detil-tugas': 'dt-tugas',
+      '/inspeksi-unit': 'dt-tugas',
+      '/exterior-inspection': 'dt-tugas',
+      '/interior-inspection': 'dt-tugas',
+      '/engine-inspection': 'dt-tugas',
+      '/unit-photos': 'dt-tugas',
+      '/detil-riwayat': 'dt-riwayat',
+      '/dashboard': 'maincontent',
+      '/tugas': 'main',
+      '/profil': 'main',
+      '/riwayat': 'main'
+      };
+
+      return routeMappings[this.currentRoute] || 'none';
+    }
+
 }

@@ -6,13 +6,35 @@
   <div class="container app-container" *ngIf="isLogin">
     <div class="the-header">      
       <app-header (menuChange)="onMenuChange($event)" (filterChange)="onFilterChange($event)" (filterHistoryChange)="onFilterHistoryChange($event)" [activeNoah]="noah" [activeLoc]="noahloc" [activeDatetime]="noahdate" [activeDoneBy]="noahdoneby" [activeDoneDate]="noahdonedate"></app-header>      
-    </div>      
-    <div class="the-content">
-      <!-- THIS NOAH:{{noah}}
-      <br/>THIS NOAHLOC:{{noahloc}}
-      <br/>THIS FILTERSTATUS:{{filterStatus}} -->
-      <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
-    </div>  
+    </div>
+    
+    
+    <ng-container [ngSwitch]="getCurrentRouterView()">
+          <ng-container *ngSwitchCase="'maincontent'">
+          <div class="the-maincontent">
+            <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
+          </div> 
+          </ng-container>
+          <ng-container *ngSwitchCase="'dt-tugas'">
+            <div class="the-content">
+              <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
+            </div> 
+          </ng-container>
+          <ng-container *ngSwitchCase="'dt-riwayat'">
+            <div class="the-content">
+              <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'main'">
+            <div class="the-content">
+              <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
+            </div> 
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'none'"></ng-container>
+      </ng-container>
+
+ 
 
 
     <ng-container [ngSwitch]="getCurrentView()">

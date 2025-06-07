@@ -15,6 +15,7 @@ export class ImageGalleryModalComponent implements OnInit{
 // @Input() images: string[] = [];
 @Input() images: UnitDocument[] = [];
 @Input() unitId: any;
+@Input() isViewOnly: boolean = false;
 isModalOpen = true;
 errlog: string = '';
 tipeDoc: string = '';

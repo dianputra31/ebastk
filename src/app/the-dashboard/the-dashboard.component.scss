@@ -1,10 +1,10 @@
-.dashboard-container {
-  display: flex; // Mengatur layout menjadi flex
-  height: 60vh; // Mengatur tinggi penuh halaman
-  background-image: url('../../assets/icons/dashboard_login.png');
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  
+@media (min-width: 900px) {
+  .dashboard-container {
+    display: flex; // Mengatur layout menjadi flex
+    height: 60vh; // Mengatur tinggi penuh halaman
+    background-image: url('../../assets/icons/dashboard_login.png');
+    background-repeat: no-repeat;
+    background-position: left bottom;
   
   // border: solid blue 2px;
 
@@ -164,5 +164,350 @@
         }
       }
     }
-  
+
+  }
 }
+
+@media (max-width: 540px) {
+
+  .dashboard-container {
+    display: block; // Mengatur layout menjadi flex
+    height: 60vh; // Mengatur tinggi penuh halaman
+    background-image: url('../../assets/icons/dashboard_login.png');
+    background-repeat: no-repeat;
+    background-position: left bottom;
+
+  .score-cards-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px; // Jarak antar kartu
+    }
+    .score-card {
+      background-color: white; // Warna latar belakang kartu
+      border-radius: 8px; // Sudut melengkung
+      padding: 15px; // Padding di dalam kartu
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); // Bayangan untuk kartu
+      width: calc(45% - 15px); // Lebar kartu agar ada dua per baris dengan jarak 15px
+      height: 80px;
+  
+      display: flex; // Mengatur layout kartu menjadi flex
+      flex-direction: column; // Mengatur arah elemen menjadi kolom
+      justify-content: center; // Mengatur jarak antar elemen
+      align-items: flex-start; // Mengatur elemen ke kiri
+      // animation: shutter-in-top 1s linear 0s 1 normal none;
+      animation: scale-up-center 0.5s linear 0s 1 normal none;
+
+  
+
+      .score {
+        display: flex; // Mengatur layout menjadi flex
+        align-items: center; // Mengatur elemen agar rata tengah secara vertikal
+        margin-top: 5px; // Jarak atas untuk skor
+        font-size: 20px; // Ukuran font untuk skor
+        font-weight: bold; // Menebalkan font
+      }
+    
+      .icon {
+          margin-right: 5px; // Jarak antara ikon dan angka
+      }
+      
+      .icon img {
+          width: 20px; // Atur lebar ikon sesuai kebutuhan
+          height: 20px; // Atur tinggi ikon sesuai kebutuhan
+      }
+
+      .label {
+          font-size: 12px; // Ukuran font untuk label
+          color: #746E6E; // Warna untuk label
+          font-weight: 800;
+      }
+
+    }
+    
+
+
+    .left-column {
+      width: 100%;
+      position: relative;
+      border:solid red 0px;
+
+
+            .nganu{
+              position: absolute;
+            }
+
+          .welcome-label{
+            font-family: 'Nunito Sans';
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 14px;
+            letter-spacing: 0px;
+            color:#312E2E;
+            animation: text-focus-in 0.5s linear 0s 1 normal none;
+          }
+
+          .name-label{
+            font-family: 'Nunito Sans';
+            font-weight: 800;
+            font-size: 15px;
+            line-height: 10px;
+            letter-spacing: 0px;
+            color: #312E2E;
+            animation: text-focus-in 1s linear 0s 1 normal none;
+
+          }
+
+          .rate-label{
+            font-family: 'Nunito Sans';
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 10px;
+            letter-spacing: 0px;
+            color: #312E2E;
+            margin-top:30px;
+            width:50%;
+            border:solid red 0px;
+            
+          }
+
+          .div-label{
+            font-family: 'Nunito Sans';
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 10px;
+            letter-spacing: 0px;
+            color: #746E6E;
+            animation: focus-in-contract 1s linear 0s 1 normal none;
+          }
+
+          h1 {
+            font-size: 24px; // Ukuran font untuk judul
+            margin-bottom: 20px; // Jarak bawah
+          }
+      }
+
+      .right-column {
+        width: 100%;
+        position: relative;
+        border:solid red 0px;
+
+          .task-title {
+            font-size: 12px; // Ukuran font untuk judul tugas
+            margin-top: 10px; // Jarak bawah
+            margin-bottom: 15px; // Jarak bawah
+            font-family: 'Nunito Sans';
+            font-weight: 700;
+            line-height: 14px;
+            letter-spacing: 0px;
+            color: #312E2E;
+          }
+      
+          .task-card {
+            background-color: #f9f9f9; // Warna latar belakang kartu tugas
+            border-radius: 8px; // Sudut melengkung
+            padding: 15px; // Padding di dalam kartu tugas
+            margin-bottom: 15px; // Jarak antar kartu tugas
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); // Bayangan untuk kartu tugas
+      
+            display: flex; // Mengatur layout kartu tugas menjadi flex
+            flex-direction: column; // Mengatur arah kolom
+            justify-content: space-between; // Mengatur jarak antar elemen
+      
+            .task-info {
+              display: flex; // Mengatur layout info tugas menjadi flex
+              justify-content: space-between; // Mengatur jarak antar elemen
+              margin-bottom: 10px; // Jarak bawah
+            }
+      
+            .task-details {
+              font-size: 14px; // Ukuran font untuk detail tugas
+              color: #333; // Warna untuk detail tugas
+            }
+      
+            .view-more {
+              text-align: right; // Mengatur teks ke kanan
+              color: #007bff; // Warna untuk link "Lihat selengkapnya"
+              cursor: pointer; // Mengubah kursor menjadi pointer
+            }
+          }
+      }
+
+  }
+   
+
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+
+  .dashboard-container {
+    display: block; // Mengatur layout menjadi flex
+    height: 60vh; // Mengatur tinggi penuh halaman
+    background-image: url('../../assets/icons/dashboard_login.png');
+    background-repeat: no-repeat;
+    background-position: left bottom;
+
+  .score-cards-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px; // Jarak antar kartu
+    }
+    .score-card {
+      background-color: white; // Warna latar belakang kartu
+      border-radius: 8px; // Sudut melengkung
+      padding: 15px; // Padding di dalam kartu
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); // Bayangan untuk kartu
+      width: calc(45% - 15px); // Lebar kartu agar ada dua per baris dengan jarak 15px
+      height: 80px;
+  
+      display: flex; // Mengatur layout kartu menjadi flex
+      flex-direction: column; // Mengatur arah elemen menjadi kolom
+      justify-content: center; // Mengatur jarak antar elemen
+      align-items: flex-start; // Mengatur elemen ke kiri
+      // animation: shutter-in-top 1s linear 0s 1 normal none;
+      animation: scale-up-center 0.5s linear 0s 1 normal none;
+
+  
+
+      .score {
+        display: flex; // Mengatur layout menjadi flex
+        align-items: center; // Mengatur elemen agar rata tengah secara vertikal
+        margin-top: 5px; // Jarak atas untuk skor
+        font-size: 20px; // Ukuran font untuk skor
+        font-weight: bold; // Menebalkan font
+      }
+    
+      .icon {
+          margin-right: 5px; // Jarak antara ikon dan angka
+      }
+      
+      .icon img {
+          width: 20px; // Atur lebar ikon sesuai kebutuhan
+          height: 20px; // Atur tinggi ikon sesuai kebutuhan
+      }
+
+      .label {
+          font-size: 12px; // Ukuran font untuk label
+          color: #746E6E; // Warna untuk label
+          font-weight: 800;
+      }
+
+    }
+    
+
+
+    .left-column {
+      width: 100%;
+      position: relative;
+      border:solid red 0px;
+
+
+            .nganu{
+              position: absolute;
+            }
+
+          .welcome-label{
+            font-family: 'Nunito Sans';
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 14px;
+            letter-spacing: 0px;
+            color:#312E2E;
+            animation: text-focus-in 0.5s linear 0s 1 normal none;
+          }
+
+          .name-label{
+            font-family: 'Nunito Sans';
+            font-weight: 800;
+            font-size: 15px;
+            line-height: 10px;
+            letter-spacing: 0px;
+            color: #312E2E;
+            animation: text-focus-in 1s linear 0s 1 normal none;
+
+          }
+
+          .rate-label{
+            font-family: 'Nunito Sans';
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 10px;
+            letter-spacing: 0px;
+            color: #312E2E;
+            margin-top:30px;
+            width:50%;
+            border:solid red 0px;
+            
+          }
+
+          .div-label{
+            font-family: 'Nunito Sans';
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 10px;
+            letter-spacing: 0px;
+            color: #746E6E;
+            animation: focus-in-contract 1s linear 0s 1 normal none;
+          }
+
+          h1 {
+            font-size: 24px; // Ukuran font untuk judul
+            margin-bottom: 20px; // Jarak bawah
+          }
+      }
+
+      .right-column {
+        width: 100%;
+        position: relative;
+        border:solid red 0px;
+
+          .task-title {
+            font-size: 12px; // Ukuran font untuk judul tugas
+            margin-top: 10px; // Jarak bawah
+            margin-bottom: 15px; // Jarak bawah
+            font-family: 'Nunito Sans';
+            font-weight: 700;
+            line-height: 14px;
+            letter-spacing: 0px;
+            color: #312E2E;
+          }
+      
+          .task-card {
+            background-color: #f9f9f9; // Warna latar belakang kartu tugas
+            border-radius: 8px; // Sudut melengkung
+            padding: 15px; // Padding di dalam kartu tugas
+            margin-bottom: 15px; // Jarak antar kartu tugas
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); // Bayangan untuk kartu tugas
+      
+            display: flex; // Mengatur layout kartu tugas menjadi flex
+            flex-direction: column; // Mengatur arah kolom
+            justify-content: space-between; // Mengatur jarak antar elemen
+      
+            .task-info {
+              display: flex; // Mengatur layout info tugas menjadi flex
+              justify-content: space-between; // Mengatur jarak antar elemen
+              margin-bottom: 10px; // Jarak bawah
+            }
+      
+            .task-details {
+              font-size: 14px; // Ukuran font untuk detail tugas
+              color: #333; // Warna untuk detail tugas
+            }
+      
+            .view-more {
+              text-align: right; // Mengatur teks ke kanan
+              color: #007bff; // Warna untuk link "Lihat selengkapnya"
+              cursor: pointer; // Mengubah kursor menjadi pointer
+            }
+          }
+      }
+
+  }
+   
+
+}
+
+
+
+
+  
+

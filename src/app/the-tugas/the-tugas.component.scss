@@ -1,167 +1,335 @@
-.product-container {  
-    display: flex;  
-    flex-direction: column;  
-    gap: 20px; // Jarak antar produk  
-    
-    .product-card {  
-      display: flex; // Mengatur produk dalam satu baris  
-      background-color: #fff; // Warna latar belakang kartu  
-      border: 1px solid #ddd; // Border kartu  
-      border-radius: 8px; // Border-radius  
-      padding: 20px; // Padding di dalam kartu  
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman  
-      cursor: pointer;
-    
-      .product-image {  
-        width: 110px; // Lebar gambar  
-        height: 110px; // Tinggi gambar  
-        background-color: #cdcdcd; // Warna latar belakang default  
-        background-size: cover; // Mengatur ukuran gambar  
-        background-position: center; // Memusatkan gambar  
-        border-radius: 8px; // Border-radius untuk gambar  
-        margin-right: 20px; // Jarak antara gambar dan detail produk  
-    
-        .placeholder {  
-          width: 100%; // Lebar placeholder  
-          height: 100%; // Tinggi placeholder  
-          background-color: #cdcdcd; // Warna latar belakang placeholder  
-          border-radius: 8px; // Border-radius untuk placeholder  
-        }  
-      }  
-    
-      .product-details {  
-        flex: 1; // Mengisi sisa ruang  
-    
-        .product-header {  
-            display: flex;  
-            justify-content: space-between; // Memisahkan judul dan status  
-            align-items: center;  
+@media (min-width: 600px) {
+  .product-container {  
+      display: flex;  
+      flex-direction: column;  
+      gap: 20px; // Jarak antar produk  
       
-            h3 {  
-              margin: 0; // Menghilangkan margin default  
-            }  
+      .product-card {  
+        display: flex; // Mengatur produk dalam satu baris  
+        background-color: #fff; // Warna latar belakang kartu  
+        border: 1px solid #ddd; // Border kartu  
+        border-radius: 8px; // Border-radius  
+        padding: 20px; // Padding di dalam kartu  
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman  
+        cursor: pointer;
       
-            .status {
-              background-color: #f44336; // Warna latar belakang status  
-              color: white; // Warna teks status  
-              padding: 4px 8px; // Padding untuk status  
-              border-radius: 4px; // Border-radius untuk status  
-              font-weight: bold;
-            }  
-
-    
-                .status-new {  
-                    background-color: #EAEFFD;  
-                    color: #2853D3;  
-                }  
-                    
-                .status-review {  
-                    background-color: #FEF4E6;  
-                    color: #E18308;  
-                }  
-                    
-                .status-revision {  
-                    background-color: #FBE9E7;  
-                    color: #C2200C;  
-                }  
-                    
-                .status-draft {  
-                    background-color: #EBEBEB;  
-                    color: #524E4E;  
-                }  
-  
-            .status-header {  
-              // background-color: #908B8B; // Warna latar belakang status  
-              color: #908B8B; // Warna teks status  
-              padding: 4px 8px; // Padding untuk status  
-              border-radius: 4px; // Border-radius untuk status 
-              //styleName: Text 10/Bold;
-              font-family: 'NunitoSans';
-              font-size: 11px;
-              font-weight: 700;
-              line-height: 12px;
-              text-align: right;
-              text-decoration-skip-ink: none;
-   
-            }
+        .product-image {  
+          width: 110px; // Lebar gambar  
+          height: 110px; // Tinggi gambar  
+          background-color: #cdcdcd; // Warna latar belakang default  
+          background-size: cover; // Mengatur ukuran gambar  
+          background-position: center; // Memusatkan gambar  
+          border-radius: 8px; // Border-radius untuk gambar  
+          margin-right: 20px; // Jarak antara gambar dan detail produk  
+      
+          .placeholder {  
+            width: 100%; // Lebar placeholder  
+            height: 100%; // Tinggi placeholder  
+            background-color: #cdcdcd; // Warna latar belakang placeholder  
+            border-radius: 8px; // Border-radius untuk placeholder  
           }  
-    
-        .auction-info {  
-          margin: 10px 0; // Jarak atas dan bawah  
-          font-weight: bold; // Menebalkan teks  
-          //styleName: Text 12/Semibold;
-            font-family: 'NunitoSans';
-            font-size: 12px;
-            font-weight: 600;
-            line-height: 16px;
-            text-align: left;
-            text-decoration-skip-ink: none;
-            color: #312E2E;
-
         }  
-    
-        .key-value {  
-            display: flex;  
-            flex-wrap: wrap; // Membungkus jika terlalu banyak  
-            gap: 10px; // Jarak antar item  
-            
-            .key-value-item {  
-              flex: 1 1 15%; // Mengatur lebar item  
+      
+        .product-details {  
+          flex: 1; // Mengisi sisa ruang  
+      
+          .product-header {  
               display: flex;  
-              flex-direction: column; // Mengatur key dan value dalam kolom  
-              align-items: flex-start; // Menyelaraskan ke kiri  
-            
-              .key {  
-                font-weight: bold; // Menebalkan key  
-                margin-bottom: 4px; // Jarak antara key dan value  
-                //styleName: Text 12/Regular;
-                font-family: 'NunitoSans';
-                font-size: 12px;
-                font-weight: 400;
-                line-height: 16px;
-                text-align: left;
-                text-underline-position: from-font;
-                text-decoration-skip-ink: none;
-
+              justify-content: space-between; // Memisahkan judul dan status  
+              align-items: center;  
+        
+              h3 {  
+                margin: 0; // Menghilangkan margin default  
               }  
-            
-              .value {  
-                margin-left: 0; // Menghilangkan margin kiri  
-                //styleName: Text 14/Bold;
-                font-family: 'NunitoSans';
-                font-size: 14px;
-                font-weight: 700;
-                line-height: 20px;
-                text-align: left;
-                text-underline-position: from-font;
-                text-decoration-skip-ink: none;
+        
+              .status {
+                background-color: #f44336; // Warna latar belakang status  
+                color: white; // Warna teks status  
+                padding: 4px 8px; // Padding untuk status  
+                border-radius: 4px; // Border-radius untuk status  
+                font-weight: bold;
+              }  
 
+      
+                  .status-new {  
+                      background-color: #EAEFFD;  
+                      color: #2853D3;  
+                  }  
+                      
+                  .status-review {  
+                      background-color: #FEF4E6;  
+                      color: #E18308;  
+                  }  
+                      
+                  .status-revision {  
+                      background-color: #FBE9E7;  
+                      color: #C2200C;  
+                  }  
+                      
+                  .status-draft {  
+                      background-color: #EBEBEB;  
+                      color: #524E4E;  
+                  }  
+    
+              .status-header {  
+                // background-color: #908B8B; // Warna latar belakang status  
+                color: #908B8B; // Warna teks status  
+                padding: 4px 8px; // Padding untuk status  
+                border-radius: 4px; // Border-radius untuk status 
+                //styleName: Text 10/Bold;
+                font-family: 'NunitoSans';
+                font-size: 11px;
+                font-weight: 700;
+                line-height: 12px;
+                text-align: right;
+                text-decoration-skip-ink: none;
+    
+              }
+            }  
+      
+          .auction-info {  
+            margin: 10px 0; // Jarak atas dan bawah  
+            font-weight: bold; // Menebalkan teks  
+            //styleName: Text 12/Semibold;
+              font-family: 'NunitoSans';
+              font-size: 12px;
+              font-weight: 600;
+              line-height: 16px;
+              text-align: left;
+              text-decoration-skip-ink: none;
+              color: #312E2E;
+
+          }  
+      
+          .key-value {  
+              display: flex;  
+              flex-wrap: wrap; // Membungkus jika terlalu banyak  
+              gap: 10px; // Jarak antar item  
+              
+              .key-value-item {  
+                flex: 1 1 15%; // Mengatur lebar item  
+                display: flex;  
+                flex-direction: column; // Mengatur key dan value dalam kolom  
+                align-items: flex-start; // Menyelaraskan ke kiri  
+              
+                .key {  
+                  font-weight: bold; // Menebalkan key  
+                  margin-bottom: 4px; // Jarak antara key dan value  
+                  //styleName: Text 12/Regular;
+                  font-family: 'NunitoSans';
+                  font-size: 12px;
+                  font-weight: 400;
+                  line-height: 16px;
+                  text-align: left;
+                  text-underline-position: from-font;
+                  text-decoration-skip-ink: none;
+
+                }  
+              
+                .value {  
+                  margin-left: 0; // Menghilangkan margin kiri  
+                  //styleName: Text 14/Bold;
+                  font-family: 'NunitoSans';
+                  font-size: 14px;
+                  font-weight: 700;
+                  line-height: 20px;
+                  text-align: left;
+                  text-underline-position: from-font;
+                  text-decoration-skip-ink: none;
+
+                }  
               }  
             }  
-          }  
-            
-      }  
-    }
-    
-    
-    
+              
+        }  
+      }
+      
+      
+      
 
-    @keyframes shutter-in-top {
-      0% {
-        transform: translateY(-100%);
-        opacity: 0;
+      @keyframes shutter-in-top {
+        0% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
+      
+      .shutter-in-top {
+        animation: shutter-in-top 1s linear 0s 1 normal none;
       }
-    }
-    
-    .shutter-in-top {
-      animation: shutter-in-top 1s linear 0s 1 normal none;
-    }
-    
+      
   }  
-  
+}
+
+@media (max-width: 540px) {
+    .product-container {  
+      display: flex;  
+      flex-direction: column;  
+      gap: 5px; // Jarak antar produk  
+      
+      .product-card {  
+        display: flex; // Mengatur produk dalam satu baris  
+        background-color: #fff; // Warna latar belakang kartu  
+        border: 1px solid #ddd; // Border kartu  
+        border-radius: 8px; // Border-radius  
+        padding: 20px; // Padding di dalam kartu  
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman  
+        cursor: pointer;
+      
+        .product-image {  
+          width: 110px; // Lebar gambar  
+          height: 110px; // Tinggi gambar  
+          background-color: #cdcdcd; // Warna latar belakang default  
+          background-size: cover; // Mengatur ukuran gambar  
+          background-position: center; // Memusatkan gambar  
+          border-radius: 8px; // Border-radius untuk gambar  
+          margin-right: 20px; // Jarak antara gambar dan detail produk  
+      
+          .placeholder {  
+            width: 100%; // Lebar placeholder  
+            height: 100%; // Tinggi placeholder  
+            background-color: #cdcdcd; // Warna latar belakang placeholder  
+            border-radius: 8px; // Border-radius untuk placeholder  
+          }  
+        }  
+      
+        .product-details {  
+          flex: 1; // Mengisi sisa ruang  
+      
+          .product-header {  
+              display: flex;  
+              justify-content: space-between; // Memisahkan judul dan status  
+              align-items: center;  
+        
+              h3 {  
+                margin: 0; // Menghilangkan margin default  
+              }  
+        
+              .status {
+                background-color: #f44336; // Warna latar belakang status  
+                color: white; // Warna teks status  
+                padding: 4px 8px; // Padding untuk status  
+                border-radius: 4px; // Border-radius untuk status  
+                font-weight: bold;
+              }  
+
+      
+                  .status-new {  
+                      background-color: #EAEFFD;  
+                      color: #2853D3;  
+                  }  
+                      
+                  .status-review {  
+                      background-color: #FEF4E6;  
+                      color: #E18308;  
+                  }  
+                      
+                  .status-revision {  
+                      background-color: #FBE9E7;  
+                      color: #C2200C;  
+                  }  
+                      
+                  .status-draft {  
+                      background-color: #EBEBEB;  
+                      color: #524E4E;  
+                  }  
+    
+              .status-header {  
+                // background-color: #908B8B; // Warna latar belakang status  
+                color: #908B8B; // Warna teks status  
+                padding: 4px 8px; // Padding untuk status  
+                border-radius: 4px; // Border-radius untuk status 
+                //styleName: Text 10/Bold;
+                font-family: 'NunitoSans';
+                font-size: 11px;
+                font-weight: 700;
+                line-height: 12px;
+                text-align: right;
+                text-decoration-skip-ink: none;
+    
+              }
+            }  
+      
+          .auction-info {  
+            margin: 10px 0; // Jarak atas dan bawah  
+            font-weight: bold; // Menebalkan teks  
+            //styleName: Text 12/Semibold;
+              font-family: 'NunitoSans';
+              font-size: 12px;
+              font-weight: 600;
+              line-height: 16px;
+              text-align: left;
+              text-decoration-skip-ink: none;
+              color: #312E2E;
+
+          }  
+      
+          .key-value {  
+              display: flex;  
+              flex-wrap: wrap; // Membungkus jika terlalu banyak  
+              gap: 10px; // Jarak antar item  
+              
+              .key-value-item {  
+                flex: 1 1 15%; // Mengatur lebar item  
+                display: flex;  
+                flex-direction: column; // Mengatur key dan value dalam kolom  
+                align-items: flex-start; // Menyelaraskan ke kiri  
+              
+                .key {  
+                  font-weight: bold; // Menebalkan key  
+                  margin-bottom: 4px; // Jarak antara key dan value  
+                  //styleName: Text 12/Regular;
+                  font-family: 'NunitoSans';
+                  font-size: 12px;
+                  font-weight: 400;
+                  line-height: 16px;
+                  text-align: left;
+                  text-underline-position: from-font;
+                  text-decoration-skip-ink: none;
+
+                }  
+              
+                .value {  
+                  margin-left: 0; // Menghilangkan margin kiri  
+                  //styleName: Text 14/Bold;
+                  font-family: 'NunitoSans';
+                  font-size: 14px;
+                  font-weight: 700;
+                  line-height: 20px;
+                  text-align: left;
+                  text-underline-position: from-font;
+                  text-decoration-skip-ink: none;
+
+                }  
+              }  
+            }  
+              
+        }  
+      }
+      
+      
+      
+
+      @keyframes shutter-in-top {
+        0% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      
+      .shutter-in-top {
+        animation: shutter-in-top 1s linear 0s 1 normal none;
+      }
+      
+  } 
+}
 
   

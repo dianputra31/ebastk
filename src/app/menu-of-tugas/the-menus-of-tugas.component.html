@@ -16,15 +16,19 @@
         
         <div class="filter-container">  
           <div class="filter-button" (click)="toggleCategoryDropdown()" [ngClass]="{'active': isCategoryDropdownOpen}">  
-            <img src="../../assets/icons/all-categories.svg" alt="All Categories">  
-            <span>Semua Kategori</span>  
+            <div style="position:relative;float:left;width:30%">
+              <img src="../../assets/icons/all-categories.svg" alt="All Categories">
+            </div>  
+            <div style="position:relative;float:left;width:70%">{{ selectedCategoryName }}</div>  
           </div>  
           <div class="dropdown-icon" (click)="toggleCategoryDropdown()">  
           </div> 
           
-          <div class="filter-button" (click)="toggleSortDropdown()" [ngClass]="{'active': isSortDropdownOpen}">  
-            <img src="../../assets/icons/terbaru.svg" alt="Terbaru">  
-            <span>Terbaru</span>  
+          <div class="filter-button" (click)="toggleSortDropdown()" [ngClass]="{'active': isSortDropdownOpen}"> 
+             <div style="position:relative;float:left;width:30%">
+              <img src="../../assets/icons/terbaru.svg" alt="Terbaru">
+            </div>  
+            <div style="position:relative;float:left;width:70%">Terbaru</div> 
           </div>
           <div class="dropdown-icon" (click)="toggleSortDropdown()">  
           </div>   
@@ -36,29 +40,6 @@
                 <span>{{vehictype.type_name}}</span>
               </div>
             </div>
-
-<!-- 
-            <div class="dropdown-item-filter" (click)="selectCategory('')">  
-              <img src="../../assets/icons/cat-all.svg" alt="Semua Kategori">  
-              <span>Semua Kategori</span>  
-            </div>  
-            <div class="dropdown-item-filter" (click)="selectCategory('2')">  
-              <img src="../../assets/icons/cat-passenger.svg" alt="Passenger">  
-              <span>Passenger</span>  
-            </div>  
-            <div class="dropdown-item-filter" (click)="selectCategory('Komersil')">  
-              <img src="../../assets/icons/cat-komersil.svg" alt="Komersil">  
-              <span>Komersil</span>  
-            </div>  
-            <div class="dropdown-item-filter" (click)="selectCategory('Bus')">  
-              <img src="../../assets/icons/cat-bus.svg" alt="Bus">  
-              <span>Bus</span>  
-            </div>  
-            <div class="dropdown-item-filter" (click)="selectCategory('Others')">  
-              <img src="../../assets/icons/terbaru.svg" alt="Others">  
-              <span>Others</span>  
-            </div> -->
-
           </div>
           
           <div class="dropdown-sort-filter" *ngIf="isSortDropdownOpen">  
