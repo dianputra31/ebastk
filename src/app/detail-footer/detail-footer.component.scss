@@ -1,4 +1,5 @@
-.footer {  
+@media (min-width: 600px) {
+  .footer {  
     display: flex;  
     justify-content: space-around; // Membagi ruang secara adil  
     align-items: center;  
@@ -50,4 +51,103 @@
       font-size: 20px; // Ukuran font pemisah  
       color: #aaa; // Warna pemisah  
     }  
-  }  
+
+
+
+
+  }
+
+    .wd70{
+      width: 70%;
+    }
+
+    .wd30{
+      width: 30%;
+    }
+
+    .wd45{
+      width:45%;
+    }
+}
+
+@media (max-width: 540px) {
+  .footer {  
+    display: flex;  
+    justify-content: space-around; // Membagi ruang secara adil  
+    align-items: center;  
+    // padding: 10px 0;  
+    background-color: #fff; // Warna latar belakang footer  
+    border-top: 1px solid #ddd; // Garis atas footer  
+    
+    .footer-item {  
+      display: flex;  
+      flex-direction: column;  
+      align-items: center;  
+      cursor: pointer;  
+      //styleName: Text 14/Semibold;
+        font-family: 'NunitoSans';
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+
+    
+      img {  
+        width: 24px; // Ukuran ikon  
+        height: 24px; // Ukuran ikon  
+      }  
+    
+      span {  
+        margin-top: 4px; // Jarak antara ikon dan label  
+        font-size: 12px; // Ukuran font  
+      }  
+    
+      &.active {  
+        color: #D5230D; // Warna teks saat aktif  
+        //styleName: Text 14/Semibold;
+        font-family: 'NunitoSans';
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+
+      }  
+    }  
+    
+    .separator {  
+      margin: 0 10px; // Jarak antara pemisah dan item  
+      font-size: 20px; // Ukuran font pemisah  
+      color: #aaa; // Warna pemisah  
+    }  
+  }
+
+
+    .wd70{
+      width: 40%;
+    }
+
+    .wd30{
+      width: 60%;
+    }
+
+    .wd45{
+      width:50%;
+    }
+
+    .lf_t{
+      font-size:11px;
+    }
+
+    .lf_b{
+      font-size:10.5px;
+    }
+
+    .lf_c{
+      display: none;
+    }
+}
+

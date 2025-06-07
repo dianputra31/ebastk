@@ -1,21 +1,21 @@
 
-<div class="bg-white flex justify-between items-center p-4" style="padding-top:10px;border-top:solid #EBEBEB 1px;">
-    <div class="flex items-center space-x-2"  style="width:70%;text-align:left;float:right;">
+<div class="bg-white flex justify-between items-center" style="padding-top:10px;border-top:solid #EBEBEB 1px;">
+    <div class="flex items-center space-x-2 wd70"  style="text-align:left;float:right;">
         <div class="bg-gray-100 p-2 rounded">
             <i class="fas fa-list text-lg"></i>
         </div>
         <div>
-            <p class="text-sm font-bold"  style="line-height: 5px;font-family:'NunitoSans';font-weight:bold;padding-top:5px;">{{labelfooter_top}}</p>
-            <p class="text-sm" style="font-family:'NunitoSans';font-weight:bold;">{{labelfooter_bottom}}</p>
+            <p class="text-sm font-bold lf_t"  style="line-height: 5px;font-family:'NunitoSans';font-weight:bold;padding-top:5px;">{{labelfooter_top}}</p>
+            <p class="text-sm lf_b" style="font-family:'NunitoSans';font-weight:bold;">{{labelfooter_bottom}}</p>
         </div>
-        <i class="fas fa-chevron-down text-red-500"  style="padding-left: 100px;padding-top:10px;"></i>
+        <i class="fas fa-chevron-down text-red-500 lf_c"  style="padding-left: 100px;padding-top:10px;"></i>
     </div>
-    <div class="flex space-x-2" style="width:30%;text-align:right;float:right;">
-        <button class="flex items-center space-x-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-full" style="width:45%;"  (click)="backStep()">
+    <div class="flex space-x-2  wd30" style="text-align:right;float:right;">
+        <button class="flex items-center space-x-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-full wd45" (click)="backStep()">
             <i class="fas fa-chevron-left"></i>
             <span style="padding-left:50%;font-family:'NunitoSans';font-weight:bold;">Back</span>
         </button>
-        <button class="flex items-center space-x-1 bg-red-600 text-white px-4 py-2 rounded-full" style="width:45%;" (click)="nextStep()">
+        <button class="flex items-center space-x-1 bg-red-600 text-white px-4 py-2 rounded-full wd45" (click)="nextStep()">
             <span style="font-family:'NunitoSans';font-weight:bold;">Next</span>
             <i class="fas fa-chevron-right" style="padding-left:50%;"></i>
         </button>

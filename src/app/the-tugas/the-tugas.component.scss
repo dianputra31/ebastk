@@ -201,20 +201,27 @@
           flex: 1; // Mengisi sisa ruang  
       
           .product-header {  
-              display: flex;  
+              display: block;  
               justify-content: space-between; // Memisahkan judul dan status  
-              align-items: center;  
+              align-items: center;
+              position: relative; 
         
-              h3 {  
+              .hy {  
                 margin: 0; // Menghilangkan margin default  
+                width:100%;
+                position: relative;
+                float: left;
+                font-size: 10px;
+                font-weight: bold;
               }  
         
               .status {
                 background-color: #f44336; // Warna latar belakang status  
                 color: white; // Warna teks status  
-                padding: 4px 8px; // Padding untuk status  
+                padding: 4px 70px; // Padding untuk status  
                 border-radius: 4px; // Border-radius untuk status  
                 font-weight: bold;
+                margin-bottom: 5px;
               }  
 
       
@@ -241,27 +248,25 @@
               .status-header {  
                 // background-color: #908B8B; // Warna latar belakang status  
                 color: #908B8B; // Warna teks status  
-                padding: 4px 8px; // Padding untuk status  
+                padding: 4px 2px; // Padding untuk status  
                 border-radius: 4px; // Border-radius untuk status 
                 //styleName: Text 10/Bold;
                 font-family: 'NunitoSans';
-                font-size: 11px;
+                font-size: 10px;
                 font-weight: 700;
-                line-height: 12px;
-                text-align: right;
-                text-decoration-skip-ink: none;
-    
+                line-height: 10px;
+                text-align: left;
+                float: left;    
               }
             }  
       
           .auction-info {  
-            margin: 10px 0; // Jarak atas dan bawah  
-            font-weight: bold; // Menebalkan teks  
+              margin: 10px 0; // Jarak atas dan bawah  
+              font-weight: bold; // Menebalkan teks  
             //styleName: Text 12/Semibold;
-              font-family: 'NunitoSans';
-              font-size: 12px;
+              font-size: 10px;
               font-weight: 600;
-              line-height: 16px;
+              line-height: 10px;
               text-align: left;
               text-decoration-skip-ink: none;
               color: #312E2E;
@@ -297,7 +302,7 @@
                   margin-left: 0; // Menghilangkan margin kiri  
                   //styleName: Text 14/Bold;
                   font-family: 'NunitoSans';
-                  font-size: 14px;
+                  font-size: 12px;
                   font-weight: 700;
                   line-height: 20px;
                   text-align: left;

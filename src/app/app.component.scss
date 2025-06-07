@@ -104,6 +104,20 @@ body, html {
   border: solid red 0px;
 }  
 
+.the-maincontent {
+    // border: solid red 1px;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    float: left;
+
+    flex: 1;  
+    padding: 0px 0.5rem;  
+    margin-top: 12rem; // Sesuaikan dengan tinggi header  
+    overflow-y: auto;  
+    background-color: $content-color;  
+  }
+
 select.placeholder {
   color: #b4b4b4;
 }
@@ -204,7 +218,7 @@ select.placeholder {
 
         flex: 1;  
         padding: 0px 0.5rem;  
-        margin-top: 5rem; // Sesuaikan dengan tinggi header  
+        margin-top: 7rem; // Sesuaikan dengan tinggi header  
         overflow-y: auto;  
         background-color: $content-color;  
       }
@@ -218,7 +232,7 @@ select.placeholder {
 
         flex: 1;  
         padding: 0px 0.5rem;  
-        margin-top: 11rem; // Sesuaikan dengan tinggi header  
+        margin-top: 13rem; // Sesuaikan dengan tinggi header  
         overflow-y: auto;  
         background-color: $content-color;  
       }
@@ -229,7 +243,24 @@ select.placeholder {
         font-size: 0.75rem;
         // border: solid rgb(145, 255, 0) 1px;
       }
-  }  
+  }
+
+
+::ng-deep mat-expansion-panel {
+  // background-color: #f0f0f0; // Mengubah warna latar belakang accordion
+  border-radius: 15px; // Menambahkan border-radius
+  border: solid #EBEBEB 1px;
+  // box-shadow: 0 2px 4px rgba(242, 242, 242, 0.1); 
+  -webkit-box-shadow: 0px 1px 22px -2px rgba(0,0,0,0.81);
+  -moz-box-shadow: 0px 1px 22px -2px rgba(0,0,0,0.81);
+  box-shadow: 0px 1px 22px -2px rgba(0,0,0,0.81);
+}
+
+::ng-deep mat-expansion-panel-header {
+  // background-color: #d0e0ff;
+  font-weight: bold;
+  // border: solid red 5px;
+}
 
   
 

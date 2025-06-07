@@ -208,7 +208,7 @@
   .header-bottom {    
       display: flex;      
       flex-direction: column; // Mengatur arah flex menjadi kolom    
-      padding: 10px 20px;       
+      padding: 10px 5px;       
       
       .task-summary {    
         width: 100%; // Lebar 100%    
@@ -255,16 +255,17 @@
         }    
       
         .chip {    
-          padding: 5px 3px;    
-          border-radius: 15px;    
+          padding: 5px 5px;    
+          border-radius: 8px;    
           border: 1px solid #F5F5F5; // Border chip    
           background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
           color: black; // Warna huruf chip tidak aktif    
           cursor: pointer;
-          width: 20%;
+          width: auto;
           float: left;
           position: relative;
-          font-size:0.7em;
+          font-size:0.8em;
+          margin-right:5px;
       
           &.active {    
             background-color: #D5230D; // Warna latar belakang chip aktif    
@@ -290,11 +291,12 @@
           background-color: #ffffff; // Warna latar belakang button    
           color: #312E2E; // Warna huruf button    
           border: solid 1px #D4D2D2; // Menghilangkan border default    
-          border-radius: 18px; // Border-radius untuk tombol    
+          border-radius: 8px; // Border-radius untuk tombol    
           cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik    
           position: relative;
           float: left;
-          width: 50%;
+          width: 45%;
+          margin-right:10px;
       
           img {    
             margin-right: 5px; // Jarak antara ikon dan teks    
@@ -318,7 +320,7 @@
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
           z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
           margin-top: 10px; // Jarak antara dropdown dan tombol    
-          top: 45px;  
+          top: 30px;  
           left: 0px;  
           width: 50%;  
       
@@ -350,7 +352,7 @@
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman    
           z-index: 1000; // Memastikan dropdown berada di atas elemen lain    
           margin-top: 10px; // Jarak antara dropdown dan tombol    
-          top: 45px;  
+          top: 30px;  
           right: 0px;  
           width: 50%;
           

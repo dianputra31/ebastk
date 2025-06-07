@@ -62,7 +62,7 @@
             &.active {    
               color: #D5230D; // Warna latar belakang chip aktif   
               border-bottom: #D5230D solid 4px; 
-              font-size: 16px;
+              font-size: 14px;
               font-weight: 700;
             //   color: white; // Warna huruf chip aktif    
             }    
@@ -174,8 +174,10 @@
       .header-bottom {    
         display: flex;      
         flex-direction: column; // Mengatur arah flex menjadi kolom    
-        padding: 10px 5px 0px 10px;    
-        border-bottom: #EBEBEB solid 1px;   
+        padding: 5px 5px 0px 5px;    
+        border-bottom: #EBEBEB solid 1px;  
+        width: 100%;
+        // border:solid greenyellow 2px; 
         
         .task-summary {    
           width: 100%; // Lebar 100%    
@@ -189,20 +191,21 @@
         
         // Membuat container baru untuk chip dan filter  
         .row-container {  
-          display: flex; // Mengatur chip-container dan filter-container dalam satu baris  
-          justify-content: space-between; // Mengatur jarak antara chip-container dan filter-container  
+          // display: flex; // Mengatur chip-container dan filter-container dalam satu baris  
+          // justify-content: space-between; // Mengatur jarak antara chip-container dan filter-container  
           width: 100%; // Lebar 100%  
         }  
         
         .chip-container {    
-          width: 65%; // Lebar chip-container  
+          width: 100%; // Lebar chip-container  
           display: flex;    
           gap: 10px; // Jarak antar chip    
           overflow-x: auto; // Mengizinkan scroll horizontal    
           padding: 0px 0; // Padding atas dan bawah    
           white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya    
           position: relative; // Untuk posisi elemen kustom    
-          font-weight: 800;  
+          font-weight: 700;
+          // border: solid red 2px;  
         
           // Sembunyikan scrollbar default    
           &::-webkit-scrollbar {    
@@ -231,7 +234,7 @@
             &.active {    
               color: #D5230D; // Warna latar belakang chip aktif   
               border-bottom: #D5230D solid 4px; 
-              font-size: 11px;
+              font-size: 14px;
               font-weight: 700;
             //   color: white; // Warna huruf chip aktif    
             }    

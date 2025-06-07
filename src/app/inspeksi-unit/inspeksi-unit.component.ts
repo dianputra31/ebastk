@@ -221,6 +221,15 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
 
 
 
+get sortedGroupedSubItems() {
+  const order = ['A', 'B', 'C', 'D'];
+  return Object.keys(this.groupedSubItems)
+    .map(key => this.groupedSubItems[key])
+    .sort((a, b) => order.indexOf(a.item_category_chiplabel ?? '') - order.indexOf(b.item_category_chiplabel ?? ''));
+}
+
+
+
   groupCategoriesAndSubCategories(data: any[]) {
     const groups: { [category: string]: string[] } = {};
 

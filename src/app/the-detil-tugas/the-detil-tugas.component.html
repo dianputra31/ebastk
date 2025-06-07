@@ -1,6 +1,6 @@
 <div class="product-container">
   <div class="label-product">{{sampleData?.display_name}}</div>
-  <div class="anakan-label">{{sampleData?.unit_location}} &#x25CF; {{tgl_mobilisasi | date:'dd MMMM yyyy'}}</div>
+  <div class="anakan-label">{{ sampleData?.unit_location == null ? 'Tribik' : sampleData?.unit_location }}&#x25CF; {{tgl_mobilisasi | date:'dd MMMM yyyy'}}</div>
 
     <mat-accordion multi>
         <mat-expansion-panel [expanded]="true" id="Info Vendor" >

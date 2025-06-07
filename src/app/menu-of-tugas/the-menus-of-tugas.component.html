@@ -21,14 +21,13 @@
             </div>  
             <div style="position:relative;float:left;width:70%">{{ selectedCategoryName }}</div>  
           </div>  
-          <div class="dropdown-icon" (click)="toggleCategoryDropdown()">  
-          </div> 
+ 
           
           <div class="filter-button" (click)="toggleSortDropdown()" [ngClass]="{'active': isSortDropdownOpen}"> 
              <div style="position:relative;float:left;width:30%">
               <img src="../../assets/icons/terbaru.svg" alt="Terbaru">
             </div>  
-            <div style="position:relative;float:left;width:70%">Terbaru</div> 
+            <div style="position:relative;float:left;width:70%">{{ selectedSortName }}</div> 
           </div>
           <div class="dropdown-icon" (click)="toggleSortDropdown()">  
           </div>   

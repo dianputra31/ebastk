@@ -22,6 +22,7 @@ export class TheMenusOfTugasComponent implements OnInit {
   vehicletype: ApiVehicleTypeResponse | null = null
   isLoading: boolean = false;
   selectedCategoryName: string = 'Semua Kategori';
+  selectedSortName: string = 'Terbaru';
 
   constructor(private noahService: NoahService, private apiClient: ApiClientService) { }
 
@@ -98,7 +99,7 @@ export class TheMenusOfTugasComponent implements OnInit {
 
   selectSort(sortingBy: string) {
     this.noahService.emitFilterSort(sortingBy);
-    console.log('Selected sortingBy:', sortingBy);  
+    this.selectedSortName = sortingBy=='desc'? 'Terbaru' : 'Terlama' ;
     this.isSortDropdownOpen = false; // Menutup dropdown setelah memilih kategori  
     this.filterTugasChange.emit(sortingBy);
 

@@ -1,9 +1,7 @@
 <div class="header">  
     <div class="header-top"> 
       
-        <div class="logo">
-
-          
+        <div class="logo"> 
           <ng-container *ngIf="isDashboard() || isRiwayat() || isInspectionSummary(); else tugasHeader">
             <img src="../../assets/icons/logo-tribik.svg" alt="Logo" (click)="goHome()" style="cursor: pointer;"> 
           </ng-container>
@@ -13,15 +11,10 @@
               </ng-container> 
               <ng-template #otherHeader>
                 <span class="label-page" style="cursor:pointer" (click)="goBack()">
-                  &lt; &nbsp;&nbsp; BASTK &nbsp; &#x25CF; &nbsp; {{ isDetailRiwayat() ? 'Detil Riwayat' : 'Detil Tugas' }}
+                  &lt; &nbsp;BASTK &nbsp; &#x25CF; {{ isDetailRiwayat() ? 'Detil Riwayat' : 'Detil Tugas' }}
                 </span>
               </ng-template>
           </ng-template>
-
-          
-
-
- 
         </div>
 
         <div class="profile-dropdown" (click)="toggleDropdown()">  
@@ -31,7 +24,7 @@
             </div>  
             <div class="user-info">  
               <span class="user-name">{{HiThere}}</span>  
-              <span class="user-details">Div. Inventori • 081222</span>  
+              <span class="user-details">Div. Inventori</span>  
             </div>  
             <div class="dropdown-icon" (click)="toggleDropdown()">  
                 <img src="../../assets/icons/arrow-down.svg" alt="Dropdown" [ngClass]="{'rotate': isDropdownOpen}" (click)="toggleDropdown()">  
@@ -39,12 +32,12 @@
           </div>  
           <div class="dropdown-menu" *ngIf="isDropdownOpen">  
             <ul>  
-              <li>Edit Foto</li>  
+              <!-- <li>Edit Foto</li>   -->
               <li (click)="logout()">Logout</li>  
             </ul>  
           </div>  
         </div>  
-      </div>    
+    </div>    
     
       <ng-container [ngSwitch]="getCurrentView()">
         <ng-container *ngSwitchCase="'/dashboard'">
@@ -96,5 +89,5 @@
       </ng-container>
         
           
-  </div>  
+</div>  
   

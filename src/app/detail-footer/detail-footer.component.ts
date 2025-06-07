@@ -29,7 +29,7 @@ export class DetailFooterComponent implements OnInit {
     this.router.events.subscribe(event => {  
       const unit_id = this.router.url.split('/').pop();
       this.unit_id = unit_id;
-      console.log(unit_id)
+      console.log("HERE WE GO AGAIN:::::",unit_id)
 
           if (event instanceof NavigationEnd) {  
             this.currentRoute = this.router.url; // Mendapatkan URL saat ini  
@@ -142,9 +142,10 @@ export class DetailFooterComponent implements OnInit {
         const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
         const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
         const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
-        console.log('Data posted:', response.vendor.id);
+        // console.log('Data posted:', response.vendor.id);
         this.unit_id = unit_id;
-  
+
+
         // Jika login berhasil, simpan data ke localStorage
         if (response && response.vendor.id) {
           this.sampleData = response;  
@@ -156,39 +157,43 @@ export class DetailFooterComponent implements OnInit {
 
 
           if(this.stepNow==='inspeksi-unit'){
-            this.router.navigate(['/exterior-inspection/'+unit_id]);
+            // this.router.navigate(['/exterior-inspection/'+unit_id]);
+            window.location.href = '/exterior-inspection/' + unit_id;
           }else if(this.stepNow==='exterior-inspection'){
             this.saveStep(1).then(success => {
               if (!success) {
                 // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
-                this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+                // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+                window.location.href = '/inspeksi-unit/' + unit_id;
               }
             });
           }else if(this.stepNow==='interior-inspection'){
             this.saveStep(2).then(success => {
               if (!success) {
                 // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
-                this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-
+                // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+                window.location.href = '/inspeksi-unit/' + unit_id;
               }
             });
           }else if(this.stepNow==='engine-inspection'){
             this.saveStep(3).then(success => {
               if (!success) {
                 // this.router.navigate(['/unit-photos'+'/'+unit_id]);
-                this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-
+                // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+                window.location.href = '/inspeksi-unit/' + unit_id;
               }
             });
           }else if(this.stepNow==='unit-photos'){
               this.saveStep(4).then(success => {
               if (!success) {
                 // this.router.navigate(['/unit-photos'+'/'+unit_id]);
-                this.router.navigate(['/inspection-summary'+'/'+unit_id]);
+                // this.router.navigate(['/inspection-summary'+'/'+unit_id]);
+                window.location.href = '/inspection-summary/' + unit_id;
               }
             });
           }else if(this.stepNow==='detil-tugas'){
-            this.router.navigate(['/inspeksi-unit'+'/'+unit_id]);
+            window.location.href = '/inspeksi-unit/' + unit_id;
+            // this.router.navigate(['/inspeksi-unit'+'/'+unit_id]);
           }
 
         }else{

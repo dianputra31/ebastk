@@ -1,48 +1,25 @@
 
 <div class="grid-container">
 
-  <div *ngFor="let categoryKey of objectKeys(groupedSubItems)" style="flex-direction: row;">
-    <div class="grid-item {{groupedSubItems[categoryKey].item_category_chipclass}}" >
+  <div *ngFor="let item of sortedGroupedSubItems" style="flex-direction: row;">
+    <div class="grid-item {{item.item_category_chipclass}}" >
       <div class="text">
-        <h3 class="labelinspeksi">{{ groupedSubItems[categoryKey].item_category_chiplabel }}. <br/>{{ groupedSubItems[categoryKey].item_category_chipname }}</h3>
-        <!-- <h5>{{groupedSubItems[categoryKey].item_posizione}}</h5> -->
-        
-
-          <ng-container *ngIf="groupedSubItems[categoryKey].item_category_chipclass==='notyet';else showbaten">
-            <div class="status rungrampung">Complete previous task to start</div>
-          </ng-container>
-          <ng-template #showbaten>
-            <div class="status">
-              <button class="item-button {{groupedSubItems[categoryKey].item_category_buttonclass}}" 
-              (click)="GoesToInspection(groupedSubItems[categoryKey].item_category_url)"
-              >{{groupedSubItems[categoryKey].item_category_buttonlabel}}</button>
-            </div>
-          </ng-template>
-        
+        <h3 class="labelinspeksi">{{ item.item_category_chiplabel }}. <br/>{{ item.item_category_chipname }}</h3>
+        <ng-container *ngIf="item.item_category_chipclass==='notyet';else showbaten">
+          <div class="status rungrampung">Complete previous task to start</div>
+        </ng-container>
+        <ng-template #showbaten>
+          <div class="status">
+            <button class="item-button {{item.item_category_buttonclass}}" 
+            (click)="GoesToInspection(item.item_category_url)"
+            >{{item.item_category_buttonlabel}}</button>
+          </div>
+        </ng-template>
       </div>
-      <img [src]="groupedSubItems[categoryKey].item_category_icon" alt="Icon">
+      <img [src]="item.item_category_icon" alt="Icon">
     </div>
   </div>
 
-  <!-- <div [class.grid-item]="true"
-     [class.notyet]="wwgombel === 0"
-     [class.saiki]="wwgombel === 1">
-    <div class="text">
-      <h3 class="labelinspeksi">D. <br/>Unit Photos</h3>
-      <ng-container *ngIf="wwgombel===0;else show_unit_photos">
-        <div class="status rungrampung">Complete previous task to start</div>
-      </ng-container>
-      <ng-template #show_unit_photos>
-        <div class="status">
-          <button class="item-button btn-saiki" 
-          (click)="GoesToInspection('/unit-photos')"
-          >Start Inspection ></button>
-        </div>
-      </ng-template>
-
-    </div>
-    <img src="../../assets/icons/step4.png" alt="Unit Photos" />
-  </div> -->
 
   
 

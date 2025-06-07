@@ -1,116 +1,206 @@
-// .grid-container {
-//     display: grid;
-//     grid-template-columns: repeat(2, 1fr); /* Dua kolom */
-//     gap: 14px;
-//     padding: 14px;
-//     background-color: white;
-//     flex-grow: 1; /* Mengisi ruang yang tersedia */
-//     overflow-y: auto; /* Memungkinkan scroll jika konten melebihi tinggi */
-//   }
-  
-//   .grid-item {
-//     background-color: #312E2E;
-//     padding: 14px;
-//     border-radius: 10px;
-//     color: white;
-//     text-align: left;
-//   }
-
-
+@media (min-width: 600px) {
   .item-button {
-    background-color: white;
-    color: #D5230D;
-    border: solid #D5230D 1px;
-    padding: 8px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    text-align: left;
-    font-weight: 700;
-    font-size: 14px;
+      background-color: white;
+      color: #D5230D;
+      border: solid #D5230D 1px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+  .labelinspeksi{
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-family: 'NunitoSans';
   }
 
-.labelinspeksi{
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-family: 'NunitoSans';
+    .grid-container {
+      padding: 0px 60px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    
+    .grid-item {
+      background-color: #312E2E;
+      color: white;
+      padding: 5px 30px 5px 30px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 180px;
+    }
+    
+    .dan{
+      background-color: #C2200C;
+    }
+    
+    .item-header {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-family: 'NunitoSans';
+    }
+    
+    .item-title {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+    
+
+    .grid-item .text {
+      position: relative;
+      flex: 1;
+      padding-top: 0px;
+      margin-top: 0px;
+      // border: solid white 3px;
+    }
+    
+    .grid-item img {
+      width: 30%; // Atur ukuran gambar sesuai kebutuhan
+      height: auto;
+    }
+
+    .status{
+      position: relative;
+      padding-top:20px;
+      margin-top: 20px;
+    }
+
+    .saiki{
+      background-color: #D5230D;
+    }
+
+    .rungrampung{
+      color: #908B8B;
+      font-weight: 700;
+    }
+
+    .wisrampung{
+      background-color:#971909;
+    }
+
+    .btn-rampung{
+      color: #FFFFFF;
+      background-color: #971909;
+      border-color: #FFFFFF;
+    }
+
+    .btn-saiki{
+      color: #D5230D;
+      background-color: #FFFFFF;
+      border-color: #C2200C;
+    }
 }
 
-  .grid-container {
-    padding: 0px 60px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+
+@media (max-width: 540px) {
+  .item-button {
+      background-color: white;
+      color: #D5230D;
+      border: solid #D5230D 1px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+  .labelinspeksi{
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-family: 'NunitoSans';
   }
+
+    .grid-container {
+      padding: 0px 10px;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 20px;
+      height: auto;
+
+      // border: solid black 3px;
+      padding-bottom: 30px;
+    }
+    
+    .grid-item {
+      background-color: #312E2E;
+      color: white;
+      padding: 5px 20px 5px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // height: 180px;
+    }
+    
+    .dan{
+      background-color: #C2200C;
+    }
+    
+    .item-header {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-family: 'NunitoSans';
+    }
+    
+    .item-title {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+    
+
+    .grid-item .text {
+      position: relative;
+      flex: 1;
+      padding-top: 0px;
+      margin-top: 0px;
+      // border: solid white 3px;
+    }
+    
+    .grid-item img {
+      width: 30%; // Atur ukuran gambar sesuai kebutuhan
+      height: auto;
+    }
+
+    .status{
+      position: relative;
+      padding-top:20px;
+      margin-top: 20px;
+    }
+
+    .saiki{
+      background-color: #D5230D;
+    }
+
+    .rungrampung{
+      color: #908B8B;
+      font-weight: 700;
+    }
+
+    .wisrampung{
+      background-color:#971909;
+    }
+
+    .btn-rampung{
+      color: #FFFFFF;
+      background-color: #971909;
+      border-color: #FFFFFF;
+    }
+
+    .btn-saiki{
+      color: #D5230D;
+      background-color: #FFFFFF;
+      border-color: #C2200C;
+    }
+}
+
   
-  .grid-item {
-    background-color: #312E2E;
-    color: white;
-    padding: 5px 30px 5px 30px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 180px;
-  }
-  
-  .dan{
-    background-color: #C2200C;
-  }
-  
-  .item-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-family: 'NunitoSans';
-  }
-  
-  .item-title {
-    font-size: 16px;
-    margin-bottom: 16px;
-  }
-  
-
-  .grid-item .text {
-    position: relative;
-    flex: 1;
-    padding-top: 0px;
-    margin-top: 0px;
-    // border: solid white 3px;
-  }
-  
-  .grid-item img {
-    width: 30%; // Atur ukuran gambar sesuai kebutuhan
-    height: auto;
-  }
-
-  .status{
-    position: relative;
-    padding-top:20px;
-    margin-top: 20px;
-  }
-
-  .saiki{
-    background-color: #D5230D;
-  }
-
-  .rungrampung{
-    color: #908B8B;
-    font-weight: 700;
-  }
-
-  .wisrampung{
-    background-color:#971909;
-  }
-
-  .btn-rampung{
-    color: #FFFFFF;
-    background-color: #971909;
-    border-color: #FFFFFF;
-  }
-
-  .btn-saiki{
-    color: #D5230D;
-    background-color: #FFFFFF;
-    border-color: #C2200C;
-  }

@@ -7,7 +7,7 @@
       <div class="product-details">  
         <!-- Product Header -->  
         <div class="product-header">  
-            <h3>{{ product.display_name }}</h3>  
+            <div class='hy'>{{ product.display_name }}</div>  
             <div class="status-container" *ngIf="fromDashboard==false">  
               <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
               <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ getStatusName(product.bastk_status).toUpperCase() }}</span>    
@@ -16,8 +16,13 @@
         <!-- Auction Location and Date --> 
         <div class="container">
           <div class="auction-info" class="row">
-            <div class="col-sm-1 p-0" style="width: 30px;"><img src="../../assets/icons/location.svg" alt="Logo"></div>
-            <div class="col-sm-11 p-0">{{ product.unit_location }} - {{ product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy' }}<!--, HH:mm--></div>
+            <div class="col-sm-12 p-0 d-flex align-items-center" style="font-size:11px;font-weight:700;">
+              <img src="../../assets/icons/location.svg" alt="Logo" style="height:16px;width:16px;margin-right:6px;">
+              <span>
+                {{ product.unit_location == null ? 'Tribik' : product.unit_location }} - 
+                {{ product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy' }}
+              </span>
+            </div>
           </div> 
         </div>
  

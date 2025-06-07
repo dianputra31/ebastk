@@ -22,7 +22,7 @@ declare var $: any;
   templateUrl: './the-detil-tugas.component.html',
   styleUrls: ['./the-detil-tugas.component.scss']
 })
-export class TheDetilTugasComponent implements OnInit, AfterViewInit {
+export class TheDetilTugasComponent implements OnInit {
   // isExpanded: boolean = true;
   expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
   @Output() panelChange = new EventEmitter<string>();
@@ -113,20 +113,20 @@ transmissionOptions: [string, string][] = [
   
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
 
-  ngAfterViewInit(): void {
-    // Inisialisasi select2
-    $('#tipeSelect2').select2({
-      placeholder: 'Pilih Tipe',
-      width: 'resolve'
-    });
+  // ngAfterViewInit(): void {
+  //   // Inisialisasi select2
+  //   $('#tipeSelect2').select2({
+  //     placeholder: 'Pilih Tipe',
+  //     width: 'resolve'
+  //   });
 
-    // Handle event select2
-    $('#tipeSelect2').on('change', (e: any) => {
-      const selectedId = e.target.value;
-      this.selectedVariant = selectedId;
-      this.savePayloadUnit();
-    });
-  }
+  //   // Handle event select2
+  //   $('#tipeSelect2').on('change', (e: any) => {
+  //     const selectedId = e.target.value;
+  //     this.selectedVariant = selectedId;
+  //     this.savePayloadUnit();
+  //   });
+  // }
   
   ngOnInit(): void {
     this.infoUnit();
