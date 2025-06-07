@@ -11,7 +11,7 @@ export class MenuOfDetailRiwayatComponent implements OnInit {
   @Output() menuSelected = new EventEmitter<string>();
 
   @Input() activeNoah: string = '';
-  @Input() activeLoc: string = 'Tribik Jakarta';
+  @Input() activeLoc: string = 'Tribik';
   @Input() activeDatetime: string = '17 September 2024, 13.00 WIB';
   @Input() activeDoneBy: string = '';
   @Input() activeDoneDate: string = '07 Februari 2025, 15:22 WIB';

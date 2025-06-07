@@ -3,6 +3,16 @@ export interface Brand {
     brand_name: string;
 }
 
+export interface UnitType {
+    id: number;
+    type_name: string;
+}
+
+export interface UnitCategory {
+    id: number;
+    category_name: string;
+}
+
 export interface Color {
     id: number;
     color_name: string;
@@ -38,7 +48,7 @@ export interface Result {
     color: Color;
     unitimages: string[]; // Assuming unitimages is an array of strings (URLs)
     thumbnail_url: string;
-    unit_type: string;
+    unit_type: UnitType;
     cc: string;
     unit_location: string;
     first_published_at: string;
@@ -54,6 +64,7 @@ export interface Result {
     unit_documents: string[];
     location_auction: string;
     mobilization_units: Mobilization[]
+    unit_category: UnitCategory;
 }
 
 export interface NewApiResponse {

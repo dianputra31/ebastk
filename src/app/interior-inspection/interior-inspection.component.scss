@@ -1,9 +1,15 @@
-.product-container {  
+
+@media (min-width: 600px) {
+    .product-container {  
     display: flex;  
     flex-direction: column;  
-    padding: 20px; // Jarak antar produk
+    padding: 10px; // Jarak antar produk
     font-family: 'NunitoSans';
     margin-bottom: 100px;
+
+    .pertinyiin{
+        position:relative;width:47%;float:left;border:solid orange 0px;margin-left:30px;
+    }
 
     .label-product{
         font-family: 'NunitoSans-Bolder';
@@ -18,7 +24,6 @@
     select.placeholder {
         color: #b4b4b4;
       }
-      
 
       .custom-radio {
         appearance: none;
@@ -43,7 +48,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
       }
-
+      
     .anakan-label{
         //styleName: Text 16/Bold;
         font-family: 'NunitoSans';
@@ -123,6 +128,146 @@
     height: 50px;
     margin-top:30px;
 }
+
+
+}
+
+
+
+
+@media (max-width: 540px) {
+    .product-container {  
+    display: flex;  
+    flex-direction: column;  
+    padding: 10px; // Jarak antar produk
+    font-family: 'NunitoSans';
+    margin-bottom: 100px;
+
+    .pertinyiin{
+        position:relative;width:95%;float:left;border:solid orange 0px;margin-left:5px;
+    }
+
+    .label-product{
+        font-family: 'NunitoSans-Bolder';
+        font-size: 17px;
+        font-weight: bold;
+        line-height: 24.8px;
+        text-align: left;
+        text-decoration-skip-ink: none;
+        color: #312E2E;
+    }
+
+    select.placeholder {
+        color: #b4b4b4;
+      }
+
+      .custom-radio {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border: 1px solid #971909;
+        border-radius: 50%;
+        position: relative;
+        cursor: pointer;
+        transition: 0.2s ease;
+        margin-top:12px;
+      }
+      
+      .custom-radio:checked::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        background-color: #971909;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      
+    .anakan-label{
+        //styleName: Text 16/Bold;
+        font-family: 'NunitoSans';
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 14px;
+        text-align: left;
+        text-decoration-skip-ink: none;
+        color: #908B8B;
+        margin-bottom: 30px;
+
+    }
+
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin: 16px 0;
+    }
+    
+    .column {
+        flex: 1;
+        margin-right: 16px;
+    }
+    
+    .column:last-child {
+        margin-right: 0; /* Menghapus margin kanan untuk kolom terakhir */
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 4px;
+    }
+    
+    input {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 16px;
+        border: 1px solid #D4D2D2;
+        border-radius: 8px;
+        gap: 8px;
+    }
+    
+    textarea {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 16px;
+        border: 1px solid #D4D2D2;
+        border-radius: 8px;
+        gap: 8px;
+    }
+
+    select {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 16px;
+        border: 1px solid #D4D2D2;
+        border-radius: 8px;
+    }
+    
+    .radio-group {
+        display: flex;
+        align-items: center; /* Menyelaraskan label dan radio button secara vertikal */
+        margin-bottom: 16px; /* Jarak bawah untuk elemen berikutnya */
+    }
+    
+    .radio-group label {
+        margin-right: 20px; /* Jarak antar radio button */
+    }
+
+}
+
+
+.footer-tugas{
+    border-top: solid #d1cfcf 1px;
+    width: 100%;
+    height: 50px;
+    margin-top:30px;
+}
+
+
+}
+
 
 ::ng-deep .mat-expansion-panel {
     // background-color: #f0f0f0; // Mengubah warna latar belakang accordion

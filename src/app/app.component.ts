@@ -242,6 +242,7 @@ export class AppComponent {
       if (this.currentRoute.startsWith('/engine-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/unit-photos/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/detil-riwayat/')) return 'dt-riwayat';
+      if (this.currentRoute.startsWith('/inspection-summary/')) return 'dt-tugas';
 
       const routeMappings: { [key: string]: string } = {
       '/detil-tugas': 'dt-tugas',
@@ -249,6 +250,7 @@ export class AppComponent {
       '/exterior-inspection': 'dt-tugas',
       '/interior-inspection': 'dt-tugas',
       '/engine-inspection': 'dt-tugas',
+      '/inspection-summary': 'dt-tugas',
       '/unit-photos': 'dt-tugas',
       '/detil-riwayat': 'dt-riwayat',
       '/dashboard': 'maincontent',

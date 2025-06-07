@@ -255,7 +255,8 @@ get sortedGroupedSubItems() {
   GoesToInspection(a: any){
     const unit_id = this.router.url.split('/').pop();
     // if(a==1){
-      this.router.navigate([a + '/' + unit_id]);
+      // this.router.navigate([a + '/' + unit_id]);
+      window.location.href = a + '/' + unit_id;
     // }else if(a==2){
     //   this.router.navigate(['/interior-inspection' + '/' + unit_id]);
     // }else if(a==3){

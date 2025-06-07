@@ -129,24 +129,32 @@ export class HeaderComponent implements OnInit {
     const unit_id = this.router.url.split('/').pop();
     // window.history.back();
     if (this.currentRoute.startsWith('/detil-tugas')) {
-      this.router.navigate(['/tugas']);
+      // this.router.navigate(['/tugas']);
+      window.location.href = '/tugas';
     } else if (this.currentRoute.startsWith('/inspeksi-unit')) {
-      this.router.navigate(['/detil-tugas' + '/' + unit_id]);
+      // this.router.navigate(['/detil-tugas' + '/' + unit_id]);
+      window.location.href = '/detil-tugas/' + unit_id;
     } else if (this.currentRoute.startsWith('/exterior-inspection')) {
-      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      // this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      window.location.href = '/inspeksi-unit/' + unit_id;
     } else if (this.currentRoute.startsWith('/interior-inspection')) {
       // this.router.navigate(['/exterior-inspection' + '/' + unit_id]);
-      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      // this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      window.location.href = '/inspeksi-unit/' + unit_id;
     } else if (this.currentRoute.startsWith('/engine-inspection')) {
       // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
-      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      // this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      window.location.href = '/inspeksi-unit/' + unit_id;
     }  else if (this.currentRoute.startsWith('/unit-photos')) {
       // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
-      this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      // this.router.navigate(['/inspeksi-unit' + '/' + unit_id]);
+      window.location.href = '/inspeksi-unit/' + unit_id;
     }  else if (this.currentRoute.startsWith('/inspection-summary')) {
-      this.router.navigate(['/unit-photos' + '/' + unit_id]);
+      // this.router.navigate(['/unit-photos' + '/' + unit_id]);
+      window.location.href = '/inspeksi-unit/' + unit_id;
     } else if (this.currentRoute.startsWith('/detil-riwayat')) {
-      this.router.navigate(['/riwayat']);
+      // this.router.navigate(['/riwayat']);
+      window.location.href = '/riwayat';
     } else {
       this.router.navigate(['/detil-tugas']);
     }

@@ -10,13 +10,12 @@
                         <mat-panel-title>
                             <span style="border:solid red 0px;font-weight:bold;">{{ subCategory }}</span>
                         </mat-panel-title>
-                        <mat-panel-description>
-                        </mat-panel-description>
+                        <mat-panel-description></mat-panel-description>
                     </mat-expansion-panel-header>
 
                     <div *ngFor="let item of groupedSubItems['Exterior'][subCategory]">
                         <div>
-                            <div *ngIf="item.questions && item.questions.length > 0" style="position:relative;width:47%;float:left;border:solid orange 0px;margin-left:30px;">
+                            <div *ngIf="item.questions && item.questions.length > 0" class="pertinyiin">
                                 <label style="font-weight: bold;text-transform: capitalize;width:50%;border:solid rgb(255, 251, 0) 0px;padding-left:15px;">{{ item.item_description }}</label>
                                 <div class="flex" style="gap: 25%">
                                     <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">

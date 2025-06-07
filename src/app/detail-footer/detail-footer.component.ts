@@ -26,12 +26,11 @@ export class DetailFooterComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
-    this.router.events.subscribe(event => {  
+    // this.router.events.subscribe(event => {  
       const unit_id = this.router.url.split('/').pop();
       this.unit_id = unit_id;
-      console.log("HERE WE GO AGAIN:::::",unit_id)
 
-          if (event instanceof NavigationEnd) {  
+          // if (event instanceof NavigationEnd) {  
             this.currentRoute = this.router.url; // Mendapatkan URL saat ini  
             this.activeTab = this.currentRoute;
             
@@ -40,8 +39,9 @@ export class DetailFooterComponent implements OnInit {
               this.labelfooter_top = '01.'
               this.labelfooter_bottom = 'Kelengkapan Data'
             }else if(this.currentRoute.startsWith('/inspeksi-unit')){
+              //  alert("HELL NO");
               this.labelfooter_top = '02.';
-              this.labelfooter_bottom = 'Inspeksi Unit Kendaraan';
+              this.labelfooter_bottom = 'Inspeksi Unit';
             }else if(this.currentRoute.startsWith('/exterior-inspection')){
               this.labelfooter_top = '02 A';
               this.labelfooter_bottom = 'Exterior Inspection';
@@ -56,8 +56,8 @@ export class DetailFooterComponent implements OnInit {
               this.labelfooter_bottom = 'Unit Photos';
             }
             // alert(this.activeTab)
-          }  
-        });
+          // }  
+        // });
         
        
   }

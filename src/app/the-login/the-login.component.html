@@ -12,9 +12,9 @@
             <div class="logo">  
               <img src="../../assets/icons/login-logo.svg" alt="Logo Tribik" />  
             </div>  
-            <h2 style="text-align: left;">Masuk ke Tribik</h2>  
+            <h4 style="text-align: left;">Masuk ke Tribik</h4>  
             <label for="username" class="labelfrm">Username</label>  
-            <input type="text" id="username" #usernameInput [(ngModel)]="username" name="username" placeholder="Masukkan Username" required (keydown.enter)="focusPassword()" />
+            <input type="text" id="username" #usernameInput [(ngModel)]="username" name="username" style="text-transform: lowercase;" placeholder="Masukkan Username" required (keydown.enter)="focusPassword()" />
 
             <!-- <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="Masukkan Username" required />   -->
               
