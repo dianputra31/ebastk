@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     const isLoggedIn = this.checkLogin(); // Ganti dengan logika pemeriksaan login Anda  
   
     if (!isLoggedIn) {  
-      this.router.navigate(['/login']); // Arahkan ke halaman login jika belum login  
+      this.router.navigate(['/dashboard']); // Arahkan ke halaman login jika belum login  
       return false;  
     }  
     return true;  
