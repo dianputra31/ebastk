@@ -64,7 +64,7 @@
 
                     <label for="brand">Merek</label>
 
-                    <select id="brand" name="brand" placeholder="Merek" (change)="onBrandChange($event)" >
+                    <!-- <select id="brand" name="brand" placeholder="Merek" (change)="onBrandChange($event)" >
                       <option value="" disabled [selected]="!sampleData?.brand?.brand_name">Pilih Merek</option>
                       <option *ngFor="let brand of brands?.results" 
                               [value]="brand.brand_name" 
@@ -72,12 +72,21 @@
                               [attr.data-brand-id]="brand?.id">
                         {{ brand.brand_name }}
                       </option>
-                    </select>
+                    </select> -->
+
+                    <button type="button" (click)="openBrandModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedBrandName || 'Pilih Merek' }}</button>
+
+                    <app-the-brand-modal  
+                    *ngIf="isBrandModalOpen"  
+                    [brands]="brands?.results || []" 
+                    (close)="isBrandModalOpen = false" 
+                    (selectBrand)="onBrandSelected($event)">
+                    </app-the-brand-modal>
 
                     <label for="tipe">Tipe</label>
                     <!-- {{sampleData?.variant_model?.model_name}}#
                     {{sampleData?.variant_model?.id}} -->
-                    <select id="tipeSelect2" name="tipe" placeholder="Tipe" (change)="onVariantChange($event)">
+                    <!-- <select id="tipeSelect2" name="tipe" placeholder="Tipe" (change)="onVariantChange($event)">
                       <option  *ngIf="modelname==''">Pilih Tipe</option>
                       <option *ngFor="let variant of variants?.results" 
                              [value]="variant.variant_name" 
@@ -85,7 +94,16 @@
                              [attr.selected]="variant.id === sampleData?.variant_model?.id ? '' : null">
                        {{ variant.variant_name }}
                       </option>
-                    </select>
+                    </select> -->
+                    <input type="hidden" id="tipe" name="tipe" >
+                    <button type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
+
+                  <app-the-tipe-modal  
+                  *ngIf="isTipeModalOpen"  
+                  [variants]="variants?.results || []" 
+                  (close)="isTipeModalOpen = false" 
+                  (selectVariant)="onVariantSelected($event)">
+                  </app-the-tipe-modal>
                     
 
                     <label for="color">Tahun</label>

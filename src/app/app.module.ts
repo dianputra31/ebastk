@@ -51,6 +51,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageUnitPhotosModalComponent } from './image-unitphotos-modal/image-unitphotos-modal.component';
 import { ImageUnitPhotosUploaderComponent } from './image-unitphotos-uploader/image-unitphotos-uploader.component';
 import { TheModalRevisionComponent } from './the-modal-revision/the-modal-revision.component';
+import { TheTipeModalComponent } from './the-tipe-modal/the-tipe-modal.component';
+import { TheBrandModalComponent } from './the-brand-modal/the-brand-modal.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +95,9 @@ import { TheModalRevisionComponent } from './the-modal-revision/the-modal-revisi
     ImageGalleryModalComponent,
     ImageUnitPhotosModalComponent,
     ImageUnitPhotosUploaderComponent,
-    TheModalRevisionComponent
+    TheModalRevisionComponent,
+    TheTipeModalComponent,
+    TheBrandModalComponent
   ],
   imports: [
     BrowserModule,

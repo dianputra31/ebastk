@@ -248,12 +248,54 @@ export class DetailFooterComponent implements OnInit {
       // return payload !== null; // Return true if payload exists, false otherwise
     }else if(a == 2){
       this.payload = localStorage.getItem('interiorPayload');
-      this.payload = JSON.parse(this.payload);
-      this.payload.bastk_status = this.bastk_status;
+      const interiorPayload = localStorage.getItem('interiorPayload');
+      const unitPayload = localStorage.getItem('payloadUnit_' + unit_id);
+
+      if (interiorPayload) {
+        this.payload = JSON.parse(interiorPayload);
+      }
+
+      if (unitPayload) {
+          console.log('unitPayload', unitPayload);
+          const parsedUnitPayload = JSON.parse(unitPayload);
+
+          // Jika payload awal belum ada, pakai unitPayload sebagai dasar
+          if (!this.payload) {
+            this.payload = parsedUnitPayload;
+          } else {
+            // Gabungkan payload existing dengan unitPayload
+            this.payload = {
+              ...this.payload,
+              ...parsedUnitPayload
+            };
+        }
+        this.payload.bastk_status = this.bastk_status;
+      }
     }else if(a == 3){
       this.payload = localStorage.getItem('enginePayload');
-      this.payload = JSON.parse(this.payload);
-      this.payload.bastk_status = this.bastk_status;
+      const enginePayload = localStorage.getItem('enginePayload');
+      const unitPayload = localStorage.getItem('payloadUnit_' + unit_id);
+
+      if (enginePayload) {
+        this.payload = JSON.parse(enginePayload);
+      }
+
+      if (unitPayload) {
+          console.log('unitPayload', unitPayload);
+          const parsedUnitPayload = JSON.parse(unitPayload);
+
+          // Jika payload awal belum ada, pakai unitPayload sebagai dasar
+          if (!this.payload) {
+            this.payload = parsedUnitPayload;
+          } else {
+            // Gabungkan payload existing dengan unitPayload
+            this.payload = {
+              ...this.payload,
+              ...parsedUnitPayload
+            };
+        }
+        this.payload.bastk_status = this.bastk_status;
+      }
     }else if(a == 4){
       const unit_id = this.router.url.split('/').pop();
       this.unit_id = unit_id;

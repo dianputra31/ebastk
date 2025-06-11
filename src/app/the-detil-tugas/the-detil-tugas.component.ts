@@ -63,7 +63,13 @@ export class TheDetilTugasComponent implements OnInit {
   payloadUnit: any = null;
   variant_model_id: string = '';
   brandid:any = '';
-  
+  isTipeModalOpen = false;
+  isBrandModalOpen = false;
+  selectedVariantName = '';
+  selectedVariantId: string = '';
+  selectedBrandName: string = '';
+  selectedBrandId: string = '';
+
   choices: [string, string][] = [
   ['Drive', 'Drive'],
   ['Derek', 'Derek'],
@@ -82,6 +88,7 @@ transmissionOptions: [string, string][] = [
   // ['Dual Clutch', 'Dual Clutch'],
   // ['Other', 'Other']
 ];
+  
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -99,6 +106,32 @@ transmissionOptions: [string, string][] = [
     } else if (infoLainnyaPanel && this.isElementInViewport(infoLainnyaPanel)) {
       this.panelChange.emit('Keterangan Lainnya');
     }
+  }
+
+  openTipeModal() {
+    this.isTipeModalOpen = true;
+  }
+
+  openBrandModal() {
+    this.isBrandModalOpen = true;
+  }
+
+  onVariantSelected(variant: any) {
+    this.selectedVariantName = variant.variant_name;
+    this.selectedVariantId = variant.id;
+    // lakukan logic lain, misal set ke form, dsb
+    this.selectedVariant = this.selectedVariantId;
+    this.savePayloadUnit();
+  }
+
+  onBrandSelected(brand: any) {
+    this.selectedBrandName = brand.brand_name;
+    this.selectedBrandId = brand.id;
+    // lakukan logic lain, misal set ke form, dsb
+    this.selectedBrand = this.selectedBrandId;
+    this.showVariant(brand.id);
+    this.selectedVariantName = '';
+    this.savePayloadUnit();
   }
 
   isElementInViewport(el: HTMLElement) {
@@ -200,13 +233,15 @@ transmissionOptions: [string, string][] = [
     this.showVariant(brandId);
     this.selectedBrand = brandId;
     this.savePayloadUnit();
+    this.selectedVariantName = '';
   }
 
   onVariantChange(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
-    const brandId = selectedOption.getAttribute('data-id');
+    // const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    // const brandId = selectedOption.getAttribute('data-id');
     // Panggil fungsi showVariant dengan brandId yang dipilih
-    this.selectedVariant = brandId;
+    // this.selectedVariant = brandId;
+    this.selectedVariant = this.selectedVariantId;
     this.savePayloadUnit();
   }
 
@@ -239,6 +274,7 @@ transmissionOptions: [string, string][] = [
 
         if (found) {
           this.modelname = found.id;
+          console.log(this.sampleData?.variant_model?.model_name)
         } else {
           this.modelname = "";
         }
@@ -397,6 +433,9 @@ transmissionOptions: [string, string][] = [
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
         this.modelname = this.sampleData.variant_model.model_name;
+        this.selectedVariantName = this.modelname ;
+        this.selectedBrandName = this.sampleData.brand.brand_name;
+        // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
         console.log('bpkbDocuments:', this.bpkbDocuments);
 
         this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;

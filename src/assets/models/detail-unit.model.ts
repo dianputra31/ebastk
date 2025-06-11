@@ -44,6 +44,7 @@ export interface Brand {
   export interface VariantModel {
     id: number;
     model_name: string;
+    variant_name: string;
   }
   
   export interface Vendor {
