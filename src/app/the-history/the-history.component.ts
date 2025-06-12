@@ -123,9 +123,10 @@ filter_bastk_riwayat: string = '';
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.results) {
 
-        const filteredResults = response.results.filter(result =>
-          Array.isArray(result.mobilization_units) && result.mobilization_units.length > 0
-        );
+        // const filteredResults = response.results.filter(result =>
+        //   Array.isArray(result.mobilization_units) && result.mobilization_units.length > 0
+        // );
+        const filteredResults = response.results;
         
         if (page === 1) {
           this.sampleData = {
