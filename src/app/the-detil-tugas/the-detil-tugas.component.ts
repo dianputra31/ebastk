@@ -438,11 +438,18 @@ transmissionOptions: [string, string][] = [
         // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
         console.log('bpkbDocuments:', this.bpkbDocuments);
 
-        this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
-        const tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
+        let tgl_mobilisasi = '';
+        if (this.sampleData.mobilization_units && this.sampleData.mobilization_units.length > 0 && this.sampleData.mobilization_units[0].mobiliztion) {
+          this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
+          tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
+        } else {
+          this.pic = '';
+          const today = new Date();
+          tgl_mobilisasi = today.toISOString().substring(0, 10);
+        }
         this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
-        console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
-        console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
+        // console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
+        // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
         this.infoVendor(response.vendor.id);
         this.brandid = this.sampleData.brand.id;
         this.showBrand();

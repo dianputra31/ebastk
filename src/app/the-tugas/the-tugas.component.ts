@@ -154,15 +154,17 @@ export class TheTugasComponent implements OnInit {
 
         if (response && response.results) {
 
-        const filteredResults = response.results.filter(result =>
-          Array.isArray(result.mobilization_units) && result.mobilization_units.length > 0
-        );
+        // const filteredResults = response.results.filter(result =>
+        //   Array.isArray(result.mobilization_units) && result.mobilization_units.length > 0
+        // );
+
+        const filteredResults = response.results;
         
         if (page === 1) {
           this.sampleData = {
-      ...response,
-      results: filteredResults
-    };
+            ...response,
+            results: filteredResults
+          };
         } else {
           this.sampleData.results = this.sampleData.results.concat(filteredResults);
         }
