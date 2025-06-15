@@ -15,9 +15,9 @@
       <!-- Baris 2: Slider Swipe Gambar -->
       <div class="modal-body text-center">
         <div class="slider-container">
-          <button class="btn btn-link" (click)="prevImage()" [disabled]="selectedImageIndex === 0" style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">‹</button>
+          <button type="button" class="btn btn-link" (click)="prevImage()" [disabled]="selectedImageIndex === 0" style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">‹</button>
           <img [src]="displayedImages[selectedImageIndex]" class="main-image img-fluid" *ngIf="displayedImages.length > 0"  style="max-width: 90%;"/>
-          <button class="btn btn-link" (click)="nextImage()" [disabled]="selectedImageIndex === displayedImages.length - 1"  style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">›</button>
+          <button type="button" class="btn btn-link" (click)="nextImage()" [disabled]="selectedImageIndex === displayedImages.length - 1"  style="font-size:35px;font-weight:bold;color:white;cursor: pointer;">›</button>
         </div>
       </div>
 
