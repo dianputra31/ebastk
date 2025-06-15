@@ -135,7 +135,7 @@ async onImageUpload(event: Event): Promise<boolean> {
         }else{
           console.log('here failed')
         }
-        return true;
+        // return true;
       } catch (error) {
       if (axios.isAxiosError(error)) {
         // Cek status kode dari respons
