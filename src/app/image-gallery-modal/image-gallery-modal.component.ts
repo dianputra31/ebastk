@@ -100,6 +100,7 @@ prevImage() {
 }
 
 async onImageUpload(event: Event): Promise<boolean> {
+  event.preventDefault();
   this.errlog = "";
 
   const input = event.target as HTMLInputElement;
@@ -130,7 +131,7 @@ async onImageUpload(event: Event): Promise<boolean> {
 
         if (response) {
           this.infoUnit();
-          return true;
+          // return true;
         }else{
           console.log('here failed')
         }

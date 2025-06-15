@@ -112,6 +112,7 @@ prevImage() {
 }
 
 async onImageUpload(event: Event): Promise<boolean> {
+  event.preventDefault();
   this.errlog = "";
 
   const input = event.target as HTMLInputElement;
