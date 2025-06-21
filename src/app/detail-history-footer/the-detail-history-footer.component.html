@@ -1,12 +1,12 @@
 <div class="bg-white flex justify-end items-center p-2" style="padding-top:0px; border-top:solid #EBEBEB 1px;">
     <div class="flex space-x-4" style="padding-top:5px;">
-        <button class="flex items-center space-x-2 bg-white text-[#D5230D] px-6 py-2 rounded-full min-w-[120px] border border-[#D5230D] hover:bg-[#D5230D] hover:text-black wakacimpruy"
+        <button class="flex items-center space-x-2 bg-white text-[#D5230D] px-6 py-2 rounded-full min-w-[170px] border border-[#D5230D] hover:bg-[#D5230D] hover:text-black wakacimpruy"
          (click)="openModal()">
             <i class="fas fa-chevron-left"></i>
             <span style="font-family:'NunitoSans';font-weight:bold;">Request Edit</span>
         </button>
-        <button class="flex items-center space-x-2 bg-red-600 text-white px-6 py-2 rounded-full min-w-[120px] minyikunyung">
-            <span style="font-family:'NunitoSans';font-weight:bold;" (click)="downloadDokUnit('')">Unduh Semua Laporan</span>
+        <button (click)="downloadDokUnit('')" class="flex items-center space-x-2 bg-red-600 text-white px-6 py-2 rounded-full min-w-[170px] minyikunyung">
+            <span style="font-family:'NunitoSans';font-weight:bold;" >Unduh Laporan</span>
             <!-- <i class="fas fa-chevron-right"></i> -->
              <img src="../../assets/icons/dl-all.png" alt="Download" class="krs"/>
         </button>
@@ -23,3 +23,9 @@
 [message2]="'Berikan alasannya:'" 
 [imageUrl]="'../../assets/icons/warning-icon.svg'">
 </app-the-modal-revision>
+
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Mengunduh laporan...</div>
+</div>

@@ -10,9 +10,10 @@ import axios from 'axios';
   styleUrls: ['./the-detail-history-footer.component.scss']
 })
 export class TheDetailHistoryFooterComponent implements OnInit {
-  errlog:string = '';
-  payload: any = null;
-  isModalOpen: boolean = false;
+errlog:string = '';
+payload: any = null;
+isModalOpen: boolean = false;
+isLoading: boolean = false;
 
 
   constructor(private router:Router,  private apiClient: ApiClientService) { }
@@ -20,16 +21,19 @@ export class TheDetailHistoryFooterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-    async downloadDokUnit(a:string){ 
+  async downloadDokUnit(a:string){ 
+    this.isLoading = true;
     const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
     // alert(unit_id);
     try {
       const endpoint = `/document/?unit_id=${unit_id}`; // Endpoint API
-      const response = await this.apiClient.downloadPdf(endpoint, 'document_bastk.pdf');
-      return true;
-    }catch(error){
-      return false;
-    }
+      await this.apiClient.downloadPdf(endpoint, 'document_bastk.pdf');
+    // proses download file...
+      } catch (error) {
+    // handle error
+  } finally {
+    this.isLoading = false;
+  }
   }
 
 

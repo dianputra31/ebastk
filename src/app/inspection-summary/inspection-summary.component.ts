@@ -8,9 +8,10 @@ import { ApiClientService } from '../services/api.client';
   styleUrls: ['./inspection-summary.component.scss']
 })
 export class InspectionSummaryComponent implements OnInit {
-  HiThere: string = 'User';
-  HiEmail: string = 'Email';
-  sekarang: string = '';
+HiThere: string = 'User';
+HiEmail: string = 'Email';
+sekarang: string = '';
+isLoading: boolean = false;
 
   constructor(private router:Router,  private apiClient: ApiClientService) { }
 
@@ -49,14 +50,17 @@ export class InspectionSummaryComponent implements OnInit {
     this.router.navigate(['/tugas']);
   }
 
-  async downloadDokUnit(a:string){
+async downloadDokUnit(a:string){
+  this.isLoading = true;
     const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
     try {
-      const endpoint = `/document/?unit_id=${unit_id}`; // Endpoint API
-      const response = await this.apiClient.downloadPdf(endpoint, 'document_bastk.pdf');
-      return true;
-    }catch(error){
-      return false;
+        const endpoint = `/document/?unit_id=${unit_id}`; // Endpoint API
+        await this.apiClient.downloadPdf(endpoint, 'document_bastk.pdf');
+      // proses download file...
+        } catch (error) {
+      // handle error
+    } finally {
+      this.isLoading = false;
     }
   }
 

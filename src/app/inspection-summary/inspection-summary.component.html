@@ -60,9 +60,15 @@
         Unduh semua
         </button>
         <button class="batengrei" (click)="backToTugasPage()">
-        Kembali ke Daftar Tugas
+        Daftar Tugas
         </button>
         </div>
         </div>
     </div>
+</div>
+
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Mengunduh laporan...</div>
 </div>
