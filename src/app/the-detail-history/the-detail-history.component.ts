@@ -69,13 +69,75 @@ groupedSubItems: { [category: string]: CategoryGroup } = {};
 groupedData: { [key: string]: any[] } = {};
 
 
+displayedImagesLuar: string[] = [];
+displayedImagesDalam: string[] = [];
+displayedImagesMesin: string[] = [];
+displayedImagesMinus: string[] = [];
+displayedImagesSistem: string[] = [];
+public mediaUrl = environment.mediaUrl;
+bagianLuar: Record<string, any[]> = {};
+bagianDalam: Record<string, any[]> = {};
+bagianSistem: Record<string, any[]> = {};
+bagianMinus: Record<string, any[]> = {};
+bagianMesin: Record<string, any[]> = {};
+bagianLuarKeys: string[] = [];
+unitimages: UnitImage[] = [];
+
+
+  readonly bagianLuarDescriptions: string[] = [
+    'Foto Depan',
+    'Foto Depan Kanan',
+    'Foto Depan Kiri',
+    'Foto Belakang',
+    'Foto Belakang Kanan',
+    'Foto Belakang Kiri'
+  ];
+
+  readonly bagianDalamDescriptions: string[] = [
+    'Foto Interior Depan',
+    'Foto Interior Tengah',
+    'Foto Kilometer',
+    'Foto Atap',
+    'Foto Bagasi',
+    'Foto Ban Serep'
+  ];
+
+  readonly bagianMesinDescriptions: string[] = [
+    'Foto Mesin',
+    'Foto Noka (No. Rangka)',
+    'Foto Nosin (No. Mesin)',
+    'Gesekan Noka',
+    'Gesekan Nosin'
+  ];
+
+  readonly bagianMinusDescriptions: string[] = [
+    'Foto Minus 1',
+    'Foto Minus 2',
+    'Foto Minus 3',
+    'Foto Minus 4',
+    'Foto Minus 5',
+    'Foto Minus 6',
+    'Foto Minus 7',
+    'Foto Minus 8',
+    'Foto Minus 9',
+    'Foto Minus 10'
+  ];
+
+  readonly bagianSistemDescriptions: string[] = [
+    'Foto Depan',
+    'Foto Depan Kanan',
+    'Foto Depan Kiri',
+    'Foto Belakang',
+    'Foto Belakang Kanan',
+    'Foto Belakang Kiri'
+  ];
+
 
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal, private noahService: NoahService) { }
 
   ngOnInit(): void {
     this.infoUnit();
-    this.showGrouping();
   }
 
 
@@ -108,7 +170,7 @@ groupByCategory(data: any[]): void {
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.vendor.id) {
         this.sampleData = response;  
-
+        this.showGrouping();
        
         console.log('Sample Data:', this.sampleData);
         console.log('Unit Doc:', this.sampleData.unitdocuments);
@@ -137,6 +199,15 @@ groupByCategory(data: any[]): void {
         console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
         console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
         this.infoVendor(response.vendor.id);
+        this.unitimages = this.sampleData.unitimages;
+
+        this.mapBagianLuar();
+        this.mapBagianDalam();
+        this.mapBagianMesin();
+        this.mapBagianMinus();
+        this.mapBagianSistem();
+
+
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';
@@ -344,6 +415,9 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
   }
 
 
+
+
+
   async infoVendor(id: number) {
   
     const unitData = {
@@ -381,6 +455,59 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
       }
       console.error('Error during login:', error);
       this.isLoading = false;
+    }
+  }
+
+
+
+
+
+
+
+
+
+    mapBagianLuar(): void {
+    this.bagianLuar = {};
+
+    for (const desc of this.bagianLuarDescriptions) {
+      this.bagianLuar[desc] = this.unitimages
+        .filter(doc => doc.title === 'Foto Bagian Luar (Exterior)' && doc.descriptions === desc);
+    }
+  }
+
+  mapBagianDalam(): void {
+    this.bagianDalam = {};
+
+    for (const desc of this.bagianDalamDescriptions) {
+      this.bagianDalam[desc] = this.unitimages
+        .filter(doc => doc.title === 'Foto Bagian Dalam (Interior & Bagasi)' && doc.descriptions === desc);
+    }
+  }
+
+  mapBagianMesin(): void {
+    this.bagianMesin = {};
+
+    for (const desc of this.bagianMesinDescriptions) {
+      this.bagianMesin[desc] = this.unitimages
+        .filter(doc => doc.title === 'Foto Bagian Mesin' && doc.descriptions === desc);
+    }
+  }
+
+  mapBagianMinus(): void {
+    this.bagianMinus = {};
+
+    for (const desc of this.bagianMinusDescriptions) {
+      this.bagianMinus[desc] = this.unitimages
+        .filter(doc => doc.title === 'Foto Kerusakan/Kekurangan Unit (Minus)' && doc.descriptions === desc);
+    }
+  }
+
+  mapBagianSistem(): void {
+    this.bagianSistem = {};
+
+    for (const desc of this.bagianSistemDescriptions) {
+      this.bagianSistem[desc] = this.unitimages
+        .filter(doc => doc.title === 'Foto Sistem' && doc.descriptions === desc);
     }
   }
 
