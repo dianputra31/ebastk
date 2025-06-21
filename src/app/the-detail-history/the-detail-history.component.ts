@@ -19,14 +19,15 @@ type GroupedItem = {
 };
 
 type CategoryGroup = {
-  item_category_chipname?: string;
-  item_category_chiplabel?: string;
-  item_category_url?: string;
-  item_category_icon?: string;
-  item_category_chipclass?: string;
-  item_category_buttonclass?: string;
-  item_category_buttonlabel?: string;
-  item_posizione?: string;
+item_category_chipname?: string;
+item_category_chiplabel?: string;
+item_category_url?: string;
+item_category_icon?: string;
+item_category_chipclass?: string;
+item_category_buttonclass?: string;
+item_category_buttonlabel?: string;
+item_posizione?: string;
+groupedData?: { [key: string]: any[] };
 
   [subCategory: string]: any;
 };
@@ -65,6 +66,7 @@ groupedItems: { [key: string]: any[] } = {};
 subCategory: { [category: string]: string[] } = {};
 wwgombel: number = 1;
 groupedSubItems: { [category: string]: CategoryGroup } = {};
+groupedData: { [key: string]: any[] } = {};
 
 
 
@@ -75,6 +77,19 @@ groupedSubItems: { [category: string]: CategoryGroup } = {};
     this.infoUnit();
     this.showGrouping();
   }
+
+
+groupByCategory(data: any[]): void {
+  this.groupedData = data.reduce((acc, curr) => {
+    const category = curr.item_category;
+
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(curr);
+    return acc;
+  }, {});
+}
 
   async infoUnit() {
   
@@ -93,6 +108,8 @@ groupedSubItems: { [category: string]: CategoryGroup } = {};
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.vendor.id) {
         this.sampleData = response;  
+
+       
         console.log('Sample Data:', this.sampleData);
         console.log('Unit Doc:', this.sampleData.unitdocuments);
         this.unitdocuments = this.sampleData.unitdocuments;
@@ -161,7 +178,8 @@ groupedSubItems: { [category: string]: CategoryGroup } = {};
       // Kalau responsenya array
       if (Array.isArray(response)) {
         this.detailData = response;
-  
+        this.groupByCategory(this.detailData);
+
         // Kelompokkan berdasarkan item_category
         // this.groupedItems = this.groupItemsByCategory(this.sampleData);
         this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.detailData);

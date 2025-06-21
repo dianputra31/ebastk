@@ -2,13 +2,58 @@
         <app-the-detail-history-info [sampleDataVendor]="sampleDataVendor"  [sampleData]="sampleData"></app-the-detail-history-info>
     </div>
     <div id="rw-exterior" style="padding-top: 10px;">
-       <app-the-detail-history-exterior [sampleData]="sampleData"></app-the-detail-history-exterior>
+       <!-- <app-the-detail-history-exterior [sampleData]="sampleData"></app-the-detail-history-exterior> -->
+        <div class="max-w-8xl mx-auto bg-white p-3 mt-4">
+            <!-- Exterior Inspection -->
+                <div class="mb-2" *ngFor="let item of groupedData['Exterior']">
+                    <h2 class="text-xl font-semibold mb-2">{{ item.item_description }}</h2>
+                    <!-- perulangan questions -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div *ngFor="let q of item.questions"> <!-- kecilkan margin bawah -->
+                            <ng-container *ngIf="q.name">
+                                <p>{{ q.name }}</p>
+                                <p class="font-semibold">{{ item.kondisi === 'Tidak' ? 'Tidak ada' : item.kondisi }}, {{ q.answer }}</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+        </div>
     </div>
     <div id="rw-interior" style="padding-top: 10px;">
-        <app-the-detail-history-interior [sampleData]="sampleData"></app-the-detail-history-interior>
+        <!-- <app-the-detail-history-interior [sampleData]="sampleData"></app-the-detail-history-interior> -->
+        <div class="max-w-8xl mx-auto bg-white p-3 mt-4">
+            <!-- Interior Inspection -->
+                <div class="mb-2" *ngFor="let item of groupedData['Interior']">
+                    <h2 class="text-xl font-semibold mb-2">{{ item.item_description }}</h2>
+                    <!-- perulangan questions -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div *ngFor="let q of item.questions"> <!-- kecilkan margin bawah -->
+                            <ng-container *ngIf="q.name">
+                                <p>{{ q.name }}</p>
+                                <p class="font-semibold">{{ item.kondisi === 'Tidak' ? 'Tidak ada' : item.kondisi }}, {{ q.answer }}</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+        </div>
     </div>
     <div id="rw-engine" style="padding-top: 10px;">
-        <app-the-detail-history-engine [sampleData]="sampleData"></app-the-detail-history-engine>
+        <!-- <app-the-detail-history-engine [sampleData]="sampleData"></app-the-detail-history-engine> -->
+            <!-- Engine Inspection -->
+            <div class="max-w-8xl mx-auto bg-white p-3 mt-8">
+                <div class="mb-2" *ngFor="let item of groupedData['Engine']">
+                    <h2 class="text-xl font-semibold mb-2">{{ item.item_description }}</h2>
+                    <!-- perulangan questions -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div *ngFor="let q of item.questions"> <!-- kecilkan margin bawah -->
+                            <ng-container *ngIf="q.name">
+                                <p>{{ q.name }}</p>
+                                <p class="font-semibold">{{ item.kondisi === 'Tidak' ? 'Tidak ada' : item.kondisi }}, {{ q.answer }}</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     <div id="rw-photos" style="padding-top: 10px;">
         <app-the-detail-history-photos></app-the-detail-history-photos>
