@@ -33,8 +33,9 @@ export class AppComponent {
 
 
   ngOnInit() {
+   
     this.isLogin = localStorage.getItem('userToken') !== null;
-  
+    // alert("HERE WE GO" + this.isLogin);
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = this.router.url;
@@ -254,10 +255,13 @@ export class AppComponent {
       '/unit-photos': 'dt-tugas',
       '/detil-riwayat': 'dt-riwayat',
       '/dashboard': 'maincontent',
+      '/login': 'maincontent',
       '/tugas': 'main',
       '/profil': 'main',
       '/riwayat': 'main'
       };
+
+      //alert("HERER");
 
       return routeMappings[this.currentRoute] || 'none';
     }

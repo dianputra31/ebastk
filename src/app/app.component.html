@@ -8,7 +8,6 @@
       <app-header (menuChange)="onMenuChange($event)" (filterChange)="onFilterChange($event)" (filterHistoryChange)="onFilterHistoryChange($event)" [activeNoah]="noah" [activeLoc]="noahloc" [activeDatetime]="noahdate" [activeDoneBy]="noahdoneby" [activeDoneDate]="noahdonedate"></app-header>      
     </div>
     
-    
     <ng-container [ngSwitch]="getCurrentRouterView()">
           <ng-container *ngSwitchCase="'maincontent'">
           <div class="the-maincontent">
