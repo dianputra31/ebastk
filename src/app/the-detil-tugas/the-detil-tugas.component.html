@@ -188,12 +188,12 @@
                 </div>
             </div>
             <div class="column">
-                <label for="tglpembuatan">Tanggal Pembuatan</label>
-                <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" [value]="sampleData?.first_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
+                <label for="tglpembuatan">Tanggal Masuk</label>
+                <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_date | date:'yyyy-MM-dd'"  (change)="onChangeTextInput($event, 5)"/>
             </div>
             <div class="column">
-                <label for="suratkuasa">No Surat Kuasa</label>
-                <input  type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" />
+                <label for="suratkuasa">No Surat Kuasa Penugasan</label>
+                <input  type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa"  [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_number"  (change)="onChangeTextInput($event, 6)"/>
             </div>
             <div class="column"></div>
           </div>
