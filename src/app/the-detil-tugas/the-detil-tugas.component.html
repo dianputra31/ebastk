@@ -108,6 +108,9 @@
 
                     <label for="color">Tahun</label>
                     <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)"/>
+
+                    <label for="color">Noka</label>
+                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
                 </div>
                 <div class="column">
                     <label for="category">Kategori</label>
@@ -152,6 +155,9 @@
                       </option>
                     </select>
 
+                    <label for="color">Nosin</label>
+                    <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
+
                 </div>
             </div>
         </mat-expansion-panel>
@@ -187,7 +193,7 @@
             </div>
             <div class="column">
                 <label for="suratkuasa">No Surat Kuasa</label>
-                <input  type="date" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" [value]="sampleData?.last_published_at | date:'yyyy-MM-dd HH:mm:ss'" />
+                <input  type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa" />
             </div>
             <div class="column"></div>
           </div>
@@ -250,11 +256,11 @@
                 <div class="column">
                     <div class="radio-group">
                       <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
-                            <input type="radio"  class="custom-radio"  name="bpkb" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="automatic" [checked]="sampleData?.bpkb_status !== 'TRIBIK'" />
                             Tribik
                         </label>
                         <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
-                            <input type="radio"  class="custom-radio"  name="bpkb" value="manual" [checked]="sampleData?.transmission === 'MT'" />
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="manual" [checked]="sampleData?.bpkb_status === 'VENDOR'" />
                             Vendor
                         </label>
                     </div>

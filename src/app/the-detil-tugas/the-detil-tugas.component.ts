@@ -57,6 +57,8 @@ export class TheDetilTugasComponent implements OnInit {
   selectedBrand: string = '';
   selectedLocation: string = '';
   selectedOdo: string = '';
+  selectedNoka: string = '';
+  selectedNosin: string = '';
   selectedTransmission: string = '';
   selectedYear: string = '';
   modelname: any = '';
@@ -219,6 +221,8 @@ transmissionOptions: [string, string][] = [
     if (this.selectedVariant) payload.variant_model_id = this.selectedVariant;
     if (this.selectedOdo) payload.odo_meter = this.selectedOdo;
     if (this.selectedLocation) payload.unit_location = this.selectedLocation;
+    if (this.selectedNoka) payload.chassis_number = this.selectedNoka;
+    if (this.selectedNosin) payload.engine_number = this.selectedNosin;
 
     this.payloadUnit = payload;
     console.log('Payload Unit:', this.payloadUnit);
@@ -399,6 +403,10 @@ transmissionOptions: [string, string][] = [
       this.selectedLocation = inputValue;
     }else if(num==2){
       this.selectedOdo = inputValue;
+    }else if(num==3){
+      this.selectedNoka = inputValue;
+    }else if(num==4){
+      this.selectedNosin = inputValue;
     }else{
       this.selectedYear = inputValue;
     }

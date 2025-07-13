@@ -95,4 +95,5 @@ export interface Brand {
     appraisal_timestamp: string | null;
     expedition: string | null;
     unit_category_id: number;
+    bpkb_status: string | null;
   }
