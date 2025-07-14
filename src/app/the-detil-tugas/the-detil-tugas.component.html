@@ -256,11 +256,11 @@
                 <div class="column">
                     <div class="radio-group">
                       <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
-                            <input type="radio"  class="custom-radio"  name="bpkb" value="automatic" [checked]="sampleData?.bpkb_status !== 'TRIBIK'" />
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="automatic" [checked]="sampleData?.bpkb_status === 'TRIBIK'" (click)="onChangeTextInput($event, 7)"/>
                             Tribik
                         </label>
                         <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
-                            <input type="radio"  class="custom-radio"  name="bpkb" value="manual" [checked]="sampleData?.bpkb_status === 'VENDOR'" />
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="manual" [checked]="sampleData?.bpkb_status === 'VENDOR'" (click)="onChangeTextInput($event, 8)"/>
                             Vendor
                         </label>
                     </div>

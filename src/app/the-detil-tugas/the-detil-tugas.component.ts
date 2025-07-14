@@ -61,6 +61,7 @@ export class TheDetilTugasComponent implements OnInit {
   selectedNosin: string = '';
   selectedAssignmentDate: string = '';
   selectedAssignmentNumber: string = '';
+  selectedBpkbStatus: string = '';
   selectedTransmission: string = '';
   selectedYear: string = '';
   modelname: any = '';
@@ -227,6 +228,7 @@ transmissionOptions: [string, string][] = [
     if (this.selectedNosin) payload.engine_number = this.selectedNosin;
     if (this.selectedAssignmentDate) payload.assignment_date = this.selectedAssignmentDate;
     if (this.selectedAssignmentNumber) payload.assignment_number = this.selectedAssignmentNumber;
+    if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus;
 
     this.payloadUnit = payload;
     console.log('Payload Unit:', this.payloadUnit);
@@ -415,6 +417,10 @@ transmissionOptions: [string, string][] = [
       this.selectedAssignmentDate = inputValue;
     }else if(num==6){
       this.selectedAssignmentNumber = inputValue;
+    }else if(num==7){
+      this.selectedBpkbStatus = 'TRIBIK';
+    }else if(num==8){
+      this.selectedBpkbStatus = 'VENDOR';
     }else{
       this.selectedYear = inputValue;
     }
@@ -451,6 +457,7 @@ transmissionOptions: [string, string][] = [
         this.modelname = this.sampleData.variant_model.model_name;
         this.selectedVariantName = this.modelname ;
         this.selectedBrandName = this.sampleData.brand.brand_name;
+        this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';
         // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
         console.log('bpkbDocuments:', this.bpkbDocuments);
 
