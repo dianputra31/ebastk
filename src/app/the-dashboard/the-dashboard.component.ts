@@ -14,6 +14,7 @@ import axios from 'axios';
 export class TheDashboardComponent implements OnInit {
   HiThere: string = 'User';
   HiEmail: string = 'Email';
+  HiLocation: string = 'Branch';
   errlog:string = '';
   sampleDataDashboard: NewApiResponse | null = null;
   isButtonDisabled: boolean = false;
@@ -26,6 +27,7 @@ export class TheDashboardComponent implements OnInit {
 
     this.HiThere = localStorage.getItem('username') || 'User';
     this.HiEmail = localStorage.getItem('email') || 'Email';
+    this.HiLocation = localStorage.getItem('branch') || 'Branch';
     this.listDashboard();
 
     this.updateDateTime();

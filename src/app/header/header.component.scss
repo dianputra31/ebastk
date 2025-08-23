@@ -248,10 +248,11 @@
               font-weight: bold; // Menebalkan nama pengguna  
               color: #333; // Warna teks  
               text-align: left;
+              text-transform: uppercase; // Mengubah huruf pertama menjadi kapital
             }  
           
             .user-details {  
-              font-size: 12px; // Ukuran font untuk detail  
+              font-size: 14px; // Ukuran font untuk detail  
               color: #666; // Warna teks untuk detail  
               text-align: left;
             }  

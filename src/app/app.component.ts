@@ -28,6 +28,7 @@ export class AppComponent {
   noahdoneby: string = '';
   noahdonedate: string = '';
   filterStatus: string = '';
+  isMobilisasiRoute = false;
 
   constructor(private router: Router, private authService: AuthService, private noahService: NoahService) {}  
 
@@ -39,7 +40,8 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = this.router.url;
-        
+        this.isMobilisasiRoute = this.currentRoute.startsWith('/mobilisasi');
+
         const detailRoutes = ['/detil-tugas', '/detil-riwayat'];
         const mainRoutes = ['/dashboard', '/tugas', '/inspection-summary', '/riwayat'];
         const stepRoutes: { [key: string]: string } = {

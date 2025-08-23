@@ -11,13 +11,14 @@ import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } fr
   templateUrl: './interior-inspection.component.html',
   styleUrls: ['./interior-inspection.component.scss']
 })
-export class InteriorInspectionComponent implements OnInit {
+export class InteriorInspectionComponent implements OnInit, AfterViewInit {
   isModalOpen: boolean = false;
   @Input() panelName: string = '';
 
   @ViewChild('kelengkapanUmum') kelengkapanUmum: ElementRef | undefined;
   @ViewChild('infoVendor') infoVendor: ElementRef | undefined;
   @ViewChild('keteranganLainnya') keteranganLainnya: ElementRef | undefined;
+  @ViewChild('interiorForm') interiorForm: ElementRef | undefined;
 
   errlog:string = '';
   sampleDataVendor: VendorDetailResponse | null = null;
@@ -33,7 +34,7 @@ export class InteriorInspectionComponent implements OnInit {
   objectKeys = Object.keys;
   sampleDataInfo: UnitDetailResponse | null = null;
   payload: any = null;
-  interiorForm: any;
+  // interiorForm: any;
 
 
   constructor(private router: Router,  private apiClient: ApiClientService) { }
@@ -43,9 +44,18 @@ export class InteriorInspectionComponent implements OnInit {
     this.showGroupingExterior();
   }
 
+  ngAfterViewInit() {
+
+    setTimeout(() => {
+      if (this.interiorForm) {
+        this.onSubmit(this.interiorForm);
+      }
+    }, 0);
+
+  }
+
   
   async infoUnit() {
-  
     const unitData = {
       page: '1'
     };
@@ -80,11 +90,11 @@ export class InteriorInspectionComponent implements OnInit {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
       console.error('Error during login:', error);
-      this.isLoading = false;
     }
   }
 
   async showGroupingExterior() {
+    this.isLoading=true;
     const unitData = {
       page: '1'
     };
@@ -94,7 +104,6 @@ export class InteriorInspectionComponent implements OnInit {
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/get-detail?unit_id=${unit_id}`; // Endpoint API
       const response = await this.apiClient.get<InspectionItemResponse>(endpoint);
-      console.log('Data posted:', response);
   
       // Kalau responsenya array
       if (Array.isArray(response)) {
@@ -102,10 +111,15 @@ export class InteriorInspectionComponent implements OnInit {
   
         // Kelompokkan berdasarkan item_category
         this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
+
+        setTimeout(() => {
+          if (this.interiorForm) {
+            this.onSubmit(this.interiorForm);
+          }
+          this.isLoading = false;
+        }, 0);
   
-        console.log('Grouped Items:', this.groupedItems);
       } else {
-        console.log('here failed');
         this.errlog = 'Data tidak sesuai format.';
       }
   

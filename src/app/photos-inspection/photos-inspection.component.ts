@@ -10,6 +10,7 @@ import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageUnitPhotosModalComponent } from '../image-unitphotos-modal/image-unitphotos-modal.component';
+import { InspectionItemResponse } from 'src/assets/models/list-inspection.model';
 
 // const bagianLabels = {
 //   bagianLuarDepan: 'Foto Depan',
@@ -60,6 +61,9 @@ bagianSistem: Record<string, any[]> = {};
 bagianMinus: Record<string, any[]> = {};
 bagianMesin: Record<string, any[]> = {};
 bagianLuarKeys: string[] = [];
+sampleDataEngine: any[] = [];
+groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
+groupedItems: { [key: string]: any[] } = {};
 
 
   readonly bagianLuarDescriptions: string[] = [
@@ -118,6 +122,89 @@ bagianLuarKeys: string[] = [];
 
   ngOnInit(): void { 
     this.infoUnit();
+    this.showGroupingExterior();
+  }
+
+
+  async showGroupingExterior() {
+
+    this.errlog = "";
+
+    try {
+      this.isLoading = true;
+      const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
+      const endpoint = `/get-detail?unit_id=${unit_id}`; // Endpoint API
+      const response = await this.apiClient.get<InspectionItemResponse>(endpoint);
+      if (Array.isArray(response)) {
+        this.sampleDataEngine = response;
+        // Kelompokkan berdasarkan item_category
+        this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleDataEngine);
+        // console.log('Grouped Items:', this.groupedSubItems);
+       console.log('GroupedSubItems:', this.groupedSubItems);
+       console.log('Engine group:', this.groupedSubItems['Engine']);
+
+        const engineGroup = this.groupedSubItems['Engine'];
+        const engineArray = Array.isArray(engineGroup) ? engineGroup : Object.values(engineGroup)[0];
+        const firstEngineItem = engineArray[0];
+        console.log('First Engine Item:', firstEngineItem);
+
+        const payload = {
+          unit_id: unit_id,   // ini dari URL tadi
+          bastk_status: "draft",
+          questions: [
+            {
+              bastk_item_id: firstEngineItem.id,
+              kondisi: firstEngineItem.kondisi,
+              options: firstEngineItem.options
+            }
+          ]
+        };
+
+        console.log('One of Old Payload:', payload);
+
+        localStorage.setItem('enginePayload', JSON.stringify(payload));
+
+      } else {
+        console.log('here failed');
+        this.errlog = 'Data tidak sesuai format.';
+      }
+
+
+    } catch (error) {
+      this.isButtonDisabled = false;
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during fetch:', error);
+    }
+    this.isLoading = false;
+  }
+
+  groupItemsByCategoryAndSubCategory(data: any[]) {
+    const groups: { [category: string]: { [subCategory: string]: any[] } } = {};
+
+    data.forEach(item => {
+      const category = item.item_category;
+      const subCategory = item.item_sub_category;
+
+      if (!groups[category]) {
+        groups[category] = {};
+      }
+
+      if (!groups[category][subCategory]) {
+        groups[category][subCategory] = [];
+      }
+
+      groups[category][subCategory].push(item);
+    });
+
+    return groups;
   }
 
 
@@ -187,7 +274,7 @@ bagianLuarKeys: string[] = [];
 
 
   async infoUnit() {
-  
+    this.isLoading = true;
     const unitData = {
       page: '1'
     };
@@ -271,6 +358,7 @@ bagianLuarKeys: string[] = [];
       console.error('Error during login:', error);
       this.isLoading = false;
     }
+    this.isLoading = false;
   }
 
 

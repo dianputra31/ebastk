@@ -19,6 +19,7 @@ export class ExteriorInspectionComponent implements AfterViewInit {
   @ViewChild('kelengkapanUmum') kelengkapanUmum: ElementRef | undefined;
   @ViewChild('infoVendor') infoVendor: ElementRef | undefined;
   @ViewChild('keteranganLainnya') keteranganLainnya: ElementRef | undefined;
+  @ViewChild('exteriorForm') exteriorForm: ElementRef | undefined;
 
   errlog:string = '';
   sampleDataVendor: VendorDetailResponse | null = null;
@@ -34,7 +35,8 @@ export class ExteriorInspectionComponent implements AfterViewInit {
   objectKeys = Object.keys;
   sampleDataInfo: UnitDetailResponse | null = null;
   payload: any = null;
-  exteriorForm: any;
+  // exteriorForm: any;
+  isBeling: boolean = true;
 
 
 
@@ -76,48 +78,15 @@ export class ExteriorInspectionComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.scrollToPanel(this.panelName);
+
+    setTimeout(() => {
+      if (this.exteriorForm) {
+        this.onSubmit(this.exteriorForm);
+      }
+    }, 0);
+
   }
 
-  onSubmitOld(form: any): void {
-    console.log('Form Data:', form.value);
-
-    const questions: { [key: string]: any }[] = [];
-
-    // Loop melalui groupedSubItems untuk membangun array questions
-    for (const subCategory in this.groupedSubItems['Exterior']) {
-      const items = this.groupedSubItems['Exterior'][subCategory];
-      items.forEach((item: any) => {
-        item.questions.forEach((question: any) => {
-          const questionKey = `${item.id}_${question.key}`;
-          const value = form.value[questionKey]; // Ambil nilai dari form
-          if (value) { // Hanya tambahkan jika value tidak kosong
-            const existingQuestion = questions.find(q => q['bastk_item_id'] === item.id);
-            if (existingQuestion) {
-              // Jika sudah ada, tambahkan key-value baru
-              existingQuestion[question.key] = value;
-            } else {
-              // Jika belum ada, buat objek baru
-              questions.push({
-                bastk_item_id: item.id,
-                kondisi: '',
-                [question.key]: value
-              });
-            }
-          }
-        });
-      });
-    }
-
-    // Bungkus questions ke dalam format JSON yang diinginkan
-    const payload = {
-      unit_id: 123, // Ganti dengan unit_id yang sesuai
-      bastk_status: 'draft', // Ganti dengan status yang sesuai
-      questions: questions
-    };
-
-    console.log('Payload:', payload);
-    // Kirim payload ke server menggunakan HTTP request (contoh: this.http.post(...))
-  }
 
 
 
@@ -126,7 +95,7 @@ export class ExteriorInspectionComponent implements AfterViewInit {
 
 
   onSubmit(form: any): void {
-    console.log('Form Data:', form.value);
+    
 
     const questions: { [key: string]: any }[] = [];
 
@@ -168,6 +137,8 @@ export class ExteriorInspectionComponent implements AfterViewInit {
 
     console.log('Payload yang dikirim:', this.payload);
     localStorage.setItem('exteriorPayload', JSON.stringify(this.payload)); // Simpan payload ke localStorage
+    
+
     // this.isModalOpen = true; // Buka modal
 }
 
@@ -175,58 +146,48 @@ export class ExteriorInspectionComponent implements AfterViewInit {
 
 
 
-submitToApi(): void {
-  const questions: { [key: string]: any }[] = [];
+// submitToApi(): void {
+//   const questions: { [key: string]: any }[] = [];
 
-  // Loop melalui groupedSubItems untuk membangun array questions
-  for (const subCategory in this.groupedSubItems['Exterior']) {
-      const items = this.groupedSubItems['Exterior'][subCategory];
-      items.forEach((item: any) => {
-          item.questions.forEach((question: any) => {
-              const questionKey = `${item.id}_${question.key}`;
-              const questionKondisi = `${item.id}_${question.key}_kondisi`;
-              const value = this.exteriorForm.value[questionKey]; // Ambil nilai dari form
-              const valueKondisi = this.exteriorForm.value[questionKondisi]; // Ambil nilai dari form
-              if (value) { // Hanya tambahkan jika value tidak kosong
-                  const existingQuestion = questions.find(q => q['bastk_item_id'] === item.id);
-                  if (existingQuestion) {
-                      // Jika sudah ada, tambahkan key-value baru
-                      existingQuestion[question.key] = value;
-                  } else {
-                      // Jika belum ada, buat objek baru dengan "kondisi" default
-                      questions.push({
-                          bastk_item_id: item.id,
-                          kondisi: valueKondisi, // Tambahkan key "kondisi" dengan nilai default
-                          [question.key]: value
-                      });
-                  }
-              }
-          });
-      });
-  }
+//   // Loop melalui groupedSubItems untuk membangun array questions
+//   for (const subCategory in this.groupedSubItems['Exterior']) {
+//       const items = this.groupedSubItems['Exterior'][subCategory];
+//       items.forEach((item: any) => {
+//           item.questions.forEach((question: any) => {
+//               const questionKey = `${item.id}_${question.key}`;
+//               const questionKondisi = `${item.id}_${question.key}_kondisi`;
+//               const value = this.exteriorForm.value[questionKey]; // Ambil nilai dari form
+//               const valueKondisi = this.exteriorForm.value[questionKondisi]; // Ambil nilai dari form
+//               if (value) { // Hanya tambahkan jika value tidak kosong
+//                   const existingQuestion = questions.find(q => q['bastk_item_id'] === item.id);
+//                   if (existingQuestion) {
+//                       // Jika sudah ada, tambahkan key-value baru
+//                       existingQuestion[question.key] = value;
+//                   } else {
+//                       // Jika belum ada, buat objek baru dengan "kondisi" default
+//                       questions.push({
+//                           bastk_item_id: item.id,
+//                           kondisi: valueKondisi, // Tambahkan key "kondisi" dengan nilai default
+//                           [question.key]: value
+//                       });
+//                   }
+//               }
+//           });
+//       });
+//   }
 
-  const unit_id = this.router.url.split('/').pop(); 
-  // Bungkus questions ke dalam format JSON yang diinginkan
-  this.payload = {
-      unit_id: unit_id, // Ganti dengan unit_id yang sesuai
-      bastk_status: 'draft', // Ganti dengan status yang sesuai
-      questions: questions
-  };
+//   const unit_id = this.router.url.split('/').pop(); 
+//   // Bungkus questions ke dalam format JSON yang diinginkan
+//   this.payload = {
+//       unit_id: unit_id, // Ganti dengan unit_id yang sesuai
+//       bastk_status: 'draft', // Ganti dengan status yang sesuai
+//       questions: questions
+//   };
 
-  console.log('Payload yang dikirim:', this.payload);
+//   console.log('Payload yang dikirim:', this.payload);
 
-  // Kirim payload ke API
-  // this.apiClient.post('/your-api-endpoint', this.payload).subscribe(
-  //     response => {
-  //         console.log('API Response:', response);
-  //         this.isModalOpen = false; // Tutup modal setelah berhasil
-  //     },
-  //     error => {
-  //         console.error('API Error:', error);
-  //     }
-  // );
 
-}
+// }
 
 
 
@@ -234,12 +195,13 @@ submitToApi(): void {
 
 
   async infoUnit() {
-  
     const unitData = {
       page: '1'
     };
     this.errlog = "";
     try {
+      
+
       const page = 1; // Parameter yang ingin dikirim
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
@@ -249,12 +211,9 @@ submitToApi(): void {
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.vendor.id) {
         this.sampleDataInfo = response;  
-        console.log('Sample Data:', this.sampleData);
       }else{
-        console.log('here failed')
         this.errlog = 'Username atau password salah';
       }
-
     } catch (error) {
       this.isButtonDisabled = false;
       // this.authService.logout();
@@ -269,8 +228,8 @@ submitToApi(): void {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
       console.error('Error during login:', error);
-      this.isLoading = false;
     }
+    
   }
 
 
@@ -289,12 +248,15 @@ submitToApi(): void {
 
 
   async showGroupingExterior() {
+    
     const unitData = {
       page: '1'
     };
     this.errlog = "";
   
     try {
+      this.isLoading = true;
+
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/get-detail?unit_id=${unit_id}`; // Endpoint API
       const response = await this.apiClient.get<InspectionItemResponse>(endpoint);
@@ -306,12 +268,21 @@ submitToApi(): void {
   
         // Kelompokkan berdasarkan item_category
         this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
+
+        setTimeout(() => {
+          if (this.exteriorForm) {
+            this.onSubmit(this.exteriorForm);
+          }
+          this.isLoading = false;
+        }, 0);
   
-        console.log('Grouped Items:', this.groupedItems);
+        
       } else {
         console.log('here failed');
         this.errlog = 'Data tidak sesuai format.';
       }
+
+      // this.isLoading=false;
   
     } catch (error) {
       this.isButtonDisabled = false;
@@ -325,8 +296,8 @@ submitToApi(): void {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
       console.error('Error during fetch:', error);
-      this.isLoading = false;
     }
+    
   }
 
 

@@ -43,7 +43,7 @@
                           
                         </div>
                               <ng-container *ngFor="let question of item.questions">
-                                  <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; ">
+                                  <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; " >
                                       <div>
                                           <div>
                                               <span style="padding-left:15px;">
@@ -73,4 +73,9 @@
   </mat-accordion>
 
 
+</div>
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Data sedang dimuat...</div>
 </div>

@@ -108,6 +108,7 @@ export class TheLoginComponent implements OnInit {
           localStorage.setItem('email', response.email);
           localStorage.setItem('userToken', response.token);
           localStorage.setItem('refresh_token', response.refresh_token);
+          localStorage.setItem('branch', response.branch);
 
           console.log('Login successful:', response);
           this.isLoading = false;

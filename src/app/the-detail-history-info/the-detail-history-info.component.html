@@ -65,8 +65,8 @@
                 <p class="font-semibold">{{ sampleData?.brand?.brand_name }}</p>
             </div>
             <div>
-                <p>Kapasitas Mesin (CC)</p>
-                <p class="font-semibold">{{ sampleData?.odo_meter }}</p>
+                <p>Kapasitas Mesin (cc)</p>
+                <p class="font-semibold">{{ sampleData?.cc ? (sampleData?.cc | number:'1.0-0') : '' }}</p>
             </div>
             <div>
                 <p>Tipe</p>

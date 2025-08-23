@@ -22,6 +22,7 @@ export class DetailFooterComponent implements OnInit {
   unit_id: any = '';
   sampleData: UnitDetailResponse | null = null;
   bastk_status: string = '';
+  isLoading: boolean = false;
 
   constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
 
@@ -132,7 +133,7 @@ export class DetailFooterComponent implements OnInit {
 
 
   async infoUnit() {
-    
+    this.isLoading = true;
       const unitData = {
         page: '1'
       };
@@ -144,13 +145,14 @@ export class DetailFooterComponent implements OnInit {
         const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
         // console.log('Data posted:', response.vendor.id);
         this.unit_id = unit_id;
+        
 
 
         // Jika login berhasil, simpan data ke localStorage
         if (response && response.vendor.id) {
           this.sampleData = response;  
           if(response.bastk_status === 'revision'){
-            this.bastk_status = 'submit';
+            this.bastk_status = 'submitrevision';
           }else{
             this.bastk_status = 'draft';
           }
@@ -161,7 +163,7 @@ export class DetailFooterComponent implements OnInit {
             window.location.href = '/exterior-inspection/' + unit_id;
           }else if(this.stepNow==='exterior-inspection'){
             this.saveStep(1).then(success => {
-              if (!success) {
+              if (success) {
                 // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
                 // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
                 window.location.href = '/inspeksi-unit/' + unit_id;
@@ -169,7 +171,7 @@ export class DetailFooterComponent implements OnInit {
             });
           }else if(this.stepNow==='interior-inspection'){
             this.saveStep(2).then(success => {
-              if (!success) {
+              if (success) {
                 // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
                 // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
                 window.location.href = '/inspeksi-unit/' + unit_id;
@@ -177,7 +179,7 @@ export class DetailFooterComponent implements OnInit {
             });
           }else if(this.stepNow==='engine-inspection'){
             this.saveStep(3).then(success => {
-              if (!success) {
+              if (success) {
                 // this.router.navigate(['/unit-photos'+'/'+unit_id]);
                 // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
                 window.location.href = '/inspeksi-unit/' + unit_id;
@@ -185,7 +187,7 @@ export class DetailFooterComponent implements OnInit {
             });
           }else if(this.stepNow==='unit-photos'){
               this.saveStep(4).then(success => {
-              if (!success) {
+              if (success) {
                 // this.router.navigate(['/unit-photos'+'/'+unit_id]);
                 // this.router.navigate(['/inspection-summary'+'/'+unit_id]);
                 window.location.href = '/inspection-summary/' + unit_id;
@@ -214,7 +216,7 @@ export class DetailFooterComponent implements OnInit {
         }
         console.error('Error during login:', error);
       }
-    }
+  }
     
 
   async saveStep(a: number) {
@@ -243,7 +245,8 @@ export class DetailFooterComponent implements OnInit {
           };
       }
       // this.payload = JSON.parse(this.payload);
-      this.payload.bastk_status = this.bastk_status;
+      // this.payload.bastk_status = this.bastk_status;
+      this.payload.bastk_status = 'draft';
     }
       // return payload !== null; // Return true if payload exists, false otherwise
     }else if(a == 2){
@@ -269,7 +272,8 @@ export class DetailFooterComponent implements OnInit {
               ...parsedUnitPayload
             };
         }
-        this.payload.bastk_status = this.bastk_status;
+        this.payload.bastk_status = 'draft';
+        // this.payload.bastk_status = this.bastk_status;
       }
     }else if(a == 3){
       this.payload = localStorage.getItem('enginePayload');
@@ -294,34 +298,74 @@ export class DetailFooterComponent implements OnInit {
               ...parsedUnitPayload
             };
         }
-        this.payload.bastk_status = this.bastk_status;
+        this.payload.bastk_status = 'draft';
+        // this.payload.bastk_status = this.bastk_status;
       }
     }else if(a == 4){
-      const unit_id = this.router.url.split('/').pop();
-      this.unit_id = unit_id;
       this.payload = localStorage.getItem('enginePayload');
-      this.payload = JSON.parse(this.payload);
-      this.payload.bastk_status = 'submit';
+      const enginePayload = localStorage.getItem('enginePayload');
+      const unitPayload = localStorage.getItem('payloadUnit_' + unit_id);
+
+      if (enginePayload) {
+        this.payload = JSON.parse(enginePayload);
+       
+        if(this.bastk_status==='submitrevision'){
+          this.payload.bastk_status = 'submitrevision';
+        }else{
+          this.payload.bastk_status = 'submit';
+        }
+
+      }
+
+      if (unitPayload) {
+        const parsedUnitPayload = JSON.parse(unitPayload);
+        
+
+        // Jika payload awal belum ada, pakai unitPayload sebagai dasar
+        if (!this.payload) {
+          this.payload = parsedUnitPayload;
+
+        } else {
+          // Gabungkan payload existing dengan unitPayload
+          this.payload = {
+            ...this.payload,
+            ...parsedUnitPayload
+          };
+        }
+        // SETELAH MERGE, baru set bastk_status
+        if(this.bastk_status==='submitrevision'){
+          this.payload.bastk_status = 'submitrevision';
+        }else{
+          this.payload.bastk_status = 'submit';
+        }
+      }
+
+      console.log("LAST_PAYLOAD:::::",this.payload);
+
+      // this.payload.bastk_status = 'submit';
       // this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
     }
 
-
+    
 
     this.errlog = "";
+    this.isLoading = true;
     try {
       const page = 1; // Parameter yang ingin dikirim
       const endpoint = `/input-bastk/`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.post<any>(endpoint, this.payload);
 
       // Jika login berhasil, simpan data ke localStorage
-      if (response && response.vendor.id) {
-        
+      if (response && response.message === 'success') {
+        this.isLoading = false;
+        return true;
       }else{
-        console.log('here failed')
+        this.isLoading = false;
         this.errlog = 'Username atau password salah';
+        return false;
       }
 
-      return true; // Return true if the operation was successful
+      // return true; // Return true if the operation was successful
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -337,6 +381,7 @@ export class DetailFooterComponent implements OnInit {
       console.error('Error during login:', error);
       // this.isLoading = false;
     }
+    this.isLoading = true;
     return false; // Default return value
   }
 

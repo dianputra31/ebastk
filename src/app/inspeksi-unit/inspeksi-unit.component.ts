@@ -4,6 +4,7 @@ import { InspectionItemResponse } from '../../assets/models/list-inspection.mode
 import { Router } from '@angular/router';
 import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
+import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
 
 
 type GroupedItem = {
@@ -45,6 +46,8 @@ export class InspeksiUnitComponent implements OnInit {
   // groupedSubItems: { [category: string]: { [subCategory: string]: any[] & { open?: string } } } = {};
   groupedSubItems: { [category: string]: CategoryGroup } = {};
   wwgombel: number = 1;
+  sampleDataInfo: UnitDetailResponse | null = null;
+  bastk_status: string = "draft";
 
   constructor(private router: Router,  private apiClient: ApiClientService) { }
 
@@ -52,17 +55,63 @@ export class InspeksiUnitComponent implements OnInit {
     this.showGrouping();
   }
 
+
+  async infoUnit() {
+    // this.isLoading = true;
+
+    this.errlog = "";
+    try {
+      const page = 1; // Parameter yang ingin dikirim
+      const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
+      const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
+
+      // Jika login berhasil, simpan data ke localStorage
+      if (response && response.vendor.id) {
+        this.sampleDataInfo = response;  
+        this.bastk_status = this.sampleDataInfo.bastk_status;
+      }else{
+        console.log('here failed')
+        this.errlog = 'Username atau password salah';
+      }
+
+    } catch (error) {
+      this.isButtonDisabled = false;
+      // this.authService.logout();
+      if (axios.isAxiosError(error)) {
+        // Cek status kode dari respons
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+    }
+  }
+
   async showGrouping() {
+
+    this.isLoading = true;
+
+    this.infoUnit();
+
     const unitData = {
       page: '1'
     };
     this.errlog = "";
+
+    this.isLoading = true;
   
     try {
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/get-detail?unit_id=${unit_id}`; // Endpoint API
       const response = await this.apiClient.get<InspectionItemResponse>(endpoint);
       console.log('Data posted:', response);
+
+      this.isLoading = false;
   
       // Kalau responsenya array
       if (Array.isArray(response)) {
@@ -210,8 +259,20 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
     item_category_chiplabel: "D",
     item_category_url: "/unit-photos",
     item_category_icon: "../../assets/icons/step4.png",
-    item_category_chipclass: groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done' ? 'saiki' : 'notyet',
-    item_category_buttonclass: groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done' ? 'btn-saiki' : 'btn-notyet',
+    // item_category_chipclass: groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done' ? 'saiki' : 'notyet',
+    // item_category_buttonclass: groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done' ? 'btn-saiki' : 'btn-notyet',
+    
+    item_category_chipclass:
+      this.bastk_status === 'revision' ||
+      !(groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done')
+        ? 'notyet'
+        : 'saiki',
+
+    item_category_buttonclass:
+      this.bastk_status === 'revision' ||
+      !(groups['Exterior']?.item_posizione === 'Done' && groups['Interior']?.item_posizione === 'Done' && groups['Engine']?.item_posizione === 'Done')
+        ? 'btn-notyet'
+        : 'btn-saiki',
     item_category_buttonlabel: "Start Inspection >",
     item_posizione: "Nope"
   };

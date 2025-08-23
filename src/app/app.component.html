@@ -1,4 +1,7 @@
-<div *ngIf="!isLogin; else mainApp">
+<div *ngIf="isMobilisasiRoute">
+  <app-frame-mobilisasi></app-frame-mobilisasi>
+</div>
+<div *ngIf="!isMobilisasiRoute && !isLogin; else mainApp">
   <app-the-login (onSuccessLogin)="onSuccessLogin($event)"></app-the-login>
 </div>
 

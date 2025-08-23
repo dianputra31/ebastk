@@ -74,6 +74,7 @@ export class TheDetilTugasComponent implements OnInit {
   selectedVariantId: string = '';
   selectedBrandName: string = '';
   selectedBrandId: string = '';
+  bastk_status: string = '';
 
   choices: [string, string][] = [
   ['Drive', 'Drive'],
@@ -213,7 +214,7 @@ transmissionOptions: [string, string][] = [
     // Build payloadUnit only with fields that have values
     const payload: any = {
       unit_id: this.unit_id,
-      // bastk_status: 'draft'
+      bastk_status: this.bastk_status
     };
     if (this.selectedColor) payload.color_id = this.selectedColor;
     if (this.selectedYear) payload.unit_year = this.selectedYear;
@@ -460,6 +461,9 @@ transmissionOptions: [string, string][] = [
         this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';
         // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
         console.log('bpkbDocuments:', this.bpkbDocuments);
+        this.bastk_status = this.sampleData.bastk_status;
+
+        this.savePayloadUnit();
 
         let tgl_mobilisasi = '';
         if (this.sampleData.mobilization_units && this.sampleData.mobilization_units.length > 0 && this.sampleData.mobilization_units[0].mobiliztion) {

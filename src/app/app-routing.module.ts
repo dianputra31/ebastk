@@ -14,6 +14,7 @@ import { EngineInspectionComponent } from './engine-inspection/engine-inspection
 import { PhotosInspectionComponent } from './photos-inspection/photos-inspection.component';
 import { InspectionSummaryComponent } from './inspection-summary/inspection-summary.component';
 import { TheDetailHistoryComponent } from './the-detail-history/the-detail-history.component';
+import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.component';
 
 const routes: Routes = [
   {
@@ -90,7 +91,11 @@ const routes: Routes = [
     component: TheDetilTugasComponent,
     canActivate: [AuthGuard],    
     pathMatch: 'full'  
-  }  
+  },
+  {  
+    path: 'mobilisasi',  
+    component: FrameMobilisasiComponent  
+  },  
 ];
 
 @NgModule({

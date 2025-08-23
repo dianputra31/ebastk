@@ -15,7 +15,7 @@
 
                     <div *ngFor="let item of groupedSubItems['Exterior'][subCategory]">
                         <div>
-                            <div *ngIf="item.questions && item.questions.length > 0" class="pertinyiin">
+                            <div *ngIf="item.questions && item.questions.length > 0">
                                 <label style="font-weight: bold;text-transform: capitalize;width:50%;border:solid rgb(255, 251, 0) 0px;padding-left:15px;">{{ item.item_description }}</label>
                                 <div class="flex" style="gap: 25%">
                                     <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
@@ -41,10 +41,10 @@
                                   
                                 </div>
                                 <ng-container *ngFor="let question of item.questions">
-                                    <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; ">
+                                    <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; " >
                                         <div>
                                             <div>
-                                                    <span style="padding-left:15px;">
+                                                    <span style="padding-left:15px;" >
                                                         <select
                                                             class="mt-2 w-full p-2 border rounded"
                                                             [name]="item.id + '_' + question.key"
@@ -52,6 +52,7 @@
                                                             [(ngModel)]="question.answer"
                                                             style="text-transform: capitalize; font-size:14px; color: #0f0d0d;"
                                                             [ngStyle]="{ color: !question.answer || question.answer.trim() === '' ? '#b4b4b4' : '#0f0d0d' }"
+                                                            [class.beling]="!question.answer || question.answer.length === 0 || question.answer === null"
 
                                                             >
                                                             <option [ngValue]="null" disabled  style="color:#b4b4b4;">-- {{question.name}} --</option>
@@ -69,4 +70,10 @@
             </div>
         </form>
     </mat-accordion>
+</div>
+
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Data sedang dimuat...</div>
 </div>

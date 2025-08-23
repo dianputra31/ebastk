@@ -79,3 +79,8 @@
 [imageUrl]="'../../assets/icons/warning-icon.svg'"
 [showButtonYeah]="false">
 </app-the-modal>
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Data sedang dimuat...</div>
+</div>

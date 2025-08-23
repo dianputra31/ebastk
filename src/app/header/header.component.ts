@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   @Input() activeChipIndex: number = 0;
   HiThere: string = 'User';
   HiEmail: string = 'Email';
+  HiLocation: string = 'Location';
   subCategory: { [key: string]: string[] } = {};
 
   @Input() activeNoah: string = '';
@@ -44,6 +45,7 @@ export class HeaderComponent implements OnInit {
 
     this.HiThere = localStorage.getItem('username') || 'User';
     this.HiEmail = localStorage.getItem('email') || 'Email';
+    this.HiLocation = localStorage.getItem('branch') || 'Branch';
     // localStorage.getItem('userToken');
     // localStorage.getItem('refresh_token');
 
@@ -124,6 +126,10 @@ export class HeaderComponent implements OnInit {
   isTugas(): boolean {  
     return this.currentRoute === '/tugas';  
   }  
+
+  isFrameOnly(): boolean {  
+    return this.currentRoute === '/frame-mobilisasi';  
+  }
 
   goBack(): void {
     const unit_id = this.router.url.split('/').pop();

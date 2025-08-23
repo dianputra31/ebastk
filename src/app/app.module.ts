@@ -53,6 +53,7 @@ import { ImageUnitPhotosUploaderComponent } from './image-unitphotos-uploader/im
 import { TheModalRevisionComponent } from './the-modal-revision/the-modal-revision.component';
 import { TheTipeModalComponent } from './the-tipe-modal/the-tipe-modal.component';
 import { TheBrandModalComponent } from './the-brand-modal/the-brand-modal.component';
+import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { TheBrandModalComponent } from './the-brand-modal/the-brand-modal.compon
     ImageUnitPhotosUploaderComponent,
     TheModalRevisionComponent,
     TheTipeModalComponent,
-    TheBrandModalComponent
+    TheBrandModalComponent,
+    FrameMobilisasiComponent
   ],
   imports: [
     BrowserModule,

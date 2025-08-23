@@ -30,3 +30,9 @@
 [message2]="'Pastikan data yang Anda masukkan sesuai dengan kondisi unit.'" 
 [imageUrl]="'../../assets/icons/warning-icon.svg'">
 </app-the-modal>
+
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Data sedang diproses...</div>
+</div>
