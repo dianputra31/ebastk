@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
 import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
+import { PanelSyncService } from '../../app/panel.service';
 
 @Component({
   selector: 'app-interior-inspection',
@@ -12,32 +13,37 @@ import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } fr
   styleUrls: ['./interior-inspection.component.scss']
 })
 export class InteriorInspectionComponent implements OnInit, AfterViewInit {
-  isModalOpen: boolean = false;
-  @Input() panelName: string = '';
+isModalOpen: boolean = false;
+@Input() panelName: string = '';
 
-  @ViewChild('kelengkapanUmum') kelengkapanUmum: ElementRef | undefined;
-  @ViewChild('infoVendor') infoVendor: ElementRef | undefined;
-  @ViewChild('keteranganLainnya') keteranganLainnya: ElementRef | undefined;
-  @ViewChild('interiorForm') interiorForm: ElementRef | undefined;
+@ViewChild('kelengkapanUmum') kelengkapanUmum: ElementRef | undefined;
+@ViewChild('infoVendor') infoVendor: ElementRef | undefined;
+@ViewChild('keteranganLainnya') keteranganLainnya: ElementRef | undefined;
+@ViewChild('interiorForm') interiorForm: ElementRef | undefined;
 
-  errlog:string = '';
-  sampleDataVendor: VendorDetailResponse | null = null;
-  currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
-  @Input() fromDashboard:any;
-  isButtonDisabled: boolean = false;
-  isLoading: boolean = false;
-  username: string = '';
-  password: string = '';
-  sampleData: any[] = [];
-  groupedItems: { [key: string]: any[] } = {};
-  groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
-  objectKeys = Object.keys;
-  sampleDataInfo: UnitDetailResponse | null = null;
-  payload: any = null;
-  // interiorForm: any;
+errlog:string = '';
+sampleDataVendor: VendorDetailResponse | null = null;
+currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
+@Input() fromDashboard:any;
+isButtonDisabled: boolean = false;
+isLoading: boolean = false;
+username: string = '';
+password: string = '';
+sampleData: any[] = [];
+groupedItems: { [key: string]: any[] } = {};
+groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
+objectKeys = Object.keys;
+sampleDataInfo: UnitDetailResponse | null = null;
+payload: any = null;
+// interiorForm: any;
 
+isModalAnswerOpen: boolean = false;
+modalQuestions: any[] = [];
+modalItem: any = null;
 
-  constructor(private router: Router,  private apiClient: ApiClientService) { }
+@Output() activePanelChange = new EventEmitter<string>();
+
+constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService) { }
 
   ngOnInit(): void {
     this.infoUnit();
@@ -165,57 +171,75 @@ export class InteriorInspectionComponent implements OnInit, AfterViewInit {
 
 
 
-
-
-
-
-  onSubmit(form: any): void {
-    console.log('Form Data:', form.value);
-
-    const questions: { [key: string]: any }[] = [];
-
-    // Loop melalui groupedSubItems untuk membangun array questions
-    for (const subCategory in this.groupedSubItems['Interior']) {
-        const items = this.groupedSubItems['Interior'][subCategory];
-        items.forEach((item: any) => {
-
-
-            item.questions.forEach((question: any) => {
-              const questionKondisi = `${item.id}_kondisi`;
-              const valueKondisi = form.value[questionKondisi]; // Ambil nilai dari form
-                const questionKey = `${item.id}_${question.key}`;
-                const value = form.value[questionKey]; // Ambil nilai dari form
-                if (value || valueKondisi) { // Hanya tambahkan jika value tidak kosong
-                    const existingQuestion = questions.find(q => q['bastk_item_id'] === item.id);
-                    if (existingQuestion) {
-                        // Jika sudah ada, tambahkan key-value baru
-                        existingQuestion[question.key] = value;
-                    } else {
-                        // Jika belum ada, buat objek baru dengan "kondisi" default
-                        questions.push({
-                            bastk_item_id: item.id,
-                            kondisi: valueKondisi, // Tambahkan key "kondisi" dengan nilai default
-                            [question.key]: value
-                        });
-                    }
-                }
-            });
-        });
-    }
-
-    const unit_id = this.router.url.split('/').pop(); 
-    
-    // Bungkus questions ke dalam format JSON yang diinginkan
-    this.payload = {
-        unit_id: unit_id, // Ganti dengan unit_id yang sesuai
-        bastk_status: 'draft', // Ganti dengan status yang sesuai
-        questions: questions
-    };
-
-    console.log('Payload yang dikirim:', this.payload);
-    localStorage.setItem('interiorPayload', JSON.stringify(this.payload)); // Simpan payload ke localStorage
-    // this.isModalOpen = true; // Buka modal
+  
+openQuestionsModal(item: any) {
+  this.modalItem = item;
+  this.modalQuestions = item.questions;
+  this.isModalAnswerOpen = true;
 }
+
+closeQuestionsModal() {
+  this.isModalAnswerOpen = false;
+  this.modalItem = null;
+  this.modalQuestions = [];
+}
+
+onSelectChange(event: any, form: any) {
+  setTimeout(() => {
+    this.onSubmit(form);
+
+    // Hanya cek pertanyaan yang name-nya bukan null
+    const allAnswered = this.modalQuestions
+      .filter(q => q.name !== null)
+      .every(q => q.answer !== null && q.answer !== undefined);
+
+    if (allAnswered) {
+      this.closeQuestionsModal();
+    }
+  }, 0);
+}
+
+onModalOverlayClick(event: MouseEvent) {
+  this.closeQuestionsModal();
+}
+
+onPanelInView(panelId: string) {
+  this.panelSync.emitPanel(panelId);
+}
+
+
+onSubmit(form: any): void {
+  const questions: { [key: string]: any }[] = [];
+
+  for (const subCategory in this.groupedSubItems['Interior']) {
+    const items = this.groupedSubItems['Interior'][subCategory];
+    items.forEach((item: any) => {
+      let questionObj: any = { bastk_item_id: item.id, kondisi: item.kondisi };
+      let hasAnswer = false;
+      item.questions.forEach((question: any) => {
+        if (question.answer !== undefined && question.answer !== null) {
+          questionObj[question.key] = question.answer;
+          hasAnswer = true;
+        }
+      });
+      if (hasAnswer || item.kondisi) {
+        questions.push(questionObj);
+      }
+    });
+  }
+
+  const unit_id = this.router.url.split('/').pop();
+  this.payload = {
+    unit_id: unit_id,
+    bastk_status: 'draft',
+    questions: questions
+  };
+
+  console.log('Payload yang dikirim:', this.payload);
+  localStorage.setItem('interiorPayload', JSON.stringify(this.payload));
+}
+
+
 
 
 
