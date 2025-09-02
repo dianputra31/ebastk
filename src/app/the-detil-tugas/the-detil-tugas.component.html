@@ -48,6 +48,7 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <div class="row">
+              
                 <div class="column">
                     <label for="expedition">Ekspedisi</label>
 
@@ -111,7 +112,11 @@
 
                     <label for="color">Noka</label>
                     <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+                    
+                    <label for="color">Fuel</label>
+                    <input type="text" id="fuel" placeholder="Fuel"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
                 </div>
+
                 <div class="column">
                     <label for="category">Kategori</label>
                     

@@ -9,29 +9,30 @@ import { AuthService } from '../auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  // activeChipIndex: number = 0; // Indeks chip yang aktif  
-  isDropdownOpen: boolean = false;  
-  isCategoryDropdownOpen: boolean = false;  
-  isSortDropdownOpen: boolean = false;  
-  currentRoute: string='/dashboard';  
-  selectedPanel: string='';
-  @Output() menuChange = new EventEmitter<string>();
-  @Output() filterChange = new EventEmitter<string>();
-  @Output() filterHistoryChange = new EventEmitter<string>();
-  @Input() activeChipIndex: number = 0;
-  HiThere: string = 'User';
-  HiEmail: string = 'Email';
-  HiLocation: string = 'Location';
-  subCategory: { [key: string]: string[] } = {};
+// activeChipIndex: number = 0; // Indeks chip yang aktif  
+isDropdownOpen: boolean = false;  
+isCategoryDropdownOpen: boolean = false;  
+isSortDropdownOpen: boolean = false;  
+currentRoute: string='/dashboard';  
+selectedPanel: string='';
+@Output() menuChange = new EventEmitter<string>();
+@Output() filterChange = new EventEmitter<string>();
+@Output() filterHistoryChange = new EventEmitter<string>();
+@Input() activeChipIndex: number = 0;
+HiThere: string = 'User';
+HiEmail: string = 'Email';
+HiLocation: string = 'Location';
+subCategory: { [key: string]: string[] } = {};
 
-  @Input() activeNoah: string = '';
-  @Input() activeLoc: string = '';
-  @Input() activeDatetime: string = '';
-  @Input() activeDoneBy: string = '';
-  @Input() activeDoneDate: string = '';
+@Input() activeNoah: string = '';
+@Input() activeLoc: string = '';
+@Input() activeDatetime: string = '';
+@Input() activeDoneBy: string = '';
+@Input() activeDoneDate: string = '';
+activePanel: string = '';
 
   
-  constructor(private router: Router,  private authService: AuthService) { }
+  constructor(private router: Router,  private authService: AuthService) {}
 
   ngOnInit(): void {
     // this.activeNoah = 'HELLO WORLD';
@@ -180,6 +181,8 @@ export class HeaderComponent implements OnInit {
     this.selectedPanel = panelName;
     
   }
+
+
 
   // activeTab: string = 'dashboard'; 
   

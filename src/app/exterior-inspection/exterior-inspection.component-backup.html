@@ -5,7 +5,7 @@
     <mat-accordion multi>
         <form #exteriorForm="ngForm">
             <div *ngFor="let subCategory of objectKeys(groupedSubItems['Exterior'])" style="padding-left:10px;margin-bottom:30px;">
-                <mat-expansion-panel [expanded]="true"  id="{{subCategory}}"  (mouseenter)="onPanelInView(subCategory)">
+                <mat-expansion-panel [expanded]="true"  id="{{subCategory}}" >
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <span style="border:solid red 0px;font-weight:bold;">{{ subCategory }}</span>
@@ -25,7 +25,7 @@
                                              [value]="'Ada'"
                                              [(ngModel)]="item.kondisi"
                                              (ngModelChange)="onSubmit(exteriorForm)" 
-                                             (click)="openQuestionsModal(item)"/>
+                                             (click)="focusSelect(item.id, 0)"/>
                                       Ada
                                     </label>
 
@@ -36,13 +36,13 @@
                                              [value]="'Tidak'"
                                              [(ngModel)]="item.kondisi"
                                              (ngModelChange)="onSubmit(exteriorForm)" 
-                                             (click)="openQuestionsModal(item)"/>
+                                             (click)="focusSelect(item.id, 0)"/>
                                       Tidak
                                     </label>
 
                                   
                                 </div>
-                                <!-- <ng-container *ngFor="let question of item.questions; let i = index">
+                                <ng-container *ngFor="let question of item.questions; let i = index">
                                     <div *ngIf="question.name !== null" style="position:relative; float:left; width: 50%; " >
                                         <div>
                                             <div>
@@ -54,6 +54,8 @@
                                                             (ngModelChange)="onSubmit(exteriorForm)"
                                                             [(ngModel)]="question.answer"
                                                             style="text-transform: capitalize; font-size:14px; color: #0f0d0d;"
+                                                            [ngStyle]="{ color: !question.answer || question.answer.trim() === '' ? '#b4b4b4' : '#0f0d0d' }"
+                                                            [class.beling]="!question.answer || question.answer.length === 0 || question.answer === null"
 
                                                             >
                                                             <option [ngValue]="null" disabled  style="color:#b4b4b4;">-- {{question.name}} --</option>
@@ -63,7 +65,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </ng-container> -->
+                                </ng-container>
                             </div>
                         </div>
                     </div>
@@ -77,26 +79,4 @@
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">Data sedang dimuat...</div>
-</div>
-
-<div *ngIf="isModalAnswerOpen" class="modal-overlay" (mousedown)="onModalOverlayClick($event)">
-  <div class="modal-content" (mousedown)="$event.stopPropagation()">
-    <h3 style="margin-bottom:10px;">{{ modalItem?.item_description }}</h3>
-    <ng-container *ngFor="let question of modalQuestions; let i = index">
-      <div *ngIf="question.name !== null" style="margin-bottom: 16px;">
-        <!-- <label style="font-weight: bold;">{{ question.name }}</label> -->
-        <select
-          [id]="'selectEl_' + modalItem.id + '_' + i"
-          class="mt-2 w-full p-2 border rounded"
-          [name]="modalItem.id + '_' + question.key"
-            (ngModelChange)="onSelectChange($event, exteriorForm)"
-          [(ngModel)]="question.answer"
-          style="text-transform: capitalize; font-size:14px; color: #0f0d0d;">
-          <option [ngValue]="null" disabled style="color:#b4b4b4;">-- {{question.name}} --</option>
-          <option style="color:#141414;" *ngFor="let option of question.options" [ngValue]="option">{{ option }}</option>
-        </select>
-      </div>
-    </ng-container>
-    <button type="button" class="flex items-center space-x-1 bg-red-600 text-white px-4 py-2 rounded-full wd45" (click)="closeQuestionsModal()" style="margin-top:20px;">Tutup</button>
-  </div>
 </div>

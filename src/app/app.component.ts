@@ -29,9 +29,16 @@ export class AppComponent {
   noahdonedate: string = '';
   filterStatus: string = '';
   isMobilisasiRoute = false;
+  activePanel: string = '';
+
 
   constructor(private router: Router, private authService: AuthService, private noahService: NoahService) {}  
 
+
+  onActivePanelChange(panelId:any) {
+    console.log("NJIR WE GOO===>", panelId);
+    this.activePanel = panelId;
+  }
 
   ngOnInit() {
    

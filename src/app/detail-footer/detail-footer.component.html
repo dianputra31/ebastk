@@ -31,6 +31,15 @@
 [imageUrl]="'../../assets/icons/warning-icon.svg'">
 </app-the-modal>
 
+<app-the-modal 
+*ngIf="isModalErrorOpen" (confirm)="onModalClose()"  (close)="onModalClose()" 
+[isOpen]="isModalErrorOpen" 
+[message]="'Error!'" 
+[message2]="errMessage" 
+[showButtonYeah]="false"
+[imageUrl]="'../../assets/icons/warning-icon.svg'">
+</app-the-modal>
+
 
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="loading-spinner"></div>

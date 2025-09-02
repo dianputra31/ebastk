@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
 import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
+import { PanelSyncService } from '../../app/panel.service';
 
 @Component({
   selector: 'app-exterior-inspection',
@@ -13,63 +14,40 @@ import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } fr
 })
 export class ExteriorInspectionComponent implements AfterViewInit {
 
-  isModalOpen: boolean = false;
-  @Input() panelName: string = '';
+isModalOpen: boolean = false;
+@Input() panelName: string = '';
 
-  @ViewChild('kelengkapanUmum') kelengkapanUmum: ElementRef | undefined;
-  @ViewChild('infoVendor') infoVendor: ElementRef | undefined;
-  @ViewChild('keteranganLainnya') keteranganLainnya: ElementRef | undefined;
-  @ViewChild('exteriorForm') exteriorForm: ElementRef | undefined;
+@ViewChild('kelengkapanUmum') kelengkapanUmum: ElementRef | undefined;
+@ViewChild('infoVendor') infoVendor: ElementRef | undefined;
+@ViewChild('keteranganLainnya') keteranganLainnya: ElementRef | undefined;
+@ViewChild('exteriorForm') exteriorForm: ElementRef | undefined;
 
-  errlog:string = '';
-  sampleDataVendor: VendorDetailResponse | null = null;
-  currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
-  @Input() fromDashboard:any;
-  isButtonDisabled: boolean = false;
-  isLoading: boolean = false;
-  username: string = '';
-  password: string = '';
-  sampleData: any[] = [];
-  groupedItems: { [key: string]: any[] } = {};
-  groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
-  objectKeys = Object.keys;
-  sampleDataInfo: UnitDetailResponse | null = null;
-  payload: any = null;
-  // exteriorForm: any;
-  isBeling: boolean = true;
+errlog:string = '';
+sampleDataVendor: VendorDetailResponse | null = null;
+currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
+@Input() fromDashboard:any;
+isButtonDisabled: boolean = false;
+isLoading: boolean = false;
+username: string = '';
+password: string = '';
+sampleData: any[] = [];
+groupedItems: { [key: string]: any[] } = {};
+groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
+objectKeys = Object.keys;
+sampleDataInfo: UnitDetailResponse | null = null;
+payload: any = null;
+// exteriorForm: any;
+isBeling: boolean = true;
 
+isModalAnswerOpen: boolean = false;
+modalQuestions: any[] = [];
+modalItem: any = null;
 
-
-  // @HostListener('window:scroll', [])
-  // onWindowScroll() {
-  //   const infoVendorPanel = document.getElementById('infoVendorPanel');
-  //   const infoKendaraanPanel = document.getElementById('infoKendaraanPanel');
-  //   const infoLainnyaPanel = document.getElementById('infoLainnyaPanel');
-  //   const infoDokumenPanel = document.getElementById('infoDokumenPanel');
-
-  //   if (infoKendaraanPanel && this.isElementInViewport(infoKendaraanPanel)) {
-  //     this.panelChange.emit('Info Kendaraan');
-  //   } else if (infoVendorPanel && this.isElementInViewport(infoVendorPanel)) {
-  //     this.panelChange.emit('Info Vendor');
-  //   } else if (infoDokumenPanel && this.isElementInViewport(infoDokumenPanel)) {
-  //     this.panelChange.emit('Dokumen dan Kelengkapan Lainnya');
-  //   } else if (infoLainnyaPanel && this.isElementInViewport(infoLainnyaPanel)) {
-  //     this.panelChange.emit('Keterangan Lainnya');
-  //   }
-  // }
-
-  // isElementInViewport(el: HTMLElement) {
-  //   const rect = el.getBoundingClientRect();
-  //   return (
-  //     rect.top >= 0 &&
-  //     rect.left >= 0 &&
-  //     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-  //     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  //   );
-  // }
+@Output() activePanelChange = new EventEmitter<string>();
 
 
-  constructor(private router: Router,  private apiClient: ApiClientService) { }
+
+  constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService) { }
 
   ngOnInit(): void {
     this.infoUnit();
@@ -91,59 +69,79 @@ export class ExteriorInspectionComponent implements AfterViewInit {
 
 
 
+openQuestionsModal(item: any) {
+  this.modalItem = item;
+  this.modalQuestions = item.questions;
+  this.isModalAnswerOpen = true;
+}
 
+closeQuestionsModal() {
+  this.isModalAnswerOpen = false;
+  this.modalItem = null;
+  this.modalQuestions = [];
+}
 
+onSelectChange(event: any, form: any) {
+  setTimeout(() => {
+    this.onSubmit(form);
 
-  onSubmit(form: any): void {
-    
+    // Hanya cek pertanyaan yang name-nya bukan null
+    const allAnswered = this.modalQuestions
+      .filter(q => q.name !== null)
+      .every(q => q.answer !== null && q.answer !== undefined);
 
-    const questions: { [key: string]: any }[] = [];
-
-    // Loop melalui groupedSubItems untuk membangun array questions
-    for (const subCategory in this.groupedSubItems['Exterior']) {
-        const items = this.groupedSubItems['Exterior'][subCategory];
-        items.forEach((item: any) => {
-            item.questions.forEach((question: any) => {
-                const questionKey = `${item.id}_${question.key}`;
-                const questionKondisi = `${item.id}_kondisi`;
-                const value = form.value[questionKey]; // Ambil nilai dari form
-                const valueKondisi = form.value[questionKondisi]; // Ambil nilai dari form
-                if (value || valueKondisi) { // Hanya tambahkan jika value tidak kosong
-                    const existingQuestion = questions.find(q => q['bastk_item_id'] === item.id);
-                    if (existingQuestion) {
-                        // Jika sudah ada, tambahkan key-value baru
-                        existingQuestion[question.key] = value;
-                    } else {
-                        // Jika belum ada, buat objek baru dengan "kondisi" default
-                        questions.push({
-                            bastk_item_id: item.id,
-                            kondisi: valueKondisi, // Tambahkan key "kondisi" dengan nilai default
-                            [question.key]: value
-                        });
-                    }
-                }
-            });
-        });
+    if (allAnswered) {
+      this.closeQuestionsModal();
     }
+  }, 0);
+}
 
-    const unit_id = this.router.url.split('/').pop(); 
-    
-    // Bungkus questions ke dalam format JSON yang diinginkan
-    this.payload = {
-        unit_id: unit_id, // Ganti dengan unit_id yang sesuai
-        bastk_status: 'draft', // Ganti dengan status yang sesuai
-        questions: questions
-    };
+onModalOverlayClick(event: MouseEvent) {
+  this.closeQuestionsModal();
+}
 
-    console.log('Payload yang dikirim:', this.payload);
-    localStorage.setItem('exteriorPayload', JSON.stringify(this.payload)); // Simpan payload ke localStorage
-    
+onPanelInView(panelId: string) {
+  this.panelSync.emitPanel(panelId);
+}
 
-    // this.isModalOpen = true; // Buka modal
+onSubmit(form: any): void {
+  const questions: { [key: string]: any }[] = [];
+
+  for (const subCategory in this.groupedSubItems['Exterior']) {
+    const items = this.groupedSubItems['Exterior'][subCategory];
+    items.forEach((item: any) => {
+      let questionObj: any = { bastk_item_id: item.id, kondisi: item.kondisi };
+      let hasAnswer = false;
+      item.questions.forEach((question: any) => {
+        if (question.answer !== undefined && question.answer !== null) {
+          questionObj[question.key] = question.answer;
+          hasAnswer = true;
+        }
+      });
+      if (hasAnswer || item.kondisi) {
+        questions.push(questionObj);
+      }
+    });
+  }
+
+  const unit_id = this.router.url.split('/').pop();
+  this.payload = {
+    unit_id: unit_id,
+    bastk_status: 'draft',
+    questions: questions
+  };
+
+  console.log('Payload yang dikirim:', this.payload);
+  localStorage.setItem('exteriorPayload', JSON.stringify(this.payload));
 }
 
 
-
+focusSelect(itemId: string, idx: number) {
+  const el = document.getElementById(`selectEl_${itemId}_${idx}`) as HTMLSelectElement;
+  if (el) {
+    el.focus();
+  }
+}
 
 
 // submitToApi(): void {

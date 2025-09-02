@@ -17,11 +17,13 @@ export class DetailFooterComponent implements OnInit {
   labelfooter_top: string = '01.';
   labelfooter_bottom: string = 'Kelengkapan Data';
   isModalOpen: boolean = false;
+  isModalErrorOpen: boolean = false;
   errlog:string = '';
   payload: any = null;
   unit_id: any = '';
   sampleData: UnitDetailResponse | null = null;
   bastk_status: string = '';
+  errMessage: string = '';
   isLoading: boolean = false;
 
   constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
@@ -350,6 +352,7 @@ export class DetailFooterComponent implements OnInit {
 
     this.errlog = "";
     this.isLoading = true;
+    this.isModalErrorOpen = false;
     try {
       const page = 1; // Parameter yang ingin dikirim
       const endpoint = `/input-bastk/`; // Menambahkan parameter ke endpoint
@@ -368,6 +371,7 @@ export class DetailFooterComponent implements OnInit {
       // return true; // Return true if the operation was successful
 
     } catch (error) {
+      this.isModalErrorOpen = true;
       if (axios.isAxiosError(error)) {
         // Cek status kode dari respons
         if (error.response && error.response.status === 401) {
@@ -379,9 +383,10 @@ export class DetailFooterComponent implements OnInit {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
       console.error('Error during login:', error);
+      this.errMessage = String(error);
       // this.isLoading = false;
     }
-    this.isLoading = true;
+    this.isLoading = false;
     return false; // Default return value
   }
 
