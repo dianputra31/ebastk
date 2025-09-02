@@ -22,7 +22,6 @@ activePanel: string = '';
 
   constructor(private panelSync: PanelSyncService) { 
     this.panelSync.panel$.subscribe(panelId => {
-      console.log("HEADER WE GOO===>", panelId);
       this.activePanel = panelId;
 
       // Update activeChipIndex sesuai panel aktif

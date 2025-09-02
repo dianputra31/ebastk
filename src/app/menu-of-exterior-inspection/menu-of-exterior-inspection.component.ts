@@ -25,11 +25,10 @@ export class MenuOfExteriorInspectionComponent implements OnInit {
 
   constructor(private panelSync: PanelSyncService) { 
     this.panelSync.panel$.subscribe(panelId => {
-      console.log("HEADER WE GOO===>", panelId);
       this.activePanel = panelId;
 
       // Update activeChipIndex sesuai panel aktif
-      const idx = this.availableChip['Exterior']?.findIndex(chip => chip === panelId);
+      const idx = this.availableChip['Engine']?.findIndex(chip => chip === panelId);
       if (idx !== -1 && idx !== undefined) {
         this.activeChipIndex = idx;
       }
