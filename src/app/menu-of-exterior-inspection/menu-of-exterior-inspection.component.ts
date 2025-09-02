@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { PanelSyncService } from '../panel.service';
 
 @Component({
@@ -6,11 +6,12 @@ import { PanelSyncService } from '../panel.service';
   templateUrl: './menu-of-exterior-inspection.component.html',
   styleUrls: ['./menu-of-exterior-inspection.component.scss']
 })
-export class MenuOfExteriorInspectionComponent implements OnInit {
+export class MenuOfExteriorInspectionComponent implements OnInit, AfterViewInit {
 // @Output() chipSelected = new EventEmitter<number>();
 @Output() panelToScroll = new EventEmitter<string>();
 @Output() menuSelected = new EventEmitter<string>();
 // @Input() activePanel: string = '';
+@ViewChildren('chipEl') chipElements!: QueryList<ElementRef>;
 
 
   activeChipIndex: number = 0; // Indeks chip yang aktif  
@@ -28,15 +29,29 @@ export class MenuOfExteriorInspectionComponent implements OnInit {
       this.activePanel = panelId;
 
       // Update activeChipIndex sesuai panel aktif
-      const idx = this.availableChip['Engine']?.findIndex(chip => chip === panelId);
+      const idx = this.availableChip['Exterior']?.findIndex(chip => chip === panelId);
       if (idx !== -1 && idx !== undefined) {
         this.activeChipIndex = idx;
+        this.scrollActiveChipIntoView();
       }
     });
   }
 
+  ngAfterViewInit() {
+    this.scrollActiveChipIntoView();
+  }
+
   ngOnInit(): void {
     console.log("availableChip::", this.availableChip);
+  }
+
+  scrollActiveChipIntoView() {
+    setTimeout(() => {
+      const chip = this.chipElements?.get(this.activeChipIndex);
+      if (chip) {
+        chip.nativeElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }, 0);
   }
 
   setActiveChip(index: number) {  
