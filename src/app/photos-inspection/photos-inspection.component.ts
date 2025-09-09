@@ -64,7 +64,8 @@ bagianLuarKeys: string[] = [];
 sampleDataEngine: any[] = [];
 groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
 groupedItems: { [key: string]: any[] } = {};
-
+isUploading: boolean = false;
+uploadProgress = { current: 0, total: 0 };
 
   readonly bagianLuarDescriptions: string[] = [
     'Foto Depan',
@@ -76,12 +77,12 @@ groupedItems: { [key: string]: any[] } = {};
   ];
 
   readonly bagianDalamDescriptions: string[] = [
+    'Foto Bagasi',
+    'Foto Ban Serep',
     'Foto Interior Depan',
     'Foto Interior Tengah',
     'Foto Kilometer',
-    'Foto Atap',
-    'Foto Bagasi',
-    'Foto Ban Serep'
+    'Foto Atap'
   ];
 
   readonly bagianMesinDescriptions: string[] = [
@@ -117,6 +118,27 @@ groupedItems: { [key: string]: any[] } = {};
   bagianSistemDescriptionsSoon: string[] = [];
 
 
+  readonly allDescriptions: string[] = [
+    'Foto Depan',
+    'Foto Depan Kanan',
+    'Foto Depan Kiri',
+    'Foto Belakang',
+    'Foto Belakang Kanan',
+    'Foto Belakang Kiri',
+    'Foto Bagasi',
+    'Foto Ban Serep',
+    'Foto Interior Depan',
+    'Foto Interior Tengah',
+    'Foto Kilometer',
+    'Foto Atap',
+    'Foto Mesin',
+    'Foto Noka (No. Rangka)',
+    'Foto Nosin (No. Mesin)',
+    'Gesekan Noka',
+    'Gesekan Nosin'
+  ];
+
+
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
   imageUrl: string | null = null;
 
@@ -124,6 +146,114 @@ groupedItems: { [key: string]: any[] } = {};
     this.infoUnit();
     this.showGroupingExterior();
   }
+
+
+  getTitleByDescription(desc: string): string {
+    if ([
+      'Foto Depan',
+      'Foto Depan Kanan',
+      'Foto Depan Kiri',
+      'Foto Belakang',
+      'Foto Belakang Kanan',
+      'Foto Belakang Kiri'
+    ].includes(desc)) {
+      return 'Foto Bagian Luar (Exterior)';
+    }
+    if ([
+      'Foto Bagasi',
+      'Foto Ban Serep',
+      'Foto Interior Depan',
+      'Foto Interior Tengah',
+      'Foto Kilometer',
+      'Foto Atap'
+    ].includes(desc)) {
+      return 'Foto Bagian Dalam (Interior & Bagasi)';
+    }
+    if ([
+      'Foto Mesin',
+      'Foto Noka (No. Rangka)',
+      'Foto Nosin (No. Mesin)',
+      'Gesekan Noka',
+      'Gesekan Nosin'
+    ].includes(desc)) {
+      return 'Foto Bagian Mesin';
+    }
+    return 'Lainnya';
+  }
+
+async aplotMultipleMinus(event: any) {
+  // Hapus semua foto minus lama
+  const ids = this.getAllUnitImageIds(0);
+  await Promise.all(ids.map(id => this.removeOldImage(id)));
+
+  const input = event.target as HTMLInputElement;
+  if (!input.files || input.files.length === 0) return;
+
+  const files: FileList = input.files;
+  this.isUploading = true;
+  this.uploadProgress = { current: 0, total: files.length };
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const desc = `Foto Minus ${i + 1}`; // Descriptions dinamis
+    const lab = 'Foto Kerusakan/Kekurangan Unit (Minus)';
+
+    const formData = new FormData();
+    formData.append('unit', this.unit_id);
+    formData.append('file', file);
+    formData.append('title', lab);
+    formData.append('descriptions', desc);
+
+    try {
+      const endpoint = `/upload-images/`;
+      await this.apiClient.postDoc<any>(endpoint, formData);
+      this.uploadProgress.current = i + 1;
+    } catch (error) {
+      console.error('Upload gagal:', error);
+    }
+  }
+
+  this.isUploading = false;
+  this.uploadProgress = { current: 0, total: 0 };
+  this.infoUnit();
+}
+
+async aplotMultiple(event: any) {
+  // Hapus semua foto lama, tunggu sampai selesai semua
+  const ids = this.getAllUnitImageIds(1);
+  await Promise.all(ids.map(id => this.removeOldImage(id)));
+
+  const input = event.target as HTMLInputElement;
+  if (!input.files || input.files.length === 0) return;
+
+  const files: FileList = input.files;
+  this.isUploading = true;
+  this.uploadProgress = { current: 0, total: files.length };
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const desc = this.allDescriptions[i] || `Foto ${i + 1}`;
+    const lab = this.getTitleByDescription(desc);
+
+    const formData = new FormData();
+    formData.append('unit', this.unit_id);
+    formData.append('file', file);
+    formData.append('title', lab);
+    formData.append('descriptions', desc);
+
+    try {
+      const endpoint = `/upload-images/`;
+      await this.apiClient.postDoc<any>(endpoint, formData);
+      this.uploadProgress.current = i + 1;
+    } catch (error) {
+      console.error('Upload gagal:', error);
+    }
+  }
+
+  this.isUploading = false;
+  this.uploadProgress = { current: 0, total: 0 };
+  this.infoUnit();
+}
 
 
   async showGroupingExterior() {
@@ -236,14 +366,19 @@ groupedItems: { [key: string]: any[] } = {};
     }
   }
 
-  mapBagianMinus(): void {
-    this.bagianMinus = {};
-
-    for (const desc of this.bagianMinusDescriptions) {
-      this.bagianMinus[desc] = this.unitimages
-        .filter(doc => doc.title === 'Foto Kerusakan/Kekurangan Unit (Minus)' && doc.descriptions === desc);
-    }
-  }
+mapBagianMinus(): void {
+  // Kumpulkan semua foto minus tanpa batasan descriptions
+  this.bagianMinus = {};
+  const minusImages = this.unitimages
+    .filter(doc => doc.title === 'Foto Kerusakan/Kekurangan Unit (Minus)')
+    .sort((a, b) => {
+      // Ambil angka dari descriptions, default ke 0 jika tidak ada angka
+      const numA = parseInt((a.descriptions || '').replace(/\D/g, ''), 10) || 0;
+      const numB = parseInt((b.descriptions || '').replace(/\D/g, ''), 10) || 0;
+      return numA - numB;
+    });
+  this.bagianMinus['all'] = minusImages;
+}
 
   mapBagianSistem(): void {
     this.bagianSistem = {};
@@ -362,6 +497,24 @@ groupedItems: { [key: string]: any[] } = {};
   }
 
 
+getAllUnitImageIds(filterType: 0 | 1 = 1): number[] {
+  if (!this.sampleData || !Array.isArray(this.sampleData.unitimages)) {
+    return [];
+  }
+  return this.sampleData.unitimages
+    .filter(img => {
+      if (filterType === 0) {
+        // Hanya title "Foto Kerusakan/Kekurangan Unit (Minus)"
+        return img.title === 'Foto Kerusakan/Kekurangan Unit (Minus)';
+      } else {
+        // Selain title "Foto Kerusakan/Kekurangan Unit (Minus)"
+        return img.title !== 'Foto Kerusakan/Kekurangan Unit (Minus)';
+      }
+    })
+    .filter(img => typeof img.id === 'number')
+    .map(img => img.id);
+}
+
 
     async openGallery(a:string) {
 
@@ -435,13 +588,46 @@ async removeImage(index: number) {
       return false;
   }
 
+async removeOldImage(index: number) {
+    
+    
+    try{
+      const endpoint = `/delete_image/?image_id=${index}`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.delete<any>(endpoint);
+      if (response) {
+        // this.infoUnit();
+        // window.location.reload();
+        console.log('image has been deleted')
+        return true;
+      }else{
+        console.log('here failed')
+      }
+      return true;
+
+    }catch (error) {
+            // this.authService.logout();
+            if (axios.isAxiosError(error)) {
+              // Cek status kode dari respons
+              if (error.response && error.response.status === 401) {
+                this.errlog = 'Username atau password salah.';
+              } else {
+                this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+              }
+            } else {
+              this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+            }
+            console.error('Error during login:', error);
+          }
+      return false;
+  }
+
 
 
 
 
 async aplot(event: any, desc: string, lab:string) {
-  console.log("HHHHH::::",desc);
-  console.log("CCCC::::",lab);
+  // console.log("HHHHH::::",desc);
+  // console.log("CCCC::::",lab);
   const input = event.target as HTMLInputElement;
 
     if (input.files && input.files[0]) {
@@ -468,7 +654,7 @@ async aplot(event: any, desc: string, lab:string) {
                  const response = await this.apiClient.postDoc<any>(endpoint, formData);
 
                 if (response) {
-                  console.log("HERE WE GO!")
+                  // console.log("HERE WE GO!")
                   this.infoUnit();
                   return true;
                 }else{

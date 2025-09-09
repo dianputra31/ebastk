@@ -37,7 +37,8 @@ activePanel: string = '';
 
   setActiveChip(index: number) {  
     this.activeChipIndex = index; 
-    const menuItems = ['Bagian Luar', 'Bagian Dalam', 'Bagian Mesin', 'Foto Minus', 'Foto Sistem'];
+    const menuItems = ['Upload Semua', 'Bagian Luar', 'Bagian Dalam', 'Bagian Mesin', 'Foto Minus'];
+    // const menuItems = ['Upload Semua', 'Bagian Luar', 'Bagian Dalam', 'Bagian Mesin', 'Foto Minus', 'Foto Sistem'];
     this.menuSelected.emit(menuItems[index]);
   }  
 
