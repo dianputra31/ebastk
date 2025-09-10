@@ -1,74 +1,154 @@
-<div class="product-container" @productCardStagger>
-  <!-- filterStatus:::{{filterStatus}}::: -->
-    <div class="product-card" *ngFor="let product of sampleData?.results"  @productCardAnimation (click)="GoesToDetailTugas(product.id, product.bastk_status)">  
-      <div class="product-image" [ngStyle]="{'background-image': getThumbnailUrl(product.thumbnail_url) ? 'url(' + getThumbnailUrl(product.thumbnail_url) + ')' : '../../assets/icons/noimages.png'}">  
-        <div *ngIf="!product.thumbnail_url" class="placeholder"></div>  
-      </div>  
-      <div class="product-details">  
-        <!-- Product Header -->  
-        <div class="product-header">  
-            <div class='hy'>{{ product.display_name }}</div>  
-            <div class="status-container" *ngIf="fromDashboard==false">  
-              <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
-              <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ getStatusName(product.bastk_status).toUpperCase() }}</span>    
-            </div>  
-          </div>   
-        <!-- Auction Location and Date --> 
-        <div class="container">
-          <div class="auction-info" class="row">
-            <div class="col-sm-12 p-0 d-flex align-items-center" style="font-size:11px;font-weight:700;">
-              <img src="../../assets/icons/location.svg" alt="Logo" style="height:16px;width:16px;margin-right:6px;">
-              <span>
-                {{ product.unit_location == null ? 'Tribik' : product.unit_location }} - 
-                {{ product.mobilization_units && product.mobilization_units[0]?.mobiliztion?.assignment_date 
-                  ? (product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy') 
-                  : (currentDate | date: 'dd MMMM yyyy') }}
-              </span>
-            </div>
-          </div> 
+<div *ngIf="isTerjadwal; else listBastk">
+  <div class="product-container" @productCardStagger>
+    <div class="product-card" *ngFor="let product of sampleDataTerjadwal?.results"  @productCardAnimation (click)="GoesToDetailTugas(product.id, 'TERJADWAL')">
+        <div class="product-image" [ngStyle]="{'background-image': 'url(../../assets/icons/noimages.png)'}">  
         </div>
- 
-        <!-- Key-Value pairs for Kategori and Nopol -->  
-        <div class="key-value">  
-          <div class="key-value-item">  
-            <span class="key">Kategori</span>  
-            <span class="value">{{ product.unit_category.category_name }}</span>  
+
+        <div class="product-details">  
+          <!-- Product Header -->  
+          <div class="product-header">  
+              <div class='hy' style="font-weight:bold;font-size:18px;">{{ product.unit_data.NOPOL }}</div>  
+              <div class="status-container" *ngIf="fromDashboard==false">  
+                <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
+                <span class="status" [ngClass]="getStatusClass('NEW')">{{ getStatusName('TERJADWAL').toUpperCase() }}</span>    
+              </div>  
+            </div>   
+          <!-- Auction Location and Date --> 
+          <div class="container">
+            <div class="auction-info" class="row">
+              <div class="col-sm-12 p-0 d-flex align-items-center" style="font-size:11px;font-weight:700;">
+                <img src="../../assets/icons/location.svg" alt="Logo" style="height:16px;width:16px;margin-right:6px;">
+                <span>
+                  {{ product.mobilization.unit_location == null ? 'Tribik' : product.mobilization.unit_location.toUpperCase() }} - 
+                  {{(product.mobilization.assignment_date | date: 'dd MMMM yyyy') }}
+                </span>
+              </div>
+            </div> 
+          </div>
+  
+          <!-- Key-Value pairs for Kategori and Nopol -->  
+          <div class="key-value">  
+            <div class="key-value-item">  
+              <span class="key">Tujuan</span>  
+              <span class="value">{{ product.mobilization.unit_destination }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Nopol</span>  
+              <span class="value">{{ product.unit_data.NOPOL }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">PIC</span>  
+              <span class="value">{{ product.mobilization.pic }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">PIC Phone</span>  
+              <span class="value">{{ product.mobilization.pic_phone }}</span>  
+            </div>  
           </div>  
-          <div class="key-value-item">  
-            <span class="key">Nopol</span>  
-            <span class="value">{{ product.police_number }}</span>  
+          <!-- Key-Value pairs for Warna, Transmisi, etc. -->  
+          <div class="key-value">  
+            <div class="key-value-item">  
+              <span class="key">Mobilization by</span>  
+              <span class="value">{{ product.mobilization_by }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Mobilization Type</span>  
+              <span class="value">{{ product.mobilization_type }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Cost</span>  
+              <span class="value">{{ product.mobilization_cost }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">No Mobilisasi</span>  
+              <span class="value">{{ product.mobilization.assignment_number }}</span>  
+            </div>  
           </div>  
-          <div class="key-value-item">  
-            <span class="key">Merek</span>  
-            <span class="value">{{ product.brand.brand_name }}</span>  
-          </div>  
-          <div class="key-value-item">  
-            <span class="key">Type</span>  
-            <span class="value">{{ product.unit_type.type_name }}</span>  
-          </div>  
+        </div> 
+
+    </div>
+  </div>
+</div>
+
+<ng-template #listBastk>
+  <div class="product-container" @productCardStagger>
+    <!-- filterStatus:::{{filterStatus}}::: -->
+      <div class="product-card" *ngFor="let product of sampleData?.results"  @productCardAnimation (click)="GoesToDetailTugas(product.id, product.bastk_status)">  
+        <div class="product-image" [ngStyle]="{'background-image': getThumbnailUrl(product.thumbnail_url) ? 'url(' + getThumbnailUrl(product.thumbnail_url) + ')' : '../../assets/icons/noimages.png'}">  
+          <div *ngIf="!product.thumbnail_url" class="placeholder"></div>  
         </div>  
-        <!-- Key-Value pairs for Warna, Transmisi, etc. -->  
-        <div class="key-value">  
-          <div class="key-value-item">  
-            <span class="key">Warna</span>  
-            <span class="value">{{ product.color.color_name }}</span>  
+        <div class="product-details">  
+          <!-- Product Header -->  
+          <div class="product-header">  
+              <div class='hy'>{{ product.display_name }}</div>  
+              <div class="status-container" *ngIf="fromDashboard==false">  
+                <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
+                <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ getStatusName(product.bastk_status).toUpperCase() }}</span>    
+              </div>  
+            </div>   
+          <!-- Auction Location and Date --> 
+          <div class="container">
+            <div class="auction-info" class="row">
+              <div class="col-sm-12 p-0 d-flex align-items-center" style="font-size:11px;font-weight:700;">
+                <img src="../../assets/icons/location.svg" alt="Logo" style="height:16px;width:16px;margin-right:6px;">
+                <span>
+                  {{ product.unit_location == null ? 'Tribik' : product.unit_location }} - 
+                  {{ product.mobilization_units && product.mobilization_units[0]?.mobiliztion?.assignment_date 
+                    ? (product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy') 
+                    : (currentDate | date: 'dd MMMM yyyy') }}
+                </span>
+              </div>
+            </div> 
+          </div>
+  
+          <!-- Key-Value pairs for Kategori and Nopol -->  
+          <div class="key-value">  
+            <div class="key-value-item">  
+              <span class="key">Kategori</span>  
+              <span class="value">{{ product.unit_category.category_name }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Nopol</span>  
+              <span class="value">{{ product.police_number }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Merek</span>  
+              <span class="value">{{ product.brand.brand_name }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Type</span>  
+              <span class="value">{{ product.unit_type.type_name }}</span>  
+            </div>  
           </div>  
-          <div class="key-value-item">  
-            <span class="key">Transmisi</span>  
-            <span class="value">{{ product.transmission }}</span>  
-          </div>  
-          <div class="key-value-item">  
-            <span class="key">CC</span>  
-            <span class="value">{{ product.odo_meter }}</span>  
-          </div>  
-          <div class="key-value-item">  
-            <span class="key">Tahun</span>  
-            <span class="value">{{ product.unit_year }}</span>  
+          <!-- Key-Value pairs for Warna, Transmisi, etc. -->  
+          <div class="key-value">  
+            <div class="key-value-item">  
+              <span class="key">Warna</span>  
+              <span class="value">{{ product.color.color_name }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Transmisi</span>  
+              <span class="value">{{ product.transmission }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">CC</span>  
+              <span class="value">{{ product.odo_meter }}</span>  
+            </div>  
+            <div class="key-value-item">  
+              <span class="key">Tahun</span>  
+              <span class="value">{{ product.unit_year }}</span>  
+            </div>  
           </div>  
         </div>  
       </div>  
-    </div>  
   </div>  
+</ng-template>
+  
+
+<br/>
+<br/>
+<br/>
+
   
 
 <app-the-modal 

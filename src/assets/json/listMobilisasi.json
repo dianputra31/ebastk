@@ -1,0 +1,73 @@
+{
+  "total_items": 3,
+  "total_pages": 1,
+  "current_page": 1,
+  "results": [
+    {
+      "id": 99,
+      "notes": "",
+      "mobilization_by": "INTERNAL",
+      "mobilization_type": "DRIVER",
+      "mobilization_cost": "100.00",
+      "unit_data": {
+        "NOPOL": "NANA 01-2"
+      },
+      "unit_id": null,
+      "mobilization": {
+        "id": 65,
+        "assignment_number": "0004/SKU-TRB/UNIT/IX/2025",
+        "assignment_date": "2025-09-02",
+        "unit_location": "jak",
+        "pic": "jsdajsj",
+        "notes": "sad",
+        "unit_destination": "jak juga",
+        "assignment_number_st": "0004/STU-TRB/UNIT/IX/2025",
+        "pic_phone": "08522323"
+      }
+    },
+    {
+      "id": 100,
+      "notes": "",
+      "mobilization_by": "INTERNAL",
+      "mobilization_type": "DRIVER",
+      "mobilization_cost": "200.00",
+      "unit_data": {
+        "NOPOL": "NANA 02-2"
+      },
+      "unit_id": null,
+      "mobilization": {
+        "id": 65,
+        "assignment_number": "0004/SKU-TRB/UNIT/IX/2025",
+        "assignment_date": "2025-09-02",
+        "unit_location": "jak",
+        "pic": "jsdajsj",
+        "notes": "sad",
+        "unit_destination": "jak juga",
+        "assignment_number_st": "0004/STU-TRB/UNIT/IX/2025",
+        "pic_phone": "08522323"
+      }
+    },
+    {
+      "id": 101,
+      "notes": "",
+      "mobilization_by": "INTERNAL",
+      "mobilization_type": "DRIVER",
+      "mobilization_cost": "300.00",
+      "unit_data": {
+        "NOPOL": "NANA 03-2"
+      },
+      "unit_id": null,
+      "mobilization": {
+        "id": 65,
+        "assignment_number": "0004/SKU-TRB/UNIT/IX/2025",
+        "assignment_date": "2025-09-02",
+        "unit_location": "jak",
+        "pic": "jsdajsj",
+        "notes": "sad",
+        "unit_destination": "jak juga",
+        "assignment_number_st": "0004/STU-TRB/UNIT/IX/2025",
+        "pic_phone": "08522323"
+      }
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import { AuthService } from '../auth.service';
 import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { NoahService } from '../noah.service';
+import { NewApiTerjadwalResponse } from 'src/assets/models/list-terjadwal.model';
 
 @Component({
 selector: 'app-the-tugas',
@@ -46,6 +47,7 @@ isButtonDisabled: boolean = false;
 isLoading: boolean = false;
 currentPage: number = 1;
 sampleData: NewApiResponse = { total_items: 0, total_pages: 0, current_page: 0, results: [] };
+sampleDataTerjadwal: NewApiTerjadwalResponse = { total_items: 0, total_pages: 0, current_page: 0, results: [] };
 filterStatus: string = '';
 filterCategory: string = '';
 filter_bastk_status: string = '';
@@ -53,6 +55,8 @@ filter_category: string = '';
 filterSortBy: string = 'asc';
 filter_sort_by: string = '';
 isModalOpen: boolean = false;
+
+isTerjadwal: boolean = false;
 
 
 // constructor() {} 
@@ -107,7 +111,7 @@ onScroll(event:any): void {
 
 
 async listTugas(page: number) {
-this.isLoading=true;
+  this.isLoading=true;
   // const unitData = {
   //   page: '1'
   // };
@@ -116,7 +120,10 @@ this.isLoading=true;
     // const page = 1; // Parameter yang ingin dikirim
     const page_size = 60;
     const bastk_status = this.filterStatus;
-    if(this.filterStatus=="0" || this.filterStatus== null || this.filterStatus==undefined){
+    console.log("this.filterStatus====>>>>",this.filterStatus);
+    // if(this.filterStatus=="0" || this.filterStatus== null || this.filterStatus==undefined){
+    //   this.filter_bastk_status = '&bastk_status=';
+    if(this.filterStatus=="0" || this.filterStatus== null || this.filterStatus==undefined || this.filterStatus==""){
       this.filter_bastk_status = '&bastk_status=';
     }else if(this.filterStatus=="1"){
       this.filter_bastk_status = '&bastk_status=new';
@@ -139,44 +146,68 @@ this.isLoading=true;
     this.filter_sort_by = '&sort_by=' + this.filterSortBy;
     // this.filter_category = this.filterCategory;
 
-    const endpoint = `/units/?page=${page}&page_size=${page_size}` + this.filter_bastk_status + this.filter_category + this.filter_sort_by; // Menambahkan parameter ke endpoint
-    const response = await this.apiClient.get<NewApiResponse>(endpoint);
-    console.log('Data posted:', response);
-
-    // Jika login berhasil, simpan data ke localStorage
-    // if (response && response.results) {
-    //   if (page === 1) {
-    //     this.sampleData = response;  
-    //   } else {
-    //     this.sampleData.results = this.sampleData.results.concat(response.results);
-    //   }
-
-    //   // this.sampleData = response;  
-    //   console.log('Sample Data:', this.sampleData);
-    this.isLoading=false;
-      if (response && response.results) {
-
-      // const filteredResults = response.results.filter(result =>
-      //   Array.isArray(result.mobilization_units) && result.mobilization_units.length > 0
-      // );
-
-      const filteredResults = response.results;
+    if(this.filterStatus=="1" || this.filterStatus== "2" || this.filterStatus=="3" || this.filterStatus=="4"){
       
-      if (page === 1) {
-        this.sampleData = {
-          ...response,
-          results: filteredResults
-        };
-      } else {
-        this.sampleData.results = this.sampleData.results.concat(filteredResults);
-      }
+      this.isTerjadwal = false;
+        const endpoint = `/units/?page=${page}&page_size=${page_size}` + this.filter_bastk_status + this.filter_category + this.filter_sort_by; // Menambahkan parameter ke endpoint
+        const response = await this.apiClient.get<NewApiResponse>(endpoint);
+        console.log('Data posted:', response);
 
-      this.noahService.emitTotalTugas(this.sampleData.results.length);
+        this.isLoading=false;
+          if (response && response.results) {
+
       
+          const filteredResults = response.results;
+          
+          if (page === 1) {
+            this.sampleData = {
+              ...response,
+              results: filteredResults
+            };
+          } else {
+            this.sampleData.results = this.sampleData.results.concat(filteredResults);
+          }
+
+          this.noahService.emitTotalTugas(this.sampleData.results.length);
+          
+        }else{
+          console.log('here failed')
+          this.errlog = 'Username atau password salah';
+        }
+
     }else{
-      console.log('here failed')
-      this.errlog = 'Username atau password salah';
+
+      console.log("LIST TERJADWAL");
+      this.isTerjadwal = true;
+      const endpoint = `/list-mobilisasi/?keyword=`+this.filterCategory+`&page=${page}&page_size=${page_size}`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.get<NewApiTerjadwalResponse>(endpoint);
+      console.log('Data posted:', response);
+
+      this.isLoading=false;
+        if (response && response.results) {
+
+    
+        const filteredResults = response.results;
+        
+        if (page === 1) {
+          this.sampleDataTerjadwal = {
+            ...response,
+            results: filteredResults
+          };
+        } else {
+          this.sampleDataTerjadwal.results = this.sampleDataTerjadwal.results.concat(filteredResults);
+        }
+
+        this.noahService.emitTotalTugas(this.sampleDataTerjadwal.results.length);
+
+      }else{
+        console.log('here failed')
+        this.errlog = 'Username atau password salah';
+      }
     }
+
+
+    
 
   } catch (error) {
     this.isButtonDisabled = false;

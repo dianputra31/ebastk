@@ -1,0 +1,386 @@
+{
+  "count": 3,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 67,
+      "assignment_number": "0006/SKU-TRB/UNIT/IX/2025",
+      "assignment_number_st": "0006/STU-TRB/UNIT/IX/2025",
+      "assignment_date": "2025-09-03",
+      "vendor": {
+        "id": 1,
+        "vendor_name": "MAU DIHAPUS",
+        "vendor_type": "FINANCE COMPANY",
+        "email": "alia.lutfiyani@gmail.com,umbur21@gmail.com",
+        "phone": "08118681293",
+        "province": "Jawa Barat",
+        "city": "Bekasi"
+      },
+      "principal": {
+        "id": 4,
+        "name": "Khalfin Syuhada",
+        "staff_number": "10040",
+        "status": "Pemberi Kuasa",
+        "branch": {
+          "id": 1,
+          "branch_name": "Tribik Jakarta",
+          "pic_name": "Khalfin",
+          "pic_phone": "0859-2186-0449",
+          "service_port": "13940",
+          "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+          "address": ""
+        },
+        "position": "Operational Head - PT.BALAI LELANG TRIBIK",
+        "phone": "085921860449",
+        "email": "khalfinsyuhada@tribikauction.co.id"
+      },
+      "assign_to": {
+        "id": 6,
+        "name": "Egi Ari Frastian",
+        "staff_number": "10012",
+        "status": "Penerima Kuasa",
+        "branch": {
+          "id": 1,
+          "branch_name": "Tribik Jakarta",
+          "pic_name": "Khalfin",
+          "pic_phone": "0859-2186-0449",
+          "service_port": "13940",
+          "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+          "address": ""
+        },
+        "position": "Operational Staff - PT.BALAI LELANG TRIBIK",
+        "phone": "087817630333",
+        "email": "mobilisasi@tribikauction.co.id"
+      },
+      "branch": {
+        "id": 1,
+        "branch_name": "Tribik Jakarta",
+        "pic_name": "Khalfin",
+        "pic_phone": "0859-2186-0449",
+        "service_port": "13940",
+        "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+        "address": ""
+      },
+      "pic": "fdsadsa",
+      "pic_phone": "0324832432",
+      "status": "Submitted",
+      "units_count": 4,
+      "total_cost": 0,
+      "unit_location": "jakbar",
+      "unit_destination": "jakbar juga",
+      "notes": "",
+      "mobilization_unit": [
+        {
+          "id": 105,
+          "vendor_submission": "MAU DIHAPUS - NANA-03 (APPROVED)",
+          "unit_data": {
+            "NOPOL": "N 0101 A",
+            "bus_type": "Economy AC (2+2)",
+            "source_id": 142,
+            "facilities": "AC,Non-Smoking Room",
+            "high_price": 1927,
+            "total_seat": 9,
+            "lower_price": 1927,
+            "source_name": "Banda Aceh",
+            "travel_name": "RB TEST (Do not Book)",
+            "arrival_time": "2025-09-30 18:50:00.000000 +00:00",
+            "total_sleeper": 1,
+            "available_seat": 7,
+            "departure_time": "2025-09-30 10:20:00.000000 +00:00",
+            "destination_id": 605,
+            "destination_name": "Singaraja"
+          },
+          "mobilization_cost": "0.00",
+          "status": "Terjadwal",
+          "mobilization_type": "DRIVER",
+          "mobilization_by": "INTERNAL",
+          "notes": ""
+        },
+        {
+          "id": 106,
+          "vendor_submission": "MAU DIHAPUS - NANA-03 (APPROVED)",
+          "unit_data": {
+            "NOPOL": "N 0100 A",
+            "bus_type": "Economy AC (2+2)",
+            "source_id": 142,
+            "facilities": "AC,Non-Smoking Room",
+            "high_price": 1927,
+            "total_seat": 9,
+            "lower_price": 1927,
+            "source_name": "Banda Aceh",
+            "travel_name": "RB TEST (Do not Book)",
+            "arrival_time": "2025-09-30 18:50:00.000000 +00:00",
+            "total_sleeper": 1,
+            "available_seat": 7,
+            "departure_time": "2025-09-30 10:20:00.000000 +00:00",
+            "destination_id": 605,
+            "destination_name": "Singaraja"
+          },
+          "mobilization_cost": "0.00",
+          "status": "Terjadwal",
+          "mobilization_type": "DRIVER",
+          "mobilization_by": "INTERNAL",
+          "notes": ""
+        },
+        {
+          "id": 107,
+          "vendor_submission": "MAU DIHAPUS - NANA-03 (APPROVED)",
+          "unit_data": {
+            "NOPOL": "N 0102 A",
+            "bus_type": "Economy AC (2+2)",
+            "source_id": 142,
+            "facilities": "AC,Non-Smoking Room",
+            "high_price": 1927,
+            "total_seat": 9,
+            "lower_price": 1927,
+            "source_name": "Banda Aceh",
+            "travel_name": "RB TEST (Do not Book)",
+            "arrival_time": "2025-09-30 18:50:00.000000 +00:00",
+            "total_sleeper": 1,
+            "available_seat": 7,
+            "departure_time": "2025-09-30 10:20:00.000000 +00:00",
+            "destination_id": 605,
+            "destination_name": "Singaraja"
+          },
+          "mobilization_cost": "0.00",
+          "status": "Terjadwal",
+          "mobilization_type": "DRIVER",
+          "mobilization_by": "INTERNAL",
+          "notes": ""
+        },
+        {
+          "id": 108,
+          "vendor_submission": "MAU DIHAPUS - NANA-03 (APPROVED)",
+          "unit_data": {
+            "NOPOL": "N 0103 A",
+            "bus_type": "Economy AC (2+2)",
+            "source_id": 142,
+            "facilities": "AC,Non-Smoking Room",
+            "high_price": 1927,
+            "total_seat": 9,
+            "lower_price": 1927,
+            "source_name": "Banda Aceh",
+            "travel_name": "RB TEST (Do not Book)",
+            "arrival_time": "2025-09-30 18:50:00.000000 +00:00",
+            "total_sleeper": 1,
+            "available_seat": 7,
+            "departure_time": "2025-09-30 10:20:00.000000 +00:00",
+            "destination_id": 605,
+            "destination_name": "Singaraja"
+          },
+          "mobilization_cost": "0.00",
+          "status": "Terjadwal",
+          "mobilization_type": "DRIVER",
+          "mobilization_by": "INTERNAL",
+          "notes": ""
+        }
+      ],
+      "assignment_letter_file": {
+        "id": 57,
+        "title": "Assignment Letter - 0006/SKU-TRB/UNIT/IX/2025",
+        "file_url": "/documents/57/close_modal_N2KAJCK.png"
+      },
+      "assignment_documents": {
+        "assignment_kuasa_url": "http://trbadminservices/admin/units/mobilization/kuasa/67/",
+        "assignment_tugas_url": "http://trbadminservices/admin/units/mobilization/tugas/67/",
+        "assignment_attachment_url": "http://trbadminservices/admin/units/mobilization/lampiran/67/"
+      }
+    },
+    {
+      "id": 63,
+      "assignment_number": "0002/SKU-TRB/UNIT/IX/2025",
+      "assignment_number_st": "0002/STU-TRB/UNIT/IX/2025",
+      "assignment_date": "2025-09-01",
+      "vendor": {
+        "id": 1,
+        "vendor_name": "MAU DIHAPUS",
+        "vendor_type": "FINANCE COMPANY",
+        "email": "alia.lutfiyani@gmail.com,umbur21@gmail.com",
+        "phone": "08118681293",
+        "province": "Jawa Barat",
+        "city": "Bekasi"
+      },
+      "principal": {
+        "id": 4,
+        "name": "Khalfin Syuhada",
+        "staff_number": "10040",
+        "status": "Pemberi Kuasa",
+        "branch": {
+          "id": 1,
+          "branch_name": "Tribik Jakarta",
+          "pic_name": "Khalfin",
+          "pic_phone": "0859-2186-0449",
+          "service_port": "13940",
+          "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+          "address": ""
+        },
+        "position": "Operational Head - PT.BALAI LELANG TRIBIK",
+        "phone": "085921860449",
+        "email": "khalfinsyuhada@tribikauction.co.id"
+      },
+      "assign_to": {
+        "id": 30,
+        "name": "Zaqi Baihaq",
+        "staff_number": "10052",
+        "status": "Penerima Kuasa",
+        "branch": {
+          "id": 4,
+          "branch_name": "Tribik Balikpapan",
+          "pic_name": "Zaqi",
+          "pic_phone": "0811-1902-6495",
+          "service_port": "76126",
+          "city": "Jl. Darussilmi No.108, Jl. Graha Indah No.Kelurahan, RT.22, Kec. Balikpapan Utara, Kalimantan Timur",
+          "address": ""
+        },
+        "position": "PIC Balikpapan - PT.BALAI LELANG TRIBIK",
+        "phone": "081119026495",
+        "email": "balikpapan@tribikauction.co.id"
+      },
+      "branch": {
+        "id": 1,
+        "branch_name": "Tribik Jakarta",
+        "pic_name": "Khalfin",
+        "pic_phone": "0859-2186-0449",
+        "service_port": "13940",
+        "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+        "address": ""
+      },
+      "pic": "sdksadksa",
+      "pic_phone": "0832487324",
+      "status": "Submitted",
+      "units_count": 0,
+      "total_cost": 0,
+      "unit_location": "jakarta",
+      "unit_destination": "jakarta juga",
+      "notes": "notes01",
+      "mobilization_unit": [],
+      "assignment_letter_file": {
+        "id": 54,
+        "title": "Assignment Letter - 0002/SKU-TRB/UNIT/IX/2025",
+        "file_url": "/documents/54/close_modal_EPP2M56.png"
+      },
+      "assignment_documents": {
+        "assignment_kuasa_url": "http://trbadminservices/admin/units/mobilization/kuasa/63/",
+        "assignment_tugas_url": "http://trbadminservices/admin/units/mobilization/tugas/63/",
+        "assignment_attachment_url": "http://trbadminservices/admin/units/mobilization/lampiran/63/"
+      }
+    },
+    {
+      "id": 64,
+      "assignment_number": "0003/SKU-TRB/UNIT/IX/2025",
+      "assignment_number_st": "0003/STU-TRB/UNIT/IX/2025",
+      "assignment_date": "2025-09-01",
+      "vendor": {
+        "id": 1,
+        "vendor_name": "MAU DIHAPUS",
+        "vendor_type": "FINANCE COMPANY",
+        "email": "alia.lutfiyani@gmail.com,umbur21@gmail.com",
+        "phone": "08118681293",
+        "province": "Jawa Barat",
+        "city": "Bekasi"
+      },
+      "principal": {
+        "id": 4,
+        "name": "Khalfin Syuhada",
+        "staff_number": "10040",
+        "status": "Pemberi Kuasa",
+        "branch": {
+          "id": 1,
+          "branch_name": "Tribik Jakarta",
+          "pic_name": "Khalfin",
+          "pic_phone": "0859-2186-0449",
+          "service_port": "13940",
+          "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+          "address": ""
+        },
+        "position": "Operational Head - PT.BALAI LELANG TRIBIK",
+        "phone": "085921860449",
+        "email": "khalfinsyuhada@tribikauction.co.id"
+      },
+      "assign_to": {
+        "id": 12,
+        "name": "Surip",
+        "staff_number": "10031",
+        "status": "Penerima Kuasa",
+        "branch": {
+          "id": 1,
+          "branch_name": "Tribik Jakarta",
+          "pic_name": "Khalfin",
+          "pic_phone": "0859-2186-0449",
+          "service_port": "13940",
+          "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+          "address": ""
+        },
+        "position": "Operational Staff - PT.BALAI LELANG TRIBIK",
+        "phone": "082122108864",
+        "email": "mobilisasi@tribikauction.co.id"
+      },
+      "branch": {
+        "id": 1,
+        "branch_name": "Tribik Jakarta",
+        "pic_name": "Khalfin",
+        "pic_phone": "0859-2186-0449",
+        "service_port": "13940",
+        "city": "Jl. Dr. Sumarno No.2A, Penggilingan, Kecamatan Cakung, Kota Jakarta Timur, DKI Jakarta",
+        "address": ""
+      },
+      "pic": "ok",
+      "pic_phone": "0812122",
+      "status": "Submitted",
+      "units_count": 3,
+      "total_cost": 399999,
+      "unit_location": "ok",
+      "unit_destination": "ok",
+      "notes": "",
+      "mobilization_unit": [
+        {
+          "id": 96,
+          "vendor_submission": "MAU DIHAPUS - NANA-01 (APPROVED)",
+          "unit_data": {
+            "NOPOL": "NANA 01"
+          },
+          "mobilization_cost": "100000.00",
+          "status": "Terjadwal",
+          "mobilization_type": "DRIVER",
+          "mobilization_by": "INTERNAL",
+          "notes": "ok"
+        },
+        {
+          "id": 97,
+          "vendor_submission": "MAU DIHAPUS - NANA-01 (APPROVED)",
+          "unit_data": {
+            "NOPOL": "NANA 02"
+          },
+          "mobilization_cost": "100000.00",
+          "status": "Terjadwal",
+          "mobilization_type": "DRIVER",
+          "mobilization_by": "INTERNAL",
+          "notes": "ok"
+        },
+        {
+          "id": 98,
+          "vendor_submission": "MAU DIHAPUS - NANA-01 (APPROVED)",
+          "unit_data": {
+            "NOPOL": "NANA 03"
+          },
+          "mobilization_cost": "199999.00",
+          "status": "Terjadwal",
+          "mobilization_type": "DRIVER",
+          "mobilization_by": "INTERNAL",
+          "notes": "ok"
+        }
+      ],
+      "assignment_letter_file": {
+        "id": 55,
+        "title": "Assignment Letter - 0003/SKU-TRB/UNIT/IX/2025",
+        "file_url": "/documents/55/assignment_0004_SKU-TRB_UNIT_VIII_2025_4.pdf"
+      },
+      "assignment_documents": {
+        "assignment_kuasa_url": "http://trbadminservices/admin/units/mobilization/kuasa/64/",
+        "assignment_tugas_url": "http://trbadminservices/admin/units/mobilization/tugas/64/",
+        "assignment_attachment_url": "http://trbadminservices/admin/units/mobilization/lampiran/64/"
+      }
+    }
+  ]
+}
