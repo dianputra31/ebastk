@@ -846,8 +846,8 @@ onNumberInput(event: Event, fieldName: keyof this) {
         this.sampleDataUnitMobilisasi = response.unit_data;  
         console.log('Sample Data Mobilisasi:', this.sampleDataMobilisasi);
         console.log('Sample Data Unit Mobilisasi:', this.sampleDataUnitMobilisasi);
-        this.infoVendor(response.mobilization.vendor_submission_id);
-        this.vendor_id = response.mobilization.vendor_submission_id;
+        this.infoVendor(response.mobilization.vendor_id);
+        this.vendor_id = response.mobilization.vendor_id;
 
 
         this.savePayloadUnit();
