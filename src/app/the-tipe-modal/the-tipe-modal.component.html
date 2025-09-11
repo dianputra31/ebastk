@@ -1,6 +1,6 @@
 <div class="modal-backdrop">
   <div class="modal-content">
-    <button (click)="close.emit()" style="border-radius: 4px;height:30px;border:solid #cdcdcd 1px;font-size:12px;">Tutup</button>
+    <button (click)="close.emit()" style="border-radius: 4px;height:30px;border:solid #cdcdcd 1px;font-size:12px;background-color: rgb(183, 33, 33);color:white;">Tutup</button>
     <input type="text" [(ngModel)]="filterText" placeholder="Cari tipe...">
     <ul>
       <li *ngFor="let v of filteredVariants" (click)="select(v)">

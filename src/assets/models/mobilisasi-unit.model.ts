@@ -12,6 +12,7 @@ export interface mobilization {
     unit_destination: string;
     assignment_number_st: string;
     pic_phone: string;
+    vendor_submission_id: number;
 }
 
 export interface MobilisasiUnit {

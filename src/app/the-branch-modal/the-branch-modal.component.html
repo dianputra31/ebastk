@@ -4,7 +4,7 @@
     <input type="text" [(ngModel)]="filterText" placeholder="Cari merek...">
     <ul>
       <li *ngFor="let v of filteredVariants" (click)="select(v)">
-        {{ v.category_name }}
+        {{ v.branch_name }}
       </li>
     </ul>
     <div class="pagination">

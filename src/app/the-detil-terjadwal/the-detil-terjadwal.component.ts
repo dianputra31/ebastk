@@ -16,6 +16,7 @@ import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MobilisasiUnit, UnitDataMobilisasi } from 'src/assets/models/mobilisasi-unit.model';
 import { ApiUnitCategoryResponse } from 'src/assets/models/list-unit-category.model';
+import { NewApiBranchResponse } from 'src/assets/models/list-branch.model';
 declare var $: any;
 
 
@@ -55,6 +56,7 @@ export class TheDetilTerjadwalComponent implements OnInit {
   colors: ApiColorResponse | null = null
   vehicletype: ApiVehicleTypeResponse | null = null
   unitcategory: ApiUnitCategoryResponse | null = null
+  branches: NewApiBranchResponse | null = null
   selectedExpedition: string = '';
   selectedVariant: string = '';
   selectedColor: string = '';
@@ -62,14 +64,18 @@ export class TheDetilTerjadwalComponent implements OnInit {
   selectedBrand: string = '';
   selectedUcat: string = '';
   selectedLocation: string = '';
+  selectedBranch: string = '';
   selectedOdo: number | null = null;
+  selectedCc: number | null = null;
   selectedNoka: string = '';
   selectedNosin: string = '';
-  selectedAssignmentDate: string = '';
+  selectedTaxNoticeDate: string = '';
   selectedAssignmentNumber: string = '';
   selectedBpkbStatus: string = '';
   selectedTransmission: string = '';
   selectedYear: string = '';
+  bastk_file: string = '';
+  proxy_file: string = '';
   currentYear = new Date().getFullYear();
   modelname: any = '';
   payloadUnit: any = null;
@@ -78,14 +84,27 @@ export class TheDetilTerjadwalComponent implements OnInit {
   isTipeModalOpen = false;
   isBrandModalOpen = false;
   isUcatModalOpen = false;
+  isBranchModalOpen = false;
   selectedVariantName = '';
   selectedVariantId: string = '';
   selectedBrandName: string = '';
   selectedUcatName: string = '';
+  selectedBranchName: string = '';
   selectedBrandId: string = '';
   selectedUcatId: string = '';
+  selectedBranchId: string = '';
   bastk_status: string = '';
+  selectedBpkbNumber: string = '';
+  selectedBpkbName: string = '';
+  selectedKeur: string = '';
+  selectedPicPool: string = '';
+  selectedPicPoolPhone: string = '';
+  selectedLicensePlate: string = '';
   objectKeys = Object.keys;
+  selectedLimitPrice: number | null = null;
+  selectedExamPrice: number | null = null;
+  vendor_id: number | null = null;
+  selectedMobilizationUnitId: number | null = null;
 
 
   choices: [string, string][] = [
@@ -93,6 +112,49 @@ export class TheDetilTerjadwalComponent implements OnInit {
   ['Derek', 'Derek'],
   ['No', 'No']
 ];
+
+
+
+  bpkbOptions = [
+    '7 HK',
+    '14 HK',
+    '21 HK',
+    '25 HK',
+    '28 HK',
+    '30 HK',
+    '40 HK',
+    '60 HK',
+    '90 HK',
+    '120 HK'
+  ];
+
+
+  fuelOptions = [
+    'Bensin',
+    'Diesel',
+    'Electric',
+    'Hybrid',
+    'Hidrogen'
+  ];
+
+  checkedTaxByOptions = [
+    'Fisik',
+    'Samsat Online'
+  ];
+
+  adaTidakOptions = [
+    'Ada',
+    'T/A'
+  ];
+
+  selectedBpkb: string | null = null;
+  selectedFuel: string | null = null;
+  selectedTaxBy: string | null = null;
+  selectedStnk: string | null = null;
+  selectedSph: string | null = null;
+  selectedKwt: string | null = null;
+  selectedForma: string | null = null;
+  selectedFaktur: string | null = null;
 
 transmissionOptions: [string, string][] = [
   ['MT', 'Manual Transmission'],
@@ -138,6 +200,10 @@ transmissionOptions: [string, string][] = [
     this.isUcatModalOpen = true;
   }
 
+  openBranch() {
+    this.isBranchModalOpen = true;
+  }
+
   onVariantSelected(variant: any) {
     this.selectedVariantName = variant.variant_name;
     this.selectedVariantId = variant.id;
@@ -162,6 +228,14 @@ transmissionOptions: [string, string][] = [
     // lakukan logic lain, misal set ke form, dsb
     this.selectedUcat = this.selectedUcatId;
     this.showVariant(brand.id);
+    this.savePayloadUnit();
+  }
+
+  onBranchSelected(brand: any) {
+    this.selectedBranchName = brand.category_name;
+    this.selectedBranchId = brand.id;
+    // lakukan logic lain, misal set ke form, dsb
+    this.selectedBranch = this.selectedBranchId;
     this.savePayloadUnit();
   }
 
@@ -259,6 +333,7 @@ transmissionOptions: [string, string][] = [
     this.infoUnitTerjadwal();
     // this.infoUnit();
     this.showColor();
+    this.showBranch();
     this.showVehicleType();
     this.showUnitCategory();
   }
@@ -303,27 +378,59 @@ transmissionOptions: [string, string][] = [
   async savePayloadUnit() {
     // Build payloadUnit only with fields that have values
     const payload: any = {
-      unit_id: this.unit_id,
-      bastk_status: this.bastk_status
+      mobilization_unit_id: this.unit_id,
+      vendor: this.vendor_id
+      // bastk_status: this.bastk_status
     };
-    if (this.selectedColor) payload.color_id = this.selectedColor;
-    if (this.selectedYear) payload.unit_year = this.selectedYear;
-    if (this.selectedExpedition) payload.expedition = this.selectedExpedition;
+    
+
+    // if (this.selectedTaxNoticeDate) payload.assignment_date = this.selectedTaxNoticeDate;
+    // if (this.selectedAssignmentNumber) payload.assignment_number = this.selectedAssignmentNumber;
+    // if (this.selectedBranch) payload.branch = this.selectedBranch;
+
+    // if (this.selectedMobilizationUnitId) payload.mobilization_unit_id = this.selectedMobilizationUnitId;
+    if (this.selectedLicensePlate) payload.police_number = this.selectedLicensePlate;
     if (this.selectedTransmission) payload.transmission = this.selectedTransmission;
-    if (this.selectedVehicType) payload.unit_type_id = this.selectedVehicType;
-    if (this.selectedBrand) payload.brand_id = this.selectedBrand;
-    if (this.selectedVariant) payload.variant_model_id = this.selectedVariant;
+    if (this.selectedFuel) payload.fuel = this.selectedFuel;
+    if (this.selectedYear) payload.unit_year = this.selectedYear;
+    if (this.bastk_file) payload.bastk_file = "";
+    if (this.proxy_file) payload.proxy_file = "";
     if (this.selectedOdo) payload.odo_meter = this.selectedOdo;
+    if (this.selectedCc) payload.cc = this.selectedCc;
     if (this.selectedLocation) payload.unit_location = this.selectedLocation;
+    if (this.selectedExpedition) payload.expedition = this.selectedExpedition;
+    if (this.selectedPicPool) payload.pic_pool = this.selectedPicPool;
+    if (this.selectedPicPoolPhone) payload.pic_pool_phone = this.selectedPicPoolPhone;
     if (this.selectedNoka) payload.chassis_number = this.selectedNoka;
     if (this.selectedNosin) payload.engine_number = this.selectedNosin;
-    if (this.selectedAssignmentDate) payload.assignment_date = this.selectedAssignmentDate;
-    if (this.selectedAssignmentNumber) payload.assignment_number = this.selectedAssignmentNumber;
-    if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus;
+    if (this.selectedStnk) payload.stnk_status = this.selectedStnk;
+    if (this.selectedTaxNoticeDate) payload.tax_notice = this.selectedTaxNoticeDate;
+    if (this.selectedTaxBy) payload.tax_checked_by = this.selectedTaxBy;
+    if (this.selectedBpkbNumber) payload.bpkb_number = this.selectedBpkbNumber;
+    if (this.selectedBpkbName) payload.bpkb_name = this.selectedBpkbName;
+    if (this.selectedBpkbStatus) payload.bpkb = this.selectedBpkbStatus;
+    if (this.selectedSph) payload.sph = this.selectedSph;
+    if (this.selectedKwt) payload.kwt = this.selectedKwt;
+    if (this.selectedForma) payload.form_a = this.selectedForma;
+    if (this.selectedFaktur) payload.faktur = this.selectedFaktur;
+    if (this.selectedLimitPrice) payload.base_price = this.selectedLimitPrice;
+    if (this.selectedExamPrice) payload.exam_price = this.selectedExamPrice;
+    if (this.selectedBrand) payload.brand = this.selectedBrand;
+    if (this.selectedBranch) payload.variant_model = this.selectedVariant;
+    if (this.selectedVehicType) payload.unit_type = this.selectedVehicType;
+    if (this.selectedUcat) payload.unit_category = this.selectedUcat;
+    if (this.selectedColor) payload.color = this.selectedColor;
+    if (this.selectedKeur) payload.keur = this.selectedKeur;
+    if (this.selectedVariant) payload.variant_model = this.selectedVariant;
+
+
+
+
+
 
     this.payloadUnit = payload;
-    console.log('Payload Unit:', this.payloadUnit);
-    localStorage.setItem('payloadUnit_' + this.unit_id, JSON.stringify(this.payloadUnit));
+    console.log('Mobilizations:', this.payloadUnit);
+    localStorage.setItem('mobilizationUnit_' + this.unit_id, JSON.stringify(this.payloadUnit));
   }
 
 
@@ -462,6 +569,36 @@ transmissionOptions: [string, string][] = [
     }
   }
 
+  async showBranch() {
+
+    this.errlog = "";
+    try {
+      const endpoint = `/branch`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.getOther<NewApiBranchResponse>(endpoint);
+      if (response) {
+        this.branches = response;
+      }else{
+        console.log('here failed')
+        this.errlog = 'Username atau password salah';
+      }
+    } catch (error) {
+      this.isButtonDisabled = false;
+      // this.authService.logout();
+      if (axios.isAxiosError(error)) {
+        // Cek status kode dari respons
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+      this.isLoading = false;
+    }
+  }
+
   async showUnitCategory() {
 
     this.errlog = "";
@@ -498,8 +635,6 @@ transmissionOptions: [string, string][] = [
     const colorId = selectedOption.getAttribute('color-id');
     this.selectedColor = colorId;
     this.savePayloadUnit();
-    // Panggil fungsi showVariant dengan brandId yang dipilih
-    // this.showVariant(colorId);
   }
 
   onTransmissionChange(event : any) {
@@ -507,9 +642,73 @@ transmissionOptions: [string, string][] = [
     const transmission = selectedOption.getAttribute('transmission-id');
     this.selectedTransmission = transmission;
     this.savePayloadUnit();
+  }
+
+  onFuelChange(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('fuel-id');
+    this.selectedFuel = fuel;
+    this.savePayloadUnit();
+  }
+
+  onCheckedTaxBy(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('tax-checkedby-id');
+    this.selectedTaxBy = fuel;
+    this.savePayloadUnit();
+  }
+
+  onCheckedStnk(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('stnk-id');
+    this.selectedStnk = fuel;
+    this.savePayloadUnit();
+  }
+
+  onCheckedSph(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('sph-id');
+    this.selectedSph = fuel;
+    this.savePayloadUnit();
+  }
+
+  onCheckedKwt(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('kwt-id');
+    this.selectedKwt = fuel;
+    this.savePayloadUnit();
+  }
+
+  onCheckedForma(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('forma-id');
+    this.selectedForma = fuel;
+    this.savePayloadUnit();
+  }
+
+  onCheckedFaktur(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('faktur-id');
+    this.selectedFaktur = fuel;
+    this.savePayloadUnit();
+  }
+
+  onBranchChange(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const branchId = selectedOption.getAttribute('branch-id');
+    this.selectedBranch = branchId;
+    this.savePayloadUnit();
+   }
+
+  onBpkbChange(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const bpkb = selectedOption.getAttribute('bpkb-id');
+    this.selectedBpkb = bpkb;
+    this.selectedBpkbStatus = bpkb ? bpkb : '';
+    this.savePayloadUnit();
     // Panggil fungsi showVariant dengan brandId yang dipilih
     // this.showVariant(colorId);
-  }
+  } 
 
 
   onVehicTypeChange(event : any) {
@@ -525,16 +724,47 @@ transmissionOptions: [string, string][] = [
   }
 
 
+
+
   formatNumber(value: any): string {
-    if (!value && value !== 0) return '';
+    if (value === null || value === undefined || value === '') return '';
     return new Intl.NumberFormat('id-ID').format(value);
   }
 
-  onNumberInput(event: any) {
+  onNumberInputOld(event: any) {
     const rawValue = event.target.value.replace(/\D/g, ''); // hapus semua non-digit
     this.selectedOdo = rawValue ? parseInt(rawValue, 10) : null;
     event.target.value = this.formatNumber(this.selectedOdo);
     this.savePayloadUnit();
+}
+
+onNumberInput(event: Event, fieldName: keyof this) {
+  const input = event.target as HTMLInputElement;
+
+  // Simpan posisi kursor sebelum format
+  const selectionStart = input.selectionStart ?? input.value.length;
+
+  // Ambil raw value
+  const rawValue = input.value.replace(/\D/g, '');
+  const numericValue = rawValue ? parseInt(rawValue, 10) : null;
+
+  // Simpan ke property yang sesuai (gunakan index signature)
+  (this as any)[fieldName] = numericValue;
+
+  // Format ulang value untuk ditampilkan
+  const formattedValue = this.formatNumber(numericValue);
+  input.value = formattedValue;
+
+  // Hitung pergeseran kursor
+  const diff = formattedValue.length - rawValue.length;
+  const newCursorPos = selectionStart + diff;
+
+  // Restore posisi kursor
+  setTimeout(() => {
+    input.setSelectionRange(newCursorPos, newCursorPos);
+  });
+
+  this.savePayloadUnit();
 }
 
   onChangeTextInput(event : any, num: number) {
@@ -548,13 +778,29 @@ transmissionOptions: [string, string][] = [
     }else if(num==4){
       this.selectedNosin = inputValue;
     }else if(num==5){
-      this.selectedAssignmentDate = inputValue;
+      this.selectedTaxNoticeDate = inputValue;
     }else if(num==6){
       this.selectedAssignmentNumber = inputValue;
     }else if(num==7){
       this.selectedBpkbStatus = 'TRIBIK';
     }else if(num==8){
       this.selectedBpkbStatus = 'VENDOR';
+    }else if(num==9){
+       this.selectedBpkbNumber = inputValue;
+    }else if(num==10){
+       this.selectedBpkbName = inputValue;
+    }else if(num==11){
+       this.selectedKeur = inputValue;
+    }else if(num==12){
+       this.selectedLimitPrice = inputValue;
+    }else if(num==13){
+       this.selectedExamPrice = inputValue;
+    }else if(num==14){
+       this.selectedLicensePlate = inputValue;
+    }else if(num==15){
+       this.selectedPicPool = inputValue;
+    }else if(num==16){
+       this.selectedPicPoolPhone = inputValue;
     }else{
       // this.selectedYear = inputValue;
       const input = event.target as HTMLInputElement;
@@ -600,6 +846,8 @@ transmissionOptions: [string, string][] = [
         this.sampleDataUnitMobilisasi = response.unit_data;  
         console.log('Sample Data Mobilisasi:', this.sampleDataMobilisasi);
         console.log('Sample Data Unit Mobilisasi:', this.sampleDataUnitMobilisasi);
+        this.infoVendor(response.mobilization.vendor_submission_id);
+        this.vendor_id = response.mobilization.vendor_submission_id;
 
 
         this.savePayloadUnit();

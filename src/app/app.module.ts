@@ -57,6 +57,8 @@ import { TheTipeModalComponent } from './the-tipe-modal/the-tipe-modal.component
 import { TheBrandModalComponent } from './the-brand-modal/the-brand-modal.component';
 import { TheUcatModalComponent } from './the-ucat-modal/the-ucat-modal.component';
 import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.component';
+import { TheBranchModalComponent } from './the-branch-modal/the-branch-modal.component';
+import { DetailTerjadwalComponent } from './detail-terjadwal/detail-terjadwal.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.co
     TheMenuOfDetilTugasComponent,
     TheMenuOfDetilTerjadwalComponent,
     DetailFooterComponent,
+    DetailTerjadwalComponent,
     InspeksiUnitComponent,
     ExteriorInspectionComponent,
     InteriorInspectionComponent,
@@ -104,6 +107,7 @@ import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.co
     TheModalRevisionComponent,
     TheTipeModalComponent,
     TheBrandModalComponent,
+    TheBranchModalComponent,
     TheUcatModalComponent,
     FrameMobilisasiComponent
   ],

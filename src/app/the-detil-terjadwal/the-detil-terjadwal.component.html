@@ -58,21 +58,21 @@
                 </div>
                 <div class="column">
                     <label for="pic">PIC Pengirim</label>
-                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" readonly value="{{pic}}"/>
+                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" (keyup)="onChangeTextInput($event, 15)"/>
                     
-                    <label for="deliveryDate">Tanggal Pengiriman</label>
-                    <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;" value="{{tgl_mobilisasi}}" />
+                    <!-- <label for="deliveryDate">Tanggal Pengiriman</label>
+                    <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;" value="{{tgl_mobilisasi}}" /> -->
 
                     <label for="vendorPhone">No. Telepon</label>
-                    <input id="vendorPhone" type="text" placeholder="No Telp" readonly value="{{sampleDataVendor?.phone}}"  style="border:0px;line-height: 10px;" />
+                    <input id="vendorPhone" type="text" placeholder="No Telp"  (keyup)="onChangeTextInput($event, 16)" style="border:0px;line-height: 10px;" />
                 </div>
             </div>
         </mat-expansion-panel>
       
-        <mat-expansion-panel [expanded]="true" id="Info Kendaraan" >
+        <mat-expansion-panel [expanded]="true" id="Verifikasi Data" >
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <b>Info Kendaraan</b>
+                    <b>Verifikasi Data</b>
                 </mat-panel-title>
                 <mat-panel-description>
                     <!-- Informasi Kendaraan -->
@@ -81,8 +81,17 @@
             <div class="row">
               
                 <div class="column">
-                    <label for="expedition">Ekspedisi</label>
 
+                    <label for="color">Pilih Cabang</label>
+                    <button type="button" (click)="openBranch()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedBranchName || 'Pilih Cabang' }}</button>
+                    <app-the-branch-modal  
+                    *ngIf="isBranchModalOpen"  
+                    [branchs]="branches?.results || []" 
+                    (close)="isBranchModalOpen = false" 
+                    (selectBranch)="onBranchSelected($event)">
+                    </app-the-branch-modal>
+
+                    <label for="expedition">Ekspedisi</label>
                     <select id="expedition" name="expedition"  (change)="onExpeditionChange($event)" >
                       <option *ngFor="let choice of choices" 
                               [value]="choice[0]" 
@@ -92,31 +101,11 @@
                     </select>
 
                     <label for="licensePlate">Nomor Polisi</label>
-                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"  value="{{sampleData?.police_number}}" readonly />
-
-                    <label for="brand">Merek</label>
-
-                    <!-- <select id="brand" name="brand" placeholder="Merek" (change)="onBrandChange($event)" >
-                      <option value="" disabled [selected]="!sampleData?.brand?.brand_name">Pilih Merek</option>
-                      <option *ngFor="let brand of brands?.results" 
-                              [value]="brand.brand_name" 
-                              [attr.selected]="brand.brand_name === sampleData?.brand?.brand_name ? '' : null"
-                              [attr.data-brand-id]="brand?.id">
-                        {{ brand.brand_name }}
-                      </option>
-                    </select> -->
-
-                    <button type="button" (click)="openBrandModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedBrandName || 'Pilih Merek' }}</button>
-
-                    <app-the-brand-modal  
-                    *ngIf="isBrandModalOpen"  
-                    [brands]="brands?.results || []" 
-                    (close)="isBrandModalOpen = false" 
-                    (selectBrand)="onBrandSelected($event)">
-                    </app-the-brand-modal>
+                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"   (keyup)="onChangeTextInput($event, 14)" />
+                    
 
                     <label for="unit_location">Lokasi Unit</label>
-                    <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" (keyup)="onChangeTextInput($event, 1)" />
+                    <input type="text" id="unit_location" placeholder="Lokasi Unit"  (keyup)="onChangeTextInput($event, 1)" />
 
                     
 
@@ -126,9 +115,55 @@
 
                     <label for="color">Noka</label>
                     <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+
+                    <label for="color">Nosin</label>
+                    <input type="text" id="nosin" placeholder="Nosin"   (keyup)="onChangeTextInput($event, 4)"/>
+
+
+                     <label for="color">BPKB Number</label>
+                    <input type="text" id="bpkb_id" placeholder="BPKB Number"   (keyup)="onChangeTextInput($event, 9)"/>
+
+                    <label for="color">BPKB Name</label>
+                    <input type="text" id="bpkb_name" placeholder="BPKB Name"   (keyup)="onChangeTextInput($event, 10)"/>
+
+                    <label for="bpkb">BPKB</label>
+                    <select id="bpkb-id" [(ngModel)]="selectedBpkb" name="BPKB" placeholder="Pilih BPKB" (change)="onBpkbChange($event)">
+                      <option *ngFor="let option of bpkbOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
+                    <label for="color">SPH</label>
+                    <select id="sph-id" [(ngModel)]="selectedSph" name="sph" placeholder="SPH" (change)="onCheckedSph($event)">
+                      <option *ngFor="let option of adaTidakOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
+                    <label for="color">KWT</label>
+                    <select id="kwt-id" [(ngModel)]="selectedKwt" name="kwt" placeholder="KWT" (change)="onCheckedKwt($event)">
+                      <option *ngFor="let option of adaTidakOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
+                    <label for="color">Form A</label>
+                    <select id="forma-id" [(ngModel)]="selectedForma" name="forma" placeholder="Form A" (change)="onCheckedForma($event)">
+                      <option *ngFor="let option of adaTidakOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
+                    <label for="color">Faktur</label>
+                    <select id="faktur-id" [(ngModel)]="selectedFaktur" name="faktur" placeholder="Faktur" (change)="onCheckedFaktur($event)">
+                      <option *ngFor="let option of adaTidakOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
                     
-                    <label for="color">Fuel</label>
-                    <input type="text" id="fuel" placeholder="Fuel"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+
+
                 </div>
 
                 <div class="column">
@@ -144,7 +179,6 @@
                     </select>
 
                     <label for="category">Kategori</label>
-
                     <button type="button" (click)="openUnitCategory()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedUcatName || 'Pilih Kategori' }}</button>
 
                     <app-the-ucat-modal  
@@ -153,6 +187,16 @@
                     (close)="isUcatModalOpen = false" 
                     (selectBrand)="onUcatSelected($event)">
                     </app-the-ucat-modal>
+
+                    <label for="brand">Merek</label>
+                    <button type="button" (click)="openBrandModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedBrandName || 'Pilih Merek' }}</button>
+
+                    <app-the-brand-modal  
+                    *ngIf="isBrandModalOpen"  
+                    [brands]="brands?.results || []" 
+                    (close)="isBrandModalOpen = false" 
+                    (selectBrand)="onBrandSelected($event)">
+                    </app-the-brand-modal>
 
                     <label for="tipe">Tipe</label>
                     <input type="hidden" id="tipe" name="tipe" >
@@ -166,8 +210,26 @@
                   </app-the-tipe-modal>
 
                     
+                    <label for="odometer">ODO</label>
+                    <input
+                    type="text"
+                    [value]="formatNumber(selectedOdo)"
+                    (input)="onNumberInput($event, 'selectedOdo')"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    
+                  />
+                    
                     <label for="engineCapacity">Kapasitas Mesin (CC)</label>
-                    <input type="number" id="engineCapacity" placeholder="Kapasitas Mesin" value="{{sampleData?.cc}}"  (keyup)="onChangeTextInput($event, 2)" numberFormatter  (input)="onNumberInput($event)"/>
+                    <input
+                    type="text"
+                    [value]="formatNumber(selectedCc)"
+                    (input)="onNumberInput($event, 'selectedCc')"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    
+                  />
+                    <!-- <input type="number" id="engineCapacity" placeholder="Kapasitas Mesin" [value]="formatNumber(selectedOdo)"  (keyup)="onChangeTextInput($event, 2)" numberFormatter  (input)="onNumberInput($event, 'selectedOdo')"/> -->
 
                     <label for="color">Warna</label>
 
@@ -181,8 +243,7 @@
                     </select>
 
                     <label>Transmisi</label>
-
-                    <select id="transmission" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
+                    <select id="transmission-id" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
                       <option *ngFor="let choice of transmissionOptions" 
                               [value]="choice[0]" 
                               [attr.transmission-id]="choice[0]"
@@ -192,123 +253,66 @@
                       </option>
                     </select>
 
-                    <label for="color">Nosin</label>
-                    <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
+                    <label for="color">Fuel</label>
+                    <select id="fuel-id" [(ngModel)]="selectedFuel" name="fuel" placeholder="Pilih Fuel" (change)="onFuelChange($event)">
+                      <option *ngFor="let option of fuelOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
+                    <label for="tglpembuatan">Tax Notice</label>
+                    <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan"  (change)="onChangeTextInput($event, 5)"/>
+
+
+                    <label for="color">Checked By</label>
+                    <select id="tax-checkedby-id" [(ngModel)]="selectedTaxBy" name="fuel" placeholder="Dicek Oleh" (change)="onCheckedTaxBy($event)">
+                      <option *ngFor="let option of checkedTaxByOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
+                    
+
+                    <label for="color">STNK</label>
+                    <select id="stnk-id" [(ngModel)]="selectedStnk" name="STNK" placeholder="STNK" (change)="onCheckedStnk($event)">
+                      <option *ngFor="let option of adaTidakOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
+                    <label for="tglkeur">Keur</label>
+                    <input type="date"  id="tglkeur" class="full-width" placeholder="KEUR"  (change)="onChangeTextInput($event, 11)"/>
+
+
+                    <label for="hargaLimit">Harga Limit</label>
+                    <input
+                    type="text"
+                    [value]="formatNumber(selectedLimitPrice)"
+                    (input)="onNumberInput($event, 'selectedLimitPrice')"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    
+                  />
+                    <!-- <input type="number" id="hargaLimit"  placeholder="Harga Limit" [value]="formatNumber(selectedLimitPrice)"  (keyup)="onChangeTextInput($event, 12)" numberFormatter  (input)="onNumberInput($event, 'selectedLimitPrice')"/> -->
+
+
+                    <label for="hargaExam">Exam Price</label>
+                    <input
+                    type="text"
+                    [value]="formatNumber(selectedExamPrice)"
+                    (input)="onNumberInput($event, 'selectedExamPrice')"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    
+                  />
+                    <!-- <input type="number" id="hargaExam" placeholder="Harga Exam" [value]="formatNumber(selectedExamPrice)"  (keyup)="onChangeTextInput($event, 13)" numberFormatter  (input)="onNumberInput($event, 'selectedExamPrice')"/> -->
 
                 </div>
             </div>
         </mat-expansion-panel>
         
-        <mat-expansion-panel [expanded]="true" id="Dokumen dan Kelengkapan Lainnya" >
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <b>Dokumen dan Kelengkapan Lainnya</b>
-            </mat-panel-title>
-            <mat-panel-description>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="row">
-            <div class="column">Jenis Surat</div>
-          </div>
-          <div class="row">
-            <div class="column">
-                <div class="radio-group">
-                    <label>
-                        <input  type="radio" class="custom-radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
-                        Automatic
-                    </label>
-                    <label>
-                        <input type="radio" class="custom-radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" />
-                        Manual
-                    </label>
-                </div>
-            </div>
-            <div class="column">
-                <label for="tglpembuatan">Tanggal Masuk</label>
-                <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_date | date:'yyyy-MM-dd'"  (change)="onChangeTextInput($event, 5)"/>
-            </div>
-            <div class="column">
-                <label for="suratkuasa">No Surat Kuasa Penugasan</label>
-                <input  type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa"  [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_number"  (change)="onChangeTextInput($event, 6)"/>
-            </div>
-            <div class="column"></div>
-          </div>
 
-          <div class="row">
-            <div class="column">
-              <!-- [disabled]="!bpkbDocuments" -->
-              <button 
-                [ngClass]="{'button-upl-view': bpkbDocuments.length > 0, 'button-upl-now': bpkbDocuments.length == 0}" (click)="openGallery('BPKB')"
-                >
-                {{bpkbDocuments.length > 0 ? 'Foto BPKB' : 'Upload Foto BPKB'}}
-                <span 
-                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{bpkbDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
-                </span>
-              </button>
-            </div>
-            <div class="column">
-              <!-- [disabled]="!stnkDocuments" -->
-                <button 
-                [ngClass]="{'button-upl-view': stnkDocuments.length > 0, 'button-upl-now': stnkDocuments.length == 0}" (click)="openGallery('STNK')"
-                >
-                {{stnkDocuments.length > 0 ? 'Foto STNK' : 'Upload Foto STNK'}}
-                <span 
-                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{stnkDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
-                </span>
-              </button>
-            </div>
-            <div class="column">
-              <!-- [disabled]="!sampleData?.fotoSuratKuasa"  -->
-                <button 
-                [ngClass]="{'button-upl-view': suratKuasaDocuments.length > 0, 'button-upl-now': suratKuasaDocuments.length == 0}" (click)="openGallery('SURATKUASA')"
-                >
-                {{suratKuasaDocuments.length > 0 ? 'Foto Surat Kuasa' : 'Upload Foto Surat Kuasa'}}
-                <span 
-                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{suratKuasaDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
-                </span>
-              </button>
-            </div>
-            <div class="column">
-              <!-- [disabled]="!sampleData?.fotoBastk" -->
-                <button 
-                [ngClass]="{'button-upl-view': bastkVendorDocuments.length > 0, 'button-upl-now': bastkVendorDocuments.length == 0}" (click)="openGallery('BASTK')"
-                >
-                {{bastkVendorDocuments.length > 0 ? 'Foto BASTK Vendor' : 'Upload Foto BASTK Vendor'}}
-                <span 
-                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                  <mat-icon>{{bastkVendorDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <div class="row">
-                <div class="column">Status BPKB</div>
-           </div>
-          <div class="row">
-                <div class="column">
-                    <div class="radio-group">
-                      <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
-                            <input type="radio"  class="custom-radio"  name="bpkb" value="automatic" [checked]="sampleData?.bpkb_status === 'TRIBIK'" (click)="onChangeTextInput($event, 7)"/>
-                            Tribik
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
-                            <input type="radio"  class="custom-radio"  name="bpkb" value="manual" [checked]="sampleData?.bpkb_status === 'VENDOR'" (click)="onChangeTextInput($event, 8)"/>
-                            Vendor
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-
-
-          
-        </mat-expansion-panel>
-<!--     
-        <mat-expansion-panel [expanded]="true" id="Keterangan Lainnya" >
+        <!-- <mat-expansion-panel [expanded]="true" id="Keterangan Lainnya" >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <b>Keterangan Lainnya</b>
@@ -317,8 +321,8 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <p><textarea cols="120" rows="10"></textarea></p>
-        </mat-expansion-panel> -->
-    
+        </mat-expansion-panel>
+     -->
     
     
     </mat-accordion>

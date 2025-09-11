@@ -57,6 +57,7 @@ export class AppComponent {
           '/interior-inspection': 'interior-inspection',
           '/engine-inspection': 'engine-inspection',
           '/photos-inspection': 'photos-inspection',
+          '/detil-terjadwal': 'detil-terjadwal',
           '/unit-photos': 'unit-photos'
         };
 
@@ -219,7 +220,7 @@ export class AppComponent {
 
     getCurrentView(): string {
       if (this.currentRoute.startsWith('/detil-tugas/')) return 'dt-tugas';
-      if (this.currentRoute.startsWith('/detil-terjadwal/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/detil-terjadwal/')) return 'dt-terjadwal';
       if (this.currentRoute.startsWith('/inspeksi-unit/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/exterior-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/interior-inspection/')) return 'dt-tugas';
@@ -229,7 +230,7 @@ export class AppComponent {
 
       const routeMappings: { [key: string]: string } = {
       '/detil-tugas': 'dt-tugas',
-      '/detil-terjadwal': 'dt-tugas',
+      '/detil-terjadwal': 'dt-terjadwal',
       '/inspeksi-unit': 'dt-tugas',
       '/exterior-inspection': 'dt-tugas',
       '/interior-inspection': 'dt-tugas',
@@ -248,7 +249,7 @@ export class AppComponent {
 
     getCurrentRouterView(): string {
       if (this.currentRoute.startsWith('/detil-tugas/')) return 'dt-tugas';
-      if (this.currentRoute.startsWith('/detil-terjadwal/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/detil-terjadwal/')) return 'dt-terjadwal';
       if (this.currentRoute.startsWith('/inspeksi-unit/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/exterior-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/interior-inspection/')) return 'dt-tugas';
