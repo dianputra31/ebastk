@@ -1,4 +1,4 @@
-export interface UnitData {
+export interface UnitDataMobilisasi {
   [key: string]: string; 
 }
 
@@ -14,20 +14,13 @@ export interface mobilization {
     pic_phone: string;
 }
 
-export interface Resultados {
+export interface MobilisasiUnit {
     id: number;
     notes: string;
     mobilization_by: string;
     mobilization_type: string;
     mobilization_cost: string;
-    unit_data: UnitData;
     unit_id: string;
+    unit_data: UnitDataMobilisasi;
     mobilization: mobilization;
-}
-
-export interface NewApiTerjadwalResponse {
-    total_items: number;
-    total_pages: number;
-    current_page: number;
-    results: Resultados[];
 }

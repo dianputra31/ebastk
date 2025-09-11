@@ -162,7 +162,10 @@ activePanel: string = '';
     } else if (this.currentRoute.startsWith('/detil-riwayat')) {
       // this.router.navigate(['/riwayat']);
       window.location.href = '/riwayat';
-    } else {
+    } else if (this.currentRoute.startsWith('/detil-terjadwal')) {
+      // this.router.navigate(['/riwayat']);
+      window.location.href = '/tugas';
+    }else {
       this.router.navigate(['/detil-tugas']);
     }
 

@@ -1,0 +1,338 @@
+<div class="product-container">
+  <div class="label-product">{{sampleData?.display_name}}</div>
+  <!-- <div class="anakan-label">{{ sampleData?.unit_location == null ? 'Tribik' : sampleData?.unit_location }}&#x25CF; {{tgl_mobilisasi | date:'dd MMMM yyyy'}}</div> -->
+
+
+
+
+    <mat-accordion multi>
+
+       <mat-expansion-panel [expanded]="true" id="Info Excel" >
+
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>Data Excel</b>
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Informasi Vendor 1 -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- Dynamic Unit Data (Stylish) -->
+          <div class="dynamic-unit-data-card" *ngIf="sampleDataUnitMobilisasi">
+            <div class="dynamic-grid">
+              <div class="dynamic-item" *ngFor="let key of objectKeys(sampleDataUnitMobilisasi)">
+                <div class="dynamic-key">
+                  <!-- <mat-icon class="dynamic-icon">label</mat-icon> -->
+                  {{ key }}
+                </div>
+                <div class="dynamic-value">{{ sampleDataUnitMobilisasi[key] }}</div>
+              </div>
+            </div>
+          </div>
+
+       </mat-expansion-panel>
+
+
+        <mat-expansion-panel [expanded]="true" id="Info Vendor" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>Info Vendor</b>
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Informasi Vendor 1 -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            <div class="row">
+                <div class="column">
+                    <label for="vendorName">Nama Vendor</label>
+                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:0px;line-height: 10px;" readonly/>
+                    
+                    <label for="vendorAddress">Alamat</label>
+                    <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;" readonly/>
+                    <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
+                      {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
+                    </textarea> -->
+                    
+                   
+                </div>
+                <div class="column">
+                    <label for="pic">PIC Pengirim</label>
+                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" readonly value="{{pic}}"/>
+                    
+                    <label for="deliveryDate">Tanggal Pengiriman</label>
+                    <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;" value="{{tgl_mobilisasi}}" />
+
+                    <label for="vendorPhone">No. Telepon</label>
+                    <input id="vendorPhone" type="text" placeholder="No Telp" readonly value="{{sampleDataVendor?.phone}}"  style="border:0px;line-height: 10px;" />
+                </div>
+            </div>
+        </mat-expansion-panel>
+      
+        <mat-expansion-panel [expanded]="true" id="Info Kendaraan" >
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <b>Info Kendaraan</b>
+                </mat-panel-title>
+                <mat-panel-description>
+                    <!-- Informasi Kendaraan -->
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+              
+                <div class="column">
+                    <label for="expedition">Ekspedisi</label>
+
+                    <select id="expedition" name="expedition"  (change)="onExpeditionChange($event)" >
+                      <option *ngFor="let choice of choices" 
+                              [value]="choice[0]" 
+                              [attr.selected]="choice[0] === sampleData?.expedition ? '' : null">
+                        {{ choice[1] }}
+                      </option>
+                    </select>
+
+                    <label for="licensePlate">Nomor Polisi</label>
+                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"  value="{{sampleData?.police_number}}" readonly />
+
+                    <label for="brand">Merek</label>
+
+                    <!-- <select id="brand" name="brand" placeholder="Merek" (change)="onBrandChange($event)" >
+                      <option value="" disabled [selected]="!sampleData?.brand?.brand_name">Pilih Merek</option>
+                      <option *ngFor="let brand of brands?.results" 
+                              [value]="brand.brand_name" 
+                              [attr.selected]="brand.brand_name === sampleData?.brand?.brand_name ? '' : null"
+                              [attr.data-brand-id]="brand?.id">
+                        {{ brand.brand_name }}
+                      </option>
+                    </select> -->
+
+                    <button type="button" (click)="openBrandModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedBrandName || 'Pilih Merek' }}</button>
+
+                    <app-the-brand-modal  
+                    *ngIf="isBrandModalOpen"  
+                    [brands]="brands?.results || []" 
+                    (close)="isBrandModalOpen = false" 
+                    (selectBrand)="onBrandSelected($event)">
+                    </app-the-brand-modal>
+
+                    <label for="unit_location">Lokasi Unit</label>
+                    <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" (keyup)="onChangeTextInput($event, 1)" />
+
+                    
+
+                    <label for="color">Tahun</label>
+                    <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)" 
+                      [value]="selectedYear" maxlength="4" (input)="onChangeTextInput($event, 0)" style="font-weight: bold;letter-spacing: 5px;"/>
+
+                    <label for="color">Noka</label>
+                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+                    
+                    <label for="color">Fuel</label>
+                    <input type="text" id="fuel" placeholder="Fuel"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+                </div>
+
+                <div class="column">
+                    <label for="category">Tipe Unit</label>
+                    <select id="category" name="category" placeholder="Pilih Kategori" (change)="onVehicTypeChange($event)">
+                      <option *ngFor="let vehictype of vehicletype?.results"
+                              [value]="vehictype.type_name"
+                              [attr.data-id]="vehictype.id"
+                              [attr.data-name]="vehictype.type_name"
+                              [attr.selected]="vehictype.id === sampleData?.unit_category_id ? '' : null">
+                        {{ vehictype.type_name }}
+                      </option>
+                    </select>
+
+                    <label for="category">Kategori</label>
+
+                    <button type="button" (click)="openUnitCategory()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedUcatName || 'Pilih Kategori' }}</button>
+
+                    <app-the-ucat-modal  
+                    *ngIf="isUcatModalOpen"  
+                    [brands]="unitcategory?.results || []" 
+                    (close)="isUcatModalOpen = false" 
+                    (selectBrand)="onUcatSelected($event)">
+                    </app-the-ucat-modal>
+
+                    <label for="tipe">Tipe</label>
+                    <input type="hidden" id="tipe" name="tipe" >
+                    <button type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
+
+                  <app-the-tipe-modal  
+                  *ngIf="isTipeModalOpen"  
+                  [variants]="variants?.results || []" 
+                  (close)="isTipeModalOpen = false" 
+                  (selectVariant)="onVariantSelected($event)">
+                  </app-the-tipe-modal>
+
+                    
+                    <label for="engineCapacity">Kapasitas Mesin (CC)</label>
+                    <input type="number" id="engineCapacity" placeholder="Kapasitas Mesin" value="{{sampleData?.cc}}"  (keyup)="onChangeTextInput($event, 2)" numberFormatter  (input)="onNumberInput($event)"/>
+
+                    <label for="color">Warna</label>
+
+                    <select id="warna" name="warna" placeholder="Pilih Warna" (change)="onColorChange($event)">
+                      <option *ngFor="let color of colors?.results"
+                              [value]="color.color_name"
+                              [attr.color-id]="color.id"
+                              [attr.selected]="color.color_name === sampleData?.color?.color_name ? '' : null">
+                        {{ color.color_name }}
+                      </option>
+                    </select>
+
+                    <label>Transmisi</label>
+
+                    <select id="transmission" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
+                      <option *ngFor="let choice of transmissionOptions" 
+                              [value]="choice[0]" 
+                              [attr.transmission-id]="choice[0]"
+                              [attr.selected]="choice[0] === sampleData?.transmission ? '' : null"
+                              >
+                        {{ choice[1] }}
+                      </option>
+                    </select>
+
+                    <label for="color">Nosin</label>
+                    <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
+
+                </div>
+            </div>
+        </mat-expansion-panel>
+        
+        <mat-expansion-panel [expanded]="true" id="Dokumen dan Kelengkapan Lainnya" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>Dokumen dan Kelengkapan Lainnya</b>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="column">Jenis Surat</div>
+          </div>
+          <div class="row">
+            <div class="column">
+                <div class="radio-group">
+                    <label>
+                        <input  type="radio" class="custom-radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" />
+                        Automatic
+                    </label>
+                    <label>
+                        <input type="radio" class="custom-radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" />
+                        Manual
+                    </label>
+                </div>
+            </div>
+            <div class="column">
+                <label for="tglpembuatan">Tanggal Masuk</label>
+                <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_date | date:'yyyy-MM-dd'"  (change)="onChangeTextInput($event, 5)"/>
+            </div>
+            <div class="column">
+                <label for="suratkuasa">No Surat Kuasa Penugasan</label>
+                <input  type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa"  [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_number"  (change)="onChangeTextInput($event, 6)"/>
+            </div>
+            <div class="column"></div>
+          </div>
+
+          <div class="row">
+            <div class="column">
+              <!-- [disabled]="!bpkbDocuments" -->
+              <button 
+                [ngClass]="{'button-upl-view': bpkbDocuments.length > 0, 'button-upl-now': bpkbDocuments.length == 0}" (click)="openGallery('BPKB')"
+                >
+                {{bpkbDocuments.length > 0 ? 'Foto BPKB' : 'Upload Foto BPKB'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{bpkbDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+            <div class="column">
+              <!-- [disabled]="!stnkDocuments" -->
+                <button 
+                [ngClass]="{'button-upl-view': stnkDocuments.length > 0, 'button-upl-now': stnkDocuments.length == 0}" (click)="openGallery('STNK')"
+                >
+                {{stnkDocuments.length > 0 ? 'Foto STNK' : 'Upload Foto STNK'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{stnkDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+            <div class="column">
+              <!-- [disabled]="!sampleData?.fotoSuratKuasa"  -->
+                <button 
+                [ngClass]="{'button-upl-view': suratKuasaDocuments.length > 0, 'button-upl-now': suratKuasaDocuments.length == 0}" (click)="openGallery('SURATKUASA')"
+                >
+                {{suratKuasaDocuments.length > 0 ? 'Foto Surat Kuasa' : 'Upload Foto Surat Kuasa'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{suratKuasaDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+            <div class="column">
+              <!-- [disabled]="!sampleData?.fotoBastk" -->
+                <button 
+                [ngClass]="{'button-upl-view': bastkVendorDocuments.length > 0, 'button-upl-now': bastkVendorDocuments.length == 0}" (click)="openGallery('BASTK')"
+                >
+                {{bastkVendorDocuments.length > 0 ? 'Foto BASTK Vendor' : 'Upload Foto BASTK Vendor'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{bastkVendorDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+                <div class="column">Status BPKB</div>
+           </div>
+          <div class="row">
+                <div class="column">
+                    <div class="radio-group">
+                      <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="automatic" [checked]="sampleData?.bpkb_status === 'TRIBIK'" (click)="onChangeTextInput($event, 7)"/>
+                            Tribik
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
+                            <input type="radio"  class="custom-radio"  name="bpkb" value="manual" [checked]="sampleData?.bpkb_status === 'VENDOR'" (click)="onChangeTextInput($event, 8)"/>
+                            Vendor
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+
+          
+        </mat-expansion-panel>
+<!--     
+        <mat-expansion-panel [expanded]="true" id="Keterangan Lainnya" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>Keterangan Lainnya</b>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p><textarea cols="120" rows="10"></textarea></p>
+        </mat-expansion-panel> -->
+    
+    
+    
+    </mat-accordion>
+
+
+</div>
+
+
+<!-- <app-image-gallery-modal
+  [carName]="'Mitsubishi Pajero'"
+  [images]="[
+    'assets/bpkb1.jpg',
+    'assets/bpkb2.jpg',
+    'assets/bpkb3.jpg',
+    'assets/bpkb4.jpg'
+  ]">
+</app-image-gallery-modal> -->

@@ -57,6 +57,7 @@ filter_sort_by: string = '';
 isModalOpen: boolean = false;
 
 isTerjadwal: boolean = false;
+objectKeys = Object.keys;
 
 
 // constructor() {} 
@@ -65,6 +66,20 @@ constructor(private http: HttpClient, private router: Router, private authServic
   this.currentDate = new Date();
   this.fromDashboard = false;
 } 
+
+
+// Ambil key berdasarkan index
+getKeyAt(unitData: Record<string, string>, index: number): string {
+  const keys = Object.keys(unitData || {});
+  return keys[index] || '';
+}
+
+// Ambil value berdasarkan index
+getValueAt(unitData: Record<string, string>, index: number): string {
+  const keys = Object.keys(unitData || {});
+  return keys[index] ? unitData[keys[index]] : '';
+}
+
 
 
 ngOnInit(): void {
@@ -280,10 +295,12 @@ getStatusName(status: string): string {
 
 
 GoesToDetailTugas(id: number, status: string){
-  if(status != 'request_revision'){
-    this.router.navigate(['/detil-tugas/' + id]);
-  }else{
+  if(status == 'request_revision'){
     this.isModalOpen = true; // Set modal terbuka
+  }else if(status == 'TERJADWAL'){
+    this.router.navigate(['/detil-terjadwal/' + id]);
+  }else{
+    this.router.navigate(['/detil-tugas/' + id]);
   }
 }
 

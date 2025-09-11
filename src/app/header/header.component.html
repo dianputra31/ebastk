@@ -76,6 +76,10 @@
           <app-filter-riwayat (inputChange)="onInputChange($event)"></app-filter-riwayat>
         </ng-container>
       
+        <ng-container *ngSwitchCase="'/detil-terjadwal'">
+          <app-the-menu-of-detil-terjadwal (menuSelected)="onMenuSelected($event)"></app-the-menu-of-detil-terjadwal>
+        </ng-container>
+      
         <ng-container *ngSwitchCase="'/detil-riwayat'">
           <app-menu-of-detail-riwayat (menuSelected)="onMenuSelected($event)" [activeNoah]="activeNoah" [activeLoc]="activeLoc" [activeDatetime]="activeDatetime" [activeDoneBy]="activeDoneBy" [activeDoneDate]="activeDoneDate"></app-menu-of-detail-riwayat>
         </ng-container>

@@ -7,6 +7,7 @@ import { TheLoginComponent } from './the-login/the-login.component';
 import { TheHistoryComponent } from './the-history/the-history.component';
 import { TheAccountComponent } from './the-account/the-account.component';
 import { TheDetilTugasComponent } from './the-detil-tugas/the-detil-tugas.component';
+import { TheDetilTerjadwalComponent } from './the-detil-terjadwal/the-detil-terjadwal.component';
 import { InspeksiUnitComponent } from './inspeksi-unit/inspeksi-unit.component';
 import { ExteriorInspectionComponent } from './exterior-inspection/exterior-inspection.component';
 import { InteriorInspectionComponent } from './interior-inspection/interior-inspection.component';
@@ -89,6 +90,12 @@ const routes: Routes = [
   {  
     path: 'detil-tugas/:unit_id',  
     component: TheDetilTugasComponent,
+    canActivate: [AuthGuard],    
+    pathMatch: 'full'  
+  },
+  {  
+    path: 'detil-terjadwal/:unit_id',  
+    component: TheDetilTerjadwalComponent,
     canActivate: [AuthGuard],    
     pathMatch: 'full'  
   },

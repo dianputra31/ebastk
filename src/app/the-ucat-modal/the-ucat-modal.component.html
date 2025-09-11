@@ -1,0 +1,16 @@
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <button (click)="close.emit()" style="border-radius: 4px;height:30px;border:solid #cdcdcd 1px;font-size:12px;">Tutup</button>
+    <input type="text" [(ngModel)]="filterText" placeholder="Cari merek...">
+    <ul>
+      <li *ngFor="let v of filteredVariants" (click)="select(v)">
+        {{ v.category_name }}
+      </li>
+    </ul>
+    <div class="pagination">
+      <button (click)="page = page - 1" [disabled]="page === 1" style="padding-top:10px;">Prev</button>
+      <span>Page {{page}} / {{totalPages}}</span>
+      <button (click)="page = page + 1" [disabled]="page === totalPages" style="padding-top:10px;">Next</button>
+    </div>
+  </div>
+</div>

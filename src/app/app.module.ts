@@ -14,7 +14,9 @@ import { TheHistoryComponent } from './the-history/the-history.component';
 import { TheAccountComponent } from './the-account/the-account.component';
 import { TheMenusOfDetailContentComponent } from './the-detail-content/the-menus-of-detail-content/the-menus-of-detail-content.component';
 import { TheDetilTugasComponent } from './the-detil-tugas/the-detil-tugas.component';
+import { TheDetilTerjadwalComponent } from './the-detil-terjadwal/the-detil-terjadwal.component';
 import { TheMenuOfDetilTugasComponent } from './menu-of-detil-tugas/the-menu-of-detil-tugas.component'; // Impor FormsModule  
+import { TheMenuOfDetilTerjadwalComponent } from './menu-of-detil-terjadwal/the-menu-of-detil-terjadwal.component'; // Impor FormsModule  
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailFooterComponent } from './detail-footer/detail-footer.component';
@@ -53,6 +55,7 @@ import { ImageUnitPhotosUploaderComponent } from './image-unitphotos-uploader/im
 import { TheModalRevisionComponent } from './the-modal-revision/the-modal-revision.component';
 import { TheTipeModalComponent } from './the-tipe-modal/the-tipe-modal.component';
 import { TheBrandModalComponent } from './the-brand-modal/the-brand-modal.component';
+import { TheUcatModalComponent } from './the-ucat-modal/the-ucat-modal.component';
 import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.component';
 
 @NgModule({
@@ -67,7 +70,9 @@ import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.co
     TheAccountComponent,
     TheMenusOfDetailContentComponent,
     TheDetilTugasComponent,
+    TheDetilTerjadwalComponent,
     TheMenuOfDetilTugasComponent,
+    TheMenuOfDetilTerjadwalComponent,
     DetailFooterComponent,
     InspeksiUnitComponent,
     ExteriorInspectionComponent,
@@ -99,6 +104,7 @@ import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.co
     TheModalRevisionComponent,
     TheTipeModalComponent,
     TheBrandModalComponent,
+    TheUcatModalComponent,
     FrameMobilisasiComponent
   ],
   imports: [

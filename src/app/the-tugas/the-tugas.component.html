@@ -7,7 +7,7 @@
         <div class="product-details">  
           <!-- Product Header -->  
           <div class="product-header">  
-              <div class='hy' style="font-weight:bold;font-size:18px;">{{ product.unit_data.NOPOL }}</div>  
+              <div class='hy' style="font-weight:bold;font-size:15px;">{{ getKeyAt(product.unit_data, 0) }} : {{ getValueAt(product.unit_data, 0) }}</div>  
               <div class="status-container" *ngIf="fromDashboard==false">  
                 <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
                 <span class="status" [ngClass]="getStatusClass('NEW')">{{ getStatusName('TERJADWAL').toUpperCase() }}</span>    
@@ -33,8 +33,8 @@
               <span class="value">{{ product.mobilization.unit_destination }}</span>  
             </div>  
             <div class="key-value-item">  
-              <span class="key">Nopol</span>  
-              <span class="value">{{ product.unit_data.NOPOL }}</span>  
+              <span class="key">{{ getKeyAt(product.unit_data, 0) }}</span>  
+              <span class="value">{{ getValueAt(product.unit_data, 0) }}</span>  
             </div>  
             <div class="key-value-item">  
               <span class="key">PIC</span>  
