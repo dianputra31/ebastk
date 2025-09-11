@@ -196,10 +196,17 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
 
     const validQuestions = item.questions.filter((q: any) => q.name !== null);
     const withNameCount = validQuestions.length;
-    const answeredCount = validQuestions.filter((q: any) => q.answer !== null).length;
+    let answeredCount = validQuestions.filter((q: any) => q.answer !== null).length;
+    if (item.kondisi === 'Tidak') {
+      answeredCount = withNameCount;
+    }    
+    
     const unansweredCount = withNameCount - answeredCount;
 
     let status = '';
+    console.log("withNameCount:::", withNameCount);
+    console.log("answeredCount:::", answeredCount);
+
     if (answeredCount === withNameCount && withNameCount > 0) {
       status = 'closed';
       this.wwgombel = this.wwgombel * 1
