@@ -56,9 +56,11 @@ import { TheModalRevisionComponent } from './the-modal-revision/the-modal-revisi
 import { TheTipeModalComponent } from './the-tipe-modal/the-tipe-modal.component';
 import { TheBrandModalComponent } from './the-brand-modal/the-brand-modal.component';
 import { TheUcatModalComponent } from './the-ucat-modal/the-ucat-modal.component';
+import { TheRawdataModalComponent } from './the-rawdata-modal/the-rawdata-modal.component';
 import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.component';
 import { TheBranchModalComponent } from './the-branch-modal/the-branch-modal.component';
 import { DetailTerjadwalComponent } from './detail-terjadwal/detail-terjadwal.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -109,6 +111,7 @@ import { DetailTerjadwalComponent } from './detail-terjadwal/detail-terjadwal.co
     TheBrandModalComponent,
     TheBranchModalComponent,
     TheUcatModalComponent,
+    TheRawdataModalComponent,
     FrameMobilisasiComponent
   ],
   imports: [
@@ -121,7 +124,8 @@ import { DetailTerjadwalComponent } from './detail-terjadwal/detail-terjadwal.co
     MatFormFieldModule,
     MatSelectModule,
     MatIconModule,
-    NgbModule
+    NgbModule,
+    MatSnackBarModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

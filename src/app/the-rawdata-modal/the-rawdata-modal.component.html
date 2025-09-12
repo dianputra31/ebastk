@@ -1,0 +1,27 @@
+
+<div class="modal-backdrop">
+  <div class="modal-content">
+
+    <button (click)="close.emit()" style="border-radius: 4px;height:30px;border:solid #cdcdcd 1px;font-size:12px;background-color: rgb(183, 33, 33);color:white;">Tutup</button>
+
+
+
+          <div class="dynamic-unit-data-card" >
+            <div class="dynamic-grid" *ngIf="datamobilisasi">
+              <div class="dynamic-item" *ngFor="let key of (datamobilisasi) | keyvalue">
+                <div class="dynamic-key">
+                  {{ key.key }}
+                </div>
+                <div class="dynamic-value">
+                  {{ key.value }}
+                  <button class="copy-btn" (click)="copyAndClose(key.value)">Salin</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,189 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2); // backdrop agak transparan, tidak terlalu gelap
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px 20px 20px 20px;
+  min-width: 320px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+button {
+  margin-bottom: 12px;
+}
+
+input[type="text"] {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+li {
+  padding: 8px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+li:hover {
+  background: #f2f2f2;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+
+
+.dynamic-unit-data-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+//   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border: 0px solid #e5e7eb;
+}
+
+
+.dynamic-item {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #f9fafb;
+  transition: background 0.2s ease;
+}
+
+.dynamic-item:hover {
+  background: #eef6ff; /* efek hover */
+}
+
+.dynamic-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px; /* kasih jarak antar kolom */
+}
+
+@media (max-width: 768px) {
+  .dynamic-grid {
+    grid-template-columns: 1fr; /* mobile tetap 1 kolom */
+    gap: 10px;
+  }
+}
+
+.dynamic-item:nth-child(odd) {
+  background: #fafafa; /* zebra row */
+}
+
+.dynamic-item:hover {
+  background: #f1f8ff; /* hover effect */
+}
+
+
+
+
+.dynamic-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.dynamic-key {
+  font-weight: 600;
+  text-align: left;
+  flex: 1;
+}
+
+.dynamic-value {
+  text-align: right;
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px; /* jarak kecil antara value dan tombol */
+}
+
+.dynamic-value button {
+  font-size: 12px;
+  padding: 2px 6px;
+}
+
+
+.dynamic-icon {
+  font-size: 16px;
+  margin-right: 6px;
+  color: #3b82f6; /* biru elegan */
+}
+
+.dynamic-header {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937; /* abu tua elegan */
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e5e7eb;
+  letter-spacing: 0.5px;
+}
+
+.info-button {
+  background-color: #e3f2fd; /* biru muda */
+  border-radius: 50%;
+}
+.info-button mat-icon {
+  color: #1976d2; /* icon biru */
+}
+.info-button:hover {
+  background-color: #bbdefb; /* warna hover */
+}
+
+.copy-btn {
+  margin-left: 8px;
+  padding: 2px 6px;
+  font-size: 11px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #334b7c;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: white;
+}
+
+.copy-btn:hover {
+  background: #e5e7eb;
+}
+
+.toast-success {
+  background-color: #4caf50 !important; /* hijau */
+  color: #fff !important;
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .dynamic-grid {
+    grid-template-columns: 1fr;
+  }
+}

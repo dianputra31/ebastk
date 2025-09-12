@@ -83,6 +83,7 @@ export class TheDetilTerjadwalComponent implements OnInit {
   brandid:any = '';
   isTipeModalOpen = false;
   isBrandModalOpen = false;
+  isCopasModalOpen = false;
   isUcatModalOpen = false;
   isBranchModalOpen = false;
   selectedVariantName = '';
@@ -196,6 +197,10 @@ transmissionOptions: [string, string][] = [
     this.isBrandModalOpen = true;
   }
 
+  openCopasModal() {
+    this.isCopasModalOpen = true;
+  }
+
   openUnitCategory() {
     this.isUcatModalOpen = true;
   }
@@ -220,6 +225,12 @@ transmissionOptions: [string, string][] = [
     this.showVariant(brand.id);
     this.selectedVariantName = '';
     this.savePayloadUnit();
+  }
+
+  onCopasSelected(item: any) {
+    // this.selectedCopasName = item.name;
+    // this.selectedCopasId = item.id;
+    // lakukan logic lain, misal set ke form, dsb
   }
 
   onUcatSelected(brand: any) {

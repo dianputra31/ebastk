@@ -82,16 +82,20 @@
               
                 <div class="column">
 
-                    <label for="branch-id">Pilih Cabang</label>
+                    <!-- <label for="branch-id">Pilih Cabang</label>
                     <button type="button" (click)="openBranch()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedBranchName || 'Pilih Cabang' }}</button>
                     <app-the-branch-modal  
                     *ngIf="isBranchModalOpen"  
                     [branchs]="branches?.results || []" 
                     (close)="isBranchModalOpen = false" 
                     (selectBranch)="onBranchSelected($event)">
-                    </app-the-branch-modal>
+                    </app-the-branch-modal> -->
 
-                    <label for="expedition">Ekspedisi</label>
+                    <label for="expedition" class="label-with-icon">Ekspedisi
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="expedition" name="expedition"  (change)="onExpeditionChange($event)" >
                       <option *ngFor="let choice of choices" 
                               [value]="choice[0]" 
@@ -100,61 +104,118 @@
                       </option>
                     </select>
 
-                    <label for="licensePlate">Nomor Polisi</label>
+                    <label for="licensePlate" class="label-with-icon">
+                    Nomor Polisi
+                    <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                    </label>
+
+                    <app-the-rawdata-modal  
+                    *ngIf="isCopasModalOpen"  
+                    [datamobilisasi]="sampleDataUnitMobilisasi || []" 
+                    (close)="isCopasModalOpen = false" 
+                    (selectCopas)="onCopasSelected($event)">
+                    </app-the-rawdata-modal>
+                    
                     <input id="licensePlate" type="text" placeholder="Nomor Polisi"   (keyup)="onChangeTextInput($event, 14)" />
                     
 
-                    <label for="unit_location">Lokasi Unit</label>
+                    <label for="unit_location" class="label-with-icon">Lokasi Unit
+                    <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                    </label>
                     <input type="text" id="unit_location" placeholder="Lokasi Unit"  (keyup)="onChangeTextInput($event, 1)" />
 
                     
 
-                    <label for="tahun">Tahun</label>
+                    <label for="tahun" class="label-with-icon">Tahun
+                    <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                    </label>
                     <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)" 
                       [value]="selectedYear" maxlength="4" (input)="onChangeTextInput($event, 0)" style="font-weight: bold;letter-spacing: 5px;"/>
 
-                    <label for="noka">Noka</label>
+                    <label for="noka" class="label-with-icon">Noka
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                    </label>
                     <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
 
-                    <label for="nosin">Nosin</label>
+                    <label for="nosin" class="label-with-icon">Nosin
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                    </label>
                     <input type="text" id="nosin" placeholder="Nosin"   (keyup)="onChangeTextInput($event, 4)"/>
 
 
-                     <label for="bpkb_id">BPKB Number</label>
+                     <label for="bpkb_id" class="label-with-icon">BPKB Number
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                     </label>
                     <input type="text" id="bpkb_id" placeholder="BPKB Number"   (keyup)="onChangeTextInput($event, 9)"/>
 
-                    <label for="bpkb_name">BPKB Name</label>
+                    <label for="bpkb_name" class="label-with-icon">BPKB Name
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                    </label>
                     <input type="text" id="bpkb_name" placeholder="BPKB Name"   (keyup)="onChangeTextInput($event, 10)"/>
 
-                    <label for="bpkb-id">BPKB</label>
+                    <label for="bpkb-id" class="label-with-icon">BPKB
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                    </label>
                     <select id="bpkb-id" [(ngModel)]="selectedBpkb" name="BPKB" placeholder="Pilih BPKB" (change)="onBpkbChange($event)">
                       <option *ngFor="let option of bpkbOptions" [value]="option">
                         {{ option }}
                       </option>
                     </select>
 
-                    <label for="sph-id">SPH</label>
+                    <label for="sph-id" class="label-with-icon">SPH
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="sph-id" [(ngModel)]="selectedSph" name="sph" placeholder="SPH" (change)="onCheckedSph($event)">
                       <option *ngFor="let option of adaTidakOptions" [value]="option">
                         {{ option }}
                       </option>
                     </select>
 
-                    <label for="kwt-id">KWT</label>
+                    <label for="kwt-id" class="label-with-icon">KWT
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="kwt-id" [(ngModel)]="selectedKwt" name="kwt" placeholder="KWT" (change)="onCheckedKwt($event)">
                       <option *ngFor="let option of adaTidakOptions" [value]="option">
                         {{ option }}
                       </option>
                     </select>
 
-                    <label for="forma-id">Form A</label>
+                    <label for="forma-id" class="label-with-icon">Form A
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="forma-id" [(ngModel)]="selectedForma" name="forma" placeholder="Form A" (change)="onCheckedForma($event)">
                       <option *ngFor="let option of adaTidakOptions" [value]="option">
                         {{ option }}
                       </option>
                     </select>
 
-                    <label for="faktur-id">Faktur</label>
+                    <label for="faktur-id" class="label-with-icon">Faktur
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="faktur-id" [(ngModel)]="selectedFaktur" name="faktur" placeholder="Faktur" (change)="onCheckedFaktur($event)">
                       <option *ngFor="let option of adaTidakOptions" [value]="option">
                         {{ option }}
@@ -167,7 +228,11 @@
                 </div>
 
                 <div class="column">
-                    <label for="category">Tipe Unit</label>
+                    <label for="category" class="label-with-icon">Tipe Unit
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="category" name="category" placeholder="Pilih Kategori" (change)="onVehicTypeChange($event)">
                       <option value=""></option>
                       <option *ngFor="let vehictype of vehicletype?.results"
@@ -179,7 +244,11 @@
                       </option>
                     </select>
 
-                    <label for="category">Kategori</label>
+                    <label for="category">Kategori
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <button type="button" (click)="openUnitCategory()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedUcatName || 'Pilih Kategori' }}</button>
 
                     <app-the-ucat-modal  
@@ -189,7 +258,11 @@
                     (selectBrand)="onUcatSelected($event)">
                     </app-the-ucat-modal>
 
-                    <label for="brand">Merek</label>
+                    <label for="brand">Merek
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <button type="button" (click)="openBrandModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedBrandName || 'Pilih Merek' }}</button>
 
                     <app-the-brand-modal  
@@ -199,7 +272,11 @@
                     (selectBrand)="onBrandSelected($event)">
                     </app-the-brand-modal>
 
-                    <label for="tipe">Tipe</label>
+                    <label for="tipe">Tipe
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <input type="hidden" id="tipe" name="tipe" >
                     <button type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
 
@@ -211,7 +288,11 @@
                   </app-the-tipe-modal>
 
                     
-                    <label for="odometer">ODO</label>
+                    <label for="odometer">ODO
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <input
                     type="text"
                     [value]="formatNumber(selectedOdo)"
@@ -221,7 +302,11 @@
                     
                   />
                     
-                    <label for="engineCapacity">Kapasitas Mesin (CC)</label>
+                    <label for="engineCapacity">Kapasitas Mesin (CC)
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <input
                     type="text"
                     [value]="formatNumber(selectedCc)"
@@ -232,7 +317,11 @@
                   />
                     <!-- <input type="number" id="engineCapacity" placeholder="Kapasitas Mesin" [value]="formatNumber(selectedOdo)"  (keyup)="onChangeTextInput($event, 2)" numberFormatter  (input)="onNumberInput($event, 'selectedOdo')"/> -->
 
-                    <label for="warna">Warna</label>
+                    <label for="warna">Warna
+                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
 
                     <select id="warna" name="warna" placeholder="Pilih Warna" (change)="onColorChange($event)">
                       <option value=""></option>
@@ -244,7 +333,10 @@
                       </option>
                     </select>
 
-                    <label>Transmisi</label>
+                    <label>Transmisi 
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button></label>
                     <select id="transmission-id" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
                       <option value=""></option>
                       <option *ngFor="let choice of transmissionOptions" 
@@ -256,7 +348,10 @@
                       </option>
                     </select>
 
-                    <label for="fuel-id">Fuel</label>
+                    <label for="fuel-id">Fuel 
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button></label>
                     <select id="fuel-id" [(ngModel)]="selectedFuel" name="fuel" placeholder="Pilih Fuel" (change)="onFuelChange($event)">
                       <option *ngFor="let option of fuelOptions" [value]="option">
                         {{ option }}
@@ -267,7 +362,11 @@
                     <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan"  (change)="onChangeTextInput($event, 5)"/>
 
 
-                    <label for="tax-checkedby-id">Checked By</label>
+                    <label for="tax-checkedby-id">Checked By
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="tax-checkedby-id" [(ngModel)]="selectedTaxBy" name="fuel" placeholder="Dicek Oleh" (change)="onCheckedTaxBy($event)">
                       <option *ngFor="let option of checkedTaxByOptions" [value]="option">
                         {{ option }}
@@ -276,18 +375,30 @@
 
                     
 
-                    <label for="stnk-id">STNK</label>
+                    <label for="stnk-id">STNK
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <select id="stnk-id" [(ngModel)]="selectedStnk" name="STNK" placeholder="STNK" (change)="onCheckedStnk($event)">
                       <option *ngFor="let option of adaTidakOptions" [value]="option">
                         {{ option }}
                       </option>
                     </select>
 
-                    <label for="tglkeur">Keur</label>
+                    <label for="tglkeur">Keur
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <input type="date"  id="tglkeur" class="full-width" placeholder="KEUR"  (change)="onChangeTextInput($event, 11)"/>
 
 
-                    <label for="hargaLimit">Harga Limit</label>
+                    <label for="hargaLimit">Harga Limit
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <input
                     type="text"
                     [value]="formatNumber(selectedLimitPrice)"
@@ -299,7 +410,11 @@
                     <!-- <input type="number" id="hargaLimit"  placeholder="Harga Limit" [value]="formatNumber(selectedLimitPrice)"  (keyup)="onChangeTextInput($event, 12)" numberFormatter  (input)="onNumberInput($event, 'selectedLimitPrice')"/> -->
 
 
-                    <label for="hargaExam">Exam Price</label>
+                    <label for="hargaExam">Exam Price
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button>
+                    </label>
                     <input
                     type="text"
                     [value]="formatNumber(selectedExamPrice)"

@@ -266,32 +266,9 @@
 
 
 
-
-
-.dynamic-unit-data-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px 24px;
-  margin-bottom: 24px;
-//   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  border: 0px solid #e5e7eb;
-}
-
-
-.dynamic-item {
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: #f9fafb;
-  transition: background 0.2s ease;
-}
-
-.dynamic-item:hover {
-  background: #eef6ff; /* efek hover */
-}
 .dynamic-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  border: 0px solid #ddd;
+  grid-template-columns: 1fr; /* default: 1 kolom (mobile) */
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
@@ -299,10 +276,10 @@
 
 .dynamic-item {
   display: grid;
-  grid-template-columns: 140px auto;
-  padding: 6px 10px;
+  grid-template-columns: 1fr; /* default stack key & value */
+  padding: 8px 10px;
   border-bottom: 1px solid #eee;
-  align-items: center;
+  align-items: start;
   transition: background 0.2s ease;
 }
 
@@ -310,40 +287,52 @@
   background: #fafafa; /* zebra row */
 }
 
-.dynamic-item:hover {
-  background: #f1f8ff; /* hover effect */
-}
-
 .dynamic-key {
   font-weight: 600;
   font-size: 12px;
   color: #444;
-  text-align: right;
-  padding-right: 10px;
-  border-right: 1px solid #eee;
+  text-align: left;   /* mobile: kiri */
+  padding-bottom: 4px;
+  border: none;
 }
 
 .dynamic-value {
   font-size: 13px;
   color: #111;
-  padding-left: 10px;
+  word-break: break-word; /* biar nomor panjang nggak kepotong */
+}
+
+/* --- RESPONSIVE UNTUK LAYAR LEBAR --- */
+@media (min-width: 600px) {
+  .dynamic-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dynamic-item {
+    grid-template-columns: 140px auto; /* key fix lebar, value fleksibel */
+    align-items: center;
+  }
+
+  .dynamic-key {
+    text-align: right;
+    padding-right: 10px;
+    border-right: 1px solid #eee;
+    padding-bottom: 0;
+  }
+
+  .dynamic-value {
+    padding-left: 10px;
+  }
 }
 
 
-.dynamic-icon {
-  font-size: 16px;
-  margin-right: 6px;
-  color: #3b82f6; /* biru elegan */
+.info-button {
+  background-color: #e3f2fd; /* biru muda */
+  border-radius: 50%;
 }
-
-.dynamic-header {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 700;
-  color: #1f2937; /* abu tua elegan */
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #e5e7eb;
-  letter-spacing: 0.5px;
+.info-button mat-icon {
+  color: #1976d2; /* icon biru */
 }
-
+.info-button:hover {
+  background-color: #bbdefb; /* warna hover */
+}
