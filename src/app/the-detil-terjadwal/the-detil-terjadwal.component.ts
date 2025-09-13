@@ -239,6 +239,7 @@ chosenYearHandler(normalizedYear: Date, datepicker: any) {
   this.selectedYear = normalizedYear.getFullYear();
   this.selectedYearDate = new Date(this.selectedYear, 0, 1); // dummy date utk binding
   datepicker.close(); // tutup setelah pilih tahun
+  console.log(this.selectedYear);
 }
 
 onYearSelected(event: any) {

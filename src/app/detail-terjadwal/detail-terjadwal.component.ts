@@ -187,7 +187,7 @@ export class DetailTerjadwalComponent implements OnInit {
       const response = await this.apiClient.post<any>(endpoint, this.payload);
 
       // Jika login berhasil, simpan data ke localStorage
-      if (response && response.message === 'success') {
+      if (response && response.message === 'Success') {
         this.isLoading = false;
         return true;
       }else{
