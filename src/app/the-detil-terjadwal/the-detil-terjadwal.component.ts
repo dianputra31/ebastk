@@ -76,7 +76,7 @@ export class TheDetilTerjadwalComponent implements OnInit {
   selectedYear: string = '';
   bastk_file: string = '';
   proxy_file: string = '';
-  currentYear = new Date().getFullYear();
+  // currentYear = new Date().getFullYear();
   modelname: any = '';
   payloadUnit: any = null;
   variant_model_id: string = '';
@@ -106,7 +106,13 @@ export class TheDetilTerjadwalComponent implements OnInit {
   selectedExamPrice: number | null = null;
   vendor_id: number | null = null;
   selectedMobilizationUnitId: number | null = null;
+  currentYear: number = new Date().getFullYear();
+// selectedYearDate: Date | null = null;
+// maxYearDate: Date = new Date();
+// maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31); // 31 Desember tahun berjalan
 
+selectedYearDate: Date | null = null;
+maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
 
   choices: [string, string][] = [
   ['Drive', 'Drive'],
@@ -208,6 +214,24 @@ transmissionOptions: [string, string][] = [
   openBranch() {
     this.isBranchModalOpen = true;
   }
+
+//   chosenYearHandler(normalizedYear: Date, datepicker: any) {
+//   this.selectedYearDate = new Date(normalizedYear.getFullYear(), 0, 1);
+//   this.selectedYear = normalizedYear.getFullYear().toString();
+//   datepicker.close();
+//   this.savePayloadUnit();
+// }
+
+chosenYearHandler(normalizedYear: Date, datepicker: any) {
+  this.selectedYearDate = new Date(normalizedYear.getFullYear(), 0, 1);
+  this.selectedYear = normalizedYear.getFullYear().toString();
+  datepicker.close();
+  this.savePayloadUnit();
+}
+
+onYearSelected(event: any) {
+  // Optional: handle if you want to react to dateChange
+}
 
   onVariantSelected(variant: any) {
     this.selectedVariantName = variant.variant_name;
@@ -415,15 +439,24 @@ transmissionOptions: [string, string][] = [
     if (this.selectedNoka) payload.chassis_number = this.selectedNoka;
     if (this.selectedNosin) payload.engine_number = this.selectedNosin;
     if (this.selectedStnk) payload.stnk_status = this.selectedStnk;
-    if (this.selectedTaxNoticeDate) payload.tax_notice = this.selectedTaxNoticeDate;
-    if (this.selectedTaxBy) payload.tax_checked_by = this.selectedTaxBy;
+    // if (this.selectedTaxNoticeDate) payload.tax_notice = this.selectedTaxNoticeDate;
+    if (this.selectedTaxNoticeDate) payload.tax_notice = "-";
+    if (this.selectedTaxBy) payload.tax_checked_by = "-";
+    // if (this.selectedTaxBy) payload.tax_checked_by = this.selectedTaxBy;
     if (this.selectedBpkbNumber) payload.bpkb_number = this.selectedBpkbNumber;
-    if (this.selectedBpkbName) payload.bpkb_name = this.selectedBpkbName;
-    if (this.selectedBpkbStatus) payload.bpkb = this.selectedBpkbStatus;
-    if (this.selectedSph) payload.sph = this.selectedSph;
-    if (this.selectedKwt) payload.kwt = this.selectedKwt;
-    if (this.selectedForma) payload.form_a = this.selectedForma;
-    if (this.selectedFaktur) payload.faktur = this.selectedFaktur;
+    if (this.selectedBpkbNumber) payload.bpkb_number = "-";
+    // if (this.selectedBpkbName) payload.bpkb_name = this.selectedBpkbName;
+    if (this.selectedBpkbName) payload.bpkb_name = "-";
+    if (this.selectedBpkbStatus) payload.bpkb = "-";
+    // if (this.selectedBpkbStatus) payload.bpkb = this.selectedBpkbStatus;
+    // if (this.selectedSph) payload.sph = this.selectedSph;
+    // if (this.selectedKwt) payload.kwt = this.selectedKwt;
+    // if (this.selectedForma) payload.form_a = this.selectedForma;
+    // if (this.selectedFaktur) payload.faktur = this.selectedFaktur;
+    if (this.selectedSph) payload.sph = "-";
+    if (this.selectedKwt) payload.kwt = "-";
+    if (this.selectedForma) payload.form_a = "-";
+    if (this.selectedFaktur) payload.faktur = "-";
     if (this.selectedLimitPrice) payload.base_price = 0;
     // if (this.selectedLimitPrice) payload.base_price = this.selectedLimitPrice;
     // if (this.selectedExamPrice) payload.exam_price = this.selectedExamPrice;
@@ -433,7 +466,8 @@ transmissionOptions: [string, string][] = [
     if (this.selectedVehicType) payload.unit_type = this.selectedVehicType;
     if (this.selectedUcat) payload.unit_category = this.selectedUcat;
     if (this.selectedColor) payload.color = this.selectedColor;
-    if (this.selectedKeur) payload.keur = this.selectedKeur;
+    if (this.selectedKeur) payload.keur = "-";
+    // if (this.selectedKeur) payload.keur = this.selectedKeur;
     if (this.selectedVariant) payload.variant_model = this.selectedVariant;
 
 
@@ -675,6 +709,13 @@ transmissionOptions: [string, string][] = [
     const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
     const fuel = selectedOption.getAttribute('stnk-id');
     this.selectedStnk = fuel;
+    this.savePayloadUnit();
+  }
+
+  onCheckedKeur(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const fuel = selectedOption.getAttribute('tglkeur');
+    this.selectedKeur = fuel;
     this.savePayloadUnit();
   }
 

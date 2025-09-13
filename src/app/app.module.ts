@@ -61,6 +61,9 @@ import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.co
 import { TheBranchModalComponent } from './the-branch-modal/the-branch-modal.component';
 import { DetailTerjadwalComponent } from './detail-terjadwal/detail-terjadwal.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -125,7 +128,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSelectModule,
     MatIconModule,
     NgbModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]
