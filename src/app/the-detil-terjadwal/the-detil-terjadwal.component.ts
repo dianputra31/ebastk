@@ -73,7 +73,7 @@ export class TheDetilTerjadwalComponent implements OnInit {
   selectedAssignmentNumber: string = '';
   selectedBpkbStatus: string = '';
   selectedTransmission: string = '';
-  selectedYear: string = '';
+  // selectedYear: string = '';
   bastk_file: string = '';
   proxy_file: string = '';
   // currentYear = new Date().getFullYear();
@@ -111,7 +111,11 @@ export class TheDetilTerjadwalComponent implements OnInit {
 // maxYearDate: Date = new Date();
 // maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31); // 31 Desember tahun berjalan
 
+selectedYear: number | null = null;
 selectedYearDate: Date | null = null;
+
+years: number[] = [];
+
 maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
 
   choices: [string, string][] = [
@@ -164,13 +168,13 @@ maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
   selectedFaktur: string | null = null;
 
 transmissionOptions: [string, string][] = [
-  ['MT', 'Manual Transmission'],
-  ['AT', 'Automatic Transmission'],
+  ['MT', 'Manual'],
+  ['AT', 'Automatic'],
   // ['CVT', 'CVT'],
   ['EV', 'EV'],
   // ['Matic', 'Matic'],
   // ['Semi Automatic', 'Semi Automatic'],
-  ['Tiptronic', 'Tiptronic']
+  ['Tiptronic', 'Triptronic']
   // ['AMT', 'AMT'],
   // ['Dual Clutch', 'Dual Clutch'],
   // ['Other', 'Other']
@@ -222,11 +226,19 @@ transmissionOptions: [string, string][] = [
 //   this.savePayloadUnit();
 // }
 
+// chosenYearHandler(normalizedYear: Date, datepicker: any) {
+//   this.selectedYearDate = new Date(normalizedYear.getFullYear(), 0, 1);
+//   this.selectedYear = normalizedYear.getFullYear().toString();
+//   datepicker.close();
+//   this.savePayloadUnit();
+// }
+
+
+
 chosenYearHandler(normalizedYear: Date, datepicker: any) {
-  this.selectedYearDate = new Date(normalizedYear.getFullYear(), 0, 1);
-  this.selectedYear = normalizedYear.getFullYear().toString();
-  datepicker.close();
-  this.savePayloadUnit();
+  this.selectedYear = normalizedYear.getFullYear();
+  this.selectedYearDate = new Date(this.selectedYear, 0, 1); // dummy date utk binding
+  datepicker.close(); // tutup setelah pilih tahun
 }
 
 onYearSelected(event: any) {
@@ -371,6 +383,12 @@ onYearSelected(event: any) {
     this.showBranch();
     this.showVehicleType();
     this.showUnitCategory();
+
+      const currentYear = new Date().getFullYear();
+      const startYear = 1980; // batas bawah tahun
+      for (let y = currentYear; y >= startYear; y--) {
+        this.years.push(y);
+      }
   }
 
   
@@ -867,14 +885,14 @@ onNumberInput(event: Event, fieldName: keyof this) {
       }
 
       // Validasi range jika sudah 4 digit
-      if (value.length === 4) {
-        const yearNum = parseInt(value, 10);
-        if (yearNum < 1970) value = '1970';
-        if (yearNum > this.currentYear) value = this.currentYear.toString();
-      }
+      // if (value.length === 4) {
+      //   const yearNum = parseInt(value, 10);
+      //   if (yearNum < 1970) value = '1970';
+      //   if (yearNum > this.currentYear) value = this.currentYear.toString();
+      // }
 
-    this.selectedYear = value;
-    input.value = this.selectedYear;
+    // this.selectedYear = value;
+    // input.value = this.selectedYear;
 
     }
     this.savePayloadUnit();

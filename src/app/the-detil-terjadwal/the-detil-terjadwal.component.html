@@ -150,14 +150,29 @@
 </mat-form-field> -->
 
 <label for="tahun" class="label-with-icon">Tahun
+  <button mat-icon-button class="info-button" (click)="openCopasModal()">
+    <mat-icon>info</mat-icon>
+  </button>
+</label>
+<mat-form-field appearance="outline" class="year-select">
+  <mat-label> </mat-label>
+  <mat-select [(value)]="selectedYear">
+    <mat-option *ngFor="let y of years" [value]="y">
+      {{ y }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+<!-- <label for="tahun" class="label-with-icon">Tahun
                     <button mat-icon-button class="info-button" (click)="openCopasModal()">
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
                     <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)" 
-                      [value]="selectedYear" maxlength="4" (input)="onChangeTextInput($event, 0)" style="font-weight: bold;letter-spacing: 5px;"/>
+                      [value]="selectedYear" maxlength="4" (input)="onChangeTextInput($event, 0)" style="font-weight: bold;letter-spacing: 5px;"/> -->
 
-<!--                       
+                    <!--                       
                     <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)" 
                       [value]="selectedYear" maxlength="4" (input)="onChangeTextInput($event, 0)" style="font-weight: bold;letter-spacing: 5px;"/> -->
 
@@ -174,6 +189,24 @@
                     </button>
                     </label>
                     <input type="text" id="nosin" placeholder="Nosin"   (keyup)="onChangeTextInput($event, 4)"/>
+
+
+                     <label>Transmisi 
+                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
+                        <mat-icon>info</mat-icon>
+                      </button></label>
+                    <select id="transmission-id" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
+                      <option value=""></option>
+                      <option *ngFor="let choice of transmissionOptions" 
+                              [value]="choice[0]" 
+                              [attr.transmission-id]="choice[0]"
+                              [attr.selected]="choice[0] === sampleData?.transmission ? '' : null"
+                              >
+                        {{ choice[1] }}
+                      </option>
+                    </select>
+
+
 
                     <!-- <label for="tglpembuatan">Tax Notice</label>
                     <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan"  (change)="onChangeTextInput($event, 5)"/>
@@ -396,20 +429,6 @@
                       </option>
                     </select>
 
-                    <label>Transmisi 
-                      <button mat-icon-button class="info-button" (click)="openCopasModal()">
-                        <mat-icon>info</mat-icon>
-                      </button></label>
-                    <select id="transmission-id" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
-                      <option value=""></option>
-                      <option *ngFor="let choice of transmissionOptions" 
-                              [value]="choice[0]" 
-                              [attr.transmission-id]="choice[0]"
-                              [attr.selected]="choice[0] === sampleData?.transmission ? '' : null"
-                              >
-                        {{ choice[1] }}
-                      </option>
-                    </select>
 
                     <label for="fuel-id">Bahan Bakar 
                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
@@ -420,6 +439,8 @@
                         {{ option }}
                       </option>
                     </select>
+
+                   
 
                     
                     <!-- <input type="date"  id="tglkeur" class="full-width" placeholder="KEUR"  (change)="onChangeTextInput($event, 11)"/> -->

@@ -336,3 +336,21 @@
 .info-button:hover {
   background-color: #bbdefb; /* warna hover */
 }
+
+
+::ng-deep .year-select .mat-mdc-form-field-infix {
+  min-height: 40px !important;   /* default tinggi input outline */
+  padding: 8px 0 !important;     /* sesuaikan padding */
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .year-select .mat-mdc-select-trigger {
+  height: 30px; /* biar isi dropdown align tengah */
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.70em 0 0.70em 0;
+}
