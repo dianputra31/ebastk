@@ -869,6 +869,8 @@ onNumberInput(event: Event, fieldName: keyof this) {
     }else if(num==13){
        this.selectedExamPrice = inputValue;
     }else if(num==14){
+      // alert(num);
+      // console.log(num);
        this.selectedLicensePlate = inputValue;
     }else if(num==15){
        this.selectedPicPool = inputValue;

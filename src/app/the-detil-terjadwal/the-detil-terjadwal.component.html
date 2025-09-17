@@ -58,13 +58,13 @@
                 </div>
                 <div class="column">
                     <label for="pic">PIC Pengirim</label>
-                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" (keyup)="onChangeTextInput($event, 15)"/>
+                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" (keyup)="onChangeTextInput($event, 15)"  (blur)="onChangeTextInput($event, 15)"/>
                     
                     <!-- <label for="deliveryDate">Tanggal Pengiriman</label>
                     <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;" value="{{tgl_mobilisasi}}" /> -->
 
                     <label for="vendorPhone">No. Telepon</label>
-                    <input id="vendorPhone" type="text" placeholder="No Telp"  (keyup)="onChangeTextInput($event, 16)" style="border:0px;line-height: 10px;" />
+                    <input id="vendorPhone" type="text" placeholder="No Telp"  (keyup)="onChangeTextInput($event, 16)"  (blur)="onChangeTextInput($event, 16)" style="border:0px;line-height: 10px;" />
                 </div>
             </div>
         </mat-expansion-panel>
@@ -118,7 +118,7 @@
                     (selectCopas)="onCopasSelected($event)">
                     </app-the-rawdata-modal>
                     
-                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"   (keyup)="onChangeTextInput($event, 14)" />
+                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"   (keyup)="onChangeTextInput($event, 14)"  (blur)="onChangeTextInput($event, 14)" />
                     
 
                     <label for="unit_location" class="label-with-icon">Lokasi Unit
@@ -126,7 +126,7 @@
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="unit_location" placeholder="Lokasi Unit"  (keyup)="onChangeTextInput($event, 1)" />
+                    <input type="text" id="unit_location" placeholder="Lokasi Unit"  (keyup)="onChangeTextInput($event, 1)"  (blur)="onChangeTextInput($event, 1)" />
 
                     
 
@@ -181,21 +181,21 @@
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"  (blur)="onChangeTextInput($event, 3)"/>
 
                     <label for="nosin" class="label-with-icon">Nosin
                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="nosin" placeholder="Nosin"   (keyup)="onChangeTextInput($event, 4)"/>
+                    <input type="text" id="nosin" placeholder="Nosin"   (keyup)="onChangeTextInput($event, 4)"  (blur)="onChangeTextInput($event, 4)"/>
 
 
                      <label>Transmisi 
                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
                         <mat-icon>info</mat-icon>
                       </button></label>
-                    <select id="transmission-id" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)">
+                    <select id="transmission-id" name="transmission" placeholder="Pilih Transmisi" (change)="onTransmissionChange($event)" >
                       <option value=""></option>
                       <option *ngFor="let choice of transmissionOptions" 
                               [value]="choice[0]" 
@@ -477,6 +477,9 @@
                   /> -->
                     <!-- <input type="number" id="hargaExam" placeholder="Harga Exam" [value]="formatNumber(selectedExamPrice)"  (keyup)="onChangeTextInput($event, 13)" numberFormatter  (input)="onNumberInput($event, 'selectedExamPrice')"/> -->
 
+                    <br/>
+                    <br/>
+                    <br/>
                 </div>
             </div>
         </mat-expansion-panel>

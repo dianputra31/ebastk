@@ -121,11 +121,14 @@ export class DetailTerjadwalComponent implements OnInit {
         if (response) {
           // this.sampleData = response;  
           
+          this.errlog = "";
+          this.isLoading = true;
+          this.isModalErrorOpen = false;
 
           if(this.stepNow==='detil-terjadwal'){
             this.saveStep(1).then(success => {
               if (success) {
-                console.log('here success');
+                // console.log('here success');
                 // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
                 window.location.href = '/tugas';
               }
@@ -153,70 +156,86 @@ export class DetailTerjadwalComponent implements OnInit {
   }
     
 
-  async saveStep(a: number) {
-    const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
-
-    if(a == 1){
-      const unitPayload = localStorage.getItem('mobilizationUnit_' + unit_id);
+async saveStep(a: number) {
+  const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
 
 
+  if (a == 1) {
+    this.isLoading = false;
+    const unitPayload = localStorage.getItem('mobilizationUnit_' + unit_id);
 
-      if (unitPayload) {
-        console.log('unitPayload', unitPayload);
-        const parsedUnitPayload = JSON.parse(unitPayload);
-        this.payload = parsedUnitPayload;
+    if (unitPayload) {
+      const parsedUnitPayload = JSON.parse(unitPayload);
+      this.payload = parsedUnitPayload;
+
+      // 🔧 Reset modal & pesan sebelum validasi
+      this.isModalErrorOpen = false;
+      this.errMessage = "";
+
+      // 🔎 Validasi field wajib (gabungan)
+      const fieldMap: Record<string, string> = {
+        police_number: "No Polisi",
+        variant_model: "Model",
+        unit_type: "Unit",
+        unit_category: "Kategori",
+        color: "Warna"
+      };
+
+      const missingFields: string[] = [];
+
+      for (const key of Object.keys(fieldMap)) {
+        if (
+          this.payload[key] === "" ||
+          this.payload[key] === null ||
+          this.payload[key] === undefined
+        ) {
+          missingFields.push(fieldMap[key]);
+        }
+      }
+
+      if (missingFields.length > 0) {
+        this.errMessage = `${missingFields.join(", ")} harus diisi`;
+        this.isModalErrorOpen = true;
+        return false; // Stop function, jangan lanjut ke try{}
       }
     }
+  }
 
+  this.errlog = "";
+  this.isLoading = true;
+  this.isModalErrorOpen = false;
 
+  try {
+    const endpoint = `/process/`;
+    const response = await this.apiClient.post<any>(endpoint, this.payload);
 
-      console.log("LAST_PAYLOAD:::::",this.payload);
-
-      // this.payload.bastk_status = 'submit';
-      // this.payload = {"unit_id": this.unit_id,"bastk_status": "submit","questions": []}
-    
-
-    
-
-    this.errlog = "";
-    this.isLoading = true;
-    this.isModalErrorOpen = false;
-    try {
-      const page = 1; // Parameter yang ingin dikirim
-      const endpoint = `/process/`; // Menambahkan parameter ke endpoint
-      const response = await this.apiClient.post<any>(endpoint, this.payload);
-
-      // Jika login berhasil, simpan data ke localStorage
-      if (response && response.message === 'Success') {
-        this.isLoading = false;
-        return true;
-      }else{
-        this.isLoading = false;
-        this.errlog = 'Username atau password salah';
-        return false;
-      }
-
-      // return true; // Return true if the operation was successful
-
-    } catch (error) {
-      this.isModalErrorOpen = true;
-      if (axios.isAxiosError(error)) {
-        // Cek status kode dari respons
-        if (error.response && error.response.status === 401) {
-          this.errlog = 'Username atau password salah.';
-        } else {
-          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-        }
+    if (response && response.message === 'Success') {
+      this.isLoading = false;
+      return true;
+    } else {
+      this.isLoading = false;
+      this.errlog = 'Username atau password salah';
+      return false;
+    }
+  } catch (error) {
+    this.isModalErrorOpen = true;
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 401) {
+        this.errlog = 'Username atau password salah.';
       } else {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
-      console.error('Error during login:', error);
-      this.errMessage = String(error);
-      // this.isLoading = false;
+    } else {
+      this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
     }
-    this.isLoading = false;
-    return false; // Default return value
+    console.error('Error during login:', error);
+    this.errMessage = String(error);
   }
+  this.isLoading = false;
+  return false;
+}
+
+
 
 
   backStep(){
