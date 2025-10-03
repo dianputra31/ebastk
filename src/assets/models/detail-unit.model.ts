@@ -50,6 +50,18 @@ export interface Brand {
   export interface Vendor {
     id: number;
     vendor_name: string;
+    vendor_type: string;
+    email: string;
+    phone: string;
+    province: string;
+    city: string;
+    address: string;
+    id_number: string;
+    npwp: string;
+    fee: string;
+    cashback: string;
+    roya: string;
+    tax_included: boolean;
   }
   
   export interface UnitDetailResponse {

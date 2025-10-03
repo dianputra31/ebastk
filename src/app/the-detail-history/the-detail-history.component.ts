@@ -164,16 +164,20 @@ groupByCategory(data: any[]): void {
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
-      console.log('Data posted:', response.vendor.id);
+      // console.log('Data postedsss:', response.vendor.id);
       this.unit_id = unit_id;
 
       // Jika login berhasil, simpan data ke localStorage
-      if (response && response.vendor.id) {
+      if (response) {
         this.sampleData = response;  
         this.showGrouping();
        
-        console.log('Sample Data:', this.sampleData);
-        console.log('Unit Doc:', this.sampleData.unitdocuments);
+          // alert(this.sampleData.display_name);
+        this.infoVendor(this.sampleData.vendor.id);
+        // console.log("VENDOR ID::::",this.sampleData.vendor.id);
+
+        // console.log('Sample Data:', this.sampleData);
+        // console.log('Unit Doc:', this.sampleData.unitdocuments);
         this.unitdocuments = this.sampleData.unitdocuments;
         this.display_name = this.sampleData.display_name;
         // this.bpkbDocuments: UnitDocument[] = this.unitdocuments.filter((document: UnitDocument) => document.file_type === 'BPKB');
@@ -182,7 +186,7 @@ groupByCategory(data: any[]): void {
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
-        console.log('bpkbDocuments:', this.bpkbDocuments);
+        // console.log('bpkbDocuments:', this.bpkbDocuments);
 
         /** NOAH HEADER */
         this.noahService.emitNoah(this.display_name);
@@ -191,14 +195,15 @@ groupByCategory(data: any[]): void {
         this.noahService.emitDoneBy(this.sampleData.mobilization_units[0].mobiliztion.pic);
         this.noahService.emitDoneDate(this.sampleData.mobilization_units[0].mobiliztion.assignment_date);
 
-        // alert(this.sampleData.display_name);
+      
 
         this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
         const tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
         this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
-        console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
-        console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
-        this.infoVendor(response.vendor.id);
+        // console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
+        // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
+        // this.sampleDataVendor = this.sampleData.vendor;
+       
         this.unitimages = this.sampleData.unitimages;
 
         this.mapBagianLuar();

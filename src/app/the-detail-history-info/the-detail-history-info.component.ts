@@ -9,6 +9,7 @@ import { ApiVariantResponse } from 'src/assets/models/list-variant.model';
 import { ApiColorResponse } from 'src/assets/models/list-color.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-the-detail-history-info',
@@ -63,7 +64,7 @@ transmissionOptions: [string, string][] = [
   // ['Other', 'Other']
 ];
 
-  constructor(private apiClient: ApiClientService, private modalService: NgbModal) { }
+  constructor(private apiClient: ApiClientService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
     this.pic = this.sampleData?.mobilization_units[0].mobiliztion.pic;
@@ -251,6 +252,7 @@ transmissionOptions: [string, string][] = [
       this.isLoading = false;
     }
   }
+
 
 
 
