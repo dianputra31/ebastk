@@ -174,6 +174,13 @@ groupByCategory(data: any[]): void {
        
           // alert(this.sampleData.display_name);
         this.infoVendor(this.sampleData.vendor.id);
+
+        this.unitimages = this.sampleData.unitimages;
+        this.mapBagianLuar();
+        this.mapBagianDalam();
+        this.mapBagianMesin();
+        this.mapBagianMinus();
+        // this.mapBagianSistem();
         // console.log("VENDOR ID::::",this.sampleData.vendor.id);
 
         // console.log('Sample Data:', this.sampleData);
@@ -195,6 +202,8 @@ groupByCategory(data: any[]): void {
         this.noahService.emitDoneBy(this.sampleData.mobilization_units[0].mobiliztion.pic);
         this.noahService.emitDoneDate(this.sampleData.mobilization_units[0].mobiliztion.assignment_date);
 
+
+
       
 
         this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
@@ -204,13 +213,9 @@ groupByCategory(data: any[]): void {
         // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
         // this.sampleDataVendor = this.sampleData.vendor;
        
-        this.unitimages = this.sampleData.unitimages;
+        
 
-        this.mapBagianLuar();
-        this.mapBagianDalam();
-        this.mapBagianMesin();
-        this.mapBagianMinus();
-        this.mapBagianSistem();
+
 
 
       }else{
@@ -477,6 +482,7 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
     for (const desc of this.bagianLuarDescriptions) {
       this.bagianLuar[desc] = this.unitimages
         .filter(doc => doc.title === 'Foto Bagian Luar (Exterior)' && doc.descriptions === desc);
+        // console.log('Mapping Bagian Luar for', desc, this.bagianLuar[desc]);
     }
   }
 
@@ -498,7 +504,7 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
     }
   }
 
-  mapBagianMinus(): void {
+  mapBagianMinusOld(): void {
     this.bagianMinus = {};
 
     for (const desc of this.bagianMinusDescriptions) {
@@ -506,6 +512,21 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
         .filter(doc => doc.title === 'Foto Kerusakan/Kekurangan Unit (Minus)' && doc.descriptions === desc);
     }
   }
+
+  mapBagianMinus(): void {
+  // Kumpulkan semua foto minus tanpa batasan descriptions
+  this.bagianMinus = {};
+  const minusImages = this.unitimages
+    .filter(doc => doc.title === 'Foto Kerusakan/Kekurangan Unit (Minus)')
+    .sort((a, b) => {
+      // Ambil angka dari descriptions, default ke 0 jika tidak ada angka
+      const numA = parseInt((a.descriptions || '').replace(/\D/g, ''), 10) || 0;
+      const numB = parseInt((b.descriptions || '').replace(/\D/g, ''), 10) || 0;
+      // console.log('Sorting Minus Images:', a.descriptions, numA, b.descriptions, numB);
+      return numA - numB;
+    });
+  this.bagianMinus['all'] = minusImages;
+}
 
   mapBagianSistem(): void {
     this.bagianSistem = {};

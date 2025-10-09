@@ -39,6 +39,7 @@ currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
 @Input() fromDashboard:any;
 isButtonDisabled: boolean = false;
 isLoading: boolean = false;
+isSwapping: boolean = false;
 username: string = '';
 password: string = '';
 unitimages: UnitImage[] = [];
@@ -138,6 +139,8 @@ uploadProgress = { current: 0, total: 0 };
     'Gesekan Nosin'
   ];
 
+  draggedImage: any = null;
+draggedFromDesc: string = '';
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
   imageUrl: string | null = null;
@@ -180,6 +183,104 @@ uploadProgress = { current: 0, total: 0 };
     }
     return 'Lainnya';
   }
+
+
+
+
+onDragStart(event: DragEvent, img: any, fromDesc: string) {
+  this.draggedImage = img;
+  this.draggedFromDesc = fromDesc;
+  event.dataTransfer?.setData('text/plain', JSON.stringify({ imgId: img.id, fromDesc }));
+}
+
+onDragOver(event: DragEvent) {
+  event.preventDefault();
+}
+
+
+
+async onDrop(event: DragEvent, toDesc: string) {
+  event.preventDefault();
+
+  if (!this.draggedImage || !this.draggedFromDesc || this.draggedFromDesc === toDesc) return;
+
+  // Deteksi kategori asal dan tujuan
+  let fromCategory: Record<string, any[]> | undefined;
+  let toCategory: Record<string, any[]> | undefined;
+
+  if (this.bagianLuarDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianLuar;
+  else if (this.bagianDalamDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianDalam;
+  else if (this.bagianMesinDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianMesin;
+  else if (this.bagianMinusDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianMinus;
+  else if (this.bagianSistemDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianSistem;
+
+  if (this.bagianLuarDescriptions.includes(toDesc)) toCategory = this.bagianLuar;
+  else if (this.bagianDalamDescriptions.includes(toDesc)) toCategory = this.bagianDalam;
+  else if (this.bagianMesinDescriptions.includes(toDesc)) toCategory = this.bagianMesin;
+  else if (this.bagianMinusDescriptions.includes(toDesc)) toCategory = this.bagianMinus;
+  else if (this.bagianSistemDescriptions.includes(toDesc)) toCategory = this.bagianSistem;
+
+  if (!fromCategory || !toCategory) return;
+
+  const fromArr = fromCategory[this.draggedFromDesc];
+  const toArr = toCategory[toDesc];
+
+  if (!fromArr || !toArr) return;
+
+  // Ambil index gambar yang di-drag
+  const idxFrom = fromArr.findIndex(img => img.id === this.draggedImage.id);
+
+  // Ambil gambar pertama di tujuan (jika ada)
+  const swappedImage = toArr.length > 0 ? toArr[0] : null;
+
+  // Proses swap
+  if (idxFrom > -1) {
+    const [movedImg] = fromArr.splice(idxFrom, 1);
+
+    if (swappedImage) {
+      toArr.splice(0, 1);
+      fromArr.push(swappedImage);
+      swappedImage.descriptions = this.draggedFromDesc;
+    }
+
+    toArr.push(movedImg);
+    movedImg.descriptions = toDesc;
+  }
+
+  // Panggil API untuk update posisi kedua gambar (jika swap)
+  try {
+    this.isSwapping = true;
+    const endpoint = `/move-image/`;
+    const payloads = [
+      {
+        from_image_id: this.draggedImage.id,
+        to_image_id: swappedImage ? swappedImage.id : null,
+        from_desc: this.draggedFromDesc,
+        to_desc: toDesc,
+        unit_id: this.unit_id
+      }
+    ];
+    // Jika swap, bisa tambahkan payload kedua (optional, sesuai backend)
+    // if (swappedImage) {
+    //   payloads.push({
+    //     from_image_id: swappedImage.id,
+    //     to_image_id: this.draggedImage.id,
+    //     from_desc: toDesc,
+    //     to_desc: this.draggedFromDesc,
+    //     unit_id: this.unit_id
+    //   });
+    // }
+    await Promise.all(payloads.map(payload => this.apiClient.post<any>(endpoint, payload)));
+    this.isSwapping = false;
+  } catch (error) {
+    console.error('Gagal swap gambar:', error);
+  }
+
+  this.draggedImage = null;
+  this.draggedFromDesc = '';
+}
+
+
 
 async aplotMultipleMinus(event: any) {
   // Hapus semua foto minus lama

@@ -44,25 +44,29 @@
             <h2 class="text-red-600 font-bold text-lg mb-4">Foto Bagian Luar (Exterior)</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8" >
 
-                    <div *ngFor="let desc of bagianLuarDescriptions" class="bagian-luar-block" style="margin-top:10px;">
+                    <div *ngFor="let desc of bagianLuarDescriptions" class="bagian-luar-block" style="margin-top:10px;cursor:grab;"
+                        (dragover)="onDragOver($event)"
+                        (drop)="onDrop($event, desc)">
                         <div style="width:100%;height:30px;" class="labelnya">{{ desc }}</div>
                         <div class="border-2 border-dashed border-blau-400 p-0 flex items-right justify-center blau" style="height: 120px;">
-
                             <!-- Ada gambar -->
                             <div *ngIf="(bagianLuar[desc] || []).length > 0; else kosong">
                                 <div class="img-wrapper" *ngFor="let img of bagianLuar[desc]">
-                                    <div class="gbrFile" style="background-image: url({{mediaUrl}}{{img.image_url}});">
-                                        <img src="./../../assets/icons/delphot.png" style="cursor:pointer;background-color: transparent;border:0px;position:relative;padding-top:0px;padding-left:20em;padding-top:10px;z-index: 999;"  (click)="removeImage(img.id)">
+                                    <div class="gbrFile" style="background-image: url({{mediaUrl}}{{img.image_url}});"
+                                        draggable="true"
+                                        (dragstart)="onDragStart($event, img, desc)">
+                                        <img src="./../../assets/icons/delphot.png"
+                                            style="cursor:pointer;background-color: transparent;border:0px;position:relative;padding-top:0px;padding-left:20em;padding-top:10px;z-index: 999;"
+                                            (click)="removeImage(img.id)">
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Tidak ada gambar -->
                             <ng-template #kosong>
-                                <div  class="border-0 border-dashed p-0 flex items-center justify-center h-full">
+                                <div class="border-0 border-dashed p-0 flex items-center justify-center h-full">
                                     <input type="file" (change)="aplot($event,desc,'Foto Bagian Luar (Exterior)')" accept="image/*" class="hidden" [id]="'fileInputLuar' + sanitize(desc)">
                                     <label [for]="'fileInputLuar' + sanitize(desc)" class="cursor-pointer" style="border:0px;">
-                                    <img src="../../assets/icons/upl-button.svg" alt="Upload" class="w-12 h-12">
+                                        <img src="../../assets/icons/upl-button.svg" alt="Upload" class="w-12 h-12">
                                     </label>
                                 </div>
                             </ng-template>
@@ -75,14 +79,18 @@
             <h2 class="text-red-600 font-bold text-lg mb-4">Foto Bagian Dalam (Interior & Bagasi)</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8" >
 
-                    <div *ngFor="let desc of bagianDalamDescriptions" class="bagian-dalam-block" style="margin-top:10px;">
+                    <div *ngFor="let desc of bagianDalamDescriptions" class="bagian-dalam-block" style="margin-top:10px;cursor:grab;"
+                        (dragover)="onDragOver($event)"
+                        (drop)="onDrop($event, desc)">
                         <div style="width:100%;height:30px;" class="labelnya">{{ desc }}</div>
                         <div class="border-2 border-dashed border-blau-400 p-0 flex items-right justify-center blau" style="height: 120px;">
 
                             <!-- Ada gambar -->
                             <div *ngIf="(bagianDalam[desc] || []).length > 0; else kosongDalam">
                                 <div class="img-wrapper" *ngFor="let img of bagianDalam[desc]">
-                                    <div class="gbrFile" style="background-image: url({{mediaUrl}}{{img.image_url}});">
+                                    <div class="gbrFile" style="background-image: url({{mediaUrl}}{{img.image_url}});"
+                                      draggable="true"
+                                        (dragstart)="onDragStart($event, img, desc)">
                                         <img src="./../../assets/icons/delphot.png" style="cursor:pointer;background-color: transparent;border:0px;position:relative;padding-top:0px;padding-left:20em;padding-top:10px;z-index: 999;"  (click)="removeImage(img.id)">
                                     </div>
                                 </div>
@@ -106,14 +114,18 @@
             <h2 class="text-red-600 font-bold text-lg mb-4">Foto Bagian Mesin</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8" >
 
-                    <div *ngFor="let desc of bagianMesinDescriptions" class="bagian-mesin-block" style="margin-top:10px;">
+                    <div *ngFor="let desc of bagianMesinDescriptions" class="bagian-mesin-block" style="margin-top:10px;cursor:grab;"
+                        (dragover)="onDragOver($event)"
+                        (drop)="onDrop($event, desc)">
                         <div style="width:100%;height:30px;" class="labelnya">{{ desc }}</div>
                         <div class="border-2 border-dashed border-blau-400 p-0 flex items-right justify-center blau" style="height: 120px;">
 
                             <!-- Ada gambar -->
                             <div *ngIf="(bagianMesin[desc] || []).length > 0; else kosongMesin">
                                 <div class="img-wrapper" *ngFor="let img of bagianMesin[desc]">
-                                    <div class="gbrFile" style="background-image: url({{mediaUrl}}{{img.image_url}});">
+                                    <div class="gbrFile" style="background-image: url({{mediaUrl}}{{img.image_url}});"
+                                      draggable="true"
+                                        (dragstart)="onDragStart($event, img, desc)">
                                         <img src="./../../assets/icons/delphot.png" style="cursor:pointer;background-color: transparent;border:0px;position:relative;padding-top:0px;padding-left:20em;padding-top:10px;z-index: 999;"  (click)="removeImage(img.id)">
                                     </div>
                                 </div>
@@ -230,4 +242,9 @@
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">Data sedang dimuat...</div>
+</div>
+
+<div *ngIf="isSwapping" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Foto sedang ditukar...</div>
 </div>
