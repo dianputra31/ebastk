@@ -11,6 +11,7 @@
           <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2)">Under Review</div>  
           <div class="chip" [class.active]="activeChipIndex === 3" (click)="setActiveChip(3)">Revision</div>  
           <div class="chip" [class.active]="activeChipIndex === 4" (click)="setActiveChip(4)">Draft</div> 
+          <div class="chip" (click)="goesToInputUnit()">Input Unit</div> 
           <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
         </div>
         

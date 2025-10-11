@@ -1,0 +1,18 @@
+<div class="header-bottom">
+
+  
+    <div class="row-container">
+        <div class="chip-container">  
+            <div class="chip" [class.active]="activeChipIndex === 1" (click)="setActiveChip(1)">Info Vendor</div>  
+            <div class="chip" [class.active]="activeChipIndex === 2" (click)="setActiveChip(2)">Verifikasi Data</div>  
+            <div class="custom-slider" [ngStyle]="{'transform': 'translateX(' + (activeChipIndex * 60) + 'px)'}"></div> <!-- Garis kustom -->  
+          </div>
+          
+          
+          <div class="filter-container">  
+           
+          </div>
+    </div>
+  
+  
+  </div> 

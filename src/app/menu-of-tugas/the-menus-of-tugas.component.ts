@@ -40,6 +40,10 @@ export class TheMenusOfTugasComponent implements OnInit {
     this.noahService.emitFilterStatus(this.activeChipIndex.toString());
   }  
 
+  goesToInputUnit(){
+    window.location.href = '/unit-input';
+  }
+
 
   async showVehicleType() {
 

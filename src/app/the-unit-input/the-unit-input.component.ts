@@ -17,15 +17,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MobilisasiUnit, UnitDataMobilisasi } from 'src/assets/models/mobilisasi-unit.model';
 import { ApiUnitCategoryResponse } from 'src/assets/models/list-unit-category.model';
 import { NewApiBranchResponse } from 'src/assets/models/list-branch.model';
+import { ApiVendorResponse } from 'src/assets/models/list-vendor.model';
 declare var $: any;
 
 
 @Component({
-  selector: 'app-the-detil-terjadwal',
-  templateUrl: './the-detil-terjadwal.component.html',
-  styleUrls: ['./the-detil-terjadwal.component.scss']
+  selector: 'app-the-unit-input',
+  templateUrl: './the-unit-input.component.html',
+  styleUrls: ['./the-unit-input.component.scss']
 })
-export class TheDetilTerjadwalComponent implements OnInit {
+export class TheUnitInputComponent implements OnInit {
   // isExpanded: boolean = true;
   expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
   @Output() panelChange = new EventEmitter<string>();
@@ -56,6 +57,7 @@ export class TheDetilTerjadwalComponent implements OnInit {
   colors: ApiColorResponse | null = null
   vehicletype: ApiVehicleTypeResponse | null = null
   unitcategory: ApiUnitCategoryResponse | null = null
+  vendors: ApiVendorResponse | null = null
   branches: NewApiBranchResponse | null = null
   selectedExpedition: string = '';
   selectedVariant: string = '';
@@ -63,6 +65,7 @@ export class TheDetilTerjadwalComponent implements OnInit {
   selectedVehicType: string = '';
   selectedBrand: string = '';
   selectedUcat: string = '';
+  selectedVendor: string = '';
   selectedLocation: string = '';
   selectedBranch: string = '';
   selectedOdo: number | null = null;
@@ -90,6 +93,8 @@ export class TheDetilTerjadwalComponent implements OnInit {
   selectedVariantId: string = '';
   selectedBrandName: string = '';
   selectedUcatName: string = '';
+  selectedVendorName: string = '';
+  selectedVendorId: string = '';
   selectedBranchName: string = '';
   selectedBrandId: string = '';
   selectedUcatId: string = '';
@@ -121,9 +126,7 @@ years: number[] = [];
 maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
 
   choices: [string, string][] = [
-  ['Drive', 'Drive'],
-  ['Derek', 'Derek'],
-  ['No', 'No']
+    ['No', 'No']
 ];
 
 
@@ -181,6 +184,7 @@ transmissionOptions: [string, string][] = [
   // ['Dual Clutch', 'Dual Clutch'],
   // ['Other', 'Other']
 ];
+  isVendorModalOpen: boolean = false;
   
 
   @HostListener('window:scroll', [])
@@ -215,6 +219,10 @@ transmissionOptions: [string, string][] = [
 
   openUnitCategory() {
     this.isUcatModalOpen = true;
+  }
+
+  openVendorCategory() {
+    this.isVendorModalOpen = true;
   }
 
   openBranch() {
@@ -277,8 +285,22 @@ onYearSelected(event: any) {
     this.selectedUcatId = brand.id;
     // lakukan logic lain, misal set ke form, dsb
     this.selectedUcat = this.selectedUcatId;
-    this.showVariant(brand.id);
+    // this.showVariant();
     this.savePayloadUnit();
+  }
+
+  onVendorSelected(vendor: any) {
+    this.selectedVendorName = vendor.vendor_name;
+    this.selectedVendorId = vendor.id;
+    this.selectedVendor = this.selectedVendorId;
+    this.selectedVendorName = this.selectedVendorName;
+    // Fetch vendor detail and assign to sampleDataVendor
+    if (this.selectedVendorId) {
+      this.infoVendor(Number(this.selectedVendorId));
+    } else {
+      this.sampleDataVendor = null;
+    }
+    this.vendor_id = Number(this.selectedVendorId);
   }
 
   onBranchSelected(brand: any) {
@@ -380,12 +402,14 @@ onYearSelected(event: any) {
 
     // this.sampleDataUnitMobilisasi = response.unit_data;
 
-    this.infoUnitTerjadwal();
+    // this.infoUnitTerjadwal();
     // this.infoUnit();
     this.showColor();
     this.showBranch();
     this.showVehicleType();
     this.showUnitCategory();
+    this.showVendor();
+    this.showBrand();
 
       const currentYear = new Date().getFullYear();
       const startYear = 1980; // batas bawah tahun
@@ -434,7 +458,7 @@ onYearSelected(event: any) {
   async savePayloadUnit() {
     // Build payloadUnit only with fields that have values
     const payload: any = {
-      mobilization_unit_id: this.unit_id,
+      mobilization_unit_id: 0,
       vendor: this.vendor_id
       // bastk_status: this.bastk_status
     };
@@ -455,10 +479,10 @@ onYearSelected(event: any) {
     if (this.selectedCc) payload.cc = this.selectedCc;
     if (this.selectedLocation) payload.unit_location = this.selectedLocation;
     if (this.selectedExpedition) payload.expedition = this.selectedExpedition;
-    if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender;
-    if (this.selectedPicSenderPhone) payload.pic_sender_phone = this.selectedPicSenderPhone;
     if (this.selectedPicPool) payload.pic_pool = "";
     if (this.selectedPicPoolPhone) payload.pic_pool_phone = "";
+    if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender;
+    if (this.selectedPicSenderPhone) payload.pic_sender_phone = this.selectedPicSenderPhone;
     if (this.selectedNoka) payload.chassis_number = this.selectedNoka;
     if (this.selectedNosin) payload.engine_number = this.selectedNosin;
     if (this.selectedStnk) payload.stnk_status = this.selectedStnk;
@@ -499,8 +523,7 @@ onYearSelected(event: any) {
 
 
     this.payloadUnit = payload;
-    console.log('Mobilizations:', this.payloadUnit);
-    localStorage.setItem('mobilizationUnit_' + this.unit_id, JSON.stringify(this.payloadUnit));
+    localStorage.setItem('mobilizationUnitNew', JSON.stringify(this.payloadUnit));
   }
 
 
@@ -574,6 +597,37 @@ onYearSelected(event: any) {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
       console.error('Error during login:', error);
+      this.isLoading = false;
+    }
+  }
+
+
+  async showVendor() {
+    const brand_name = {
+      keyword: ''
+    };
+    this.errlog = "";
+    try {
+      const endpoint = `/vendor`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.getOther<ApiVendorResponse>(endpoint);
+      if (response) {
+        this.vendors = response;
+
+      }else{
+        this.errlog = 'Username atau password salah';
+      }
+    } catch (error) {
+      this.isButtonDisabled = false;
+      if (axios.isAxiosError(error)) {
+        // Cek status kode dari respons
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
       this.isLoading = false;
     }
   }
@@ -877,9 +931,10 @@ onNumberInput(event: Event, fieldName: keyof this) {
       // console.log(num);
        this.selectedLicensePlate = inputValue;
     }else if(num==15){
-       this.selectedPicSender = inputValue;
       //  this.selectedPicPool = inputValue;
+       this.selectedPicSender = inputValue;
     }else if(num==16){
+      //  this.selectedPicPoolPhone = inputValue;
        this.selectedPicSenderPhone = inputValue;
     }else{
       // this.selectedYear = inputValue;
@@ -908,132 +963,16 @@ onNumberInput(event: Event, fieldName: keyof this) {
 
 
 
-  async infoUnitTerjadwal() {
-    const unitData = {
-      page: '1'
-    };
-    this.errlog = "";
-    try {
-      const page = 1; // Parameter yang ingin dikirim
-      const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
-      const endpoint = `/info-mobilisasi-unit?mobilization_unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
-      const response = await this.apiClient.get<MobilisasiUnit>(endpoint);
-      this.unit_id = unit_id;
+  onChangeVendor(event : any) {
+    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+    const vendorId = selectedOption.getAttribute('data-id');
+    this.selectedExpedition = vendorId;
+    this.vendor_id = vendorId ? parseInt(vendorId) : null;
+    this.savePayloadUnit();
+    // this.infoVendor(this.vendor_id);
 
-      // Jika login berhasil, simpan data ke localStorage
-      if (response) {
-        this.sampleDataMobilisasi = response;  
-        this.sampleDataUnitMobilisasi = response.unit_data;  
-        console.log('Sample Data Mobilisasi:', this.sampleDataMobilisasi);
-        console.log('Sample Data Unit Mobilisasi:', this.sampleDataUnitMobilisasi);
-        this.infoVendor(response.mobilization.vendor_id);
-        this.vendor_id = response.mobilization.vendor_id;
-
-
-        this.savePayloadUnit();
-
-        let tgl_mobilisasi = '';
-
-        // this.infoVendor(response.vendor.id);
-        this.showBrand();
-
-      }else{
-        console.log('here failed')
-        this.errlog = 'Username atau password salah';
-      }
-
-    } catch (error) {
-      this.isButtonDisabled = false;
-      // this.authService.logout();
-      if (axios.isAxiosError(error)) {
-        // Cek status kode dari respons
-        if (error.response && error.response.status === 401) {
-          this.errlog = 'Username atau password salah.';
-        } else {
-          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-        }
-      } else {
-        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-      }
-      console.error('Error during login:', error);
-      this.isLoading = false;
-    }
-  }
-
-  async infoUnit() {
-  
-    const unitData = {
-      page: '1'
-    };
-    this.errlog = "";
-    try {
-      const page = 1; // Parameter yang ingin dikirim
-      const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
-      const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
-      const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
-      console.log('Data posted:', response.vendor.id);
-      this.unit_id = unit_id;
-
-      // Jika login berhasil, simpan data ke localStorage
-      if (response && response.vendor.id) {
-        this.sampleData = response;  
-        console.log('Sample Data:', this.sampleData);
-        console.log('Unit Doc:', this.sampleData.unitdocuments);
-        this.unitdocuments = this.sampleData.unitdocuments;
-        this.display_name = this.sampleData.display_name;
-        // this.bpkbDocuments: UnitDocument[] = this.unitdocuments.filter((document: UnitDocument) => document.file_type === 'BPKB');
-        this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
-        this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
-        this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
-        this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
-        this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
-        this.modelname = this.sampleData.variant_model.model_name;
-        this.selectedVariantName = this.modelname ;
-        this.selectedBrandName = this.sampleData.brand.brand_name;
-        this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';
-        // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
-        console.log('bpkbDocuments:', this.bpkbDocuments);
-        this.bastk_status = this.sampleData.bastk_status;
-
-        this.savePayloadUnit();
-
-        let tgl_mobilisasi = '';
-        if (this.sampleData.mobilization_units && this.sampleData.mobilization_units.length > 0 && this.sampleData.mobilization_units[0].mobiliztion) {
-          this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
-          tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
-        } else {
-          this.pic = '';
-          const today = new Date();
-          tgl_mobilisasi = today.toISOString().substring(0, 10);
-        }
-        this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
-        // console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
-        // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
-        this.infoVendor(response.vendor.id);
-        this.brandid = this.sampleData.brand.id;
-        this.showBrand();
-
-      }else{
-        console.log('here failed')
-        this.errlog = 'Username atau password salah';
-      }
-
-    } catch (error) {
-      this.isButtonDisabled = false;
-      // this.authService.logout();
-      if (axios.isAxiosError(error)) {
-        // Cek status kode dari respons
-        if (error.response && error.response.status === 401) {
-          this.errlog = 'Username atau password salah.';
-        } else {
-          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-        }
-      } else {
-        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-      }
-      console.error('Error during login:', error);
-      this.isLoading = false;
-    }
+    // Panggil fungsi showVariant dengan brandId yang dipilih
+    // this.showVariant(colorId);
   }
 
   async infoVendor(id: number) {
@@ -1081,49 +1020,6 @@ onNumberInput(event: Event, fieldName: keyof this) {
     this.expandedPanelIndex = index; // Set index panel yang diperluas
   }
 
-  async openGallery(a:string) {
-
-    try{
-      this.infoUnit();
-
-          const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
-          modalRef.componentInstance.carName = this.display_name;
-          modalRef.componentInstance.unitId = this.unit_id;
-          modalRef.componentInstance.tipeDoc = a;
-          if(a=='BPKB'){
-            modalRef.componentInstance.images = this.bpkbDocuments;
-          }else if(a=='STNK'){
-            modalRef.componentInstance.images = this.stnkDocuments;
-          }else if(a=='SURATKUASA'){
-            modalRef.componentInstance.images = this.suratKuasaDocuments;
-          }else if(a=='BASTK'){
-            modalRef.componentInstance.images = this.bastkVendorDocuments;
-          }else{
-            modalRef.componentInstance.images = this.lainnyaDocuments;
-          }
-    }catch (error) {
-        if (axios.isAxiosError(error)) {
-          // Cek status kode dari respons
-          if (error.response && error.response.status === 401) {
-            this.errlog = 'Username atau password salah.';
-          } else {
-            this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-          }
-      } else {
-        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-      }
-      console.error('Error during login:', error);
-    }
-    
-    // modalRef.componentInstance.images = [
-    //   'https://cdn.motor1.com/images/mgl/02EE3/s1/4x3/toyota-fortuner-gr-sport-indonesia.webp',
-    //   'https://cdnmedia.insureka.co.id/images/Toyota_Fortuner_2023.width-800.jpg',
-    //   'https://mediaindonesia.gumlet.io/news/2024/09/06/1725624407_f356aec8fa70ed94c237.jpeg?w=376&dpr=2.6',
-    //   'https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/83/2024/09/11/Toyota-Fortuner-4x4-GR-S-3698456571.jpg',
-    //   'https://imgcdnblog.carvaganza.com/wp-content/uploads/2020/06/Toyota-Fortuner-Facelift-2020-9.jpg',
-    //   'https://imgx.gridoto.com/crop/0x0:0x0/700x465/filters:watermark(file/2017/gridoto/img/watermark.png,5,5,60)/photo/2023/08/01/whatsapp-image-2023-08-01-at-01-20230801013700.jpeg'
-    // ];
-}
 
 
 }

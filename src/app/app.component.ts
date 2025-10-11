@@ -36,7 +36,6 @@ export class AppComponent {
 
 
   onActivePanelChange(panelId:any) {
-    console.log("NJIR WE GOO===>", panelId);
     this.activePanel = panelId;
   }
 
@@ -50,7 +49,7 @@ export class AppComponent {
         this.isMobilisasiRoute = this.currentRoute.startsWith('/mobilisasi');
 
         const detailRoutes = ['/detil-tugas', '/detil-riwayat'];
-        const mainRoutes = ['/dashboard', '/tugas', '/inspection-summary', '/riwayat'];
+        const mainRoutes = ['/dashboard', '/tugas', '/inspection-summary', '/riwayat', '/input-unit'];
         const stepRoutes: { [key: string]: string } = {
           '/inspeksi-unit': 'inspeksi-unit',
           '/exterior-inspection': 'exterior-inspection',
@@ -118,13 +117,12 @@ export class AppComponent {
 
 
   setNoah(noah: any) {
-    alert('Selected noah: ' + noah);
-    console.log('Selected noah:', noah);
+    // console.log('Selected noah:', noah);
     this.noah = noah;
   } 
 
   setFilterStatus(filterstatus: any) {
-    console.log('Selected filterstatus:', filterstatus);
+    // console.log('Selected filterstatus:', filterstatus);
     this.filterStatus = filterstatus;
   }
     
@@ -170,9 +168,9 @@ export class AppComponent {
 
     // Scroll ke panel yang sesuai
     const panel = document.getElementById(panels[menu]);
-    console.log("selected scroll panel:", panels[menu]);
+    // console.log("selected scroll panel:", panels[menu]);
     if (panel) {
-      console.log("selected panel:", menu);
+      // console.log("selected panel:", menu);
       panel.scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -181,11 +179,11 @@ export class AppComponent {
 
   
     onFilterChange(a: string){
-      console.log("HAHAHAHAHA::::::",a);
+      // console.log("HAHAHAHAHA::::::",a);
     }
 
     onFilterHistoryChange(a: string){
-      console.log("HAHAHAHAHA::::::",a);
+      // console.log("HAHAHAHAHA::::::",a);
     }
 
 
@@ -201,7 +199,6 @@ export class AppComponent {
     
     navigateToMainView() {  
       this.isDetailView = false;  
-      console.log("isDetailView==>", this.isDetailView)
     }  
 
 
@@ -222,6 +219,7 @@ export class AppComponent {
       if (this.currentRoute.startsWith('/detil-tugas/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/detil-terjadwal/')) return 'dt-terjadwal';
       if (this.currentRoute.startsWith('/inspeksi-unit/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/unit-input/')) return 'dt-unit-input';
       if (this.currentRoute.startsWith('/exterior-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/interior-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/engine-inspection/')) return 'dt-tugas';
@@ -232,6 +230,7 @@ export class AppComponent {
       '/detil-tugas': 'dt-tugas',
       '/detil-terjadwal': 'dt-terjadwal',
       '/inspeksi-unit': 'dt-tugas',
+      '/unit-input': 'dt-unit-input',
       '/exterior-inspection': 'dt-tugas',
       '/interior-inspection': 'dt-tugas',
       '/engine-inspection': 'dt-tugas',
@@ -250,6 +249,7 @@ export class AppComponent {
     getCurrentRouterView(): string {
       if (this.currentRoute.startsWith('/detil-tugas/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/detil-terjadwal/')) return 'dt-terjadwal';
+      if (this.currentRoute.startsWith('/unit-input/')) return 'dt-unit-input';
       if (this.currentRoute.startsWith('/inspeksi-unit/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/exterior-inspection/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/interior-inspection/')) return 'dt-tugas';
@@ -261,6 +261,7 @@ export class AppComponent {
       const routeMappings: { [key: string]: string } = {
       '/detil-tugas': 'dt-tugas',
       '/inspeksi-unit': 'dt-tugas',
+      '/unit-input': 'dt-unit-input',
       '/exterior-inspection': 'dt-tugas',
       '/interior-inspection': 'dt-tugas',
       '/engine-inspection': 'dt-tugas',

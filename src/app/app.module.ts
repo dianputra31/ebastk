@@ -15,6 +15,7 @@ import { TheAccountComponent } from './the-account/the-account.component';
 import { TheMenusOfDetailContentComponent } from './the-detail-content/the-menus-of-detail-content/the-menus-of-detail-content.component';
 import { TheDetilTugasComponent } from './the-detil-tugas/the-detil-tugas.component';
 import { TheDetilTerjadwalComponent } from './the-detil-terjadwal/the-detil-terjadwal.component';
+import { TheUnitInputComponent } from './the-unit-input/the-unit-input.component';
 import { TheMenuOfDetilTugasComponent } from './menu-of-detil-tugas/the-menu-of-detil-tugas.component'; // Impor FormsModule  
 import { TheMenuOfDetilTerjadwalComponent } from './menu-of-detil-terjadwal/the-menu-of-detil-terjadwal.component'; // Impor FormsModule  
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -30,6 +31,7 @@ import { MenuOfExteriorInspectionComponent } from './menu-of-exterior-inspection
 import { MenuOfInteriorInspectionComponent } from './menu-of-interior-inspection/menu-of-interior-inspection.component';
 import { MenuOfEngineInspectionComponent } from './menu-of-engine-inspection/menu-of-engine-inspection.component';
 import { MenuOfPhotosInspectionComponent } from './menu-of-photos-inspection/menu-of-photos-inspection.component';
+import { TheMenuOfUnitInputComponent } from './menu-of-unit-input/the-menu-of-unit-input.component';
 import { TheMenusOfTugasComponent } from './menu-of-tugas/the-menus-of-tugas.component';
 import { TheModalComponent } from './the-modal/the-modal.component';
 import { InspectionSummaryComponent } from './inspection-summary/inspection-summary.component';
@@ -56,10 +58,12 @@ import { TheModalRevisionComponent } from './the-modal-revision/the-modal-revisi
 import { TheTipeModalComponent } from './the-tipe-modal/the-tipe-modal.component';
 import { TheBrandModalComponent } from './the-brand-modal/the-brand-modal.component';
 import { TheUcatModalComponent } from './the-ucat-modal/the-ucat-modal.component';
+import { TheVendorModalComponent } from './the-vendor-modal/the-vendor-modal.component';
 import { TheRawdataModalComponent } from './the-rawdata-modal/the-rawdata-modal.component';
 import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.component';
 import { TheBranchModalComponent } from './the-branch-modal/the-branch-modal.component';
 import { DetailTerjadwalComponent } from './detail-terjadwal/detail-terjadwal.component';
+import { DetailUnitInputComponent } from './detail-unit-input/detail-unit-input.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -115,7 +119,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     TheBranchModalComponent,
     TheUcatModalComponent,
     TheRawdataModalComponent,
-    FrameMobilisasiComponent
+    FrameMobilisasiComponent,
+    TheUnitInputComponent,
+    TheMenuOfUnitInputComponent,
+    DetailUnitInputComponent,
+    TheVendorModalComponent
   ],
   imports: [
     BrowserModule,

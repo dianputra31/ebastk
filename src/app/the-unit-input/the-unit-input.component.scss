@@ -1,0 +1,356 @@
+@media (min-width: 600px) {
+
+    .product-container {  
+        display: flex;  
+        flex-direction: column;  
+        padding: 20px; // Jarak antar produk
+        font-family: 'NunitoSans';
+
+        .label-product{
+            font-family: 'NunitoSans-Bolder';
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 44.8px;
+            text-align: left;
+            text-decoration-skip-ink: none;
+            color: #312E2E;
+        }
+
+        .anakan-label{
+            //styleName: Text 16/Bold;
+            font-family: 'NunitoSans';
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+            text-align: left;
+            text-decoration-skip-ink: none;
+            color: #908B8B;
+            margin-bottom: 30px;
+
+        }
+
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 16px 0;
+        }
+        
+        .column {
+            flex: 1;
+            margin-right: 16px;
+        }
+        
+        .column:last-child {
+            margin-right: 0; /* Menghapus margin kanan untuk kolom terakhir */
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        input {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #D4D2D2;
+            border-radius: 8px;
+            gap: 8px;
+        }
+        
+        textarea {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #D4D2D2;
+            border-radius: 8px;
+            gap: 8px;
+        }
+
+        select {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #D4D2D2;
+            border-radius: 8px;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center; /* Menyelaraskan label dan radio button secara vertikal */
+            margin-bottom: 16px; /* Jarak bawah untuk elemen berikutnya */
+        }
+        
+        .radio-group label {
+            margin-right: 20px; /* Jarak antar radio button */
+        }
+
+        .custom-radio {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 1px solid #971909;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s ease;
+            margin-top:12px;
+        }
+        
+        .custom-radio:checked::after {
+            content: "";
+            width: 16px;
+            height: 16px;
+            background-color: #971909;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    }
+
+
+    .footer-tugas{
+        border-top: solid #d1cfcf 1px;
+        width: 100%;
+        height: 50px;
+        margin-top:30px;
+    }
+
+
+
+    .button-upl-view{
+        width: 90%; background-color: #EAEFFD; position: relative; padding-right: 30px; height: 55px;border-radius: 20px;text-align: left;padding:10px;
+    }
+
+    .button-upl-now{
+        width: 90%; background-color: #F5F5F5; position: relative; padding-right: 30px; height: 55px;border-radius: 20px;text-align: left;padding:10px;
+    }
+
+}
+
+
+@media (max-width: 540px) {
+
+      .dynamic-grid {
+    grid-template-columns: 1fr; /* jadi 1 kolom di layar kecil */
+  }
+
+    .product-container {  
+        display: flex;  
+        flex-direction: column;  
+        padding: 20px; // Jarak antar produk
+        font-family: 'NunitoSans';
+
+        .label-product{
+            font-family: 'NunitoSans-Bolder';
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 24px;
+            text-align: left;
+            text-decoration-skip-ink: none;
+            color: #312E2E;
+        }
+
+        .anakan-label{
+            //styleName: Text 16/Bold;
+            font-family: 'NunitoSans';
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 14px;
+            text-align: left;
+            text-decoration-skip-ink: none;
+            color: #908B8B;
+            margin-bottom: 30px;
+
+        }
+
+
+       
+        
+        
+        .column:last-child {
+            margin-right: 0; /* Menghapus margin kanan untuk kolom terakhir */
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        input {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #D4D2D2;
+            border-radius: 8px;
+            gap: 8px;
+        }
+        
+        textarea {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #D4D2D2;
+            border-radius: 8px;
+            gap: 8px;
+        }
+
+        select {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #D4D2D2;
+            border-radius: 8px;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center; /* Menyelaraskan label dan radio button secara vertikal */
+            margin-bottom: 16px; /* Jarak bawah untuk elemen berikutnya */
+        }
+        
+        .radio-group label {
+            margin-right: 20px; /* Jarak antar radio button */
+        }
+
+        .custom-radio {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 1px solid #971909;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s ease;
+            margin-top:12px;
+        }
+        
+        .custom-radio:checked::after {
+            content: "";
+            width: 16px;
+            height: 16px;
+            background-color: #971909;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    }
+
+
+    .footer-tugas{
+        border-top: solid #d1cfcf 1px;
+        width: 100%;
+        height: 50px;
+        margin-top:30px;
+    }
+
+
+
+    .button-upl-view{
+        width: 90%; background-color: #d4d8e3; position: relative; padding-right: 30px; height: 45px;border-radius: 10px;text-align: left;padding:5px;margin-bottom:5px;
+    }
+
+    .button-upl-now{
+        width: 90%; background-color: #efefef; position: relative; padding-right: 30px; height: 45px;border-radius: 10px;text-align: left;padding:5px;margin-bottom:5px;
+    }
+
+}
+
+
+
+
+.dynamic-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* default: 1 kolom (mobile) */
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.dynamic-item {
+  display: grid;
+  grid-template-columns: 1fr; /* default stack key & value */
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+  align-items: start;
+  transition: background 0.2s ease;
+}
+
+.dynamic-item:nth-child(odd) {
+  background: #fafafa; /* zebra row */
+}
+
+.dynamic-key {
+  font-weight: 600;
+  font-size: 12px;
+  color: #444;
+  text-align: left;   /* mobile: kiri */
+  padding-bottom: 4px;
+  border: none;
+}
+
+.dynamic-value {
+  font-size: 13px;
+  color: #111;
+  word-break: break-word; /* biar nomor panjang nggak kepotong */
+}
+
+/* --- RESPONSIVE UNTUK LAYAR LEBAR --- */
+@media (min-width: 600px) {
+  .dynamic-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dynamic-item {
+    grid-template-columns: 140px auto; /* key fix lebar, value fleksibel */
+    align-items: center;
+  }
+
+  .dynamic-key {
+    text-align: right;
+    padding-right: 10px;
+    border-right: 1px solid #eee;
+    padding-bottom: 0;
+  }
+
+  .dynamic-value {
+    padding-left: 10px;
+  }
+}
+
+
+.info-button {
+  background-color: #e3f2fd; /* biru muda */
+  border-radius: 50%;
+}
+.info-button mat-icon {
+  color: #1976d2; /* icon biru */
+}
+.info-button:hover {
+  background-color: #bbdefb; /* warna hover */
+}
+
+
+::ng-deep .year-select .mat-mdc-form-field-infix {
+  min-height: 40px !important;   /* default tinggi input outline */
+  padding: 8px 0 !important;     /* sesuaikan padding */
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .year-select .mat-mdc-select-trigger {
+  height: 30px; /* biar isi dropdown align tengah */
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.70em 0 0.70em 0;
+}

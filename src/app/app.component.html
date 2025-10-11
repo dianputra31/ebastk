@@ -27,6 +27,11 @@
               <router-outlet  (panelChange)="setActiveChip($event)"  (activePanelChange)="onActivePanelChange($event)"></router-outlet>      
             </div> 
           </ng-container>
+          <ng-container *ngSwitchCase="'dt-unit-input'">
+            <div class="the-maincontent">
+              <router-outlet  (panelChange)="setActiveChip($event)"  (activePanelChange)="onActivePanelChange($event)"></router-outlet>      
+            </div> 
+          </ng-container>
           <ng-container *ngSwitchCase="'dt-riwayat'">
             <div class="the-content">
               <router-outlet  (panelChange)="setActiveChip($event)"></router-outlet>      
@@ -61,6 +66,12 @@
       <ng-container *ngSwitchCase="'dt-terjadwal'">
         <div class="the-detail-footer">      
           <app-detail-terjadwal [stepNow]="watchThisStep"></app-detail-terjadwal>    
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'dt-unit-input'">
+        <div class="the-detail-footer">      
+          <app-detail-unit-input [stepNow]="watchThisStep"></app-detail-unit-input>    
         </div>
       </ng-container>
 

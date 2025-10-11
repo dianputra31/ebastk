@@ -123,6 +123,10 @@ activePanel: string = '';
   isInspectionSummary(): boolean {  
     return this.currentRoute === '/inspection-summary';  
   }  
+
+  isUnitInput(): boolean {  
+    return this.currentRoute === '/unit-input';  
+  }  
   
   isTugas(): boolean {  
     return this.currentRoute === '/tugas';  

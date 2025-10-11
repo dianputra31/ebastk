@@ -6,14 +6,14 @@ import axios from 'axios';
 import { UnitDetailResponse } from 'src/assets/models/detail-unit.model';
 
 @Component({
-  selector: 'app-detail-terjadwal',
-  templateUrl: './detail-terjadwal.component.html',
-  styleUrls: ['./detail-terjadwal.component.scss']
+  selector: 'app-detail-unit-input',
+  templateUrl: './detail-unit-input.component.html',
+  styleUrls: ['./detail-unit-input.component.scss']
 })
-export class DetailTerjadwalComponent implements OnInit {
+export class DetailUnitInputComponent implements OnInit {
   currentRoute: string='';  
   activeTab: string='/dashboard';  
-  @Input() stepNow: string = 'detil-terjadwal'; // Tab aktif default
+  @Input() stepNow: string = 'unit-input'; // Tab aktif default
   labelfooter_top: string = '01.';
   labelfooter_bottom: string = 'Kelengkapan Data';
   isModalOpen: boolean = false;
@@ -38,7 +38,7 @@ export class DetailTerjadwalComponent implements OnInit {
             this.activeTab = this.currentRoute;
             
 
-            if(this.currentRoute.startsWith('/detil-terjadwal')){
+            if(this.currentRoute.startsWith('/unit-input')){
               this.labelfooter_top = ''
               this.labelfooter_bottom = 'Terjadwal'
             }
@@ -93,76 +93,24 @@ export class DetailTerjadwalComponent implements OnInit {
     const unit_id = this.router.url.split('/').pop();
 
 
-    this.infoUnitTerjadwal();
-    
-
-    
-  }
-
-
-
-  async infoUnitTerjadwal() {
-    this.isLoading = true;
-      const unitData = {
-        page: '1'
-      };
-      this.errlog = "";
-      try {
-        const page = 1; // Parameter yang ingin dikirim
-        const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
-        const endpoint = `/info-mobilisasi-unit?mobilization_unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
-        const response = await this.apiClient.get<UnitDetailResponse>(endpoint);
-        // console.log('Data posted:', response.vendor.id);
-        this.unit_id = unit_id;
-        
-
-
-        // Jika login berhasil, simpan data ke localStorage
-        if (response) {
-          // this.sampleData = response;  
-          
-          this.errlog = "";
-          this.isLoading = true;
-          this.isModalErrorOpen = false;
-
-          if(this.stepNow==='detil-terjadwal'){
-            this.saveStep(1).then(success => {
-              if (success) {
-                // console.log('here success');
-                // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-                window.location.href = '/tugas';
-              }
-            });
-          }
-
-        }else{
-          console.log('here failed')
-          this.errlog = 'Username atau password salah';
-        }
-  
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          // Cek status kode dari respons
-          if (error.response && error.response.status === 401) {
-            this.errlog = 'Username atau password salah.';
-          } else {
-            this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-          }
-        } else {
-          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
-        }
-        console.error('Error during login:', error);
+    this.saveStep(1).then(success => {
+      if (success) {
+        window.location.href = '/tugas';
       }
-  }
+    });
     
+    
+    
+  }
+
+
 
 async saveStep(a: number) {
-  const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
 
 
   if (a == 1) {
     this.isLoading = false;
-    const unitPayload = localStorage.getItem('mobilizationUnit_' + unit_id);
+    const unitPayload = localStorage.getItem('mobilizationUnitNew');
 
     if (unitPayload) {
       const parsedUnitPayload = JSON.parse(unitPayload);

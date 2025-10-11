@@ -2,7 +2,7 @@
     <div class="header-top"> 
       
         <div class="logo"> 
-          <ng-container *ngIf="isDashboard() || isRiwayat() || isInspectionSummary(); else tugasHeader">
+          <ng-container *ngIf="isDashboard() || isRiwayat() || isInspectionSummary() || isUnitInput(); else tugasHeader">
             <img src="../../assets/icons/logo-tribik.svg" alt="Logo" (click)="goHome()" style="cursor: pointer;"> 
           </ng-container>
           <ng-template #tugasHeader>
@@ -78,6 +78,10 @@
       
         <ng-container *ngSwitchCase="'/detil-terjadwal'">
           <app-the-menu-of-detil-terjadwal (menuSelected)="onMenuSelected($event)"></app-the-menu-of-detil-terjadwal>
+        </ng-container>
+      
+        <ng-container *ngSwitchCase="'/unit-input'">
+          <app-the-menu-of-unit-input (menuSelected)="onMenuSelected($event)"></app-the-menu-of-unit-input>
         </ng-container>
       
         <ng-container *ngSwitchCase="'/detil-riwayat'">
