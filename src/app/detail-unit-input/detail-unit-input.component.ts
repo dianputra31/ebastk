@@ -95,6 +95,7 @@ export class DetailUnitInputComponent implements OnInit {
 
     this.saveStep(1).then(success => {
       if (success) {
+        localStorage.removeItem('mobilizationUnitNew');
         window.location.href = '/tugas';
       }
     });

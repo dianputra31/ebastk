@@ -345,6 +345,16 @@ async aplotMultiple(event: any) {
     try {
       const endpoint = `/upload-images/`;
       await this.apiClient.postDoc<any>(endpoint, formData);
+      
+      // Tambahan endpoint untuk 'Foto Depan'
+      if (desc === 'Foto Depan') {
+        const formDataThumbnail = new FormData();
+        formDataThumbnail.append('unit_id', this.unit_id); // atau pakai String(this.unit) kalau dynamic
+        formDataThumbnail.append('image', file);
+        const thumbnailEndpoint = `/upload-thumbnail/`;
+        await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
+      }
+      
       this.uploadProgress.current = i + 1;
     } catch (error) {
       console.error('Upload gagal:', error);
@@ -752,7 +762,15 @@ async aplot(event: any, desc: string, lab:string) {
                 const endpoint = `/upload-images/`; // Menambahkan parameter ke endpoint
 
                 // window.location.reload();
-                 const response = await this.apiClient.postDoc<any>(endpoint, formData);
+                const response = await this.apiClient.postDoc<any>(endpoint, formData);
+
+                if (desc === 'Foto Depan') {
+                  const formDataThumbnail = new FormData();
+                  formDataThumbnail.append('unit_id', this.unit_id); // atau pakai String(this.unit) kalau dynamic
+                  formDataThumbnail.append('image', file);
+                  const thumbnailEndpoint = `/upload-thumbnail/`;
+                  await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
+                }
 
                 if (response) {
                   // console.log("HERE WE GO!")

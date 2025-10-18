@@ -66,7 +66,7 @@ export class TheUnitInputComponent implements OnInit {
   selectedBrand: string = '';
   selectedUcat: string = '';
   selectedVendor: string = '';
-  selectedLocation: string = '';
+  selectedLocation: string = localStorage.getItem('branch') || '';
   selectedBranch: string = '';
   selectedOdo: number | null = null;
   selectedCc: number | null = null;
@@ -229,19 +229,7 @@ transmissionOptions: [string, string][] = [
     this.isBranchModalOpen = true;
   }
 
-//   chosenYearHandler(normalizedYear: Date, datepicker: any) {
-//   this.selectedYearDate = new Date(normalizedYear.getFullYear(), 0, 1);
-//   this.selectedYear = normalizedYear.getFullYear().toString();
-//   datepicker.close();
-//   this.savePayloadUnit();
-// }
 
-// chosenYearHandler(normalizedYear: Date, datepicker: any) {
-//   this.selectedYearDate = new Date(normalizedYear.getFullYear(), 0, 1);
-//   this.selectedYear = normalizedYear.getFullYear().toString();
-//   datepicker.close();
-//   this.savePayloadUnit();
-// }
 
 
 
@@ -323,87 +311,8 @@ onYearSelected(event: any) {
   
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
 
-  // ngAfterViewInit(): void {
-  //   // Inisialisasi select2
-  //   $('#tipeSelect2').select2({
-  //     placeholder: 'Pilih Tipe',
-  //     width: 'resolve'
-  //   });
-
-  //   // Handle event select2
-  //   $('#tipeSelect2').on('change', (e: any) => {
-  //     const selectedId = e.target.value;
-  //     this.selectedVariant = selectedId;
-  //     this.savePayloadUnit();
-  //   });
-  // }
-  
   ngOnInit(): void {
-    // const response = {
-    //   unit_data: {
-    //     "NOPOL": "B 1234 XYZ",
-    //     "Nama": "Daihatsu Gran Max",
-    //     "Jenis": "Pick Up",
-    //     "Warna": "Silver",
-    //     "Tahun": "2022",
-    //     "No Rangka": "MHKA1234567890123",
-    //     "No Mesin": "3SZ1234567",
-    //     "PIC": "Dian Setiawan",
-    //     "No Telp PIC": "081234567890",
-    //     "Lokasi": "Autotranz Kelapa Gading",
-    //     "Tanggal Masuk": "2025-09-10",
-    //     "Status": "TERJADWAL",
-    //     "Keterangan": "Unit baru, siap mobilisasi",
-    //     "Vendor": "PT Trans Armada Indonesia",
-    //     "Alamat Vendor": "Gading Kirana Block F10 No.1",
-    //     "Kota Vendor": "Jakarta Utara",
-    //     "Provinsi Vendor": "DKI Jakarta",
-    //     "Kode Pos": "14240",
-    //     "Email Vendor": "vendor@example.com",
-    //     "Nama Sopir": "Samsul Bahri",
-    //     "No Telp Sopir": "082134567891",
-    //     "SIM Sopir": "B1234567XYZ",
-    //     "Jenis SIM": "B1",
-    //     "Tanggal Exp SIM": "2027-01-01",
-    //     "Asuransi": "Allianz",
-    //     "No Polis": "POL123456789",
-    //     "Tanggal Exp Asuransi": "2026-12-31",
-    //     "Jenis Bahan Bakar": "Bensin",
-    //     "Kapasitas Mesin": "1300cc",
-    //     "Transmisi": "Manual",
-    //     "Jumlah Kursi": "2",
-    //     "Panjang Unit": "4200mm",
-    //     "Lebar Unit": "1650mm",
-    //     "Tinggi Unit": "1900mm",
-    //     "Berat Kosong": "1100kg",
-    //     "Daya Angkut": "700kg",
-    //     "Keterangan Tambahan": "Unit dilengkapi dengan AC",
-    //     "Tanggal Service Terakhir": "2025-07-15",
-    //     "Kilometer Sekarang": "15000 km",
-    //     "Kilometer Service Berikut": "20000 km",
-    //     "No GPS": "GPS-998877",
-    //     "IMEI Tracker": "357896045612345",
-    //     "Status GPS": "Aktif",
-    //     "Tanggal Aktivasi GPS": "2024-10-01",
-    //     "Masa Berlaku STNK": "2026-09-10",
-    //     "Masa Berlaku KIR": "2025-12-31",
-    //     "Masa Berlaku Pajak": "2026-09-10",
-    //     "No BPKB": "BPKB1234567890",
-    //     "Nama Pemilik": "PT Autotranz Indonesia",
-    //     "Alamat Pemilik": "Jl. Raya Kelapa Gading No. 123",
-    //     "No Telp Pemilik": "0211234567",
-    //     "Email Pemilik": "owner@example.com",
-    //     "Tanggal Dibeli": "2022-02-01",
-    //     "Harga Beli": "150.000.000",
-    //     "Depresiasi per Tahun": "10%",
-    //     "Nilai Sekarang": "120.000.000"
-    //   }
-    // };
-
-    // this.sampleDataUnitMobilisasi = response.unit_data;
-
-    // this.infoUnitTerjadwal();
-    // this.infoUnit();
+    
     this.showColor();
     this.showBranch();
     this.showVehicleType();
@@ -469,7 +378,7 @@ onYearSelected(event: any) {
     // if (this.selectedBranch) payload.branch = this.selectedBranch;
 
     // if (this.selectedMobilizationUnitId) payload.mobilization_unit_id = this.selectedMobilizationUnitId;
-    if (this.selectedLicensePlate) payload.police_number = this.selectedLicensePlate;
+    if (this.selectedLicensePlate) payload.police_number = this.selectedLicensePlate.toUpperCase();
     if (this.selectedTransmission) payload.transmission = this.selectedTransmission;
     if (this.selectedFuel) payload.fuel = this.selectedFuel;
     if (this.selectedYear) payload.unit_year = this.selectedYear;
@@ -481,10 +390,10 @@ onYearSelected(event: any) {
     if (this.selectedExpedition) payload.expedition = this.selectedExpedition;
     if (this.selectedPicPool) payload.pic_pool = "";
     if (this.selectedPicPoolPhone) payload.pic_pool_phone = "";
-    if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender;
+    if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender.toUpperCase();
     if (this.selectedPicSenderPhone) payload.pic_sender_phone = this.selectedPicSenderPhone;
-    if (this.selectedNoka) payload.chassis_number = this.selectedNoka;
-    if (this.selectedNosin) payload.engine_number = this.selectedNosin;
+    if (this.selectedNoka) payload.chassis_number = this.selectedNoka.toUpperCase();
+    if (this.selectedNosin) payload.engine_number = this.selectedNosin.toUpperCase();
     if (this.selectedStnk) payload.stnk_status = this.selectedStnk;
     // if (this.selectedTaxNoticeDate) payload.tax_notice = this.selectedTaxNoticeDate;
     if (this.selectedTaxNoticeDate) payload.tax_notice = "-";
@@ -521,7 +430,7 @@ onYearSelected(event: any) {
 
 
 
-
+    
     this.payloadUnit = payload;
     localStorage.setItem('mobilizationUnitNew', JSON.stringify(this.payloadUnit));
   }
