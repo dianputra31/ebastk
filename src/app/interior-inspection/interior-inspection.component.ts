@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
 import { InspectionItemResponse } from '../../assets/models/list-inspection.model';
 import { Router } from '@angular/router';
@@ -43,7 +43,7 @@ modalItem: any = null;
 
 @Output() activePanelChange = new EventEmitter<string>();
 
-constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService) { }
+constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.infoUnit();
@@ -100,12 +100,13 @@ constructor(private router: Router,  private apiClient: ApiClientService, privat
   }
 
   async showGroupingExterior() {
-    this.isLoading=true;
     const unitData = {
       page: '1'
     };
     this.errlog = "";
-  
+    
+    this.isLoading = true;
+    
     try {
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/get-detail?unit_id=${unit_id}`; // Endpoint API
@@ -122,7 +123,6 @@ constructor(private router: Router,  private apiClient: ApiClientService, privat
           if (this.interiorForm) {
             this.onSubmit(this.interiorForm);
           }
-          this.isLoading = false;
         }, 0);
   
       } else {
@@ -141,7 +141,9 @@ constructor(private router: Router,  private apiClient: ApiClientService, privat
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
       console.error('Error during fetch:', error);
+    } finally {
       this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -214,7 +216,11 @@ onSubmit(form: any): void {
   for (const subCategory in this.groupedSubItems['Interior']) {
     const items = this.groupedSubItems['Interior'][subCategory];
     items.forEach((item: any) => {
-      let questionObj: any = { bastk_item_id: item.id, kondisi: item.kondisi };
+      let questionObj: any = { 
+        bastk_item_id: item.id, 
+        desc_bastk: item.item_description,
+        kondisi: item.kondisi 
+      };
       let hasAnswer = false;
       item.questions.forEach((question: any) => {
         if (question.answer !== undefined && question.answer !== null) {

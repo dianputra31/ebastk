@@ -186,6 +186,27 @@
                       </option>
                     </select>
 
+                    <label for="tglkeur">Keur</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start; width: 90%;">
+                      <select id="tglkeur" [(ngModel)]="selectedKeur" name="tglkeur" placeholder="KEUR" (change)="onCheckedKeur($event)" style="flex: 1;">
+                        <option *ngFor="let option of adaTidakOptions" [value]="option">
+                          {{ option }}
+                        </option>
+                      </select>
+                      
+                      <input 
+                        *ngIf="selectedKeur === 'Ada'" 
+                        type="date" 
+                        id="tglKeurDate" 
+                        name="tglKeurDate" 
+                        [(ngModel)]="keurDateString"
+                        (change)="onChangeTextInput($event, 11)"
+                        [max]="todayDateString"
+                        required
+                        style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
+                      />
+                    </div>
+
 
 
                     <!-- <label for="tglpembuatan">Tax Notice</label>
@@ -228,7 +249,7 @@
                       </option>
                     </select> -->
 
-
+                    
                      <!-- <label for="bpkb_id" class="label-with-icon">BPKB Number
                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
                       <mat-icon>info</mat-icon>
@@ -466,7 +487,7 @@
         </mat-expansion-panel>
         
 
-        <!-- <mat-expansion-panel [expanded]="true" id="Keterangan Lainnya" >
+        <mat-expansion-panel [expanded]="true" id="Keterangan Lainnya" >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <b>Keterangan Lainnya</b>
@@ -474,9 +495,9 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p><textarea cols="120" rows="10"></textarea></p>
+          <p><textarea cols="120" rows="10" (keyup)="onChangeTextInput($event, 17)"  ></textarea></p>
         </mat-expansion-panel>
-     -->
+    
     
     
     </mat-accordion>

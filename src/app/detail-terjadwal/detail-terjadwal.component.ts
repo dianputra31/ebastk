@@ -131,6 +131,9 @@ export class DetailTerjadwalComponent implements OnInit {
                 // console.log('here success');
                 // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
                 window.location.href = '/tugas';
+              } else {
+                // Error sudah ditangani di saveStep, modal sudah muncul
+                console.log('Save step failed, error modal should be shown');
               }
             });
           }
@@ -141,22 +144,26 @@ export class DetailTerjadwalComponent implements OnInit {
         }
   
       } catch (error) {
+        this.isLoading = false;
+        this.isModalErrorOpen = true;
+        
         if (axios.isAxiosError(error)) {
           // Cek status kode dari respons
           if (error.response && error.response.status === 401) {
-            this.errlog = 'Username atau password salah.';
+            this.errMessage = 'Username atau password salah.';
           } else {
-            this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+            this.errMessage = 'Terjadi kesalahan, silakan coba lagi.';
           }
         } else {
-          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+          this.errMessage = 'Terjadi kesalahan, silakan coba lagi.';
         }
-        console.error('Error during login:', error);
+        console.error('Error during infoUnitTerjadwal:', error);
       }
   }
     
 
 async saveStep(a: number) {
+
   const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
 
 
@@ -209,6 +216,29 @@ async saveStep(a: number) {
     const endpoint = `/process/`;
     const response = await this.apiClient.post<any>(endpoint, this.payload);
 
+    console.log('Response received:', response);
+
+    // Cek apakah ada error message dari API (meskipun status 200/201)
+    if (response && (response.msg || response.message)) {
+      const errorMsg = response.msg || response.message;
+      
+      // Jika message bukan "Success", berarti ada error
+      if (errorMsg !== 'Success') {
+        // Cek apakah ada kata kunci error
+        const errorKeywords = ['belum', 'sudah', 'tidak', 'gagal', 'error', 'null'];
+        const hasError = errorKeywords.some(keyword => 
+          errorMsg.toLowerCase().includes(keyword.toLowerCase())
+        );
+        
+        if (hasError) {
+          this.isLoading = false;
+          this.isModalErrorOpen = true;
+          this.errMessage = errorMsg;
+          return false;
+        }
+      }
+    }
+
     if (response && response.message === 'Success') {
       this.isLoading = false;
       return true;
@@ -219,20 +249,39 @@ async saveStep(a: number) {
     }
   } catch (error) {
     this.isModalErrorOpen = true;
+    this.isLoading = false;
+    
     if (axios.isAxiosError(error)) {
-      if (error.response && error.response.status === 401) {
-        this.errlog = 'Username atau password salah.';
+      if (error.response) {
+        // Ambil pesan error dari response API
+        const errorMsg = error.response.data?.msg || error.response.data?.message;
+        
+        console.log('Error response:', error.response.status, error.response.data);
+        console.log('Error message extracted:', errorMsg);
+        
+        if (error.response.status === 201 && errorMsg) {
+          // Error 201 dengan pesan khusus
+          this.errMessage = errorMsg;
+        } else if (error.response.status === 401) {
+          this.errMessage = 'Username atau password salah.';
+        } else if (errorMsg) {
+          // Error lainnya yang punya pesan dari API
+          this.errMessage = errorMsg;
+        } else {
+          this.errMessage = 'Terjadi kesalahan, silakan coba lagi.';
+        }
       } else {
-        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        this.errMessage = 'Terjadi kesalahan, silakan coba lagi.';
       }
     } else {
-      this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      this.errMessage = 'Terjadi kesalahan, silakan coba lagi.';
     }
-    console.error('Error during login:', error);
-    this.errMessage = String(error);
+    console.error('Error during process:', error);
+    console.log('isModalErrorOpen:', this.isModalErrorOpen);
+    console.log('errMessage:', this.errMessage);
+    return false;
   }
-  this.isLoading = false;
-  return false;
+
 }
 
 

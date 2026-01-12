@@ -1,3 +1,8 @@
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Memuat data inspeksi...</p>
+</div>
+
 <div class="product-container">
     <div class="label-product">{{sampleDataInfo?.display_name}}</div>
     <div class="anakan-label">{{sampleDataInfo?.brand?.brand_name}} &#x25CF; {{sampleDataInfo?.variant_model?.model_name}}</div>
@@ -5,7 +10,7 @@
 
         <mat-accordion multi>
           <form #engineForm="ngForm">
-              <div *ngFor="let subCategory of objectKeys(groupedSubItems['Engine'])" style="padding-left:10px;margin-bottom:30px;">
+              <div *ngFor="let subCategory of groupedSubItems['Engine'] ? objectKeys(groupedSubItems['Engine']) : []" style="padding-left:10px;margin-bottom:30px;">
                   <mat-expansion-panel [expanded]="true"  id="{{subCategory}}"  (mouseenter)="onPanelInView(subCategory)">
                       <mat-expansion-panel-header>
                           <mat-panel-title>

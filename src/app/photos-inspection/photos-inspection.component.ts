@@ -207,18 +207,42 @@ async onDrop(event: DragEvent, toDesc: string) {
   // Deteksi kategori asal dan tujuan
   let fromCategory: Record<string, any[]> | undefined;
   let toCategory: Record<string, any[]> | undefined;
+  let fromTitle: string = '';
+  let toTitle: string = '';
 
-  if (this.bagianLuarDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianLuar;
-  else if (this.bagianDalamDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianDalam;
-  else if (this.bagianMesinDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianMesin;
-  else if (this.bagianMinusDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianMinus;
-  else if (this.bagianSistemDescriptions.includes(this.draggedFromDesc)) fromCategory = this.bagianSistem;
+  if (this.bagianLuarDescriptions.includes(this.draggedFromDesc)) {
+    fromCategory = this.bagianLuar;
+    fromTitle = 'Foto Bagian Luar (Exterior)';
+  } else if (this.bagianDalamDescriptions.includes(this.draggedFromDesc)) {
+    fromCategory = this.bagianDalam;
+    fromTitle = 'Foto Bagian Dalam (Interior & Bagasi)';
+  } else if (this.bagianMesinDescriptions.includes(this.draggedFromDesc)) {
+    fromCategory = this.bagianMesin;
+    fromTitle = 'Foto Bagian Mesin';
+  } else if (this.bagianMinusDescriptions.includes(this.draggedFromDesc)) {
+    fromCategory = this.bagianMinus;
+    fromTitle = 'Foto Kerusakan/Kekurangan Unit (Minus)';
+  } else if (this.bagianSistemDescriptions.includes(this.draggedFromDesc)) {
+    fromCategory = this.bagianSistem;
+    fromTitle = 'Foto Sistem';
+  }
 
-  if (this.bagianLuarDescriptions.includes(toDesc)) toCategory = this.bagianLuar;
-  else if (this.bagianDalamDescriptions.includes(toDesc)) toCategory = this.bagianDalam;
-  else if (this.bagianMesinDescriptions.includes(toDesc)) toCategory = this.bagianMesin;
-  else if (this.bagianMinusDescriptions.includes(toDesc)) toCategory = this.bagianMinus;
-  else if (this.bagianSistemDescriptions.includes(toDesc)) toCategory = this.bagianSistem;
+  if (this.bagianLuarDescriptions.includes(toDesc)) {
+    toCategory = this.bagianLuar;
+    toTitle = 'Foto Bagian Luar (Exterior)';
+  } else if (this.bagianDalamDescriptions.includes(toDesc)) {
+    toCategory = this.bagianDalam;
+    toTitle = 'Foto Bagian Dalam (Interior & Bagasi)';
+  } else if (this.bagianMesinDescriptions.includes(toDesc)) {
+    toCategory = this.bagianMesin;
+    toTitle = 'Foto Bagian Mesin';
+  } else if (this.bagianMinusDescriptions.includes(toDesc)) {
+    toCategory = this.bagianMinus;
+    toTitle = 'Foto Kerusakan/Kekurangan Unit (Minus)';
+  } else if (this.bagianSistemDescriptions.includes(toDesc)) {
+    toCategory = this.bagianSistem;
+    toTitle = 'Foto Sistem';
+  }
 
   if (!fromCategory || !toCategory) return;
 
@@ -257,6 +281,8 @@ async onDrop(event: DragEvent, toDesc: string) {
         to_image_id: swappedImage ? swappedImage.id : null,
         from_desc: this.draggedFromDesc,
         to_desc: toDesc,
+        from_title: fromTitle,
+        to_title: toTitle,
         unit_id: this.unit_id
       }
     ];
@@ -267,6 +293,8 @@ async onDrop(event: DragEvent, toDesc: string) {
     //     to_image_id: this.draggedImage.id,
     //     from_desc: toDesc,
     //     to_desc: this.draggedFromDesc,
+    //     from_title: toTitle,
+    //     to_title: fromTitle,
     //     unit_id: this.unit_id
     //   });
     // }

@@ -17,8 +17,8 @@
           </ng-template>
         </div>
 
-        <div class="profile-dropdown" (click)="toggleDropdown()">  
-          <div class="header-user">  
+        <div class="profile-dropdown" >  
+          <div class="header-user" (click)="toggleDropdown()">  
             <div class="profile-image">  
               <img src="../../assets/icons/profil.svg" alt="Profile">  
             </div>  
@@ -26,8 +26,8 @@
               <span class="user-name">{{HiThere}}</span>  
               <span class="user-details">{{HiLocation}}</span>  
             </div>  
-            <div class="dropdown-icon" (click)="toggleDropdown()">  
-                <img src="../../assets/icons/arrow-down.svg" alt="Dropdown" [ngClass]="{'rotate': isDropdownOpen}" (click)="toggleDropdown()">  
+            <div class="dropdown-icon" >  
+                <img src="../../assets/icons/arrow-down.svg" alt="Dropdown" [ngClass]="{'rotate': isDropdownOpen}">  
               </div>  
           </div>  
           <div class="dropdown-menu" *ngIf="isDropdownOpen">  

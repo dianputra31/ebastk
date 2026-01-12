@@ -117,12 +117,18 @@ export class InspeksiUnitComponent implements OnInit {
       if (Array.isArray(response)) {
         this.sampleData = response;
   
-        // Kelompokkan berdasarkan item_category
-        // this.groupedItems = this.groupItemsByCategory(this.sampleData);
-        this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
-        this.subCategory = this.groupCategoriesAndSubCategories(this.sampleData);
-        localStorage.setItem('subCategory', JSON.stringify(this.subCategory));
-
+        // Cek jika array kosong
+        if (this.sampleData.length === 0) {
+          console.log('Response is empty array');
+          this.groupedSubItems = {};
+          this.subCategory = {};
+        } else {
+          // Kelompokkan berdasarkan item_category
+          // this.groupedItems = this.groupItemsByCategory(this.sampleData);
+          this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
+          this.subCategory = this.groupCategoriesAndSubCategories(this.sampleData);
+          localStorage.setItem('subCategory', JSON.stringify(this.subCategory));
+        }
   
         console.log('Grouped Items:', this.groupedItems);
       } else {

@@ -808,6 +808,12 @@ onYearSelected(event: any) {
     return new Intl.NumberFormat('id-ID').format(value);
   }
 
+  formatDecimal(value: any): string {
+    if (value === null || value === undefined || value === '') return '';
+    const numValue = parseFloat(value.toString());
+    return numValue.toFixed(1);
+  }
+
   onNumberInputOld(event: any) {
     const rawValue = event.target.value.replace(/\D/g, ''); // hapus semua non-digit
     this.selectedOdo = rawValue ? parseInt(rawValue, 10) : null;
@@ -841,6 +847,39 @@ onNumberInput(event: Event, fieldName: keyof this) {
     input.setSelectionRange(newCursorPos, newCursorPos);
   });
 
+  this.savePayloadUnit();
+}
+
+onDecimalInput(event: Event, fieldName: keyof this) {
+  const input = event.target as HTMLInputElement;
+  
+  // Ambil hanya angka
+  let rawValue = input.value.replace(/[^0-9]/g, '');
+  
+  // Batasi maksimal 2 digit
+  if (rawValue.length > 2) {
+    rawValue = rawValue.substring(0, 2);
+  }
+  
+  // Format otomatis jadi X.X jika sudah 2 digit
+  let displayValue = '';
+  if (rawValue.length === 0) {
+    displayValue = '';
+  } else if (rawValue.length === 1) {
+    displayValue = rawValue;
+  } else if (rawValue.length === 2) {
+    // Format jadi X.X
+    displayValue = rawValue[0] + '.' + rawValue[1];
+  }
+  
+  const numericValue = displayValue ? parseFloat(displayValue) : null;
+  
+  // Simpan ke property
+  (this as any)[fieldName] = numericValue;
+  
+  // Update input value
+  input.value = displayValue;
+  
   this.savePayloadUnit();
 }
 
@@ -998,16 +1037,16 @@ onNumberInput(event: Event, fieldName: keyof this) {
         this.savePayloadUnit();
 
         let tgl_mobilisasi = '';
-        if (this.sampleData.mobilization_units && this.sampleData.mobilization_units.length > 0 && this.sampleData.mobilization_units[0].mobiliztion) {
-          this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
-          tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
+        if (this.sampleData.mobilization_unit && this.sampleData.mobilization_unit.length > 0 && this.sampleData.mobilization_unit[0].mobilization) {
+          this.pic = this.sampleData.mobilization_unit[0].mobilization.pic;
+          tgl_mobilisasi = this.sampleData.mobilization_unit[0].mobilization.assignment_date;
         } else {
           this.pic = '';
           const today = new Date();
           tgl_mobilisasi = today.toISOString().substring(0, 10);
         }
         this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
-        // console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
+        // console.log('mobilization:', this.sampleData.mobilization_units[0].mobilization.first_published_at);
         // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
         this.infoVendor(response.vendor.id);
         this.brandid = this.sampleData.brand.id;

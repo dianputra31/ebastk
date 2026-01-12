@@ -1,27 +1,36 @@
 
 <div class="grid-container">
 
-  <div *ngFor="let item of sortedGroupedSubItems" style="flex-direction: row;">
-    <div class="grid-item {{item.item_category_chipclass}}" >
-      <div class="text">
-        <h3 class="labelinspeksi">{{ item.item_category_chiplabel }}. <br/>{{ item.item_category_chipname }}</h3>
-        <ng-container *ngIf="item.item_category_chipclass==='notyet';else showbaten">
-          <div class="status rungrampung">Complete previous task to start</div>
-        </ng-container>
-        <ng-template #showbaten>
-          <div class="status">
-            <button class="item-button {{item.item_category_buttonclass}}" 
-            (click)="GoesToInspection(item.item_category_url)"
-            >{{item.item_category_buttonlabel}}</button>
+  <ng-container *ngIf="!isLoading">
+    <ng-container *ngIf="sortedGroupedSubItems.length > 0; else emptyState">
+      <div *ngFor="let item of sortedGroupedSubItems" style="flex-direction: row;">
+        <div class="grid-item {{item.item_category_chipclass}}" >
+          <div class="text">
+            <h3 class="labelinspeksi">{{ item.item_category_chiplabel }}. <br/>{{ item.item_category_chipname }}</h3>
+            <ng-container *ngIf="item.item_category_chipclass==='notyet';else showbaten">
+              <div class="status rungrampung">Complete previous task to start</div>
+            </ng-container>
+            <ng-template #showbaten>
+              <div class="status">
+                <button class="item-button {{item.item_category_buttonclass}}" 
+                (click)="GoesToInspection(item.item_category_url)"
+                >{{item.item_category_buttonlabel}}</button>
+              </div>
+            </ng-template>
           </div>
-        </ng-template>
+          <img [src]="item.item_category_icon" alt="Icon">
+        </div>
       </div>
-      <img [src]="item.item_category_icon" alt="Icon">
-    </div>
-  </div>
+    </ng-container>
 
-
-  
+    <ng-template #emptyState>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 60px 20px; text-align: center;">
+        <img src="assets/icons/empty-box-icon.png" alt="Empty" style="width: 120px; height: 120px; margin-bottom: 20px; opacity: 0.6;">
+        <p style="font-size: 18px; color: #141414; font-weight: 700;">Belum ada item BASTK di kategori ini</p>
+        <p style="font-size: 18px; color: #666; font-weight: 500; font-size: 16px;">Harap hubungi admin terkait</p>
+      </div>
+    </ng-template>
+  </ng-container>
 
 </div>
 

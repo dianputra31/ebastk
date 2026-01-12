@@ -198,16 +198,16 @@ groupByCategory(data: any[]): void {
         /** NOAH HEADER */
         this.noahService.emitNoah(this.display_name);
         this.noahService.emitNoahLoc(this.sampleData.unit_location);
-        this.noahService.emitNoahDate(this.sampleData.mobilization_units[0].mobiliztion.assignment_date);
-        this.noahService.emitDoneBy(this.sampleData.mobilization_units[0].mobiliztion.pic);
-        this.noahService.emitDoneDate(this.sampleData.mobilization_units[0].mobiliztion.assignment_date);
+        this.noahService.emitNoahDate(this.sampleData.mobilization_unit[0].mobilization.assignment_date);
+        this.noahService.emitDoneBy(this.sampleData.mobilization_unit[0].mobilization.pic);
+        this.noahService.emitDoneDate(this.sampleData.mobilization_unit[0].mobilization.assignment_date);
 
 
 
       
 
-        this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
-        const tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
+        this.pic = this.sampleData.mobilization_unit[0].mobilization.pic;
+        const tgl_mobilisasi = this.sampleData.mobilization_unit[0].mobilization.assignment_date;
         this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
         // console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
         // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);

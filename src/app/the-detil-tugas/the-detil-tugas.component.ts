@@ -58,6 +58,7 @@ export class TheDetilTugasComponent implements OnInit {
   selectedLocation: string = '';
   selectedOdo: string = '';
   selectedNoka: string = '';
+  selectedNotes: string = '';
   selectedNosin: string = '';
   selectedAssignmentDate: string = '';
   selectedAssignmentNumber: string = '';
@@ -75,12 +76,22 @@ export class TheDetilTugasComponent implements OnInit {
   selectedBrandName: string = '';
   selectedBrandId: string = '';
   bastk_status: string = '';
-
+  notes: string = '';
+  assignment_number: string = '';
+  selectedKeur: string = '';
+  selectedKeurStatus: string = 'Tidak Ada';
+  keurDateString: string = '';
   choices: [string, string][] = [
   ['Drive', 'Drive'],
   ['Derek', 'Derek'],
   ['No', 'No']
 ];
+  todayDateString: string = new Date().toISOString().split('T')[0];
+
+  adaTidakOptions = [
+    'Ada',
+    'Tidak Ada'
+  ];
 
 transmissionOptions: [string, string][] = [
   ['MT', 'Manual Transmission'],
@@ -120,6 +131,25 @@ transmissionOptions: [string, string][] = [
 
   openBrandModal() {
     this.isBrandModalOpen = true;
+  }
+
+  onKeurChange(event : any) {
+    const inputValue = event.target.value;
+    this.keurDateString = inputValue;
+    this.savePayloadUnit();
+  }
+
+  onCheckedKeur(event : any) {
+    // Langsung ambil value dari event
+    this.selectedKeurStatus = event.target.value;
+    
+    // Kosongkan keurDateString jika pilihan "Tidak Ada"
+    if (this.selectedKeurStatus === 'Tidak Ada') {
+      this.keurDateString = '';
+    }
+    
+    this.savePayloadUnit();
+    
   }
 
   onVariantSelected(variant: any) {
@@ -216,20 +246,43 @@ transmissionOptions: [string, string][] = [
       unit_id: this.unit_id,
       bastk_status: this.bastk_status
     };
-    if (this.selectedColor) payload.color_id = this.selectedColor;
+    if (this.selectedColor) payload.color_id = this.selectedColor.toUpperCase();
     if (this.selectedYear) payload.unit_year = this.selectedYear;
-    if (this.selectedExpedition) payload.expedition = this.selectedExpedition;
+    if (this.selectedExpedition) payload.expedition = this.selectedExpedition.toUpperCase();
     if (this.selectedTransmission) payload.transmission = this.selectedTransmission;
     if (this.selectedVehicType) payload.unit_type_id = this.selectedVehicType;
     if (this.selectedBrand) payload.brand_id = this.selectedBrand;
     if (this.selectedVariant) payload.variant_model_id = this.selectedVariant;
     if (this.selectedOdo) payload.odo_meter = this.selectedOdo;
-    if (this.selectedLocation) payload.unit_location = this.selectedLocation;
-    if (this.selectedNoka) payload.chassis_number = this.selectedNoka;
-    if (this.selectedNosin) payload.engine_number = this.selectedNosin;
+    if (this.selectedLocation) payload.unit_location = this.selectedLocation.toUpperCase();
+    if (this.selectedNoka) payload.chassis_number = this.selectedNoka.toUpperCase();
+    if (this.selectedNosin) payload.engine_number = this.selectedNosin.toUpperCase();
     if (this.selectedAssignmentDate) payload.assignment_date = this.selectedAssignmentDate;
-    if (this.selectedAssignmentNumber) payload.assignment_number = this.selectedAssignmentNumber;
-    if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus;
+    if (this.selectedAssignmentNumber) payload.assignment_number = this.selectedAssignmentNumber.toUpperCase();
+    if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus.toUpperCase();
+
+    if (this.selectedKeurStatus === 'Ada') {
+      if (this.keurDateString) {
+        const parts = this.keurDateString.split('-');
+        payload.keur = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
+    } else if (this.selectedKeurStatus === 'Tidak Ada') {
+      payload.keur = 'T/A';
+    }
+
+    if (this.selectedNotes) payload.notes = this.selectedNotes.toUpperCase();
+
+
+        // this.selectedKeur = this.sampleData.keur || 'T/A';
+        // this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
+        
+        // // Convert keur date dari dd-mm-yyyy ke yyyy-mm-dd untuk input date
+        // if (this.selectedKeur && this.selectedKeur !== 'T/A') {
+        //   const parts = this.selectedKeur.split('-');
+        //   if (parts.length === 3) {
+        //     this.keurDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        //   }
+        // }
 
     this.payloadUnit = payload;
     console.log('Payload Unit:', this.payloadUnit);
@@ -422,6 +475,8 @@ transmissionOptions: [string, string][] = [
       this.selectedBpkbStatus = 'TRIBIK';
     }else if(num==8){
       this.selectedBpkbStatus = 'VENDOR';
+    }else if(num==9){
+      this.selectedNotes = inputValue;
     }else{
       this.selectedYear = inputValue;
     }
@@ -439,14 +494,14 @@ transmissionOptions: [string, string][] = [
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
       const endpoint = `/detail-unit?unit_id=${unit_id}`; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
-      console.log('Data posted:', response.vendor.id);
+      // console.log('Data posted:', response.vendor.id);
       this.unit_id = unit_id;
 
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.vendor.id) {
         this.sampleData = response;  
-        console.log('Sample Data:', this.sampleData);
-        console.log('Unit Doc:', this.sampleData.unitdocuments);
+        // console.log('Sample Data:', this.sampleData);
+        // console.log('Unit Doc:', this.sampleData.unitdocuments);
         this.unitdocuments = this.sampleData.unitdocuments;
         this.display_name = this.sampleData.display_name;
         // this.bpkbDocuments: UnitDocument[] = this.unitdocuments.filter((document: UnitDocument) => document.file_type === 'BPKB');
@@ -460,22 +515,41 @@ transmissionOptions: [string, string][] = [
         this.selectedBrandName = this.sampleData.brand.brand_name;
         this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';
         // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
-        console.log('bpkbDocuments:', this.bpkbDocuments);
+        // console.log('bpkbDocuments:', this.bpkbDocuments);
         this.bastk_status = this.sampleData.bastk_status;
+        this.notes = this.sampleData.notes || '';
+        this.selectedKeur = this.sampleData.keur || 'T/A';
+        this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
+
+        this.selectedNotes = this.sampleData.notes || '';
+        
+        // Convert keur date dari dd-mm-yyyy ke yyyy-mm-dd untuk input date
+        if (this.selectedKeur && this.selectedKeur !== 'T/A') {
+          const parts = this.selectedKeur.split('-');
+          if (parts.length === 3) {
+            this.keurDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+          }
+        }
+        
+        // Perbaiki: mobilization_unit bukan mobilization_units
+        if (this.sampleData.mobilization_unit && this.sampleData.mobilization_unit.length > 0 && this.sampleData.mobilization_unit[0].mobilization) {
+          // console.log('assignment_number:', this.sampleData.mobilization_unit[0].mobilization.assignment_number);
+          this.assignment_number = this.sampleData.mobilization_unit[0].mobilization.assignment_number;
+        }
 
         this.savePayloadUnit();
 
         let tgl_mobilisasi = '';
-        if (this.sampleData.mobilization_units && this.sampleData.mobilization_units.length > 0 && this.sampleData.mobilization_units[0].mobiliztion) {
-          this.pic = this.sampleData.mobilization_units[0].mobiliztion.pic;
-          tgl_mobilisasi = this.sampleData.mobilization_units[0].mobiliztion.assignment_date;
+        if (this.sampleData.mobilization_unit && this.sampleData.mobilization_unit.length > 0 && this.sampleData.mobilization_unit[0].mobilization) {
+          this.pic = this.sampleData.mobilization_unit[0].mobilization.pic;
+          tgl_mobilisasi = this.sampleData.mobilization_unit[0].mobilization.assignment_date;
         } else {
           this.pic = '';
           const today = new Date();
           tgl_mobilisasi = today.toISOString().substring(0, 10);
         }
-        this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10);
-        // console.log('mobiliztion:', this.sampleData.mobilization_units[0].mobiliztion.first_published_at);
+        this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10); 
+        // console.log('mobilization:', this.sampleData.mobilization_units[0].mobilization.first_published_at);
         // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
         this.infoVendor(response.vendor.id);
         this.brandid = this.sampleData.brand.id;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
 import { InspectionItemResponse } from '../../assets/models/list-inspection.model';
 import { Router } from '@angular/router';
@@ -43,7 +43,7 @@ modalItem: any = null;
 
 @Output() activePanelChange = new EventEmitter<string>();
 
-constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService) { }
+constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService, private cdr: ChangeDetectorRef) { }
 
 ngOnInit(): void {
   this.infoUnit();
@@ -105,14 +105,14 @@ async showGroupingExterior() {
     page: '1'
   };
   this.errlog = "";
+  
+  this.isLoading = true;
 
   try {
-    this.isLoading = true;
     const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
     const endpoint = `/get-detail?unit_id=${unit_id}`; // Endpoint API
     const response = await this.apiClient.get<InspectionItemResponse>(endpoint);
-    // console.log('Data posted:', response);
-    // this.isLoading = false;
+    
     // Kalau responsenya array
     if (Array.isArray(response)) {
       
@@ -120,9 +120,6 @@ async showGroupingExterior() {
 
       // Kelompokkan berdasarkan item_category
       this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
-      
-
-      console.log('Grouped Items:', this.groupedItems);
 
       setTimeout(() => {
         if (this.engineForm) {
@@ -134,8 +131,6 @@ async showGroupingExterior() {
       console.log('here failed');
       this.errlog = 'Data tidak sesuai format.';
     }
-
-    
 
   } catch (error) {
     this.isButtonDisabled = false;
@@ -149,8 +144,10 @@ async showGroupingExterior() {
       this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
     }
     console.error('Error during fetch:', error);
+  } finally {
+    this.isLoading = false;
+    this.cdr.detectChanges();
   }
-  this.isLoading = false;
 }
 
 
@@ -200,7 +197,11 @@ onSubmit(form: any): void {
   for (const subCategory in this.groupedSubItems['Engine']) {
     const items = this.groupedSubItems['Engine'][subCategory];
     items.forEach((item: any) => {
-      let questionObj: any = { bastk_item_id: item.id, kondisi: item.kondisi };
+      let questionObj: any = { 
+        bastk_item_id: item.id, 
+        desc_bastk: item.item_description,
+        kondisi: item.kondisi 
+      };
       let hasAnswer = false;
       item.questions.forEach((question: any) => {
         if (question.answer !== undefined && question.answer !== null) {

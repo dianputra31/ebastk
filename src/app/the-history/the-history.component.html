@@ -20,8 +20,8 @@
               <span>
                 {{ product.unit_location == null ? 'Tribik' : product.unit_location }} - 
                 <!-- {{ product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy' }} -->
-                {{ product.mobilization_units && product.mobilization_units[0]?.mobiliztion?.assignment_date 
-                  ? (product.mobilization_units[0].mobiliztion.assignment_date | date: 'dd MMMM yyyy') 
+                {{ product.mobilization_units && product.mobilization_units[0]?.mobilization?.assignment_date 
+                  ? (product.mobilization_units[0].mobilization.assignment_date | date: 'dd MMMM yyyy') 
                   : (currentDate | date: 'dd MMMM yyyy') }}
               </span>
             </div>

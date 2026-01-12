@@ -67,7 +67,7 @@ transmissionOptions: [string, string][] = [
   constructor(private apiClient: ApiClientService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
-    this.pic = this.sampleData?.mobilization_units[0].mobiliztion.pic;
+    this.pic = this.sampleData?.mobilization_unit[0].mobilization.pic;
     console.log('this.sampleData?.brand.brand_name:', this.sampleData);
     this.showVehicleType();
     this.showBrand();

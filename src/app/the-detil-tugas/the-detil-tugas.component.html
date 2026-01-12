@@ -132,7 +132,7 @@
 
 
                     <label for="unit_location">Lokasi Unit</label>
-                    <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" (keyup)="onChangeTextInput($event, 1)" />
+                    <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" (keyup)="onChangeTextInput($event, 1)" style="text-transform: uppercase;"/>
 
                     <label for="engineCapacity">Kapasitas Mesin (CC)</label>
                     <input type="text" id="engineCapacity" placeholder="Kapasitas Mesin" value="{{sampleData?.cc}}"  (keyup)="onChangeTextInput($event, 2)" />
@@ -162,6 +162,29 @@
                         {{ choice[1] }}
                       </option>
                     </select>
+
+                    <label for="tglkeur">Keur</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start; width: 90%;">
+                      <select id="tglkeur"  name="tglkeur" placeholder="KEUR" (change)="onCheckedKeur($event)" style="flex: 1;">
+                        <option *ngFor="let option of adaTidakOptions" 
+                                [value]="option"
+                                [attr.selected]="option === selectedKeurStatus ? '' : null">
+                          {{ option }}
+                        </option>
+                      </select>
+                      
+                      <input 
+                        *ngIf="selectedKeurStatus === 'Ada'" 
+                        type="date" 
+                        id="tglKeurDate" 
+                        name="tglKeurDate" 
+                        [(ngModel)]="keurDateString"
+                        (change)="onKeurChange($event)"
+                        [max]="todayDateString"
+                        required
+                        style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
+                      />
+                    </div>
 
                     <label for="color">Nosin</label>
                     <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
@@ -197,11 +220,11 @@
             </div>
             <div class="column">
                 <label for="tglpembuatan">Tanggal Masuk</label>
-                <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_date | date:'yyyy-MM-dd'"  (change)="onChangeTextInput($event, 5)"/>
+                <input type="date"  id="tglpembuatan" class="full-width" placeholder="Tanggal Pembuatan" [value]="sampleData?.mobilization_unit?.[0]?.mobilization?.assignment_date | date:'yyyy-MM-dd'"  (change)="onChangeTextInput($event, 5)"/>
             </div>
             <div class="column">
                 <label for="suratkuasa">No Surat Kuasa Penugasan</label>
-                <input  type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa"  [value]="sampleData?.mobilization_units?.[0]?.mobiliztion?.assignment_number"  (change)="onChangeTextInput($event, 6)"/>
+                <input  type="text" id="suratkuasa" class="full-width" placeholder="No Surat Kuasa"  [value]="assignment_number"  (change)="onChangeTextInput($event, 6)"/>
             </div>
             <div class="column"></div>
           </div>
@@ -289,7 +312,8 @@
               <!-- Informasi Vendor 2 -->
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p><textarea cols="120" rows="10"></textarea></p>
+          <p><textarea id="notes" name="notes" cols="120" rows="10" [(ngModel)]="notes" 
+            (keyup)="onChangeTextInput($event, 9)"  style="text-transform: uppercase;">{{notes}}</textarea></p>
         </mat-expansion-panel>
     
     

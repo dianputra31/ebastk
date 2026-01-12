@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
 import { InspectionItemResponse } from '../../assets/models/list-inspection.model';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { PanelSyncService } from '../../app/panel.service';
   templateUrl: './exterior-inspection.component.html',
   styleUrls: ['./exterior-inspection.component.scss']
 })
-export class ExteriorInspectionComponent implements AfterViewInit {
+export class ExteriorInspectionComponent implements OnInit, AfterViewInit {
 
 isModalOpen: boolean = false;
 @Input() panelName: string = '';
@@ -47,7 +47,7 @@ modalItem: any = null;
 
 
 
-  constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService) { }
+  constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.infoUnit();
@@ -110,7 +110,11 @@ onSubmit(form: any): void {
   for (const subCategory in this.groupedSubItems['Exterior']) {
     const items = this.groupedSubItems['Exterior'][subCategory];
     items.forEach((item: any) => {
-      let questionObj: any = { bastk_item_id: item.id, kondisi: item.kondisi };
+      let questionObj: any = { 
+        bastk_item_id: item.id, 
+        desc_bastk: item.item_description,
+        kondisi: item.kondisi 
+      };
       let hasAnswer = false;
       item.questions.forEach((question: any) => {
         if (question.answer !== undefined && question.answer !== null) {
@@ -247,43 +251,44 @@ focusSelect(itemId: string, idx: number) {
 
 
   async showGroupingExterior() {
+    console.log('🔄 showGroupingExterior START');
     
     const unitData = {
       page: '1'
     };
     this.errlog = "";
   
+    this.isLoading = true;
+    console.log('⏳ Loading set to TRUE');
+    
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     try {
-      this.isLoading = true;
-
-      const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
-      const endpoint = `/get-detail?unit_id=${unit_id}`; // Endpoint API
+      const unit_id = this.router.url.split('/').pop();
+      const endpoint = `/get-detail?unit_id=${unit_id}`;
+      console.log('📡 Calling API:', endpoint);
+      
       const response = await this.apiClient.get<InspectionItemResponse>(endpoint);
-      console.log('Data posted:', response);
+      console.log('✅ API Response received:', response);
   
-      // Kalau responsenya array
       if (Array.isArray(response)) {
         this.sampleData = response;
-  
-        // Kelompokkan berdasarkan item_category
         this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
+        console.log('📊 Data grouped successfully');
 
         setTimeout(() => {
           if (this.exteriorForm) {
             this.onSubmit(this.exteriorForm);
           }
-          this.isLoading = false;
-        }, 0);
-  
+        }, 300);
         
       } else {
-        console.log('here failed');
+        console.log('❌ Response is not an array');
         this.errlog = 'Data tidak sesuai format.';
       }
-
-      // this.isLoading=false;
   
     } catch (error) {
+      console.error('❌ Error in showGroupingExterior:', error);
       this.isButtonDisabled = false;
       if (axios.isAxiosError(error)) {
         if (error.response && error.response.status === 401) {
@@ -294,9 +299,13 @@ focusSelect(itemId: string, idx: number) {
       } else {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
-      console.error('Error during fetch:', error);
+    } finally {
+      console.log('✅ Loading set to FALSE');
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
     
+    console.log('🏁 showGroupingExterior END');
   }
 
 

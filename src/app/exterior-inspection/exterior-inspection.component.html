@@ -1,10 +1,15 @@
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Data sedang dimuat...</div>
+</div>
+
 <div class="product-container">
     <div class="label-product">{{sampleDataInfo?.display_name}}</div>
     <div class="anakan-label">{{sampleDataInfo?.brand?.brand_name}} &#x25CF; {{sampleDataInfo?.variant_model?.model_name}}</div>
 
     <mat-accordion multi>
         <form #exteriorForm="ngForm">
-            <div *ngFor="let subCategory of objectKeys(groupedSubItems['Exterior'])" style="padding-left:10px;margin-bottom:30px;">
+            <div *ngFor="let subCategory of groupedSubItems['Exterior'] ? objectKeys(groupedSubItems['Exterior']) : []" style="padding-left:10px;margin-bottom:30px;">
                 <mat-expansion-panel [expanded]="true"  id="{{subCategory}}"  (mouseenter)="onPanelInView(subCategory)">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -50,12 +55,6 @@
             </div>
         </form>
     </mat-accordion>
-</div>
-
-
-<div *ngIf="isLoading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-  <div class="loading-text">Data sedang dimuat...</div>
 </div>
 
 <div *ngIf="isModalAnswerOpen" class="modal-overlay" (mousedown)="onModalOverlayClick($event)">

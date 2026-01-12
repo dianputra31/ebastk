@@ -21,7 +21,7 @@ export class TheMenuOfUnitInputComponent implements OnInit {
 
   setActiveChip(index: number) {  
     this.activeChipIndex = index; 
-    const menuItems = ['Info Excel','Info Vendor', 'Verifikasi Data'];
+    const menuItems = ['Info Vendor', 'Verifikasi Data', 'Keterangan Lainnya'];
     // const menuItems = ['Info Excel','Info Vendor', 'Info Kendaraan', 'Dokumen dan Kelengkapan Lainnya', 'Keterangan Lainnya'];
     this.menuSelected.emit(menuItems[index]);
   }  

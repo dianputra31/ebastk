@@ -33,7 +33,9 @@
         .profile-dropdown {  
           // Gaya untuk dropdown profil  
           display: flex;  
-          align-items: center;  
+          flex-direction: column;
+          align-items: flex-end;
+          position: relative;  
       
           .profile-name {  
             margin-right: 10px;  
@@ -210,7 +212,7 @@
         }   
         
       
-      
+
 
 
 
@@ -282,19 +284,14 @@
   .dropdown-menu {  
       position: absolute; // Mengatur posisi dropdown  
       background-color: white; // Warna latar belakang dropdown  
-      border-left: 1px solid #ddd; // Border untuk dropdown  
-      border-right: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-      border-top:0px;
-      border-radius: 1px; // Border-radius untuk dropdown  
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Bayangan untuk efek kedalaman  
+      border: 1px solid #ddd; // Border untuk dropdown  
+      border-radius: 8px; // Border-radius untuk dropdown  
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); // Bayangan untuk efek kedalaman  
       z-index: 1000; // Memastikan dropdown berada di atas elemen lain  
-      margin-top: 10px; // Jarak antara dropdown dan elemen di atasnya  
-      right:50px;
-      top:80px;
-      width: 160px;
-      
-      ul {  
+      margin-top: 5px; // Jarak antara dropdown dan elemen di atasnya  
+      right: 0;
+      top: 100%;
+      min-width: 160px;      ul {  
         list-style: none; // Menghilangkan bullet points  
         padding: 0; // Menghilangkan padding  
         margin: 0; // Menghilangkan margin  

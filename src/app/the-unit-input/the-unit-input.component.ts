@@ -103,8 +103,11 @@ export class TheUnitInputComponent implements OnInit {
   selectedBpkbNumber: string = '';
   selectedBpkbName: string = '';
   selectedKeur: string = '';
+  keurDateString: string = '';
+  todayDateString: string = new Date().toISOString().split('T')[0];
   selectedPicPool: string = '';
   selectedPicPoolPhone: string = '';
+  selectedNotes: string = '';
   selectedPicSender: string = '';
   selectedPicSenderPhone: string = '';
   selectedLicensePlate: string = '';
@@ -160,7 +163,7 @@ maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
 
   adaTidakOptions = [
     'Ada',
-    'T/A'
+    'Tidak Ada'
   ];
 
   selectedBpkb: string | null = null;
@@ -192,15 +195,12 @@ transmissionOptions: [string, string][] = [
     const infoVendorPanel = document.getElementById('infoVendorPanel');
     const infoKendaraanPanel = document.getElementById('infoKendaraanPanel');
     const infoLainnyaPanel = document.getElementById('infoLainnyaPanel');
-    const infoDokumenPanel = document.getElementById('infoDokumenPanel');
 
     if (infoKendaraanPanel && this.isElementInViewport(infoKendaraanPanel)) {
       this.panelChange.emit('Info Kendaraan');
     } else if (infoVendorPanel && this.isElementInViewport(infoVendorPanel)) {
       this.panelChange.emit('Info Vendor');
-    } else if (infoDokumenPanel && this.isElementInViewport(infoDokumenPanel)) {
-      this.panelChange.emit('Dokumen dan Kelengkapan Lainnya');
-    } else if (infoLainnyaPanel && this.isElementInViewport(infoLainnyaPanel)) {
+    }else if (infoLainnyaPanel && this.isElementInViewport(infoLainnyaPanel)) {
       this.panelChange.emit('Keterangan Lainnya');
     }
   }
@@ -422,9 +422,16 @@ onYearSelected(event: any) {
     if (this.selectedVehicType) payload.unit_type = this.selectedVehicType;
     if (this.selectedUcat) payload.unit_category = this.selectedUcat;
     if (this.selectedColor) payload.color = this.selectedColor;
-    if (this.selectedKeur) payload.keur = "-";
-    // if (this.selectedKeur) payload.keur = this.selectedKeur;
+    if (this.selectedKeur === 'Ada') {
+      if (this.keurDateString) {
+        const parts = this.keurDateString.split('-');
+        payload.keur = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
+    } else if (this.selectedKeur === 'Tidak Ada') {
+      payload.keur = 'T/A';
+    }
     if (this.selectedVariant) payload.variant_model = this.selectedVariant;
+    if (this.selectedNotes) payload.notes = this.selectedNotes;
 
 
 
@@ -699,9 +706,14 @@ onYearSelected(event: any) {
   }
 
   onCheckedKeur(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
-    const fuel = selectedOption.getAttribute('tglkeur');
-    this.selectedKeur = fuel;
+    // Langsung ambil value dari event atau dari this.selectedKeur yang sudah di-bind ngModel
+    this.selectedKeur = event.target.value || this.selectedKeur;
+    
+    // Kosongkan keurDateString jika pilihan "Tidak Ada"
+    if (this.selectedKeur === 'Tidak Ada') {
+      this.keurDateString = '';
+    }
+    
     this.savePayloadUnit();
   }
 
@@ -830,7 +842,7 @@ onNumberInput(event: Event, fieldName: keyof this) {
     }else if(num==10){
        this.selectedBpkbName = inputValue;
     }else if(num==11){
-       this.selectedKeur = inputValue;
+       this.keurDateString = inputValue;
     }else if(num==12){
        this.selectedLimitPrice = inputValue;
     }else if(num==13){
@@ -845,6 +857,8 @@ onNumberInput(event: Event, fieldName: keyof this) {
     }else if(num==16){
       //  this.selectedPicPoolPhone = inputValue;
        this.selectedPicSenderPhone = inputValue;
+    }else if(num==17){
+      this.selectedNotes = inputValue;
     }else{
       // this.selectedYear = inputValue;
       const input = event.target as HTMLInputElement;

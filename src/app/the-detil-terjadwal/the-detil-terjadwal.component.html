@@ -405,11 +405,10 @@
                     </label>
                     <input
                     type="text"
-                    [value]="formatNumber(selectedCc)"
-                    (input)="onNumberInput($event, 'selectedCc')"
-                    inputmode="numeric"
-                    pattern="[0-9]*"
-                    
+                    [value]="selectedCc"
+                    (input)="onDecimalInput($event, 'selectedCc')"
+                    inputmode="decimal"
+                    placeholder="0.0"
                   />
                     <!-- <input type="number" id="engineCapacity" placeholder="Kapasitas Mesin" [value]="formatNumber(selectedOdo)"  (keyup)="onChangeTextInput($event, 2)" numberFormatter  (input)="onNumberInput($event, 'selectedOdo')"/> -->
 
