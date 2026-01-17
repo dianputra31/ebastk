@@ -253,4 +253,19 @@ onSubmit(form: any): void {
     this.isModalOpen = true; // Membuka modal
   }
 
+  selectAllInCategory(subCategory: string, value: string) {
+    // Ambil semua item dalam subCategory tersebut
+    const items = this.groupedSubItems['Interior'][subCategory];
+    if (items) {
+      items.forEach((item: any) => {
+        item.kondisi = value; // Set semua kondisi ke value yang dipilih
+      });
+      
+      // Panggil onSubmit untuk menyimpan perubahan
+      if (this.interiorForm) {
+        this.onSubmit(this.interiorForm);
+      }
+    }
+  }
+
 }
