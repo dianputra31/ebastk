@@ -5,6 +5,7 @@ import { AuthService } from '../auth.service';
 import { ApiClientService } from '../services/api.client';
 import { NewApiResponse  } from '../../assets/models/list-dashboard.model'; // Sesuaikan dengan path yang benar  
 import axios from 'axios';
+import { NoahService } from '../noah.service';
 
 @Component({
   selector: 'app-the-dashboard',
@@ -20,8 +21,9 @@ export class TheDashboardComponent implements OnInit {
   isButtonDisabled: boolean = false;
   isLoading: boolean = false;
   currentDateTime: string = '';
+  activeChipIndex: number = 0; // Indeks chip yang aktif  
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private noahService: NoahService) { }
 
   ngOnInit(): void {
 
@@ -34,14 +36,29 @@ export class TheDashboardComponent implements OnInit {
     setInterval(() => this.updateDateTime(), 1000);
   }
 
+
+  goesToInputUnit(){
+    window.location.href = '/unit-input';
+  }
+
+  setActiveChip(index: number) {  
+    this.activeChipIndex = index;
+    // Emit filter status first, then navigate
+    this.noahService.emitFilterStatus(this.activeChipIndex.toString());
+    // Small delay to ensure service emission is processed
+    setTimeout(() => {
+      this.router.navigate(['/tugas']);
+    }, 50);
+  } 
+
   updateDateTime() {
-  const now = new Date();
-  const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
-  const dateStr = now.toLocaleDateString('id-ID', options);
-  // Ganti semua titik menjadi titik dua
-  let timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
-  timeStr = timeStr.replace(/\./g, ':');
-  this.currentDateTime = `${dateStr} ${timeStr}`;
+    const now = new Date();
+    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
+    const dateStr = now.toLocaleDateString('id-ID', options);
+    // Ganti semua titik menjadi titik dua
+    let timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
+    timeStr = timeStr.replace(/\./g, ':');
+    this.currentDateTime = `${dateStr} ${timeStr}`;
   }
 
   async listDashboard() {

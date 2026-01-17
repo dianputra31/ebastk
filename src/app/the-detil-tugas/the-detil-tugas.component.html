@@ -84,7 +84,7 @@
                     (selectBrand)="onBrandSelected($event)">
                     </app-the-brand-modal>
 
-                    <label for="tipe">Tipe</label>
+                    <label for="tipe"  style="display: none;">Tipe</label>
                     <!-- {{sampleData?.variant_model?.model_name}}#
                     {{sampleData?.variant_model?.id}} -->
                     <!-- <select id="tipeSelect2" name="tipe" placeholder="Tipe" (change)="onVariantChange($event)">
@@ -97,7 +97,7 @@
                       </option>
                     </select> -->
                     <input type="hidden" id="tipe" name="tipe" >
-                    <button type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
+                    <button  type="button" (click)="openTipeModal()" style="display:none;text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
 
                   <app-the-tipe-modal  
                   *ngIf="isTipeModalOpen"  
@@ -107,8 +107,8 @@
                   </app-the-tipe-modal>
                     
 
-                    <label for="color">Tahun</label>
-                    <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)"/>
+                    <label for="color"  style="display: none;">Tahun</label>
+                    <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)"  style="display: none;"/>
 
                     <label for="color">Noka</label>
                     <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
@@ -131,11 +131,11 @@
                     </select>
 
 
-                    <label for="unit_location">Lokasi Unit</label>
-                    <input type="text" id="unit_location" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" (keyup)="onChangeTextInput($event, 1)" style="text-transform: uppercase;"/>
+                    <label for="unit_location">Status Unit</label>
+                    <input type="text" id="unit_location" placeholder="Status Unit" value="{{sampleData?.unit_location}}" (keyup)="onChangeTextInput($event, 1)" style="text-transform: uppercase;"/>
 
-                    <label for="engineCapacity">Kapasitas Mesin (CC)</label>
-                    <input type="text" id="engineCapacity" placeholder="Kapasitas Mesin" value="{{sampleData?.cc}}"  (keyup)="onChangeTextInput($event, 2)" />
+                    <label for="engineCapacity"  style="display: none;">Kapasitas Mesin (CC)</label>
+                    <input type="text" id="engineCapacity" placeholder="Kapasitas Mesin" value="{{sampleData?.cc}}"  (keyup)="onChangeTextInput($event, 2)"  style="display: none;"/>
                     
                     <label for="engineCapacity">Kilometer (ODO)</label>
                     <input type="text" id="odo_meter" placeholder="Kilometer" value="{{sampleData?.odo_meter}}"   />
@@ -202,10 +202,10 @@
               <!-- Informasi Vendor 2 -->
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="row">
+          <div class="row"  style="display: none;">
             <div class="column">Jenis Surat</div>
           </div>
-          <div class="row">
+          <div class="row"  style="display: none;">
             <div class="column">
                 <div class="radio-group">
                     <label>
@@ -230,7 +230,7 @@
           </div>
 
           <div class="row">
-            <div class="column">
+            <div class="column"  style="display: none;">
               <!-- [disabled]="!bpkbDocuments" -->
               <button 
                 [ngClass]="{'button-upl-view': bpkbDocuments.length > 0, 'button-upl-now': bpkbDocuments.length == 0}" (click)="openGallery('BPKB')"
@@ -280,10 +280,10 @@
             </div>
           </div>
 
-          <div class="row">
+          <div class="row" style="display: none;">
                 <div class="column">Status BPKB</div>
            </div>
-          <div class="row">
+          <div class="row" style="display: none;">
                 <div class="column">
                     <div class="radio-group">
                       <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">

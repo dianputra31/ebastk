@@ -25,6 +25,7 @@
 
 export interface NewApiResponse {
     total_this_month: number;
+    task_draft: number;
     task_avb: number;
     task_finished: number;
     task_percentage: number;

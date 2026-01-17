@@ -3,6 +3,7 @@ import { NoahService } from '../noah.service';
 import { ApiVehicleTypeResponse } from 'src/assets/models/list-vehicle-tipe.model';
 import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-the-menus-of-tugas',
@@ -24,12 +25,20 @@ export class TheMenusOfTugasComponent implements OnInit {
   selectedCategoryName: string = 'Semua Kategori';
   selectedSortName: string = 'Terbaru';
 
-  constructor(private noahService: NoahService, private apiClient: ApiClientService) { }
+  constructor(private noahService: NoahService, private apiClient: ApiClientService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
 
     this.noahService.totaltugas$.subscribe(totaltugas => {
       this.totalTugas = totaltugas;
+    });
+
+    // Subscribe to filter status changes from dashboard or other sources
+    this.noahService.filterstatus$.subscribe(filterstatus => {
+      if (filterstatus !== undefined && filterstatus !== '') {
+        const chipIndex = parseInt(filterstatus, 10);
+        this.activeChipIndex = chipIndex;
+      }
     });
 
     this.showVehicleType();

@@ -1,4 +1,6 @@
 <div *ngIf="isTerjadwal; else listBastk">
+  <div class="task-title" *ngIf="sampleDataTerjadwal?.results && sampleDataTerjadwal.results.length > 0"><b>Tugas Tersedia</b></div>
+
   <div class="product-container" @productCardStagger>
     <div class="product-card" *ngFor="let product of sampleDataTerjadwal?.results"  @productCardAnimation (click)="GoesToDetailTugas(product.id, 'TERJADWAL')">
         <div class="product-image" [ngStyle]="{'background-image': 'url(../../assets/icons/noimages.png)'}">  

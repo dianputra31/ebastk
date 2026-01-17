@@ -33,6 +33,7 @@ password: string = '';
 sampleData: any[] = [];
 groupedItems: { [key: string]: any[] } = {};
 groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
+sortedExteriorKeys: string[] = [];
 objectKeys = Object.keys;
 sampleDataInfo: UnitDetailResponse | null = null;
 payload: any = null;
@@ -102,6 +103,19 @@ onModalOverlayClick(event: MouseEvent) {
 
 onPanelInView(panelId: string) {
   this.panelSync.emitPanel(panelId);
+}
+
+selectAllInCategory(subCategory: string, value: 'Ada' | 'Tidak'): void {
+  if (this.groupedSubItems['Exterior'] && this.groupedSubItems['Exterior'][subCategory]) {
+    this.groupedSubItems['Exterior'][subCategory].forEach((item: any) => {
+      item.kondisi = value;
+    });
+    
+    // Trigger form submission after setting all values
+    if (this.exteriorForm) {
+      this.onSubmit(this.exteriorForm);
+    }
+  }
 }
 
 onSubmit(form: any): void {
@@ -274,6 +288,10 @@ focusSelect(itemId: string, idx: number) {
       if (Array.isArray(response)) {
         this.sampleData = response;
         this.groupedSubItems = this.groupItemsByCategoryAndSubCategory(this.sampleData);
+        // Store sorted keys for Exterior category
+        if (this.groupedSubItems['Exterior']) {
+          this.sortedExteriorKeys = Object.keys(this.groupedSubItems['Exterior']);
+        }
         console.log('📊 Data grouped successfully');
 
         setTimeout(() => {
@@ -328,7 +346,39 @@ focusSelect(itemId: string, idx: number) {
       groups[category][subCategory].push(item);
     });
   
-    return groups;
+    // Define custom order for categories/subcategories (case-insensitive)
+    const categoryOrder = ['dokumen', 'kelengkapan', 'depan', 'kanan', 'belakang', 'kiri', 'atap'];
+    
+    // Sort the groups by custom order
+    const sortedGroups: { [category: string]: { [subCategory: string]: any[] } } = {};
+    
+    // Process each category
+    Object.keys(groups).forEach(category => {
+      const subCategories = groups[category];
+      const sortedSubCategories: { [subCategory: string]: any[] } = {};
+      
+      // First, add subcategories in the defined order (case-insensitive)
+      categoryOrder.forEach(orderSubCategory => {
+        const matchingSubCategory = Object.keys(subCategories).find(
+          subCat => subCat.toLowerCase() === orderSubCategory
+        );
+        if (matchingSubCategory) {
+          sortedSubCategories[matchingSubCategory] = subCategories[matchingSubCategory];
+        }
+      });
+      
+      // Then, add remaining subcategories (not in the defined order)
+      Object.keys(subCategories).forEach(subCategory => {
+        const subCategoryLower = subCategory.toLowerCase();
+        if (!categoryOrder.includes(subCategoryLower)) {
+          sortedSubCategories[subCategory] = subCategories[subCategory];
+        }
+      });
+      
+      sortedGroups[category] = sortedSubCategories;
+    });
+    
+    return sortedGroups;
   }
 
   scrollToPanel(panelName: string) {

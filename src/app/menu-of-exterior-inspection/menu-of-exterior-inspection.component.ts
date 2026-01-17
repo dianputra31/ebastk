@@ -43,6 +43,33 @@ export class MenuOfExteriorInspectionComponent implements OnInit, AfterViewInit 
 
   ngOnInit(): void {
     console.log("availableChip::", this.availableChip);
+    // Sort the Exterior chips according to custom order
+    if (this.availableChip['Exterior']) {
+      this.availableChip['Exterior'] = this.sortChipsByCustomOrder(this.availableChip['Exterior']);
+    }
+  }
+
+  sortChipsByCustomOrder(chips: string[]): string[] {
+    const categoryOrder = ['dokumen', 'kelengkapan', 'depan', 'kanan', 'belakang', 'kiri', 'atap'];
+    
+    const sorted: string[] = [];
+    
+    // First, add chips in the defined order (case-insensitive)
+    categoryOrder.forEach(orderCategory => {
+      const matchingChip = chips.find(chip => chip.toLowerCase() === orderCategory);
+      if (matchingChip) {
+        sorted.push(matchingChip);
+      }
+    });
+    
+    // Then, add remaining chips (not in the defined order)
+    chips.forEach(chip => {
+      if (!categoryOrder.includes(chip.toLowerCase())) {
+        sorted.push(chip);
+      }
+    });
+    
+    return sorted;
   }
 
   scrollActiveChipIntoView() {

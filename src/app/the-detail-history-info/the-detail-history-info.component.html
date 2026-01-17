@@ -57,18 +57,18 @@
                 <p class="font-semibold">{{ sampleData?.police_number }}</p>
             </div>
             <div>
-                <p>Lokasi Unit</p>
+                <p>Status Unit</p>
                 <p class="font-semibold">{{ sampleData?.unit_location }}</p>
             </div>
             <div>
                 <p>Merek</p>
                 <p class="font-semibold">{{ sampleData?.brand?.brand_name }}</p>
             </div>
-            <div>
+            <div style="display: none;">
                 <p>Kapasitas Mesin (cc)</p>
                 <p class="font-semibold">{{ sampleData?.cc ? (sampleData?.cc | number:'1.0-0') : '' }}</p>
             </div>
-            <div>
+            <div style="display: none;">
                 <p>Tipe</p>
                 <p class="font-semibold">{{sampleData?.variant_model?.model_name}}</p>
             </div>
@@ -76,7 +76,7 @@
                 <p>Warna</p>
                 <p class="font-semibold">{{sampleData?.color?.color_name}}</p>
             </div>
-            <div>
+            <div style="display: none;">
                 <p>Tahun</p>
                 <p class="font-semibold">{{sampleData?.unit_year}}</p>
             </div>

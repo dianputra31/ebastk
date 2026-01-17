@@ -55,7 +55,7 @@ transmissionOptions: [string, string][] = [
   ['MT', 'Manual Transmission'],
   ['AT', 'Automatic Transmission'],
   // ['CVT', 'CVT'],
-  ['EV', 'EV'],
+  // ['EV', 'EV'],
   // ['Matic', 'Matic'],
   // ['Semi Automatic', 'Semi Automatic'],
   ['Tiptronic', 'Tiptronic']

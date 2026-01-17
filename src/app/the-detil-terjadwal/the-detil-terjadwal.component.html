@@ -121,12 +121,12 @@
                     <input id="licensePlate" type="text" placeholder="Nomor Polisi"   (keyup)="onChangeTextInput($event, 14)"  (blur)="onChangeTextInput($event, 14)" />
                     
 
-                    <label for="unit_location" class="label-with-icon">Lokasi Unit
+                    <label for="unit_location" class="label-with-icon">Status Unit
                     <button mat-icon-button class="info-button" (click)="openCopasModal()">
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="unit_location" placeholder="Lokasi Unit"  (keyup)="onChangeTextInput($event, 1)"  (blur)="onChangeTextInput($event, 1)" />
+                    <input type="text" id="unit_location" placeholder="Status Unit"  (keyup)="onChangeTextInput($event, 1)"  (blur)="onChangeTextInput($event, 1)" />
 
                     
 
@@ -149,12 +149,12 @@
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 </mat-form-field> -->
 
-<label for="tahun" class="label-with-icon">Tahun
+<label for="tahun" class="label-with-icon" style="display:none;">Tahun
   <button mat-icon-button class="info-button" (click)="openCopasModal()">
     <mat-icon>info</mat-icon>
   </button>
 </label>
-<mat-form-field appearance="outline" class="year-select">
+<mat-form-field appearance="outline" class="year-select" style="display:none;">
   <mat-label> </mat-label>
   <mat-select [(value)]="selectedYear">
     <mat-option *ngFor="let y of years" [value]="y">
@@ -368,13 +368,13 @@
                     (selectBrand)="onBrandSelected($event)">
                     </app-the-brand-modal>
 
-                    <label for="tipe">Tipe
+                    <label for="tipe" style="display:none;">Tipe
                        <button mat-icon-button class="info-button" (click)="openCopasModal()">
                         <mat-icon>info</mat-icon>
                       </button>
                     </label>
                     <input type="hidden" id="tipe" name="tipe" >
-                    <button type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
+                    <button type="button" (click)="openTipeModal()" style="display:none;text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
 
                   <app-the-tipe-modal  
                   *ngIf="isTipeModalOpen"  
@@ -398,7 +398,7 @@
                     
                   />
                     
-                    <label for="engineCapacity">Kapasitas Mesin (CC)
+                    <label for="engineCapacity" style="display:none;">Kapasitas Mesin (CC)
                        <button mat-icon-button class="info-button" (click)="openCopasModal()">
                         <mat-icon>info</mat-icon>
                       </button>
@@ -409,6 +409,7 @@
                     (input)="onDecimalInput($event, 'selectedCc')"
                     inputmode="decimal"
                     placeholder="0.0"
+                    style="display:none;"
                   />
                     <!-- <input type="number" id="engineCapacity" placeholder="Kapasitas Mesin" [value]="formatNumber(selectedOdo)"  (keyup)="onChangeTextInput($event, 2)" numberFormatter  (input)="onNumberInput($event, 'selectedOdo')"/> -->
 

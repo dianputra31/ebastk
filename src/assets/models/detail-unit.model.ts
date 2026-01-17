@@ -26,7 +26,7 @@ export interface Brand {
     status: string;
     notes: string;
     mobiliztion_id: string;
-    mobiliztion: DetailMobilization
+    mobilization: DetailMobilization
   }
 
   export interface DetailMobilization {
@@ -96,12 +96,13 @@ export interface Brand {
     engine_grade: string;
     exterior_grade: string;
     interior_grade: string;
-    mobilization_units: Mobilization[]
+    mobilization_unit: Mobilization[]
     fotoBpkb: string | null;
     fotoBastk: string | null;
     fotoStnk: string | null;
     fotoSuratKuasa: string | null;
     notes: string | null;
+    keur: string | null;
     recommendation_price: string | null;
     bastk_timestamp: string | null;
     appraisal_timestamp: string | null;

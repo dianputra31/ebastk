@@ -23,7 +23,7 @@ export interface Mobilization {
     status: string;
     notes: string;
     mobiliztion_id: string;
-    mobiliztion: DetailMobilization
+    mobilization: DetailMobilization
 }
 
 export interface DetailMobilization {

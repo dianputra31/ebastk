@@ -1,55 +1,77 @@
 <div class="dashboard-container" >
   <div class="left-column">
-      <div class="welcome-label">Selamat datang,</div>
-      <div class="name-label">{{HiThere.toUpperCase()}}</div>
-      <div class="div-label">Div Inventory &#x25CF;{{HiLocation.toLocaleUpperCase()}}
-          <span style="color:#888; margin-left:8px;">{{ currentDateTime }}</span>
+      <div class="welcome-label" style="margin-bottom: 1px; font-size: 14px; line-height: 1.2;">Selamat datang, {{HiThere.toUpperCase()}}</div>
+      <div class="div-label" style="margin-bottom: 4px; font-size: 13px; line-height: 1.2;">Div Inventory &#x25CF;{{HiLocation.toLocaleUpperCase()}}
+          <span style="color:#888; margin-left:6px;">{{ currentDateTime }}</span>
       </div>
 
-      <div class="rate-label">Penilaian Anda</div>
+      <div class="rate-label" style="margin-top: 10px; margin-bottom: 3px; font-size: 13px; line-height: 0.7;">Input Unit</div>
 
-      <div class="score-cards-wrapper">
-          <div class="score-card">
-              <div class="label">Total Tugas Bulan Ini</div>
-              <div class="score">
-                <div class="icon">
-                  <img src="../../assets/icons/dsh1.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+      <div class="score-cards-wrapper" style="margin-bottom: 4px; gap: 2px;">
+          <div class="score-card" routerLink="/unit-input" style="cursor: pointer; padding: 4px 8px; min-height: auto;">
+              <div class="label" style="display: none;"></div>
+              <div class="score" style="justify-content: center; line-height: 1;">
+                <div class="icon" style="margin-right: 4px;">
+                  <img src="../../assets/icons/car_23773.png" alt="Input Unit Icon" style="width: 16px; height: 16px;" />
               </div>
-              <span style="color:#1F41A5">{{sampleDataDashboard?.total_this_month | number}}</span>
+              <span style="color:#1F41A5;font-size:12px;">unit baru</span>
             </div>
           </div>
-          <div class="score-card">
-              <div class="label">Tugas Tersedia</div>
-              <div class="score">
-                <div class="icon">
-                  <img src="../../assets/icons/dsh2.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+      </div>
+
+      <div class="rate-label" style="margin-top: 4px; margin-bottom: 3px; font-size: 13px; line-height: 1.2;">Penilaian Anda</div>
+
+      <div class="score-cards-wrapper" style="gap: 4px;">
+          <div class="score-card" style="padding: 4px 8px; min-height: auto;">
+              <div class="label" style="font-size: 11px margin-bottom: 2px; line-height: 1.1;">Total Tugas Bulan Ini</div>
+              <div class="score" style="align-items: center; line-height: 1;">
+                <div class="icon" style="margin-right: 4px;">
+                  <img src="../../assets/icons/dsh1.svg" alt="Icon" style="width: 16px; height: 16px;" />
               </div>
-              <span style="color:#D5230D">{{sampleDataDashboard?.task_avb | number}}</span>
+              <span style="color:#1F41A5; font-size: 14px; font-weight: 600;">{{sampleDataDashboard?.total_this_month | number}}</span>
+            </div>
+          </div>
+          <div class="score-card" style="padding: 4px 8px; min-height: auto;">
+              <div class="label" style="font-size: 11px margin-bottom: 2px; line-height: 1.1;">Tugas Tersedia</div>
+              <div class="score" style="align-items: center; line-height: 1;">
+                <div class="icon" style="margin-right: 4px;">
+                  <img src="../../assets/icons/dsh2.svg" alt="Icon" style="width: 16px; height: 16px;" />
+              </div>
+              <span style="color:#D5230D; font-size: 14px; font-weight: 600;">{{sampleDataDashboard?.task_avb | number}}</span>
               </div>
           </div>
-          <div class="score-card">
-              <div class="label">Penyelesaian Tugas</div>
-              <div class="score">
-                <div class="icon">
-                  <img src="../../assets/icons/dsh3.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+          <div class="score-card" style="padding: 4px 8px; min-height: auto;">
+              <div class="label" style="font-size: 11px margin-bottom: 2px; line-height: 1.1;">Penyelesaian Tugas</div>
+              <div class="score" style="align-items: center; line-height: 1;">
+                <div class="icon" style="margin-right: 4px;">
+                  <img src="../../assets/icons/dsh3.svg" alt="Icon" style="width: 16px; height: 16px;" />
               </div>
-              <span style="color:#0D824B">{{sampleDataDashboard?.task_finished | number }}</span>
+              <span style="color:#0D824B; font-size: 14px; font-weight: 600;">{{sampleDataDashboard?.task_finished | number }}</span>
               </div>
           </div>
-          <div class="score-card">
-              <div class="label">Persentase Pekerjaan</div>
-              <div class="score">
-                <div class="icon">
-                  <img src="../../assets/icons/dsh4.svg" alt="Icon" /> <!-- Ganti dengan path ikon yang sesuai -->
+          <div class="score-card" style="padding: 4px 8px; min-height: auto;">
+              <div class="label" style="font-size: 11px margin-bottom: 2px; line-height: 1.1;">Persentase Pekerjaan</div>
+              <div class="score" style="align-items: center; line-height: 1;">
+                <div class="icon" style="margin-right: 4px;">
+                  <img src="../../assets/icons/dsh4.svg" alt="Icon" style="width: 16px; height: 16px;" />
               </div>
-              <span style="color:#E18308">{{sampleDataDashboard?.task_percentage | number}}%</span>
+              <span style="color:#E18308; font-size: 14px; font-weight: 600;">{{sampleDataDashboard?.task_percentage | number}}%</span>
+              </div>
+          </div>
+          <div class="score-card" (click)="setActiveChip(4)" style="padding: 4px 8px; min-height: auto; cursor: pointer;">
+              <div class="label" style="font-size: 11px margin-bottom: 2px; line-height: 1.1;">Total Draft</div>
+              <div class="score" style="align-items: center; line-height: 1;">
+                <div class="icon" style="margin-right: 4px;">
+                  <img src="../../assets/icons/draft.svg" alt="Icon" style="width: 16px; height: 16px;" />
+              </div>
+              <span style="font-size: 14px; font-weight: 600;">{{sampleDataDashboard?.task_draft | number}}</span>
               </div>
           </div>
       </div>
   </div>
   
     <div class="right-column">
-      <div class="task-title">Tugas Tersedia</div>
+      
       
       <app-the-tugas [fromDashboard]="true"></app-the-tugas>
       
