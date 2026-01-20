@@ -22,6 +22,7 @@ signaturePad!: SignaturePad;
 errlog:string = '';
 sampleDataVendor: VendorDetailResponse | null = null;
 currentDate: Date = new Date(); // Mendapatkan tanggal dan waktu saat ini
+bastk_timestamp: string | null | undefined;
 
 // Modal properties
 isSignatureModalOpen: boolean = false;
@@ -72,6 +73,7 @@ isButtonDisabled: boolean = false;
         this.bastk_status = this.sampleDataInfo.bastk_status;
         this.pengirimSignature = this.sampleDataInfo.signsender_url;
         this.penerimaSignature = this.sampleDataInfo.signbastk_url;
+        this.bastk_timestamp = this.sampleDataInfo?.bastk_timestamp;
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';

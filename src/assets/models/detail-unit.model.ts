@@ -104,7 +104,7 @@ export interface Brand {
     notes: string | null;
     keur: string | null;
     recommendation_price: string | null;
-    bastk_timestamp: string | null;
+    bastk_timestamp: string;
     appraisal_timestamp: string | null;
     expedition: string | null;
     unit_category_id: number;

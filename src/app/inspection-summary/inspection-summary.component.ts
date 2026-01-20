@@ -33,6 +33,7 @@ uploadError: string = ''; // Pesan error saat upload gagal
 sampleDataInfo: UnitDetailResponse | null = null;
 bastk_status: string = "draft";
 isButtonDisabled: boolean = false;
+bastk_timestamp: string | null | undefined;
 
   constructor(private router:Router,  private apiClient: ApiClientService) { }
 
@@ -68,6 +69,7 @@ isButtonDisabled: boolean = false;
         this.bastk_status = this.sampleDataInfo.bastk_status;
         this.pengirimSignature = this.sampleDataInfo.signsender_url;
         this.penerimaSignature = this.sampleDataInfo.signbastk_url;
+        this.bastk_timestamp = this.sampleDataInfo?.bastk_timestamp;
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';
