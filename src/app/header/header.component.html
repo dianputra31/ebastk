@@ -16,8 +16,8 @@
           </ng-template>
         </div>
 
-        <div class="profile-dropdown" >  
-          <div class="header-user" (click)="toggleDropdown()">  
+        <div class="profile-dropdown">  
+          <div class="header-user" (click)="toggleDropdown($event)">
             <div class="profile-image">  
               <img src="../../assets/icons/profil.svg" alt="Profile">  
             </div>  
@@ -25,15 +25,20 @@
               <span class="user-name">{{HiThere}}</span>  
               <span class="user-details">{{HiLocation}}</span>  
             </div>  
-            <div class="dropdown-icon" >  
-                <img src="../../assets/icons/arrow-down.svg" alt="Dropdown" [ngClass]="{'rotate': isDropdownOpen}">  
-              </div>  
-          </div>  
-          <div class="dropdown-menu" *ngIf="isDropdownOpen">  
-            <ul>  
-              <!-- <li>Edit Foto</li>   -->
-              <li (click)="logout()">Logout</li>  
-            </ul>  
+            <div class="dropdown-icon">  
+              <img src="../../assets/icons/arrow-down.svg" alt="Dropdown" [class.rotate]="isDropdownOpen">  
+            </div>  
+          </div>
+          
+          <!-- Overlay untuk close on outside click -->
+          <div class="dropdown-overlay" *ngIf="isDropdownOpen" (click)="closeDropdown()"></div>
+          
+          <!-- Dropdown Menu -->
+          <div class="dropdown-menu" *ngIf="isDropdownOpen" [class.show]="isDropdownOpen">
+            <div class="dropdown-item" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Keluar</span>
+            </div>
           </div>  
         </div>  
     </div>    

@@ -514,6 +514,8 @@
     .btn-close {
       background: #E0E0E0;
       color: #666;
+        min-width: 30%;
+      text-align: center;
       
       &:hover {
         background: #D0D0D0;

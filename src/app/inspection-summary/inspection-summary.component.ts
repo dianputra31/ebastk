@@ -67,8 +67,20 @@ bastk_timestamp: string | null | undefined;
       if (response && response.vendor.id) {
         this.sampleDataInfo = response;  
         this.bastk_status = this.sampleDataInfo.bastk_status;
-        this.pengirimSignature = this.sampleDataInfo.signsender_url;
-        this.penerimaSignature = this.sampleDataInfo.signbastk_url;
+        
+        // Tambahkan base URL jika belum ada
+        const baseUrl = 'https://admin-tribik.rask.co.id';
+        this.pengirimSignature = this.sampleDataInfo.signsender_url 
+          ? (this.sampleDataInfo.signsender_url.startsWith('http') 
+              ? this.sampleDataInfo.signsender_url 
+              : baseUrl + this.sampleDataInfo.signsender_url)
+          : null;
+        this.penerimaSignature = this.sampleDataInfo.signbastk_url 
+          ? (this.sampleDataInfo.signbastk_url.startsWith('http') 
+              ? this.sampleDataInfo.signbastk_url 
+              : baseUrl + this.sampleDataInfo.signbastk_url)
+          : null;
+        
         this.bastk_timestamp = this.sampleDataInfo?.bastk_timestamp;
       }else{
         console.log('here failed')

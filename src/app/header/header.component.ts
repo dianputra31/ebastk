@@ -83,8 +83,13 @@ activePanel: string = '';
   }  
 
   
-  toggleDropdown() {  
-    this.isDropdownOpen = !this.isDropdownOpen;  
+  toggleDropdown(event: Event) {
+    event.stopPropagation();
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown() {
+    this.isDropdownOpen = false;
   } 
 
   toggleCategoryDropdown() {  
