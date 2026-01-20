@@ -15,10 +15,11 @@
             <div class="row">
                 <div class="column">
                     <label for="vendorName">Nama Vendor</label>
-                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:0px;line-height: 10px;" readonly/>
+                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:1px;line-height: 10px;text-transform: uppercase;" readonly/>
                     
-                    <label for="vendorAddress">Alamat</label>
-                    <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;" readonly/>
+                    <label for="vendorAddress">Lokasi Unit</label>
+                    <input id="vendorAddress" type="text" placeholder="Lokasi Unit" value="{{sampleData?.lokasi_unit}}" style="border:1px;line-height: 10px;text-transform: uppercase;" (change)="onLokasiUnitChange($event)"/>
+                    <!-- <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;" readonly/> -->
                     <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
                       {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
                     </textarea> -->
@@ -27,13 +28,13 @@
                 </div>
                 <div class="column">
                     <label for="pic">PIC Pengirim</label>
-                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" readonly value="{{pic}}"/>
+                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;text-transform: uppercase;" value="{{sampleData?.pic_sender}}" (change)="onSenderChange($event)"/>
                     
                     <label for="deliveryDate">Tanggal Pengiriman</label>
-                    <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;" value="{{tgl_mobilisasi}}" />
+                    <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;text-transform: uppercase;" value="{{tgl_mobilisasi}}" />
 
                     <label for="vendorPhone">No. Telepon</label>
-                    <input id="vendorPhone" type="text" placeholder="No Telp" readonly value="{{sampleDataVendor?.phone}}"  style="border:0px;line-height: 10px;" />
+                    <input id="vendorPhone" type="text" placeholder="No Telp" value="{{sampleDataVendor?.phone}}"  style="border:0px;line-height: 10px;text-transform: uppercase;"  (change)="onPicPhoneChange($event)"/>
                 </div>
             </div>
         </mat-expansion-panel>
@@ -242,6 +243,19 @@
                 </span>
               </button>
             </div>
+
+            <div class="column" >
+              <!-- [disabled]="!ktpDocuments" -->
+              <button 
+                [ngClass]="{'button-upl-view': ktpDocuments.length > 0, 'button-upl-now': ktpDocuments.length == 0}" (click)="openGallery('KTP')"
+                >
+                {{ktpDocuments.length > 0 ? 'Foto KTP' : 'Upload Foto KTP'}}
+                <span 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                  <mat-icon>{{ktpDocuments.length > 0 ? 'visibility' : 'upload'}}</mat-icon>
+                </span>
+              </button>
+            </div>
             <div class="column">
               <!-- [disabled]="!stnkDocuments" -->
                 <button 
@@ -312,8 +326,8 @@
               <!-- Informasi Vendor 2 -->
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p><textarea id="notes" name="notes" cols="120" rows="10" [(ngModel)]="notes" 
-            (keyup)="onChangeTextInput($event, 9)"  style="text-transform: uppercase;">{{notes}}</textarea></p>
+          <textarea id="notes" name="notes" cols="120" rows="10" [(ngModel)]="notes" [value]="sampleData?.notes"
+            (keyup)="onChangeTextInput($event, 9)"  style="text-transform: uppercase;"></textarea>
         </mat-expansion-panel>
     
     

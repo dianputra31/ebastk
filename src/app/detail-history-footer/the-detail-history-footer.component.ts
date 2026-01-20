@@ -39,7 +39,7 @@ isLoading: boolean = false;
 
   goesToSummary(){
     const unit_id = this.router.url.split('/').pop();
-    this.router.navigate(['/inspection-summary'+'/'+unit_id]);
+    this.router.navigate(['/history-summary'+'/'+unit_id]);
   }
 
   async goesToRevision(alasan: string){

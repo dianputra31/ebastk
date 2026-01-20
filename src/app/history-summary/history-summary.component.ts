@@ -6,12 +6,13 @@ import SignaturePad from 'signature_pad';
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
 import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
 
+
 @Component({
-  selector: 'app-inspection-summary',
-  templateUrl: './inspection-summary.component.html',
-  styleUrls: ['./inspection-summary.component.scss']
+  selector: 'app-history-summary',
+  templateUrl: './history-summary.component.html',
+  styleUrls: ['./history-summary.component.scss']
 })
-export class InspectionSummaryComponent implements OnInit, AfterViewInit {
+export class HistorySummaryComponent implements OnInit, AfterViewInit {
 HiThere: string = 'User';
 HiEmail: string = 'Email';
 sekarang: string = '';
@@ -34,6 +35,7 @@ sampleDataInfo: UnitDetailResponse | null = null;
 bastk_status: string = "draft";
 isButtonDisabled: boolean = false;
 
+
   constructor(private router:Router,  private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
@@ -45,6 +47,8 @@ isButtonDisabled: boolean = false;
 
     this.sekarang = this.formatTanggalWIB(new Date());
 
+    
+
   }
 
   ngAfterViewInit(): void {
@@ -52,7 +56,7 @@ isButtonDisabled: boolean = false;
   }
 
 
-  async infoUnit() {
+    async infoUnit() {
     // this.isLoading = true;
 
     this.errlog = "";
@@ -90,6 +94,7 @@ isButtonDisabled: boolean = false;
     }
   }
 
+
   openSignatureModal(type: 'pengirim' | 'penerima') {
     this.currentSignatureType = type;
     this.modalTitle = type === 'pengirim' ? 'Pengirim Unit' : 'Penerima Unit';
@@ -122,7 +127,6 @@ isButtonDisabled: boolean = false;
     this.isSignatureModalOpen = false;
     this.currentSignatureType = null;
     this.isDrawingMode = true;
-    this.uploadError = '';
   }
 
   editSignature() {
@@ -144,80 +148,25 @@ isButtonDisabled: boolean = false;
     }
   }
 
-  async save() {
+  save() {
     if (!this.signaturePad || this.signaturePad.isEmpty()) {
       alert('Tanda tangan masih kosong');
       return;
     }
 
     const dataURL = this.signaturePad.toDataURL('image/jpeg', 0.8);
-    this.uploadError = ''; // Reset error message
     
-    let uploadSuccess = false;
-
-    // Simpan berdasarkan tipe dan kirim ke server
+    // Simpan berdasarkan tipe
     if (this.currentSignatureType === 'pengirim') {
-      uploadSuccess = await this.kirimFoto(dataURL, 'pengirim');
-      if (uploadSuccess) {
-        this.pengirimSignature = dataURL;
-      }
+      this.pengirimSignature = dataURL;
     } else if (this.currentSignatureType === 'penerima') {
-      uploadSuccess = await this.kirimFoto(dataURL, 'penerima');
-      if (uploadSuccess) {
-        this.penerimaSignature = dataURL;
-      }
+      this.penerimaSignature = dataURL;
     }
     
-    // Tutup modal hanya jika upload sukses
-    if (uploadSuccess) {
-      console.log('Signature saved:', dataURL.substring(0, 50) + '...'); // Debug
-      this.closeSignatureModal();
-    } else {
-      this.uploadError = 'Upload gagal! Silakan coba lagi.';
-    }
-  }
-
-
-  async kirimFoto(base64Image: string, tipe: 'pengirim' | 'penerima') {
-    try {
-      const unit_id = this.router.url.split('/').pop();
-      
-      // Convert base64 to Blob
-      const byteString = atob(base64Image.split(',')[1]);
-      const mimeString = base64Image.split(',')[0].split(':')[1].split(';')[0];
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      const blob = new Blob([ab], { type: mimeString });
-      
-      // Create File from Blob
-      const file = new File([blob], `signature_${tipe}.jpg`, { type: 'image/jpeg' });
-      
-      // Siapkan FormData untuk upload ke API
-      const formData = new FormData();
-      formData.append('unit_id', unit_id || '');
-      formData.append('image', file);
-      
-      // Tentukan endpoint berdasarkan tipe
-      const endpoint = tipe === 'pengirim' ? `/upload-signsender/` : `/upload-signbastk/`;
-      
-      // Kirim ke API
-      const response = await this.apiClient.postDoc<any>(endpoint, formData);
-      
-      if (response) {
-        console.log(`Tanda tangan ${tipe} berhasil dikirim ke server`);
-        return true;
-      } else {
-        console.log(`Gagal mengirim tanda tangan ${tipe}`);
-        return false;
-      }
-      
-    } catch (error) {
-      console.error('Error saat upload tanda tangan:', error);
-      return false;
-    }
+    console.log('Signature saved:', dataURL.substring(0, 50) + '...'); // Debug
+    
+    // Tutup modal setelah save
+    this.closeSignatureModal();
   }
 
   formatTanggalWIB(date: Date): string {
@@ -242,8 +191,8 @@ isButtonDisabled: boolean = false;
     return `${tanggal} ${bulan} ${tahun}, ${jam}:${menit} WIB`;
   }
 
-  backToTugasPage(){
-    this.router.navigate(['/tugas']);
+  backToRiwayatPage(){
+    this.router.navigate(['/riwayat']);
   }
 
   backToInspeksiPage(){

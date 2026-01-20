@@ -8,7 +8,7 @@
         <div class="product-header">  
             <div class='hy'>{{ product.display_name }}</div>  
             <div class="status-container" *ngIf="fromDashboard==false">  
-              <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
+              <span class="status-header">Last saved: {{ product.bastk_timestamp | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
               <span class="status" [ngClass]="getStatusClass(product.bastk_status)">DONE</span>    
             </div>  
           </div>   

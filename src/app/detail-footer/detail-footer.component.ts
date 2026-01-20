@@ -176,7 +176,7 @@ export class DetailFooterComponent implements OnInit {
               if (success) {
                 // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
                 // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-                window.location.href = '/inspeksi-unit/' + unit_id;
+                // window.location.href = '/inspeksi-unit/' + unit_id;
               }
             });
           }else if(this.stepNow==='engine-inspection'){

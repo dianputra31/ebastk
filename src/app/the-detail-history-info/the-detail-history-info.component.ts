@@ -76,7 +76,9 @@ transmissionOptions: [string, string][] = [
 
 
   async openGallery(a:string) {
-
+console.log("openGallery tipeDoc:", a);
+console.log("this.sampleData:", this.sampleData);
+console.log("this.sampleData?.idcardsender_url:", this.sampleData?.idcardsender_url);
     try{
 
           const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
@@ -93,6 +95,8 @@ transmissionOptions: [string, string][] = [
             modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
           }else if(a=='BASTK'){
             modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'BASTK');
+          }else if(a=='KTP'){
+            modalRef.componentInstance.images =  this.sampleData?.idcardsender_url;
           }else{
             modalRef.componentInstance.images =  this.sampleData?.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
           }

@@ -21,6 +21,7 @@ import { TheMenuOfDetilTerjadwalComponent } from './menu-of-detil-terjadwal/the-
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailFooterComponent } from './detail-footer/detail-footer.component';
+import { HistorySummaryComponent } from './history-summary/history-summary.component';
 import { InspeksiUnitComponent } from './inspeksi-unit/inspeksi-unit.component';
 import { ExteriorInspectionComponent } from './exterior-inspection/exterior-inspection.component';
 import { InteriorInspectionComponent } from './interior-inspection/interior-inspection.component';
@@ -123,7 +124,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     TheUnitInputComponent,
     TheMenuOfUnitInputComponent,
     DetailUnitInputComponent,
-    TheVendorModalComponent
+    TheVendorModalComponent,
+    HistorySummaryComponent
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,7 @@ export class NoahService {
   private filterStatusSubject = new Subject<string>();
   private filterCategorySubject = new Subject<string>();
   private filterSortSubject = new Subject<string>();
+  private filterDateSubject = new Subject<{startDate: string, endDate: string}>();
   private totalTugasSubject = new Subject<string>();
   noah$ = this.noahSubject.asObservable();
   noahloc$ = this.noahlocSubject.asObservable();
@@ -24,6 +25,7 @@ export class NoahService {
   filterstatus$ = this.filterStatusSubject.asObservable();
   filtercategory$ = this.filterCategorySubject.asObservable();
   filtersort$ = this.filterSortSubject.asObservable();
+  filterdate$ = this.filterDateSubject.asObservable();
   totaltugas$ = this.totalTugasSubject.asObservable();
 
   emitNoah(value: string) {
@@ -64,6 +66,10 @@ export class NoahService {
 
   emitFilterSort(value: string) {
     this.filterSortSubject.next(value);
+  }
+
+  emitDateFilter(startDate: string, endDate: string) {
+    this.filterDateSubject.next({startDate, endDate});
   }
 
 

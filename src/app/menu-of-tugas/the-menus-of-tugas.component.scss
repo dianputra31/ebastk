@@ -225,17 +225,18 @@
         display: block; // Mengatur chip-container dan filter-container dalam satu baris  
         justify-content: space-between; // Mengatur jarak antara chip-container dan filter-container  
         width: 100%; // Lebar 100%  
-        position: relative;
+        position: relative;        
       }  
       
       .chip-container {   
         width: 100%; // Lebar chip-container  
-        display: block; 
+        display: flex; 
         position: relative;   
-        gap: 10px; // Jarak antar chip    
+        gap: 5px; // Jarak antar chip    
         overflow-x: auto; // Mengizinkan scroll horizontal    
-        padding: 10px 0; // Padding atas dan bawah    
-        white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya    
+        padding: 1vh 0; // Padding atas dan bawah    
+        white-space: nowrap; // Mencegah chip membungkus ke baris berikutnya
+        flex-wrap: nowrap; // Mencegah chip wrap ke baris baru    
         font-weight: 800;  
       
         // Sembunyikan scrollbar default    
@@ -255,17 +256,15 @@
         }    
       
         .chip {    
-          padding: 5px 5px;    
+          padding: 5px 10px;    
           border-radius: 8px;    
           border: 1px solid #F5F5F5; // Border chip    
           background-color: #F5F5F5; // Warna latar belakang chip tidak aktif    
           color: black; // Warna huruf chip tidak aktif    
           cursor: pointer;
-          width: auto;
-          float: left;
-          position: relative;
+          white-space: nowrap;
+          flex-shrink: 0; // Mencegah chip mengecil
           font-size:0.8em;
-          margin-right:5px;
       
           &.active {    
             background-color: #D5230D; // Warna latar belakang chip aktif    

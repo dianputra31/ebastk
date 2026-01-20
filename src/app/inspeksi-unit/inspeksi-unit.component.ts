@@ -48,6 +48,9 @@ export class InspeksiUnitComponent implements OnInit {
   wwgombel: number = 1;
   sampleDataInfo: UnitDetailResponse | null = null;
   bastk_status: string = "draft";
+  
+  // Modal properties
+  isChoiceModalOpen: boolean = false;
 
   constructor(private router: Router,  private apiClient: ApiClientService) { }
 
@@ -328,18 +331,29 @@ get sortedGroupedSubItems() {
 
   GoesToInspection(a: any){
     const unit_id = this.router.url.split('/').pop();
-    // if(a==1){
-      // this.router.navigate([a + '/' + unit_id]);
-      window.location.href = a + '/' + unit_id;
-    // }else if(a==2){
-    //   this.router.navigate(['/interior-inspection' + '/' + unit_id]);
-    // }else if(a==3){
-    //   this.router.navigate(['/engine-inspection' + '/' + unit_id]);
-    // }else if(a==4){
-    //   this.router.navigate(['/unit-photos' + '/' + unit_id]);
-    // }else{
-    //   this.router.navigate(['/inspection-summary' + '/' + unit_id]);
-    // }
+    
+    // Jika url adalah /unit-photos, tampilkan modal pilihan
+    if(a === '/unit-photos') {
+      this.isChoiceModalOpen = true;
+      return;
+    }
+    
+    // Selain itu, langsung navigate
+    window.location.href = a + '/' + unit_id;
+  }
+  
+  closeChoiceModal() {
+    this.isChoiceModalOpen = false;
+  }
+  
+  goToDokumenBASTK() {
+    const unit_id = this.router.url.split('/').pop();
+    window.location.href = '/inspection-summary/' + unit_id;
+  }
+  
+  goToUnitPhotos() {
+    const unit_id = this.router.url.split('/').pop();
+    window.location.href = '/unit-photos/' + unit_id;
   }
 
 }

@@ -58,6 +58,7 @@ bpkbDocuments: UnitDocument[] = [];
 stnkDocuments: UnitDocument[] = [];
 suratKuasaDocuments: UnitDocument[] = [];
 bastkVendorDocuments: UnitDocument[] = [];
+ktpDocuments: UnitDocument[] = [];
 lainnyaDocuments: UnitDocument[] = [];
 display_name: string = '';
 @Output() noah = new EventEmitter<string>();
@@ -191,6 +192,7 @@ groupByCategory(data: any[]): void {
         this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
+        this.ktpDocuments = this.sampleData.idcardsender_url ? [{ image_url: this.sampleData.idcardsender_url } as UnitDocument] : [];
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
         // console.log('bpkbDocuments:', this.bpkbDocuments);

@@ -49,7 +49,7 @@ export class AppComponent {
         this.isMobilisasiRoute = this.currentRoute.startsWith('/mobilisasi');
 
         const detailRoutes = ['/detil-tugas', '/detil-riwayat'];
-        const mainRoutes = ['/dashboard', '/tugas', '/inspection-summary', '/riwayat', '/input-unit'];
+        const mainRoutes = ['/dashboard', '/tugas', '/inspection-summary', '/riwayat', '/input-unit', '/history-summary'];
         const stepRoutes: { [key: string]: string } = {
           '/inspeksi-unit': 'inspeksi-unit',
           '/exterior-inspection': 'exterior-inspection',
@@ -257,6 +257,7 @@ export class AppComponent {
       if (this.currentRoute.startsWith('/unit-photos/')) return 'dt-tugas';
       if (this.currentRoute.startsWith('/detil-riwayat/')) return 'dt-riwayat';
       if (this.currentRoute.startsWith('/inspection-summary/')) return 'dt-tugas';
+      if (this.currentRoute.startsWith('/history-summary/')) return 'dt-tugas';
 
       const routeMappings: { [key: string]: string } = {
       '/detil-tugas': 'dt-tugas',
@@ -266,6 +267,7 @@ export class AppComponent {
       '/interior-inspection': 'dt-tugas',
       '/engine-inspection': 'dt-tugas',
       '/inspection-summary': 'dt-tugas',
+      '/history-summary': 'dt-tugas',
       '/unit-photos': 'dt-tugas',
       '/detil-riwayat': 'dt-riwayat',
       '/dashboard': 'maincontent',

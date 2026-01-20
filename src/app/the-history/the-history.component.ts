@@ -100,7 +100,7 @@ filter_bastk_riwayat: string = '';
 
   
   async listTugas(page: number) {
-  console.log('this.filterRiwayat::::', this.filterRiwayat);
+  // console.log('this.filterRiwayat::::', this.filterRiwayat);
     // const unitData = {
     //   page: '1'
     // };
@@ -114,11 +114,11 @@ filter_bastk_riwayat: string = '';
       }
 
       // const page = 1; // Parameter yang ingin dikirim
-      const page_size = 60;
+      const page_size = 30;
       const bastk_status = 'submit';
       const endpoint = `/units/?page=${page}&page_size=${page_size}&bastk_status=${bastk_status}` + this.filter_bastk_riwayat; // Menambahkan parameter ke endpoint
       const response = await this.apiClient.get<NewApiResponse>(endpoint);
-      console.log('Data posted:', response);
+      // console.log('Data posted:', response);
 
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.results) {
@@ -138,9 +138,9 @@ filter_bastk_riwayat: string = '';
         }
 
         // this.sampleData = response;  
-        console.log('Sample Data:', this.sampleData);
+        // console.log('Sample Data:', this.sampleData);
       }else{
-        console.log('here failed')
+        // console.log('here failed')
         this.errlog = 'Username atau password salah';
       }
 
@@ -157,7 +157,7 @@ filter_bastk_riwayat: string = '';
       } else {
         this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
       }
-      console.error('Error during login:', error);
+      // console.error('Error during login:', error);
       this.isLoading = false;
     }
   }

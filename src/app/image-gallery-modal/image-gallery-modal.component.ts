@@ -25,6 +25,7 @@ sampleData: UnitDetailResponse | null = null;
 unitdocuments: UnitDocument[] = [];
 bpkbDocuments: UnitDocument[] = [];
 stnkDocuments: UnitDocument[] = [];
+ktpDocuments: UnitDocument[] = [];
 suratKuasaDocuments: UnitDocument[] = [];
 bastkVendorDocuments: UnitDocument[] = [];
 lainnyaDocuments: UnitDocument[] = [];
@@ -33,11 +34,13 @@ constructor(public activeModal: NgbActiveModal, private apiClient: ApiClientServ
 
 ngOnInit(): void {
   this.mbel();
-  
 }
 
 mbel() {
   // Setiap kali input images berubah, update displayedImages
+  console.log("tipeDoc::::", this.tipeDoc);
+  console.log("images now::::", this.images);
+  
   this.displayedImages = this.images.map(doc => this.mediaUrl + doc.image_url);
   console.log("displayedImages::::", this.displayedImages);
 }
@@ -121,15 +124,28 @@ async onImageUpload(event: Event): Promise<boolean> {
 
         // Siapkan FormData untuk upload ke API
         const formData = new FormData();
-        formData.append('unit', this.unitId); // atau pakai String(this.unit) kalau dynamic
-        formData.append('file', file);
-        formData.append('file_type', this.tipeDoc);
+        
+        let endpoint: string;
+        
+        if (this.tipeDoc === 'KTP') {
+          // Untuk KTP, gunakan endpoint dan param khusus
+          formData.append('unit_id', this.unitId);
+          formData.append('image', file);
+          endpoint = `/upload-idcardsender/`;
+        } else {
+          // Untuk tipe dokumen lainnya
+          formData.append('unit', this.unitId);
+          formData.append('file', file);
+          formData.append('file_type', this.tipeDoc);
+          endpoint = `/upload-document/`;
+        }
 
         // Kirim ke API
-        const endpoint = `/upload-document/`; // Menambahkan parameter ke endpoint
         const response = await this.apiClient.postDoc<any>(endpoint, formData);
 
-        if (response) {
+        // Response KTP: {message: "...", unit_id: ...}
+        // Response lainnya: {id: ..., unit_id: ..., file_type: ..., ...}
+        if (response && (response.id || response.message)) {
           this.infoUnit();
           // return true;
         }else{
@@ -175,6 +191,14 @@ async onImageUpload(event: Event): Promise<boolean> {
         this.unitdocuments = this.sampleData.unitdocuments;
         this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
+        
+        // Format khusus untuk KTP dengan struktur lengkap
+        this.ktpDocuments = this.sampleData.idcardsender_url ? [{
+          id: 1,
+          file_type: 'KTP',
+          image_url: this.sampleData.idcardsender_url
+        } as UnitDocument] : [];
+        
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
@@ -187,6 +211,8 @@ async onImageUpload(event: Event): Promise<boolean> {
           this.images = this.suratKuasaDocuments;
         }else if(this.tipeDoc=='BASTK'){
           this.images = this.bastkVendorDocuments;
+        }else if(this.tipeDoc=='KTP'){
+          this.images = this.ktpDocuments;
         }else{
           this.images = this.lainnyaDocuments;
         }

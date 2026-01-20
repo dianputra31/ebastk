@@ -1,6 +1,5 @@
 <div class="header" *ngIf="!isFrameOnly()">  
     <div class="header-top"> 
-      
         <div class="logo"> 
           <ng-container *ngIf="isDashboard() || isRiwayat() || isInspectionSummary() || isUnitInput(); else tugasHeader">
             <img src="../../assets/icons/logo-tribik.svg" alt="Logo" (click)="goHome()" style="cursor: pointer;"> 
@@ -11,7 +10,7 @@
               </ng-container> 
               <ng-template #otherHeader>
                 <span class="label-page" style="cursor:pointer" (click)="goBack()">
-                  &lt; &nbsp;BASTK &nbsp; &#x25CF; {{ isDetailRiwayat() ? 'Detil Riwayat' : 'Detil Tugas' }}
+                  &lt; &nbsp;BASTK &nbsp; &#x25CF; {{ isDetailRiwayat() || isHistorySummary() ? 'Detil Riwayat' : 'Detil Tugas' }}
                 </span>
               </ng-template>
           </ng-template>
@@ -45,6 +44,10 @@
         </ng-container>
 
         <ng-container *ngSwitchCase="'/inspection-summary'">
+          <!-- Konten untuk dashboard -->
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'/history-summary'">
           <!-- Konten untuk dashboard -->
         </ng-container>
 

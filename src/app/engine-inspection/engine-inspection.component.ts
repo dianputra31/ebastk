@@ -41,6 +41,11 @@ isModalAnswerOpen: boolean = false;
 modalQuestions: any[] = [];
 modalItem: any = null;
 
+// Modal pilihan Baik/Rusak untuk selectAll
+isConditionModalOpen: boolean = false;
+currentSubCategory: string = '';
+currentConditionValue: string = '';
+
 @Output() activePanelChange = new EventEmitter<string>();
 
 constructor(private router: Router,  private apiClient: ApiClientService, private panelSync: PanelSyncService, private cdr: ChangeDetectorRef) { }
@@ -188,6 +193,22 @@ onPanelInView(panelId: string) {
   this.panelSync.emitPanel(panelId);
 }
 
+hasIncompleteQuestions(item: any): boolean {
+  // Hanya tampilkan icon jika user memilih 'Ada'
+  if (item.kondisi !== 'Ada') {
+    return false;
+  }
+  
+  if (!item.questions || item.questions.length === 0) {
+    return false;
+  }
+  
+  // Cek apakah ada pertanyaan dengan name !== null yang answer-nya masih null/undefined
+  return item.questions.some((q: any) => 
+    q.name !== null && (q.answer === null || q.answer === undefined)
+  );
+}
+
 
 
 
@@ -260,18 +281,62 @@ openModal() {
 }
 
 selectAllInCategory(subCategory: string, value: string) {
-  // Ambil semua item dalam subCategory tersebut
-  const items = this.groupedSubItems['Engine'][subCategory];
+  if (value === 'Ada') {
+    // Jika pilih Ada, buka modal untuk pilih Baik/Rusak
+    this.currentSubCategory = subCategory;
+    this.currentConditionValue = value;
+    this.isConditionModalOpen = true;
+  } else {
+    // Jika pilih Tidak, langsung set semua ke Tidak
+    const items = this.groupedSubItems['Engine'][subCategory];
+    if (items) {
+      items.forEach((item: any) => {
+        item.kondisi = value;
+      });
+      
+      if (this.engineForm) {
+        this.onSubmit(this.engineForm);
+      }
+    }
+  }
+}
+
+applyConditionToAll(condition: 'Baik' | 'Rusak') {
+  const items = this.groupedSubItems['Engine'][this.currentSubCategory];
   if (items) {
     items.forEach((item: any) => {
-      item.kondisi = value; // Set semua kondisi ke value yang dipilih
+      item.kondisi = 'Ada';
+      
+      if (item.questions && item.questions.length > 0) {
+        item.questions.forEach((question: any) => {
+          if (question.options && question.options.length === 2) {
+            const hasOnlyBaikRusak = 
+              question.options.some((opt: string) => opt.toLowerCase() === 'baik') &&
+              question.options.some((opt: string) => opt.toLowerCase() === 'rusak');
+            
+            if (hasOnlyBaikRusak) {
+              const matchedOption = question.options.find((opt: string) => 
+                opt.toLowerCase() === condition.toLowerCase()
+              );
+              question.answer = matchedOption || null;
+            }
+          }
+        });
+      }
     });
     
-    // Panggil onSubmit untuk menyimpan perubahan
     if (this.engineForm) {
       this.onSubmit(this.engineForm);
     }
   }
+  
+  this.closeConditionModal();
+}
+
+closeConditionModal() {
+  this.isConditionModalOpen = false;
+  this.currentSubCategory = '';
+  this.currentConditionValue = '';
 }
 
 }

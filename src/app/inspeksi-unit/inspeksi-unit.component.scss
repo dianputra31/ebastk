@@ -233,3 +233,224 @@
   color: #D5230D;
   font-weight: bold;
 }
+
+// Choice Modal Styles
+.choice-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+.choice-modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+.choice-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 32px;
+  border-bottom: 2px solid #F0F0F0;
+  background: linear-gradient(135deg, #D5230D 0%, #B81F0B 100%);
+  
+  h3 {
+    margin: 0;
+    font-family: 'NunitoSans';
+    font-weight: 700;
+    font-size: 24px;
+    color: white;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.choice-modal-body {
+  padding: 40px 32px;
+  
+  .instruction-text {
+    font-family: 'NunitoSans';
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  
+  .choice-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .choice-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F9F9F9 100%);
+    border: 2px solid #E0E0E0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(213, 35, 13, 0.05) 0%, rgba(184, 31, 11, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 32px rgba(213, 35, 13, 0.2);
+      border-color: #D5230D;
+      
+      &::before {
+        opacity: 1;
+      }
+      
+      .card-icon {
+        transform: scale(1.1);
+      }
+      
+      h4 {
+        color: #D5230D;
+      }
+    }
+    
+    &:active {
+      transform: translateY(-4px);
+    }
+    
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #FFE8E5 0%, #FFD6D0 100%);
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      
+      img {
+        width: 45px;
+        height: 45px;
+      }
+      
+      .fallback-icon {
+        font-size: 45px;
+      }
+    }
+    
+    h4 {
+      font-family: 'NunitoSans';
+      font-weight: 700;
+      font-size: 20px;
+      color: #312E2E;
+      margin: 0 0 12px 0;
+      transition: color 0.3s ease;
+    }
+    
+    p {
+      font-family: 'NunitoSans';
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Responsive untuk mobile
+@media (max-width: 640px) {
+  .choice-modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .choice-modal-body {
+    padding: 28px 20px;
+    
+    .choice-cards {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
+    .choice-card {
+      padding: 24px 20px;
+      
+      .card-icon {
+        width: 70px;
+        height: 70px;
+        
+        img, .fallback-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 40px;
+        }
+      }
+      
+      h4 {
+        font-size: 18px;
+      }
+    }
+  }
+}

@@ -124,7 +124,7 @@ async saveStep(a: number) {
       // 🔎 Validasi field wajib (gabungan)
       const fieldMap: Record<string, string> = {
         police_number: "No Polisi",
-        variant_model: "Model",
+        // variant_model: "Model",
         unit_type: "Unit",
         unit_category: "Kategori",
         color: "Warna"

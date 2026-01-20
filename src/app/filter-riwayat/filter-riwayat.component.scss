@@ -11,21 +11,36 @@
 
 .filter-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     margin: 16px 0;
     text-align: left;
+    padding: 0 10px;
+}
+
+.filter-row {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    margin-bottom: 10px;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
 
 .input-container {
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
-    border-radius: 24px; /* Sesuaikan dengan desain Anda */
-    padding: 8px 16px; /* Sesuaikan dengan desain Anda */
-    width: 100%;
-    max-width: 300px; /* Sesuaikan dengan desain Anda */
-    background-color: #f9f9f9; /* Sesuaikan dengan desain Anda */
-  }
+    border-radius: 14px;
+    padding: 8px 16px;
+    background-color: #f9f9f9;
+    
+    @media (max-width: 768px) {
+        max-width: 100%;
+    }
+}
   
   .icon {
     margin-right: 8px;

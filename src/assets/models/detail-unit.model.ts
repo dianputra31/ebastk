@@ -109,4 +109,9 @@ export interface Brand {
     expedition: string | null;
     unit_category_id: number;
     bpkb_status: string | null;
+    idcardsender_url: string | null;
+    signsender_url: string | null;
+    signbastk_url: string | null;
+    pic_sender: string | null;
+    lokasi_unit: string | null;
   }

@@ -17,6 +17,7 @@ import { PhotosInspectionComponent } from './photos-inspection/photos-inspection
 import { InspectionSummaryComponent } from './inspection-summary/inspection-summary.component';
 import { TheDetailHistoryComponent } from './the-detail-history/the-detail-history.component';
 import { FrameMobilisasiComponent } from './frame-mobilisasi/frame-mobilisasi.component';
+import { HistorySummaryComponent } from './history-summary/history-summary.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,11 @@ const routes: Routes = [
   {  
     path: 'inspeksi-unit/:unit_id',  
     component: InspeksiUnitComponent,  
+    canActivate: [AuthGuard]   
+  },  
+  {  
+    path: 'history-summary/:unit_id',  
+    component: HistorySummaryComponent,  
     canActivate: [AuthGuard]   
   },  
   {  

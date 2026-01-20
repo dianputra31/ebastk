@@ -1,8 +1,9 @@
-@media (min-width: 600px) {
+@media (min-width: 680px) {
   .product-container {  
       display: flex;  
       flex-direction: column;  
-      gap: 20px; // Jarak antar produk  
+      gap: 20px; // Jarak antar produk
+      padding-top: 15px;
       
       .product-card {  
         display: flex; // Mengatur produk dalam satu baris  
@@ -165,11 +166,12 @@
   }  
 }
 
-@media (max-width: 540px) {
+@media (max-width: 680px) {
     .product-container {  
       display: flex;  
       flex-direction: column;  
-      gap: 5px; // Jarak antar produk  
+      gap: 5px; // Jarak antar produk
+      padding-top: 14vh; // Padding lebih besar untuk mobile karena filter stack vertikal
       
       .product-card {  
         display: flex; // Mengatur produk dalam satu baris  

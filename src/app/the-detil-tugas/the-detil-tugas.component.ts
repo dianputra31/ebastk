@@ -39,6 +39,7 @@ export class TheDetilTugasComponent implements OnInit {
   tgl_mobilisasi: string = '';
   unit_id: any = '';
   unitdocuments: UnitDocument[] = [];
+  ktpDocuments: UnitDocument[] = [];
   bpkbDocuments: UnitDocument[] = [];
   stnkDocuments: UnitDocument[] = [];
   suratKuasaDocuments: UnitDocument[] = [];
@@ -81,6 +82,8 @@ export class TheDetilTugasComponent implements OnInit {
   selectedKeur: string = '';
   selectedKeurStatus: string = 'Tidak Ada';
   keurDateString: string = '';
+  selectedPicSender: string = '';
+
   choices: [string, string][] = [
   ['Drive', 'Drive'],
   ['Derek', 'Derek'],
@@ -105,6 +108,8 @@ transmissionOptions: [string, string][] = [
   // ['Dual Clutch', 'Dual Clutch'],
   // ['Other', 'Other']
 ];
+  selectedLokasiUnit: any;
+  selectedPicPhoneSender: any;
   
 
   @HostListener('window:scroll', [])
@@ -136,6 +141,24 @@ transmissionOptions: [string, string][] = [
   onKeurChange(event : any) {
     const inputValue = event.target.value;
     this.keurDateString = inputValue;
+    this.savePayloadUnit();
+  }
+
+  onLokasiUnitChange(event : any) {
+    const inputValue = event.target.value;
+    this.selectedLokasiUnit = inputValue;
+    this.savePayloadUnit();
+  }
+
+  onSenderChange(event : any) {
+    const inputValue = event.target.value;
+    this.selectedPicSender = inputValue;
+    this.savePayloadUnit();
+  }
+
+  onPicPhoneChange(event : any) {
+    const inputValue = event.target.value;
+    this.selectedPicPhoneSender = inputValue;
     this.savePayloadUnit();
   }
 
@@ -260,6 +283,10 @@ transmissionOptions: [string, string][] = [
     if (this.selectedAssignmentDate) payload.assignment_date = this.selectedAssignmentDate;
     if (this.selectedAssignmentNumber) payload.assignment_number = this.selectedAssignmentNumber.toUpperCase();
     if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus.toUpperCase();
+    if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus.toUpperCase();
+    if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender.toUpperCase();
+    if (this.selectedLokasiUnit) payload.unit_location = this.selectedLokasiUnit.toUpperCase();
+    if (this.selectedPicPhoneSender) payload.pic_phone = this.selectedPicPhoneSender.toUpperCase();
 
     if (this.selectedKeurStatus === 'Ada') {
       if (this.keurDateString) {
@@ -508,6 +535,14 @@ transmissionOptions: [string, string][] = [
         this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
+        
+        // Format khusus untuk KTP dengan struktur lengkap
+        this.ktpDocuments = this.sampleData.idcardsender_url ? [{
+          id: 1,
+          file_type: 'KTP',
+          image_url: this.sampleData.idcardsender_url
+        } as UnitDocument] : [];
+        
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
         this.modelname = this.sampleData.variant_model.model_name;
@@ -520,6 +555,8 @@ transmissionOptions: [string, string][] = [
         this.notes = this.sampleData.notes || '';
         this.selectedKeur = this.sampleData.keur || 'T/A';
         this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
+        this.pic = this.sampleData.pic_sender || '';
+        this.selectedLokasiUnit = this.sampleData.lokasi_unit || '';
 
         this.selectedNotes = this.sampleData.notes || '';
         
@@ -640,9 +677,23 @@ transmissionOptions: [string, string][] = [
             modalRef.componentInstance.images = this.suratKuasaDocuments;
           }else if(a=='BASTK'){
             modalRef.componentInstance.images = this.bastkVendorDocuments;
+          }else if(a=='KTP'){
+            modalRef.componentInstance.images = this.ktpDocuments;
           }else{
             modalRef.componentInstance.images = this.lainnyaDocuments;
           }
+          
+          // Refresh data setelah modal ditutup
+          modalRef.result.then(
+            (result) => {
+              // Modal ditutup dengan result (misalnya setelah upload sukses)
+              this.infoUnit();
+            },
+            (reason) => {
+              // Modal ditutup dengan dismiss (klik X atau klik di luar)
+              this.infoUnit();
+            }
+          );
     }catch (error) {
         if (axios.isAxiosError(error)) {
           // Cek status kode dari respons

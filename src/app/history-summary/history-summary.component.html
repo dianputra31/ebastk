@@ -9,7 +9,7 @@
         Dokumen BASTK
         </h1>
         <p class="mb-4 mediumer">
-        Terima kasih, anda telah menyelesaikan tugas BASTK pada tanggal {{sekarang}}. Anda dapat mengunduh hasil BASTK di bawah ini :
+        Anda dapat mengunduh hasil BASTK di bawah ini :
         </p>
         <ul class="space-y-2 mb-6">
             <!-- <li class="flex justify-between items-center">
@@ -71,17 +71,17 @@
         <i class="fas fa-download btn-icon">
         </i> Dokumen
         </button>
-        <button class="batengrei w-full" (click)="backToTugasPage()">
+        <button class="batengrei w-full" (click)="backToRiwayatPage()">
         <i class="fas fa-list btn-icon">
-        </i> Tugas
+        </i> Riwayat
         </button>
         </div>
-        <div class="grid grid-cols-1">
+        <!-- <div class="grid grid-cols-1">
        <button class="batengrei" (click)="backToInspeksiPage()">
         <i class="fas fa-edit btn-icon">
         </i> Inspeksi
         </button>
-        </div>
+        </div> -->
         </div>
     </div>
 </div>
@@ -96,11 +96,6 @@
     </div>
     
     <div class="signature-modal-body">
-      <!-- Error message -->
-      <div *ngIf="uploadError" class="upload-error-message">
-        ⚠️ {{ uploadError }}
-      </div>
-      
       <!-- Mode Drawing: Canvas untuk tanda tangan -->
       <div *ngIf="isDrawingMode" class="signature-canvas-container">
         <p class="instruction-text">Silakan tanda tangan di area di bawah ini:</p>

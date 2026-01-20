@@ -35,6 +35,45 @@
 </div>
 
 
+<!-- Modal Pilihan -->
+<div *ngIf="isChoiceModalOpen" class="choice-modal-overlay" (click)="closeChoiceModal()">
+  <div class="choice-modal-content" (click)="$event.stopPropagation()">
+    <div class="choice-modal-header">
+      <h3>Pilih Tujuan</h3>
+      <button class="close-btn" (click)="closeChoiceModal()">&times;</button>
+    </div>
+    
+    <div class="choice-modal-body">
+      <p class="instruction-text">Silakan pilih menu yang ingin Anda tuju:</p>
+      
+      <div class="choice-cards">
+        <!-- Card Dokumen BASTK -->
+        <div class="choice-card" (click)="goToDokumenBASTK()">
+          <div class="card-icon">
+            <img src="../../assets/icons/document-icon.svg" alt="Dokumen" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="fallback-icon" style="display:none;">📄</span>
+          </div>
+          <h4>Dokumen BASTK</h4>
+          <p>Lihat ringkasan dan unduh dokumen BASTK</p>
+        </div>
+        
+        <!-- Card Unit Photos -->
+        <div class="choice-card" (click)="goToUnitPhotos()">
+          <div class="card-icon">
+            <img src="../../assets/icons/camera-icon.svg" alt="Photos" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="fallback-icon" style="display:none;">📸</span>
+          </div>
+          <h4>Unit Photos</h4>
+          <p>Upload dan kelola foto unit</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">Data sedang dimuat...</div>

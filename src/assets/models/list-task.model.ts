@@ -59,6 +59,7 @@ export interface Result {
     bpkb_name: string;
     bpkb_number: string;
     bastk_status: string;
+    bastk_timestamp: string;
     appraisal_status: string;
     vendor: string[];
     unit_documents: string[];

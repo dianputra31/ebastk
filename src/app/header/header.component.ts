@@ -124,6 +124,10 @@ activePanel: string = '';
     return this.currentRoute === '/inspection-summary';  
   }  
 
+  isHistorySummary(): boolean {  
+    return this.currentRoute.startsWith('/history-summary');  
+  }  
+
   isUnitInput(): boolean {  
     return this.currentRoute === '/unit-input';  
   }  
@@ -169,7 +173,10 @@ activePanel: string = '';
     } else if (this.currentRoute.startsWith('/detil-terjadwal')) {
       // this.router.navigate(['/riwayat']);
       window.location.href = '/tugas';
-    }else {
+    } else if (this.currentRoute.startsWith('/history-summary')) {
+      // this.router.navigate(['/riwayat']);
+      window.location.href = '/detil-riwayat/' + unit_id;
+    } else {
       this.router.navigate(['/detil-tugas']);
     }
 

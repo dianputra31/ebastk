@@ -41,7 +41,15 @@
                     <div *ngFor="let item of groupedSubItems['Exterior'][subCategory]">
                         <div>
                             <div *ngIf="item.questions && item.questions.length > 0">
-                                <label style="font-weight: bold;text-transform: capitalize;width:50%;border:solid rgb(255, 251, 0) 0px;padding-left:15px;">{{ item.item_description }}</label>
+                                <label style="font-weight: bold;text-transform: capitalize;width:50%;border:solid rgb(255, 251, 0) 0px;padding-left:15px;">
+                                  {{ item.item_description }}
+                                  <span *ngIf="hasIncompleteQuestions(item)" 
+                                        class="warning-icon"
+                                        style="color: #ff9800; margin-left: 8px; font-size: 16px;"
+                                        title="Ada pertanyaan yang belum dijawab">
+                                    ⚠️
+                                  </span>
+                                </label>
                                 <div class="flex" style="gap: 25%">
                                     <label style="display: flex; align-items: center; gap: 15px; font-size: 14px; margin-left:10px;">
                                       <input type="radio"
@@ -96,5 +104,22 @@
       </div>
     </ng-container>
     <button type="button" class="flex items-center space-x-1 bg-red-600 text-white px-4 py-2 rounded-full wd45" (click)="closeQuestionsModal()" style="margin-top:20px;">Tutup</button>
+  </div>
+</div>
+
+<!-- Modal Pilihan Baik/Rusak -->
+<div *ngIf="isConditionModalOpen" class="condition-modal-overlay" (click)="closeConditionModal()">
+  <div class="condition-modal-content" (click)="$event.stopPropagation()">
+    <h3 class="modal-title">Set semua nilai pada item ini ke:</h3>
+    <div class="condition-buttons">
+      <button class="condition-btn condition-btn-baik" (click)="applyConditionToAll('Baik')">
+        <i class="fas fa-check-circle btn-icon"></i>
+        <span class="btn-label">Baik</span>
+      </button>
+      <button class="condition-btn condition-btn-rusak" (click)="applyConditionToAll('Rusak')">
+        <i class="fas fa-times-circle btn-icon"></i>
+        <span class="btn-label">Rusak</span>
+      </button>
+    </div>
   </div>
 </div>

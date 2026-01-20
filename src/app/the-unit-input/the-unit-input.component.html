@@ -28,7 +28,8 @@
                     </app-the-vendor-modal>
                     
                     <label for="vendorAddress">Alamat</label>
-                    <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:1px;border-radius:5px;border-color:#cdcdcd;line-height: 10px;text-transform: uppercase;" readonly/>
+                    <!-- <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:1px;border-radius:5px;border-color:#cdcdcd;line-height: 10px;text-transform: uppercase;" readonly/> -->
+                    <input id="vendorAddress" type="text" placeholder="Alamat" value="" style="border:1px;border-radius:5px;border-color:#cdcdcd;line-height: 10px;text-transform: uppercase;" (change)="onLokasiUnitChange($event)"/>
                     <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
                       {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
                     </textarea> -->

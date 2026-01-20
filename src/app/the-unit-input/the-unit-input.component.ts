@@ -123,6 +123,7 @@ export class TheUnitInputComponent implements OnInit {
 
 selectedYear: number | null = null;
 selectedYearDate: Date | null = null;
+selectedPicPhoneSender: string = '';
 
 years: number[] = [];
 
@@ -188,6 +189,7 @@ transmissionOptions: [string, string][] = [
   // ['Other', 'Other']
 ];
   isVendorModalOpen: boolean = false;
+  selectedLokasiUnit: any;
   
 
   @HostListener('window:scroll', [])
@@ -433,7 +435,9 @@ onYearSelected(event: any) {
     if (this.selectedVariant) payload.variant_model = this.selectedVariant;
     if (this.selectedNotes) payload.notes = this.selectedNotes;
 
-
+    if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender.toUpperCase();
+    if (this.selectedLokasiUnit) payload.unit_location = this.selectedLokasiUnit.toUpperCase();
+    if (this.selectedPicPhoneSender) payload.pic_phone = this.selectedPicPhoneSender.toUpperCase();
 
 
 
@@ -462,7 +466,24 @@ onYearSelected(event: any) {
     this.savePayloadUnit();
   }
 
-  
+  onLokasiUnitChange(event : any) {
+    const inputValue = event.target.value;
+    this.selectedLokasiUnit = inputValue;
+    this.savePayloadUnit();
+  }
+
+  onSenderChange(event : any) {
+    const inputValue = event.target.value;
+    this.selectedPicSender = inputValue;
+    this.savePayloadUnit();
+  }
+
+  onPicPhoneChange(event : any) {
+    const inputValue = event.target.value;
+    this.selectedPicPhoneSender = inputValue;
+    this.savePayloadUnit();
+  }
+
 
   onExpeditionChange(event : any) {
     const selectedOption = event.target.selectedOptions; 
