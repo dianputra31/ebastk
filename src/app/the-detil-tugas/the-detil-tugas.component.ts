@@ -82,6 +82,8 @@ export class TheDetilTugasComponent implements OnInit {
   selectedKeur: string = '';
   selectedKeurStatus: string = 'Tidak Ada';
   keurDateString: string = '';
+  selectedStnkStatus: string = 'Tidak Ada';
+  stnkDateString: string = '';
   selectedPicSender: string = '';
 
   choices: [string, string][] = [
@@ -144,6 +146,12 @@ transmissionOptions: [string, string][] = [
     this.savePayloadUnit();
   }
 
+  onStnkChange(event : any) {
+    const inputValue = event.target.value;
+    this.stnkDateString = inputValue;
+    this.savePayloadUnit();
+  }
+
   onLokasiUnitChange(event : any) {
     const inputValue = event.target.value;
     this.selectedLokasiUnit = inputValue;
@@ -169,6 +177,19 @@ transmissionOptions: [string, string][] = [
     // Kosongkan keurDateString jika pilihan "Tidak Ada"
     if (this.selectedKeurStatus === 'Tidak Ada') {
       this.keurDateString = '';
+    }
+    
+    this.savePayloadUnit();
+    
+  }
+
+  onCheckedStnk(event : any) {
+    // Langsung ambil value dari event
+    this.selectedStnkStatus = event.target.value;
+    
+    // Kosongkan stnkDateString jika pilihan "Tidak Ada"
+    if (this.selectedStnkStatus === 'Tidak Ada') {
+      this.stnkDateString = '';
     }
     
     this.savePayloadUnit();
@@ -484,6 +505,41 @@ transmissionOptions: [string, string][] = [
     // this.showVariant(colorId);
   }
 
+
+  onNumberInput(event: Event, fieldName: keyof this) {
+    const input = event.target as HTMLInputElement;
+
+    // Simpan posisi kursor sebelum format
+    const selectionStart = input.selectionStart ?? input.value.length;
+
+    // Ambil raw value
+    const rawValue = input.value.replace(/\D/g, '');
+    const numericValue = rawValue ? parseInt(rawValue, 10) : null;
+
+    // Simpan ke property yang sesuai (gunakan index signature)
+    (this as any)[fieldName] = numericValue;
+
+    // Format ulang value untuk ditampilkan
+    const formattedValue = this.formatNumber(numericValue);
+    input.value = formattedValue;
+
+    // Hitung pergeseran kursor
+    const diff = formattedValue.length - rawValue.length;
+    const newCursorPos = selectionStart + diff;
+
+    // Restore posisi kursor
+    setTimeout(() => {
+      input.setSelectionRange(newCursorPos, newCursorPos);
+    });
+
+    this.savePayloadUnit();
+  }
+
+  formatNumber(value: any): string {
+    if (value === null || value === undefined || value === '') return '';
+    return new Intl.NumberFormat('id-ID').format(value);
+  }
+
   onChangeTextInput(event : any, num: number) {
     const inputValue = event.target.value; // Ambil nilai dari input text
     if(num==1){
@@ -535,6 +591,24 @@ transmissionOptions: [string, string][] = [
         this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
+
+        this.infoVendor(this.sampleData.vendor.id);
+        this.brandid = this.sampleData.brand.id;
+        this.showBrand();
+
+        let tgl_mobilisasi = '';
+        if (this.sampleData.mobilization_unit && this.sampleData.mobilization_unit.length > 0 && this.sampleData.mobilization_unit[0].mobilization) {
+          this.pic = this.sampleData.mobilization_unit[0].mobilization.pic;
+          tgl_mobilisasi = this.sampleData.mobilization_unit[0].mobilization.assignment_date;
+        } else {
+          this.pic = '';
+          const today = new Date();
+          tgl_mobilisasi = today.toISOString().substring(0, 10);
+        }
+        console.log('pic tgl_mobilisasi:', this.tgl_mobilisasi);
+        this.tgl_mobilisasi = (tgl_mobilisasi && tgl_mobilisasi.trim() !== '') 
+          ? tgl_mobilisasi.substring(0, 10) 
+          : new Date().toISOString().substring(0, 10); 
         
         // Format khusus untuk KTP dengan struktur lengkap
         this.ktpDocuments = this.sampleData.idcardsender_url ? [{
@@ -545,7 +619,7 @@ transmissionOptions: [string, string][] = [
         
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
-        this.modelname = this.sampleData.variant_model.model_name;
+        this.modelname = this.sampleData.variant_model ? this.sampleData.variant_model.model_name : '';
         this.selectedVariantName = this.modelname ;
         this.selectedBrandName = this.sampleData.brand.brand_name;
         this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';
@@ -557,6 +631,7 @@ transmissionOptions: [string, string][] = [
         this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
         this.pic = this.sampleData.pic_sender || '';
         this.selectedLokasiUnit = this.sampleData.lokasi_unit || '';
+
 
         this.selectedNotes = this.sampleData.notes || '';
         
@@ -576,21 +651,10 @@ transmissionOptions: [string, string][] = [
 
         this.savePayloadUnit();
 
-        let tgl_mobilisasi = '';
-        if (this.sampleData.mobilization_unit && this.sampleData.mobilization_unit.length > 0 && this.sampleData.mobilization_unit[0].mobilization) {
-          this.pic = this.sampleData.mobilization_unit[0].mobilization.pic;
-          tgl_mobilisasi = this.sampleData.mobilization_unit[0].mobilization.assignment_date;
-        } else {
-          this.pic = '';
-          const today = new Date();
-          tgl_mobilisasi = today.toISOString().substring(0, 10);
-        }
-        this.tgl_mobilisasi = tgl_mobilisasi.substring(0, 10); 
+       
         // console.log('mobilization:', this.sampleData.mobilization_units[0].mobilization.first_published_at);
         // console.log('tgl_mobilisasi:', this.tgl_mobilisasi);
-        this.infoVendor(response.vendor.id);
-        this.brandid = this.sampleData.brand.id;
-        this.showBrand();
+       
 
       }else{
         console.log('here failed')

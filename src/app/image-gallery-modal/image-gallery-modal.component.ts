@@ -4,6 +4,8 @@ import { ApiClientService } from '../services/api.client';
 import axios from 'axios';
 import { UnitDetailResponse, UnitDocument } from '../../assets/models/detail-unit.model'; // sesuaikan path
 import { environment } from "src/environments/environment";
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-image-gallery-modal',
@@ -16,6 +18,8 @@ export class ImageGalleryModalComponent implements OnInit{
 @Input() images: UnitDocument[] = [];
 @Input() unitId: any;
 @Input() isViewOnly: boolean = false;
+@ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
 isModalOpen = true;
 errlog: string = '';
 tipeDoc: string = '';
@@ -34,6 +38,114 @@ constructor(public activeModal: NgbActiveModal, private apiClient: ApiClientServ
 
 ngOnInit(): void {
   this.mbel();
+
+ (window as any).onKodularPhoto = (base64: string) => {
+    console.log('DAPET FOTO:', base64.substring(0, 50));
+    this.handleKodularBase64(base64);
+  };
+
+  // ⬇️ TAMBAHKAN INI
+  (window as any).Kodular = {
+    openCamera: () => {
+      console.log('JS → KODULAR openCamera');
+    }
+  };
+}
+
+async handleKodularImage(imagePath: string) {
+  try {
+    // Convert path Kodular → fetch blob
+    const response = await fetch(imagePath);
+    const blob = await response.blob();
+
+    const file = new File([blob], 'camera.jpg', { type: blob.type });
+
+    // Preview (optional)
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.displayedImages.push(e.target.result);
+      this.selectedImageIndex = this.displayedImages.length - 1;
+    };
+    reader.readAsDataURL(file);
+
+    // Upload ke API (PAKAI LOGIKA KAMU YANG SUDAH ADA)
+    const formData = new FormData();
+
+    let endpoint: string;
+
+    if (this.tipeDoc === 'KTP') {
+      formData.append('unit_id', this.unitId);
+      formData.append('image', file);
+      endpoint = `/upload-idcardsender/`;
+    } else {
+      formData.append('unit', this.unitId);
+      formData.append('file', file);
+      formData.append('file_type', this.tipeDoc);
+      endpoint = `/upload-document/`;
+    }
+
+    await this.apiClient.postDoc<any>(endpoint, formData);
+    this.infoUnit();
+
+  } catch (err) {
+    console.error('Gagal proses foto Kodular:', err);
+  }
+}
+
+
+
+async handleKodularBase64(base64: string) {
+  try {
+    // PREVIEW (SAMA SEPERTI UPLOAD)
+    this.displayedImages.push(base64);
+    this.selectedImageIndex = this.displayedImages.length - 1;
+
+    // BASE64 → FILE
+    const file = this.base64ToFile(base64, 'camera.jpg');
+
+    // UPLOAD (PAKAI LOGIKA LAMA)
+    const formData = new FormData();
+    let endpoint: string;
+
+    if (this.tipeDoc === 'KTP') {
+      formData.append('unit_id', this.unitId);
+      formData.append('image', file);
+      endpoint = `/upload-idcardsender/`;
+    } else {
+      formData.append('unit', this.unitId);
+      formData.append('file', file);
+      formData.append('file_type', this.tipeDoc);
+      endpoint = `/upload-document/`;
+    }
+
+    await this.apiClient.postDoc<any>(endpoint, formData);
+    this.infoUnit();
+
+  } catch (err) {
+    console.error('Gagal proses foto Kodular:', err);
+  }
+}
+
+base64ToFile(base64: string, filename: string): File {
+  const arr = base64.split(',');
+  const mime = arr[0].match(/:(.*?);/)![1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], filename, { type: mime });
+}
+
+openCamera() {
+  //  window.location.href = 'kodular://openCamera';
+  console.log('KODULAR:OPEN_CAMERA');
+ (window as any).WebViewString = JSON.stringify({
+    action: 'openCamera'
+  });
 }
 
 mbel() {

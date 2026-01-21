@@ -98,12 +98,16 @@ export class TheUnitInputComponent implements OnInit {
   selectedBranchName: string = '';
   selectedBrandId: string = '';
   selectedUcatId: string = '';
+  licensePlatePart1: string = '';
+  licensePlatePart2: string = '';
+  licensePlatePart3: string = '';
   selectedBranchId: string = '';
   bastk_status: string = '';
   selectedBpkbNumber: string = '';
   selectedBpkbName: string = '';
   selectedKeur: string = '';
   keurDateString: string = '';
+  stnkDateString: string = '';
   todayDateString: string = new Date().toISOString().split('T')[0];
   selectedPicPool: string = '';
   selectedPicPoolPhone: string = '';
@@ -130,7 +134,8 @@ years: number[] = [];
 maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
 
   choices: [string, string][] = [
-    ['No', 'No']
+    ['No', 'No'],
+    ['No-Derek', 'No-Derek']
 ];
 
 
@@ -720,9 +725,14 @@ onYearSelected(event: any) {
   }
 
   onCheckedStnk(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
-    const fuel = selectedOption.getAttribute('stnk-id');
-    this.selectedStnk = fuel;
+    // Langsung ambil value dari event atau dari this.selectedStnk yang sudah di-bind ngModel
+    this.selectedStnk = event.target.value || this.selectedStnk;
+    
+    // Kosongkan stnkDateString jika pilihan "Tidak Ada"
+    if (this.selectedStnk === 'Tidak Ada') {
+      this.stnkDateString = '';
+    }
+    
     this.savePayloadUnit();
   }
 
@@ -840,6 +850,55 @@ onNumberInput(event: Event, fieldName: keyof this) {
   this.savePayloadUnit();
 }
 
+  onAlphanumericInput(event: Event, fieldName: keyof this) {
+    const input = event.target as HTMLInputElement;
+    
+    // Hapus semua karakter selain huruf dan angka, lalu uppercase
+    let value = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    
+    // Simpan ke property yang sesuai
+    (this as any)[fieldName] = value;
+    
+    // Update input value
+    input.value = value;
+  }
+
+  onLicensePlateInput(event: any, part: number, nextInput: any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    if (part === 1) {
+      // Part 1: Hanya huruf, max 2 karakter
+      value = value.replace(/[^A-Za-z]/g, '').toUpperCase();
+      this.licensePlatePart1 = value;
+      input.value = value;
+      
+      // Auto-jump jika sudah 2 huruf
+      if (value.length === 2 && nextInput) {
+        nextInput.focus();
+      }
+    } else if (part === 2) {
+      // Part 2: Hanya angka, max 4 karakter
+      value = value.replace(/[^0-9]/g, '');
+      this.licensePlatePart2 = value;
+      input.value = value;
+      
+      // Auto-jump jika sudah 4 angka
+      if (value.length === 4 && nextInput) {
+        nextInput.focus();
+      }
+    } else if (part === 3) {
+      // Part 3: Hanya huruf, max 3 karakter
+      value = value.replace(/[^A-Za-z]/g, '').toUpperCase();
+      this.licensePlatePart3 = value;
+      input.value = value;
+    }
+
+    // Update selectedLicensePlate dengan format lengkap
+    this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
+    this.savePayloadUnit();
+  }
+
   onChangeTextInput(event : any, num: number) {
     const inputValue = event.target.value; // Ambil nilai dari input text
     if(num==1){
@@ -880,6 +939,8 @@ onNumberInput(event: Event, fieldName: keyof this) {
        this.selectedPicSenderPhone = inputValue;
     }else if(num==17){
       this.selectedNotes = inputValue;
+    }else if(num==18){
+      this.stnkDateString = inputValue;
     }else{
       // this.selectedYear = inputValue;
       const input = event.target as HTMLInputElement;

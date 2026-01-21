@@ -18,7 +18,7 @@
                     <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:1px;line-height: 10px;text-transform: uppercase;" readonly/>
                     
                     <label for="vendorAddress">Lokasi Unit</label>
-                    <input id="vendorAddress" type="text" placeholder="Lokasi Unit" value="{{sampleData?.lokasi_unit}}" style="border:1px;line-height: 10px;text-transform: uppercase;" (change)="onLokasiUnitChange($event)"/>
+                    <input id="vendorAddress" type="text" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" style="border:1px;line-height: 10px;text-transform: uppercase;" (change)="onLokasiUnitChange($event)"/>
                     <!-- <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;" readonly/> -->
                     <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
                       {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
@@ -139,7 +139,16 @@
                     <input type="text" id="engineCapacity" placeholder="Kapasitas Mesin" value="{{sampleData?.cc}}"  (keyup)="onChangeTextInput($event, 2)"  style="display: none;"/>
                     
                     <label for="engineCapacity">Kilometer (ODO)</label>
-                    <input type="text" id="odo_meter" placeholder="Kilometer" value="{{sampleData?.odo_meter}}"   />
+                    <input
+                    type="text"
+                    id="odo_meter" placeholder="Kilometer"
+                    [value]="formatNumber(selectedOdo)"
+                    (input)="onNumberInput($event, 'selectedOdo')"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="8"
+                    value="{{sampleData?.odo_meter}}"
+                  />
 
                     <label for="color">Warna</label>
 
@@ -189,6 +198,29 @@
 
                     <label for="color">Nosin</label>
                     <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
+
+                    <label for="tglstnk">STNK</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start; width: 90%;">
+                      <select id="tglstnk"  name="tglstnk" placeholder="STNK" (change)="onCheckedStnk($event)" style="flex: 1;">
+                        <option *ngFor="let option of adaTidakOptions" 
+                                [value]="option"
+                                [attr.selected]="option === selectedStnkStatus ? '' : null">
+                          {{ option }}
+                        </option>
+                      </select>
+                      
+                      <input 
+                        *ngIf="selectedStnkStatus === 'Ada'" 
+                        type="date" 
+                        id="tglStnkDate" 
+                        name="tglStnkDate" 
+                        [(ngModel)]="stnkDateString"
+                        (change)="onStnkChange($event)"
+                        [max]="todayDateString"
+                        required
+                        style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
+                      />
+                    </div>
 
                 </div>
             </div>

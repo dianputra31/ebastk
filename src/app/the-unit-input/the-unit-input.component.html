@@ -80,7 +80,7 @@
                       <option *ngFor="let choice of choices" 
                               [value]="choice[0]" 
                               [attr.selected]="choice[0] === sampleData?.expedition ? '' : 'No'">
-                        {{ choice[1] }}
+                        {{ choice[0] }}
                       </option>
                     </select>
 
@@ -98,7 +98,32 @@
                     (selectCopas)="onCopasSelected($event)">
                     </app-the-rawdata-modal>
                     
-                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"   (keyup)="onChangeTextInput($event, 14)"  (blur)="onChangeTextInput($event, 14)" style="text-transform: uppercase;"/>
+                    <div style="display: flex; gap: 8px; width: 90%;">
+                      <input 
+                        #platePart1
+                        type="text" 
+                        placeholder="XX" 
+                        maxlength="2"
+                        [(ngModel)]="licensePlatePart1"
+                        (input)="onLicensePlateInput($event, 1, platePart2)"
+                        style="text-transform: uppercase; width: 60px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                      <input 
+                        #platePart2
+                        type="text" 
+                        placeholder="XXXX" 
+                        maxlength="4"
+                        [(ngModel)]="licensePlatePart2"
+                        (input)="onLicensePlateInput($event, 2, platePart3)"
+                        style="text-align: center; width: 80px; font-weight: bold; letter-spacing: 2px;"/>
+                      <input 
+                        #platePart3
+                        type="text" 
+                        placeholder="XXX" 
+                        maxlength="3"
+                        [(ngModel)]="licensePlatePart3"
+                        (input)="onLicensePlateInput($event, 3, null)"
+                        style="text-transform: uppercase; width: 70px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                    </div>
                     
 
                     <label for="unit_location" class="label-with-icon">Status Unit
@@ -161,14 +186,14 @@
                       <mat-icon>info</mat-icon>
                     </button> -->
                     </label>
-                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"  (blur)="onChangeTextInput($event, 3)"  style="text-transform: uppercase;"/>
+                    <input type="text" id="noka" placeholder="Noka"  [(ngModel)]="selectedNoka"  (input)="onAlphanumericInput($event, 'selectedNoka')"  (blur)="onChangeTextInput($event, 3)"  style="text-transform: uppercase;"/>
 
                     <label for="nosin" class="label-with-icon">Nosin
                       <!-- <button mat-icon-button class="info-button" (click)="openCopasModal()">
                       <mat-icon>info</mat-icon>
                     </button> -->
                     </label>
-                    <input type="text" id="nosin" placeholder="Nosin"   (keyup)="onChangeTextInput($event, 4)"  (blur)="onChangeTextInput($event, 4)"  style="text-transform: uppercase;"/>
+                    <input type="text" id="nosin" placeholder="Nosin"  [(ngModel)]="selectedNosin"  (input)="onAlphanumericInput($event, 'selectedNosin')"  (blur)="onChangeTextInput($event, 4)"  style="text-transform: uppercase;"/>
 
 
                      <label>Transmisi 
@@ -202,6 +227,27 @@
                         name="tglKeurDate" 
                         [(ngModel)]="keurDateString"
                         (change)="onChangeTextInput($event, 11)"
+                        [max]="todayDateString"
+                        required
+                        style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
+                      />
+                    </div>
+
+                    <label for="stnk">STNK</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start; width: 90%;">
+                      <select id="stnk" [(ngModel)]="selectedStnk" name="stnk" placeholder="STNK" (change)="onCheckedStnk($event)" style="flex: 1;">
+                        <option *ngFor="let option of adaTidakOptions" [value]="option">
+                          {{ option }}
+                        </option>
+                      </select>
+                      
+                      <input 
+                        *ngIf="selectedStnk === 'Ada'" 
+                        type="date" 
+                        id="tglStnkDate" 
+                        name="tglStnkDate" 
+                        [(ngModel)]="stnkDateString"
+                        (change)="onChangeTextInput($event, 18)"
                         [max]="todayDateString"
                         required
                         style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
@@ -399,6 +445,7 @@
                     (input)="onNumberInput($event, 'selectedOdo')"
                     inputmode="numeric"
                     pattern="[0-9]*"
+                    maxlength="8"
                     
                   />
                     

@@ -176,7 +176,7 @@ export class DetailFooterComponent implements OnInit {
               if (success) {
                 // this.router.navigate(['/engine-inspection' + '/' + unit_id]);
                 // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
-                // window.location.href = '/inspeksi-unit/' + unit_id;
+                window.location.href = '/inspeksi-unit/' + unit_id;
               }
             });
           }else if(this.stepNow==='engine-inspection'){
@@ -300,7 +300,7 @@ export class DetailFooterComponent implements OnInit {
               ...parsedUnitPayload
             };
         }
-        this.payload.bastk_status = 'draft';
+        this.payload.bastk_status = 'submit';
         // this.payload.bastk_status = this.bastk_status;
       }
     }else if(a == 4){

@@ -25,6 +25,7 @@ export class DetailUnitInputComponent implements OnInit {
   bastk_status: string = '';
   errMessage: string = '';
   isLoading: boolean = false;
+  nextid: any;
 
   constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
 
@@ -96,7 +97,7 @@ export class DetailUnitInputComponent implements OnInit {
     this.saveStep(1).then(success => {
       if (success) {
         localStorage.removeItem('mobilizationUnitNew');
-        window.location.href = '/tugas';
+        window.location.href = '/detil-tugas/' + this.nextid;
       }
     });
     
@@ -160,6 +161,7 @@ async saveStep(a: number) {
 
     if (response && response.message === 'Success') {
       this.isLoading = false;
+      this.nextid = response.data.id;
       return true;
     } else {
       this.isLoading = false;
@@ -172,7 +174,7 @@ async saveStep(a: number) {
       if (error.response && error.response.status === 401) {
         this.errlog = 'Username atau password salah.';
       } else {
-        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.'; 
       }
     } else {
       this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
