@@ -347,8 +347,18 @@ get sortedGroupedSubItems() {
   }
   
   goToDokumenBASTK() {
+    // Cek jika kedua signature URL sudah ada, maka tidak bisa akses
+    if (this.sampleDataInfo?.signsender_url && this.sampleDataInfo?.signbastk_url) {
+      return; // Tidak melakukan apa-apa jika kedua URL sudah ada
+    }
+    
     const unit_id = this.router.url.split('/').pop();
     window.location.href = '/inspection-summary/' + unit_id;
+  }
+  
+  // Method untuk mengecek apakah dokumen BASTK sudah ditandatangani
+  isDokumenBASTKDisabled(): boolean {
+    return !!(this.sampleDataInfo?.signsender_url && this.sampleDataInfo?.signbastk_url);
   }
   
   goToUnitPhotos() {

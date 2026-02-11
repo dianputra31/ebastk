@@ -1,5 +1,5 @@
 {
-  "name": "eBASTK Tribik",
+  "name": "",
   "short_name": "eBASTK",
   "icons": [
     {
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#c13c3c",
+  "theme_color": "#920000",
+  "background_color": "#a41515",
   "display": "standalone"
 }

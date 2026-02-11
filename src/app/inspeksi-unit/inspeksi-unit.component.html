@@ -48,14 +48,16 @@
       
       <div class="choice-cards">
         <!-- Card Dokumen BASTK -->
-        <div class="choice-card" (click)="goToDokumenBASTK()">
+        <div class="choice-card" 
+             [class.disabled]="isDokumenBASTKDisabled()"
+             (click)="!isDokumenBASTKDisabled() && goToDokumenBASTK()">
           <div class="card-icon">
             <img src="../../assets/icons/document-icon.svg" alt="Dokumen" 
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <span class="fallback-icon" style="display:none;">📄</span>
           </div>
           <h4>Dokumen BASTK</h4>
-          <p>Lihat ringkasan dan unduh dokumen BASTK</p>
+          <p>{{ isDokumenBASTKDisabled() ? 'Dokumen sudah ditandatangani' : 'Lihat ringkasan dan unduh dokumen BASTK' }}</p>
         </div>
         
         <!-- Card Unit Photos -->

@@ -396,6 +396,44 @@
       margin: 0;
       line-height: 1.5;
     }
+    
+    // Style untuk card yang disabled
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+      background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%);
+      
+      &:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: #E0E0E0;
+        
+        &::before {
+          opacity: 0;
+        }
+        
+        .card-icon {
+          transform: none;
+        }
+        
+        h4 {
+          color: #312E2E;
+        }
+      }
+      
+      h4 {
+        color: #999;
+      }
+      
+      p {
+        color: #999;
+      }
+      
+      .card-icon {
+        background: linear-gradient(135deg, #E8E8E8 0%, #D8D8D8 100%);
+      }
+    }
   }
 }
 
@@ -450,6 +488,32 @@
       
       h4 {
         font-size: 18px;
+      }
+      
+      // Style untuk card yang disabled di mobile
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+        background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%);
+        
+        &:hover {
+          transform: none;
+          box-shadow: none;
+          border-color: #E0E0E0;
+        }
+        
+        h4 {
+          color: #999;
+        }
+        
+        p {
+          color: #999;
+        }
+        
+        .card-icon {
+          background: linear-gradient(135deg, #E8E8E8 0%, #D8D8D8 100%);
+        }
       }
     }
   }

@@ -181,6 +181,7 @@ transmissionOptions: [string, string][] = [
   // ['Dual Clutch', 'Dual Clutch'],
   // ['Other', 'Other']
 ];
+  statusunit: string = "";
   
 
   @HostListener('window:scroll', [])
@@ -883,6 +884,27 @@ onDecimalInput(event: Event, fieldName: keyof this) {
   this.savePayloadUnit();
 }
 
+  onAlphanumericInput(event: any, fieldName: string) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+    
+    // Remove spaces and non-alphanumeric characters
+    value = value.replace(/[^A-Za-z0-9]/g, '');
+    
+    // Convert to uppercase
+    value = value.toUpperCase();
+    
+    // Update the model and input value
+    if (fieldName === 'noka') {
+      this.selectedNoka = value;
+    } else if (fieldName === 'nosin') {
+      this.selectedNosin = value;
+    }
+    
+    input.value = value;
+    this.savePayloadUnit();
+  }
+
   onChangeTextInput(event : any, num: number) {
     const inputValue = event.target.value; // Ambil nilai dari input text
     if(num==1){
@@ -967,6 +989,7 @@ onDecimalInput(event: Event, fieldName: keyof this) {
         console.log('Sample Data Unit Mobilisasi:', this.sampleDataUnitMobilisasi);
         this.infoVendor(response.mobilization.vendor_id);
         this.vendor_id = response.mobilization.vendor_id;
+        this.statusunit = response.mobilization.unit_destination;
 
 
         this.savePayloadUnit();

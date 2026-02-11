@@ -126,7 +126,7 @@
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="unit_location" placeholder="Status Unit"  (keyup)="onChangeTextInput($event, 1)"  (blur)="onChangeTextInput($event, 1)" />
+                    <input type="text" id="unit_location" placeholder="Status Unit" readonly value="{{statusunit}}"  (keyup)="onChangeTextInput($event, 1)"  (blur)="onChangeTextInput($event, 1)" />
 
                     
 
@@ -181,14 +181,14 @@
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"  (blur)="onChangeTextInput($event, 3)"/>
+                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (input)="onAlphanumericInput($event, 'noka')"  (blur)="onChangeTextInput($event, 3)"/>
 
                     <label for="nosin" class="label-with-icon">Nosin
                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="nosin" placeholder="Nosin"   (keyup)="onChangeTextInput($event, 4)"  (blur)="onChangeTextInput($event, 4)"/>
+                    <input type="text" id="nosin" placeholder="Nosin"   (input)="onAlphanumericInput($event, 'nosin')"  (blur)="onChangeTextInput($event, 4)"/>
 
 
                      <label>Transmisi 

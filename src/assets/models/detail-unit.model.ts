@@ -47,6 +47,11 @@ export interface Brand {
     variant_name: string;
   }
   
+  export interface UnitType {
+    id: number;
+    type_name: string;
+  }
+  
   export interface Vendor {
     id: number;
     vendor_name: string;
@@ -75,7 +80,7 @@ export interface Brand {
     color: Color;
     unitimages: UnitImage[];
     thumbnail_url: string;
-    unit_type: string;
+    unit_type: UnitType;
     cc: number;
     unit_location: string;
     first_published_at: string;
@@ -103,6 +108,7 @@ export interface Brand {
     fotoSuratKuasa: string | null;
     notes: string | null;
     keur: string | null;
+    stnk_status: string | null;
     recommendation_price: string | null;
     bastk_timestamp: string;
     appraisal_timestamp: string | null;

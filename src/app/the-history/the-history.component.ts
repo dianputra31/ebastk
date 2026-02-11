@@ -45,6 +45,10 @@ currentPage: number = 1;
 filterriwayat: string = '';
 filterRiwayat: string = '';
 filter_bastk_riwayat: string = '';
+startDate: string = '';
+endDate: string = '';
+vendor_id: string = '';
+selectedVendorName: string = '';
 
 // constructor() {} 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private noahService: NoahService) {
@@ -55,11 +59,35 @@ filter_bastk_riwayat: string = '';
 
   ngOnInit(): void {
     // this.readJsonFile();
+    
+    // Set default date range (30 hari ke belakang)
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    
+    this.endDate = today.toISOString().split('T')[0];
+    this.startDate = thirtyDaysAgo.toISOString().split('T')[0];
+    
     this.listTugas(this.currentPage);
 
     this.noahService.filterriwayat$.subscribe(filterriwayat => {
       this.filterRiwayat = filterriwayat;
           this.listTugas(this.currentPage);
+    });
+
+    this.noahService.filterdate$.subscribe(dateFilter => {
+      this.startDate = dateFilter.startDate;
+      this.endDate = dateFilter.endDate;
+      this.listTugas(this.currentPage);
+    });
+
+    this.noahService.filtervendor$.subscribe(vendorId => {
+      this.vendor_id = vendorId;
+      this.listTugas(this.currentPage);
+    });
+
+    this.noahService.filtervendorname$.subscribe(vendorName => {
+      this.selectedVendorName = vendorName;
     });
 
 
@@ -105,12 +133,26 @@ filter_bastk_riwayat: string = '';
     //   page: '1'
     // };
     this.errlog = "";
+    this.isLoading = true;
     try {
 
       if(this.filterRiwayat=="" || this.filterRiwayat== null || this.filterRiwayat==undefined){
         this.filter_bastk_riwayat = '&keyword=';
       }else{
         this.filter_bastk_riwayat = '&keyword=' + this.filterRiwayat;
+      }
+
+      // Tambahkan filter date jika ada
+      if(this.startDate && this.startDate !== ''){
+        this.filter_bastk_riwayat += '&startdate=' + this.startDate;
+      }
+      if(this.endDate && this.endDate !== ''){
+        this.filter_bastk_riwayat += '&enddate=' + this.endDate;
+      }
+
+      // Tambahkan filter vendor_id jika ada
+      if(this.vendor_id && this.vendor_id !== ''){
+        this.filter_bastk_riwayat += '&vendor_id=' + this.vendor_id;
       }
 
       // const page = 1; // Parameter yang ingin dikirim
@@ -139,9 +181,11 @@ filter_bastk_riwayat: string = '';
 
         // this.sampleData = response;  
         // console.log('Sample Data:', this.sampleData);
+        this.isLoading = false;
       }else{
         // console.log('here failed')
         this.errlog = 'Username atau password salah';
+        this.isLoading = false;
       }
 
     } catch (error) {

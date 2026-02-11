@@ -114,8 +114,36 @@
                     <label for="color">Noka</label>
                     <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
                     
-                    <label for="color">Fuel</label>
-                    <input type="text" id="fuel" placeholder="Fuel"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+                    <label for="color">Nosin</label>
+                    <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
+
+
+                     <label for="tglkeur">Keur</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start; width: 90%;">
+                      <select id="tglkeur"  name="tglkeur" placeholder="KEUR" (change)="onCheckedKeur($event)" style="flex: 1;">
+                        <option *ngFor="let option of adaTidakOptions" 
+                                [value]="option"
+                                [attr.selected]="option === selectedKeurStatus ? '' : null">
+                          {{ option }}
+                        </option>
+                      </select>
+                      
+                      <!-- [max]="todayDateString" -->
+
+                      <input 
+                        *ngIf="selectedKeurStatus === 'Ada'" 
+                        type="date" 
+                        id="tglKeurDate" 
+                        name="tglKeurDate" 
+                        [(ngModel)]="keurDateString"
+                        (change)="onKeurChange($event)"
+                        required
+                        style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
+                      />
+                    </div>
+
+                    <!-- <label for="color">Fuel</label>
+                    <input type="text" id="fuel" placeholder="Fuel"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/> -->
                 </div>
 
                 <div class="column">
@@ -126,7 +154,7 @@
                               [value]="vehictype.type_name"
                               [attr.data-id]="vehictype.id"
                               [attr.data-name]="vehictype.type_name"
-                              [attr.selected]="vehictype.id === sampleData?.unit_category_id ? '' : null">
+                              [attr.selected]="vehictype.id === sampleData?.unit_type?.id ? '' : null">
                         {{ vehictype.type_name }}
                       </option>
                     </select>
@@ -173,32 +201,8 @@
                       </option>
                     </select>
 
-                    <label for="tglkeur">Keur</label>
-                    <div style="display: flex; gap: 10px; align-items: flex-start; width: 90%;">
-                      <select id="tglkeur"  name="tglkeur" placeholder="KEUR" (change)="onCheckedKeur($event)" style="flex: 1;">
-                        <option *ngFor="let option of adaTidakOptions" 
-                                [value]="option"
-                                [attr.selected]="option === selectedKeurStatus ? '' : null">
-                          {{ option }}
-                        </option>
-                      </select>
-                      
-                      <input 
-                        *ngIf="selectedKeurStatus === 'Ada'" 
-                        type="date" 
-                        id="tglKeurDate" 
-                        name="tglKeurDate" 
-                        [(ngModel)]="keurDateString"
-                        (change)="onKeurChange($event)"
-                        [max]="todayDateString"
-                        required
-                        style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
-                      />
-                    </div>
-
-                    <label for="color">Nosin</label>
-                    <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
-
+                   
+                    
                     <label for="tglstnk">STNK</label>
                     <div style="display: flex; gap: 10px; align-items: flex-start; width: 90%;">
                       <select id="tglstnk"  name="tglstnk" placeholder="STNK" (change)="onCheckedStnk($event)" style="flex: 1;">
@@ -209,6 +213,9 @@
                         </option>
                       </select>
                       
+
+                      <!-- [max]="todayDateString" -->
+
                       <input 
                         *ngIf="selectedStnkStatus === 'Ada'" 
                         type="date" 
@@ -216,7 +223,6 @@
                         name="tglStnkDate" 
                         [(ngModel)]="stnkDateString"
                         (change)="onStnkChange($event)"
-                        [max]="todayDateString"
                         required
                         style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
                       />

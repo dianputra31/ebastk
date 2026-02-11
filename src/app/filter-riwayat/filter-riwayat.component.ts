@@ -34,6 +34,17 @@ export class FilterRiwayatComponent implements OnInit {
   constructor(private noahService: NoahService, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { } 
 
   ngOnInit(): void {
+    // Set default date range (30 hari ke belakang)
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    
+    this.endDate = today.toISOString().split('T')[0];
+    this.startDate = thirtyDaysAgo.toISOString().split('T')[0];
+    
+    // Emit default date filter
+    this.noahService.emitDateFilter(this.startDate, this.endDate);
+    
     this.showVendor();
   }
 
@@ -73,6 +84,9 @@ export class FilterRiwayatComponent implements OnInit {
       this.sampleDataVendor = null;
     }
     this.vendor_id = Number(this.selectedVendorId);
+    // Emit vendor_id ke noah service
+    this.noahService.emitFilterVendor(this.selectedVendorId);
+    this.noahService.emitFilterVendorName(this.selectedVendorName);
   }
 
    async showVendor() {

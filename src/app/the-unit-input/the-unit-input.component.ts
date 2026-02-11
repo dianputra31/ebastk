@@ -444,7 +444,14 @@ onYearSelected(event: any) {
     if (this.selectedLokasiUnit) payload.unit_location = this.selectedLokasiUnit.toUpperCase();
     if (this.selectedPicPhoneSender) payload.pic_phone = this.selectedPicPhoneSender.toUpperCase();
 
-
+    if (this.selectedStnk === 'Ada') {
+      if (this.stnkDateString) {
+        const parts = this.stnkDateString.split('-');
+        payload.stnk_status = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
+    } else if (this.selectedStnk === 'Tidak Ada') {
+      payload.stnk_status = 'T/A';
+    }
 
     
     this.payloadUnit = payload;

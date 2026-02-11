@@ -219,7 +219,8 @@
                           {{ option }}
                         </option>
                       </select>
-                      
+                      <!-- [max]="todayDateString" -->
+
                       <input 
                         *ngIf="selectedKeur === 'Ada'" 
                         type="date" 
@@ -227,7 +228,6 @@
                         name="tglKeurDate" 
                         [(ngModel)]="keurDateString"
                         (change)="onChangeTextInput($event, 11)"
-                        [max]="todayDateString"
                         required
                         style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
                       />
@@ -240,6 +240,7 @@
                           {{ option }}
                         </option>
                       </select>
+                        <!-- [max]="todayDateString" -->
                       
                       <input 
                         *ngIf="selectedStnk === 'Ada'" 
@@ -248,7 +249,6 @@
                         name="tglStnkDate" 
                         [(ngModel)]="stnkDateString"
                         (change)="onChangeTextInput($event, 18)"
-                        [max]="todayDateString"
                         required
                         style="flex: 1; padding: 12px; border: 1px solid #D4D2D2; border-radius: 8px;"
                       />
@@ -546,7 +546,7 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p><textarea cols="120" rows="10" (keyup)="onChangeTextInput($event, 17)"  ></textarea></p>
+          <p><textarea cols="120" rows="10" (keyup)="onChangeTextInput($event, 17)"   style="text-transform: uppercase;" ></textarea></p>
         </mat-expansion-panel>
     
     

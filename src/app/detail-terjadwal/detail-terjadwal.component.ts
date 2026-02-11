@@ -182,7 +182,7 @@ async saveStep(a: number) {
       // 🔎 Validasi field wajib (gabungan)
       const fieldMap: Record<string, string> = {
         police_number: "No Polisi",
-        variant_model: "Model",
+        // variant_model: "Model",
         unit_type: "Unit",
         unit_category: "Kategori",
         color: "Warna"
@@ -230,12 +230,11 @@ async saveStep(a: number) {
           errorMsg.toLowerCase().includes(keyword.toLowerCase())
         );
         
-        if (hasError) {
           this.isLoading = false;
           this.isModalErrorOpen = true;
           this.errMessage = errorMsg;
           return false;
-        }
+        
       }
     }
 
@@ -244,7 +243,7 @@ async saveStep(a: number) {
       return true;
     } else {
       this.isLoading = false;
-      this.errlog = 'Username atau password salah';
+      this.errlog = response.message || 'Terjadi kesalahan tak terduga.';
       return false;
     }
   } catch (error) {

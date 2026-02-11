@@ -300,7 +300,7 @@ export class DetailFooterComponent implements OnInit {
               ...parsedUnitPayload
             };
         }
-        this.payload.bastk_status = 'submit';
+        this.payload.bastk_status = 'draft';
         // this.payload.bastk_status = this.bastk_status;
       }
     }else if(a == 4){

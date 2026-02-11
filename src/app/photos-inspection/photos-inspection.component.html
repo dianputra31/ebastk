@@ -47,7 +47,27 @@
                     <div *ngFor="let desc of bagianLuarDescriptions" class="bagian-luar-block" style="margin-top:10px;cursor:grab;"
                         (dragover)="onDragOver($event)"
                         (drop)="onDrop($event, desc)">
-                        <div style="width:100%;height:30px;" class="labelnya">{{ desc }}</div>
+                        <div style="width:100%;height:30px;display:flex;align-items:center;justify-content:space-between;gap:8px;" class="labelnya">
+                            <span>{{ desc }}</span>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                class="hidden"
+                                [id]="'cameraInputLuar' + sanitize(desc)"
+                                (change)="aplot($event, desc, 'Foto Bagian Luar (Exterior)')"
+                            />
+                            <label
+                                [for]="'cameraInputLuar' + sanitize(desc)"
+                                title="Ambil foto"
+                                style="cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;"
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                            </label>
+                        </div>
                         <div class="border-2 border-dashed border-blau-400 p-0 flex items-right justify-center blau" style="height: 120px;">
                             <!-- Ada gambar -->
                             <div *ngIf="(bagianLuar[desc] || []).length > 0; else kosong">
@@ -82,7 +102,27 @@
                     <div *ngFor="let desc of bagianDalamDescriptions" class="bagian-dalam-block" style="margin-top:10px;cursor:grab;"
                         (dragover)="onDragOver($event)"
                         (drop)="onDrop($event, desc)">
-                        <div style="width:100%;height:30px;" class="labelnya">{{ desc }}</div>
+                        <div style="width:100%;height:30px;display:flex;align-items:center;justify-content:space-between;gap:8px;" class="labelnya">
+                            <span>{{ desc }}</span>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                class="hidden"
+                                [id]="'cameraInputDalam' + sanitize(desc)"
+                                (change)="aplot($event, desc, 'Foto Bagian Dalam (Interior & Bagasi)')"
+                            />
+                            <label
+                                [for]="'cameraInputDalam' + sanitize(desc)"
+                                title="Ambil foto"
+                                style="cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;"
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                            </label>
+                        </div>
                         <div class="border-2 border-dashed border-blau-400 p-0 flex items-right justify-center blau" style="height: 120px;">
 
                             <!-- Ada gambar -->
@@ -117,7 +157,27 @@
                     <div *ngFor="let desc of bagianMesinDescriptions" class="bagian-mesin-block" style="margin-top:10px;cursor:grab;"
                         (dragover)="onDragOver($event)"
                         (drop)="onDrop($event, desc)">
-                        <div style="width:100%;height:30px;" class="labelnya">{{ desc }}</div>
+                        <div style="width:100%;height:30px;display:flex;align-items:center;justify-content:space-between;gap:8px;" class="labelnya">
+                            <span>{{ desc }}</span>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                class="hidden"
+                                [id]="'cameraInputMesin' + sanitize(desc)"
+                                (change)="aplot($event, desc, 'Foto Bagian Mesin')"
+                            />
+                            <label
+                                [for]="'cameraInputMesin' + sanitize(desc)"
+                                title="Ambil foto"
+                                style="cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;"
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                            </label>
+                        </div>
                         <div class="border-2 border-dashed border-blau-400 p-0 flex items-right justify-center blau" style="height: 120px;">
 
                             <!-- Ada gambar -->

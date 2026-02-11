@@ -99,8 +99,8 @@ export class TheDetilTugasComponent implements OnInit {
   ];
 
 transmissionOptions: [string, string][] = [
-  ['MT', 'Manual Transmission'],
-  ['AT', 'Automatic Transmission'],
+  ['MT', 'Manual'],
+  ['AT', 'Automatic'],
   // ['CVT', 'CVT'],
   // ['EV', 'EV'],
   // ['Matic', 'Matic'],
@@ -316,6 +316,15 @@ transmissionOptions: [string, string][] = [
       }
     } else if (this.selectedKeurStatus === 'Tidak Ada') {
       payload.keur = 'T/A';
+    }
+
+    if (this.selectedStnkStatus === 'Ada') {
+      if (this.stnkDateString) {
+        const parts = this.stnkDateString.split('-');
+        payload.stnk_status = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
+    } else if (this.selectedStnkStatus === 'Tidak Ada') {
+      payload.stnk_status = 'T/A';
     }
 
     if (this.selectedNotes) payload.notes = this.selectedNotes.toUpperCase();
@@ -592,9 +601,25 @@ transmissionOptions: [string, string][] = [
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
 
+        // Load STNK status dan tanggal dari sampleData
+        const stnkValue = this.sampleData.stnk_status || 'T/A';
+        this.selectedStnkStatus = stnkValue === 'T/A' ? 'Tidak Ada' : 'Ada';
+
+        // Convert STNK date dari dd-mm-yyyy ke yyyy-mm-dd untuk input date
+        if (stnkValue && stnkValue !== 'T/A') {
+          const parts = stnkValue.split('-');
+          if (parts.length === 3) {
+            this.stnkDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            console.log('stnkDateString loaded:', this.stnkDateString);
+          }
+        }
+
         this.infoVendor(this.sampleData.vendor.id);
         this.brandid = this.sampleData.brand.id;
         this.showBrand();
+
+
+
 
         let tgl_mobilisasi = '';
         if (this.sampleData.mobilization_unit && this.sampleData.mobilization_unit.length > 0 && this.sampleData.mobilization_unit[0].mobilization) {
@@ -633,6 +658,7 @@ transmissionOptions: [string, string][] = [
         this.selectedLokasiUnit = this.sampleData.lokasi_unit || '';
 
 
+
         this.selectedNotes = this.sampleData.notes || '';
         
         // Convert keur date dari dd-mm-yyyy ke yyyy-mm-dd untuk input date
@@ -642,6 +668,8 @@ transmissionOptions: [string, string][] = [
             this.keurDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
           }
         }
+        
+
         
         // Perbaiki: mobilization_unit bukan mobilization_units
         if (this.sampleData.mobilization_unit && this.sampleData.mobilization_unit.length > 0 && this.sampleData.mobilization_unit[0].mobilization) {

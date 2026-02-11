@@ -165,19 +165,20 @@ async saveStep(a: number) {
       return true;
     } else {
       this.isLoading = false;
-      this.errlog = 'Username atau password salah';
+      this.isModalErrorOpen = true;
+      this.errMessage = response.message || 'Terjadi kesalahan tak terduga.';
       return false;
     }
   } catch (error) {
     this.isModalErrorOpen = true;
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 401) {
-        this.errlog = 'Username atau password salah.';
+        this.errMessage = 'Username atau password salah.';
       } else {
-        this.errlog = 'Terjadi kesalahan, silakan coba lagi.'; 
+        this.errMessage = 'Terjadi kesalahan, silakan coba lagi.'; 
       }
     } else {
-      this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      this.errMessage = 'Terjadi kesalahan, silakan coba lagi.';
     }
     console.error('Error during login:', error);
     this.errMessage = String(error);

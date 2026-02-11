@@ -1,4 +1,77 @@
+<!-- Filter Info Header - Desktop Only -->
+<div class="filter-header-desktop" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);">
+  <div style="display: flex; align-items: center; margin-bottom: 12px;">
+    <mat-icon style="color: white; margin-right: 10px; font-size: 24px;">filter_alt</mat-icon>
+    <h3 style="color: white; margin: 0; font-weight: 600; font-size: 18px;">Filter Riwayat</h3>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+    <!-- Periode Filter -->
+    <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);">
+      <div style="display: flex; align-items: center; margin-bottom: 5px;">
+        <mat-icon style="color: rgba(255, 255, 255, 0.9); font-size: 18px; width: 18px; height: 18px; margin-right: 8px;">date_range</mat-icon>
+        <span style="color: rgba(255, 255, 255, 0.9); font-size: 12px; font-weight: 500;">Periode</span>
+      </div>
+      <div style="color: white; font-size: 14px; font-weight: 600; margin-left: 26px;">
+        {{ startDate | date:'dd MMM yyyy' }} - {{ endDate | date:'dd MMM yyyy' }}
+      </div>
+    </div>
+
+    <!-- Vendor Filter -->
+    <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);">
+      <div style="display: flex; align-items: center; margin-bottom: 5px;">
+        <mat-icon style="color: rgba(255, 255, 255, 0.9); font-size: 18px; width: 18px; height: 18px; margin-right: 8px;">store</mat-icon>
+        <span style="color: rgba(255, 255, 255, 0.9); font-size: 12px; font-weight: 500;">Vendor</span>
+      </div>
+      <div style="color: white; font-size: 14px; font-weight: 600; margin-left: 26px;">
+        {{ selectedVendorName || 'Semua Vendor' }}
+      </div>
+    </div>
+
+    <!-- Keyword Filter -->
+    <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);">
+      <div style="display: flex; align-items: center; margin-bottom: 5px;">
+        <mat-icon style="color: rgba(255, 255, 255, 0.9); font-size: 18px; width: 18px; height: 18px; margin-right: 8px;">search</mat-icon>
+        <span style="color: rgba(255, 255, 255, 0.9); font-size: 12px; font-weight: 500;">Pencarian</span>
+      </div>
+      <div style="color: white; font-size: 14px; font-weight: 600; margin-left: 26px;">
+        {{ filterRiwayat || 'Tidak ada filter' }}
+      </div>
+    </div>
+
+    <!-- Total Results -->
+    <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);">
+      <div style="display: flex; align-items: center; margin-bottom: 5px;">
+        <mat-icon style="color: rgba(255, 255, 255, 0.9); font-size: 18px; width: 18px; height: 18px; margin-right: 8px;">assignment</mat-icon>
+        <span style="color: rgba(255, 255, 255, 0.9); font-size: 12px; font-weight: 500;">Total Unit</span>
+      </div>
+      <div style="color: white; font-size: 14px; font-weight: 600; margin-left: 26px;">
+        {{ sampleData?.total_items || 0 }} Unit
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Hide on mobile, show on desktop/laptop */
+  @media (max-width: 768px) {
+    .filter-header-desktop {
+      display: none !important;
+    }
+  }
+</style>
+
 <div class="product-container" @productCardStagger>  
+    <!-- Loading Overlay -->
+    <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; min-height: 300px; width: 100%;">
+      <div style="text-align: center;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <p style="margin-top: 15px; color: #666; font-weight: 500;">Memuat data...</p>
+      </div>
+    </div>
+
     <div class="product-card" *ngFor="let product of sampleData?.results"  @productCardAnimation (click)="GoesToDetailRiwayat(product.id)">  
       <div class="product-image" [ngStyle]="{'background-image': getThumbnailUrl(product.thumbnail_url) ? 'url(' + getThumbnailUrl(product.thumbnail_url) + ')' : '../../assets/icons/noimages.png'}">  
         <div *ngIf="!product.thumbnail_url" class="placeholder"></div>  
