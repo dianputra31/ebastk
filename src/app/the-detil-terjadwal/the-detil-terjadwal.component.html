@@ -46,10 +46,10 @@
             <div class="row">
                 <div class="column">
                     <label for="vendorName">Nama Vendor</label>
-                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:0px;line-height: 10px;" readonly/>
+                    <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:0px;line-height: 10px;text-transform: uppercase;" readonly/>
                     
                     <label for="vendorAddress">Alamat</label>
-                    <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;" readonly/>
+                    <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;text-transform: uppercase;" readonly/>
                     <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
                       {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
                     </textarea> -->
@@ -58,13 +58,13 @@
                 </div>
                 <div class="column">
                     <label for="pic">PIC Pengirim</label>
-                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;" (keyup)="onChangeTextInput($event, 15)"  (blur)="onChangeTextInput($event, 15)"/>
+                    <input id="pic" type="text" placeholder="PIC Pengirim"  style="border:0px;line-height: 10px;text-transform: uppercase;" (keyup)="onChangeTextInput($event, 15)"  (blur)="onChangeTextInput($event, 15)"/>
                     
                     <!-- <label for="deliveryDate">Tanggal Pengiriman</label>
                     <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;" value="{{tgl_mobilisasi}}" /> -->
 
                     <label for="vendorPhone">No. Telepon</label>
-                    <input id="vendorPhone" type="text" placeholder="No Telp"  (keyup)="onChangeTextInput($event, 16)"  (blur)="onChangeTextInput($event, 16)" style="border:0px;line-height: 10px;" />
+                    <input id="vendorPhone" type="tel" placeholder="No Telp" inputmode="numeric" pattern="[0-9/]*" (input)="onPhoneInput($event)" (blur)="onChangeTextInput($event, 16)" style="border:0px;line-height: 10px;" />
                 </div>
             </div>
         </mat-expansion-panel>
@@ -118,7 +118,33 @@
                     (selectCopas)="onCopasSelected($event)">
                     </app-the-rawdata-modal>
                     
-                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"   (keyup)="onChangeTextInput($event, 14)"  (blur)="onChangeTextInput($event, 14)" />
+                    <div style="display: flex; gap: 8px; width: 90%;">
+                      <input 
+                        #platePart1
+                        type="text" 
+                        placeholder="XX" 
+                        maxlength="2"
+                        [(ngModel)]="licensePlatePart1"
+                        (input)="onLicensePlateInput($event, 1, platePart2)"
+                        (paste)="onLicensePlatePaste($event)"
+                        style="text-transform: uppercase; width: 60px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                      <input 
+                        #platePart2
+                        type="text" 
+                        placeholder="XXXX" 
+                        maxlength="4"
+                        [(ngModel)]="licensePlatePart2"
+                        (input)="onLicensePlateInput($event, 2, platePart3)"
+                        style="text-align: center; width: 80px; font-weight: bold; letter-spacing: 2px;"/>
+                      <input 
+                        #platePart3
+                        type="text" 
+                        placeholder="XXX" 
+                        maxlength="3"
+                        [(ngModel)]="licensePlatePart3"
+                        (input)="onLicensePlateInput($event, 3, null)"
+                        style="text-transform: uppercase; width: 70px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                    </div>
                     
 
                     <label for="unit_location" class="label-with-icon">Status Unit
@@ -126,7 +152,7 @@
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="unit_location" placeholder="Status Unit" readonly value="{{statusunit}}"  (keyup)="onChangeTextInput($event, 1)"  (blur)="onChangeTextInput($event, 1)" />
+                    <input type="text" id="unit_location" placeholder="Status Unit" readonly value="{{statusunit}}"  (keyup)="onChangeTextInput($event, 1)"  (blur)="onChangeTextInput($event, 1)" style="text-transform: uppercase;" />
 
                     
 
@@ -181,14 +207,14 @@
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (input)="onAlphanumericInput($event, 'noka')"  (blur)="onChangeTextInput($event, 3)"/>
+                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (input)="onAlphanumericInput($event, 'noka')"  (blur)="onChangeTextInput($event, 3)" style="text-transform: uppercase;"/>
 
                     <label for="nosin" class="label-with-icon">Nosin
                       <button mat-icon-button class="info-button" (click)="openCopasModal()">
                       <mat-icon>info</mat-icon>
                     </button>
                     </label>
-                    <input type="text" id="nosin" placeholder="Nosin"   (input)="onAlphanumericInput($event, 'nosin')"  (blur)="onChangeTextInput($event, 4)"/>
+                    <input type="text" id="nosin" placeholder="Nosin"   (input)="onAlphanumericInput($event, 'nosin')"  (blur)="onChangeTextInput($event, 4)" style="text-transform: uppercase;"/>
 
 
                      <label>Transmisi 
@@ -395,8 +421,11 @@
                     (input)="onNumberInput($event, 'selectedOdo')"
                     inputmode="numeric"
                     pattern="[0-9]*"
-                    
+                    maxlength="8"
+                    style="text-transform: uppercase;"
                   />
+
+                  
                     
                     <label for="engineCapacity" style="display:none;">Kapasitas Mesin (CC)
                        <button mat-icon-button class="info-button" (click)="openCopasModal()">
@@ -409,7 +438,7 @@
                     (input)="onDecimalInput($event, 'selectedCc')"
                     inputmode="decimal"
                     placeholder="0.0"
-                    style="display:none;"
+                    style="display:none;text-transform: uppercase;"
                   />
                     <!-- <input type="number" id="engineCapacity" placeholder="Kapasitas Mesin" [value]="formatNumber(selectedOdo)"  (keyup)="onChangeTextInput($event, 2)" numberFormatter  (input)="onNumberInput($event, 'selectedOdo')"/> -->
 

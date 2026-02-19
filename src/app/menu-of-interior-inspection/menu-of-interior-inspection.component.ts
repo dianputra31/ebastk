@@ -35,6 +35,30 @@ activePanel: string = '';
   }
 
   ngOnInit(): void {
+    if (this.availableChip['Interior']) {
+      this.availableChip['Interior'] = this.sortChipsByCustomOrder(this.availableChip['Interior']);
+    }
+  }
+
+  sortChipsByCustomOrder(chips: string[]): string[] {
+    const categoryOrder = ['depan', 'tengah', 'belakang'];
+
+    const sorted: string[] = [];
+
+    categoryOrder.forEach(orderCategory => {
+      const matchingChip = chips.find(chip => chip.toLowerCase() === orderCategory);
+      if (matchingChip) {
+        sorted.push(matchingChip);
+      }
+    });
+
+    chips.forEach(chip => {
+      if (!categoryOrder.includes(chip.toLowerCase())) {
+        sorted.push(chip);
+      }
+    });
+
+    return sorted;
   }
 
   ngAfterViewInit() {

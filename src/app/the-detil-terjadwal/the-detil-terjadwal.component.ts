@@ -103,6 +103,9 @@ export class TheDetilTerjadwalComponent implements OnInit {
   selectedPicSender: string = '';
   selectedPicSenderPhone: string = '';
   selectedLicensePlate: string = '';
+  licensePlatePart1: string = '';
+  licensePlatePart2: string = '';
+  licensePlatePart3: string = '';
   objectKeys = Object.keys;
   selectedLimitPrice: number | null = null;
   selectedExamPrice: number | null = null;
@@ -902,6 +905,78 @@ onDecimalInput(event: Event, fieldName: keyof this) {
     }
     
     input.value = value;
+    this.savePayloadUnit();
+  }
+
+  onPhoneInput(event: any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+    
+    // Hanya izinkan angka dan slash (/)
+    value = value.replace(/[^0-9\/]/g, '');
+    
+    // Update input value
+    input.value = value;
+    this.selectedPicSenderPhone = value;
+  }
+
+  onLicensePlatePaste(event: ClipboardEvent) {
+    event.preventDefault();
+    
+    // Ambil data dari clipboard
+    const pastedText = event.clipboardData?.getData('text') || '';
+    
+    // Remove all spaces and special characters
+    const cleaned = pastedText.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    
+    // Try to parse as Indonesian license plate format
+    // Format: 1-2 letters, 1-4 numbers, 1-3 letters
+    const match = cleaned.match(/^([A-Z]{1,2})(\d{1,4})([A-Z]{0,3})$/);
+    
+    if (match) {
+      this.licensePlatePart1 = match[1].substring(0, 2);
+      this.licensePlatePart2 = match[2].substring(0, 4);
+      this.licensePlatePart3 = match[3].substring(0, 3);
+      
+      // Update selectedLicensePlate with format lengkap
+      this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
+      this.savePayloadUnit();
+    }
+  }
+
+  onLicensePlateInput(event: any, part: number, nextInput: any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    if (part === 1) {
+      // Part 1: Hanya huruf, max 2 karakter
+      value = value.replace(/[^A-Za-z]/g, '').toUpperCase();
+      this.licensePlatePart1 = value;
+      input.value = value;
+      
+      // Auto-jump jika sudah 2 huruf
+      if (value.length === 2 && nextInput) {
+        nextInput.focus();
+      }
+    } else if (part === 2) {
+      // Part 2: Hanya angka, max 4 karakter
+      value = value.replace(/[^0-9]/g, '');
+      this.licensePlatePart2 = value;
+      input.value = value;
+      
+      // Auto-jump jika sudah 4 angka
+      if (value.length === 4 && nextInput) {
+        nextInput.focus();
+      }
+    } else if (part === 3) {
+      // Part 3: Hanya huruf, max 3 karakter
+      value = value.replace(/[^A-Za-z]/g, '').toUpperCase();
+      this.licensePlatePart3 = value;
+      input.value = value;
+    }
+
+    // Update selectedLicensePlate dengan format lengkap
+    this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
     this.savePayloadUnit();
   }
 
