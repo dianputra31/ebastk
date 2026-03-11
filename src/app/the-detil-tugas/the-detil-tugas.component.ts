@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand, UnitDocument  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
+import { BalaiLelangResponse } from '../../assets/models/list-location.model';
 import { ApiBrandResponse } from '../../assets/models/list-brand.model';
 import { ApiVariantResponse } from '../../assets/models/list-variant.model';
 import { ApiColorResponse } from '../../assets/models/list-color.model';
@@ -14,6 +15,7 @@ import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { ImageGalleryModalComponent } from '../image-gallery-modal/image-gallery-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CarModelResponse } from 'src/assets/models/list-brand-revised-model';
 declare var $: any;
 
 
@@ -22,7 +24,7 @@ declare var $: any;
   templateUrl: './the-detil-tugas.component.html',
   styleUrls: ['./the-detil-tugas.component.scss']
 })
-export class TheDetilTugasComponent implements OnInit {
+export class TheDetilTugasComponent implements OnInit, AfterViewInit, OnDestroy {
   // isExpanded: boolean = true;
   expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
   @Output() panelChange = new EventEmitter<string>();
@@ -48,7 +50,8 @@ export class TheDetilTugasComponent implements OnInit {
   display_name: string = '';
   keyword: string = '';
   brands: ApiBrandResponse | null = null
-  variants: ApiVariantResponse | null = null
+  // variants: ApiVariantResponse | null = null
+  variants: CarModelResponse | null = null
   colors: ApiColorResponse | null = null
   vehicletype: ApiVehicleTypeResponse | null = null
   selectedExpedition: string = '';
@@ -80,11 +83,17 @@ export class TheDetilTugasComponent implements OnInit {
   notes: string = '';
   assignment_number: string = '';
   selectedKeur: string = '';
+  keur_notice: any = null;
+  tax_notice: any = null;
   selectedKeurStatus: string = 'Tidak Ada';
   keurDateString: string = '';
   selectedStnkStatus: string = 'Tidak Ada';
   stnkDateString: string = '';
   selectedPicSender: string = '';
+  selectedLicensePlate: string = '';
+  licensePlatePart1: string = '';
+  licensePlatePart2: string = '';
+  licensePlatePart3: string = '';
 
   choices: [string, string][] = [
   ['Drive', 'Drive'],
@@ -112,6 +121,11 @@ transmissionOptions: [string, string][] = [
 ];
   selectedLokasiUnit: any;
   selectedPicPhoneSender: any;
+  
+  // MTF Vendor Detection & Select2 for Auction Houses
+  isMandiriTunasFinance: boolean = false;
+  auctionHouses: string[] = [];
+  @ViewChild('auctionHouseSelect') auctionHouseSelect!: ElementRef;
   
 
   @HostListener('window:scroll', [])
@@ -197,7 +211,7 @@ transmissionOptions: [string, string][] = [
   }
 
   onVariantSelected(variant: any) {
-    this.selectedVariantName = variant.variant_name;
+    this.selectedVariantName = variant.grouped_model_name || variant.variant_name;
     this.selectedVariantId = variant.id;
     // lakukan logic lain, misal set ke form, dsb
     this.selectedVariant = this.selectedVariantId;
@@ -222,6 +236,31 @@ transmissionOptions: [string, string][] = [
       rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
+  }
+
+  private normalizeDateForInput(dateValue: any): string {
+    if (!dateValue || typeof dateValue !== 'string') return '';
+
+    const parts = dateValue.trim().split('-');
+    if (parts.length !== 3) return '';
+
+    let day = '';
+    let month = '';
+    let year = '';
+
+    if (parts[0].length === 4) {
+      year = parts[0];
+      month = parts[1];
+      day = parts[2];
+    } else if (parts[2].length === 4) {
+      day = parts[0];
+      month = parts[1];
+      year = parts[2];
+    } else {
+      return '';
+    }
+
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   }
   
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private apiClient: ApiClientService, private modalService: NgbModal) { }
@@ -307,24 +346,30 @@ transmissionOptions: [string, string][] = [
     if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus.toUpperCase();
     if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender.toUpperCase();
     if (this.selectedLokasiUnit) payload.unit_location = this.selectedLokasiUnit.toUpperCase();
-    if (this.selectedPicPhoneSender) payload.pic_phone = this.selectedPicPhoneSender.toUpperCase();
+    if (this.selectedPicPhoneSender) payload.pic_sender_phone = this.selectedPicPhoneSender.toUpperCase();
+    if (this.selectedLicensePlate) payload.police_number = this.selectedLicensePlate;
+    if (this.selectedVariantName) payload.brand_model_name  = this.selectedVariantName;
 
     if (this.selectedKeurStatus === 'Ada') {
+      payload.keur = this.selectedKeurStatus;
       if (this.keurDateString) {
         const parts = this.keurDateString.split('-');
-        payload.keur = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        payload.keur_notice = `${parts[0]}-${parts[1]}-${parts[2]}`;
       }
     } else if (this.selectedKeurStatus === 'Tidak Ada') {
       payload.keur = 'T/A';
+      payload.keur_notice = '';
     }
 
     if (this.selectedStnkStatus === 'Ada') {
+      payload.stnk_status = this.selectedStnkStatus;
       if (this.stnkDateString) {
         const parts = this.stnkDateString.split('-');
-        payload.stnk_status = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        payload.tax_notice = `${parts[0]}-${parts[1]}-${parts[2]}`;
       }
     } else if (this.selectedStnkStatus === 'Tidak Ada') {
       payload.stnk_status = 'T/A';
+      payload.tax_notice = '';
     }
 
     if (this.selectedNotes) payload.notes = this.selectedNotes.toUpperCase();
@@ -383,8 +428,8 @@ transmissionOptions: [string, string][] = [
     };
     this.errlog = "";
     try {
-      const endpoint = `/brands-model?brand_id=${brand_id}`; // Menambahkan parameter ke endpoint
-      const response = await this.apiClient.getOther<ApiVariantResponse>(endpoint);
+      const endpoint = `/brands-model-only?brand_id=${brand_id}`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.getOther<CarModelResponse>(endpoint);
       if (response) {
         this.variants = response;
         console.log('Variants:', this.variants);
@@ -549,6 +594,67 @@ transmissionOptions: [string, string][] = [
     return new Intl.NumberFormat('id-ID').format(value);
   }
 
+  onAlphanumericInput(event: any, fieldName: string) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    value = value.replace(/[^A-Za-z0-9]/g, '');
+    value = value.toUpperCase();
+
+    if (fieldName === 'noka') {
+      this.selectedNoka = value;
+    } else if (fieldName === 'nosin') {
+      this.selectedNosin = value;
+    }
+
+    input.value = value;
+    this.savePayloadUnit();
+  }
+
+  onLicensePlatePaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pastedText = event.clipboardData?.getData('text') || '';
+    const cleaned = pastedText.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    const match = cleaned.match(/^([A-Z]{1,2})(\d{1,4})([A-Z]{0,3})$/);
+
+    if (match) {
+      this.licensePlatePart1 = match[1].substring(0, 2);
+      this.licensePlatePart2 = match[2].substring(0, 4);
+      this.licensePlatePart3 = match[3].substring(0, 3);
+      this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
+      this.savePayloadUnit();
+    }
+  }
+
+  onLicensePlateInput(event: any, part: number, nextInput: any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    if (part === 1) {
+      value = value.replace(/[^A-Za-z]/g, '').toUpperCase();
+      this.licensePlatePart1 = value;
+      input.value = value;
+      if (value.length === 2 && nextInput) {
+        nextInput.focus();
+      }
+    } else if (part === 2) {
+      value = value.replace(/[^0-9]/g, '');
+      this.licensePlatePart2 = value;
+      input.value = value;
+      if (value.length === 4 && nextInput) {
+        nextInput.focus();
+      }
+    } else if (part === 3) {
+      value = value.replace(/[^A-Za-z]/g, '').toUpperCase();
+      this.licensePlatePart3 = value;
+      input.value = value;
+    }
+
+    this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
+    this.savePayloadUnit();
+  }
+
   onChangeTextInput(event : any, num: number) {
     const inputValue = event.target.value; // Ambil nilai dari input text
     if(num==1){
@@ -592,6 +698,20 @@ transmissionOptions: [string, string][] = [
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.vendor.id) {
         this.sampleData = response;  
+
+        if (this.sampleData?.police_number) {
+          const cleaned = this.sampleData.police_number.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+          const match = cleaned.match(/^([A-Z]{1,2})(\d{1,4})([A-Z]{0,3})$/);
+          if (match) {
+            this.licensePlatePart1 = match[1].substring(0, 2);
+            this.licensePlatePart2 = match[2].substring(0, 4);
+            this.licensePlatePart3 = match[3].substring(0, 3);
+            this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
+          } else {
+            this.selectedLicensePlate = this.sampleData.police_number;
+          }
+        }
+
         // console.log('Sample Data:', this.sampleData);
         // console.log('Unit Doc:', this.sampleData.unitdocuments);
         this.unitdocuments = this.sampleData.unitdocuments;
@@ -601,17 +721,16 @@ transmissionOptions: [string, string][] = [
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
 
-        // Load STNK status dan tanggal dari sampleData
+        // Load STNK status dari stnk_status dan tanggal dari tax_notice
         const stnkValue = this.sampleData.stnk_status || 'T/A';
         this.selectedStnkStatus = stnkValue === 'T/A' ? 'Tidak Ada' : 'Ada';
 
-        // Convert STNK date dari dd-mm-yyyy ke yyyy-mm-dd untuk input date
-        if (stnkValue && stnkValue !== 'T/A') {
-          const parts = stnkValue.split('-');
-          if (parts.length === 3) {
-            this.stnkDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
-            console.log('stnkDateString loaded:', this.stnkDateString);
-          }
+        // Normalize STNK date ke yyyy-mm-dd untuk input date
+        if (stnkValue && stnkValue !== 'T/A' && this.sampleData.tax_notice) {
+          this.stnkDateString = this.normalizeDateForInput(this.sampleData.tax_notice);
+          console.log('stnkDateString loaded:', this.stnkDateString);
+        } else {
+          this.stnkDateString = '';
         }
 
         this.infoVendor(this.sampleData.vendor.id);
@@ -653,6 +772,8 @@ transmissionOptions: [string, string][] = [
         this.bastk_status = this.sampleData.bastk_status;
         this.notes = this.sampleData.notes || '';
         this.selectedKeur = this.sampleData.keur || 'T/A';
+        this.keur_notice = this.sampleData.keur_notice;
+        this.tax_notice = this.sampleData.tax_notice;
         this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
         this.pic = this.sampleData.pic_sender || '';
         this.selectedLokasiUnit = this.sampleData.lokasi_unit || '';
@@ -661,12 +782,9 @@ transmissionOptions: [string, string][] = [
 
         this.selectedNotes = this.sampleData.notes || '';
         
-        // Convert keur date dari dd-mm-yyyy ke yyyy-mm-dd untuk input date
-        if (this.selectedKeur && this.selectedKeur !== 'T/A') {
-          const parts = this.selectedKeur.split('-');
-          if (parts.length === 3) {
-            this.keurDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
-          }
+        // Normalize KEUR date ke yyyy-mm-dd untuk input date
+        if (this.selectedKeur && this.selectedKeur !== 'T/A' && this.keur_notice) {
+          this.keurDateString = this.normalizeDateForInput(this.keur_notice);
         }
         
 
@@ -724,6 +842,27 @@ transmissionOptions: [string, string][] = [
       if (response && response.id) {
         this.sampleDataVendor = response;  
         console.log('Sample Data Vendor:', this.sampleDataVendor);
+        
+        // Check if vendor is MANDIRI TUNAS FINANCE
+        const vendorNameUpper = (this.sampleDataVendor.vendor_name || '').toUpperCase();
+        if (vendorNameUpper.includes('MANDIRI TUNAS FINANCE')) {
+          this.isMandiriTunasFinance = true;
+          this.loadAuctionHouses();
+          // Initialize Select2 after data is loaded
+          setTimeout(() => this.initializeSelect2(), 200);
+        } else {
+          // Reset if not MTF
+          this.isMandiriTunasFinance = false;
+          this.auctionHouses = [];
+          this.selectedLokasiUnit = '';
+          // Destroy Select2 if it was previously initialized
+          if (typeof $ !== 'undefined' && this.auctionHouseSelect) {
+            const selectElement = $(this.auctionHouseSelect.nativeElement);
+            if (selectElement.data('select2')) {
+              selectElement.select2('destroy');
+            }
+          }
+        }
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';
@@ -744,6 +883,75 @@ transmissionOptions: [string, string][] = [
       }
       console.error('Error during login:', error);
       this.isLoading = false;
+    }
+  }
+
+  // Load auction houses from API
+  async loadAuctionHouses(): Promise<void> {
+    try {
+      const endpoint = `/location-tribik`;
+      const response = await this.apiClient.getOther<BalaiLelangResponse>(endpoint);
+      if (response && response.results) {
+        this.auctionHouses = response.results;
+        console.log('Auction houses loaded:', this.auctionHouses.length);
+        
+        // Check if current unit_location exists in the auction houses and set as default
+        const currentLocation = this.sampleData?.unit_location;
+        if (currentLocation && this.auctionHouses.includes(currentLocation)) {
+          this.selectedLokasiUnit = currentLocation;
+          console.log('Pre-selected location:', currentLocation);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading auction houses:', error);
+    }
+  }
+
+  // Initialize Select2 dropdown
+  initializeSelect2(): void {
+    if (typeof $ === 'undefined') {
+      console.error('jQuery is not loaded');
+      return;
+    }
+
+    if (!this.auctionHouseSelect) {
+      console.error('Auction house select element not found');
+      return;
+    }
+
+    const selectElement = $(this.auctionHouseSelect.nativeElement);
+    
+    // Initialize Select2
+    selectElement.select2({
+      placeholder: 'Pilih atau cari lokasi Balai Lelang',
+      allowClear: true,
+      width: '100%'
+    });
+
+    // Update model when selection changes
+    selectElement.on('change', (e: any) => {
+      this.selectedLokasiUnit = e.target.value;
+      this.onLokasiUnitChange({ target: { value: e.target.value } });
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // Initialize Select2 after view is initialized if MTF vendor is detected
+    if (this.isMandiriTunasFinance && this.auctionHouseSelect) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        this.initializeSelect2();
+      }, 100);
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up Select2 instance
+    if (typeof $ !== 'undefined' && this.auctionHouseSelect) {
+      const selectElement = $(this.auctionHouseSelect.nativeElement);
+      if (selectElement.data('select2')) {
+        selectElement.select2('destroy');
+      }
     }
   }
 

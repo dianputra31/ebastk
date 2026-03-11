@@ -119,5 +119,9 @@ export interface Brand {
     signsender_url: string | null;
     signbastk_url: string | null;
     pic_sender: string | null;
+    pic_phone: string | null;
     lokasi_unit: string | null;
+    keur_notice: string | null;
+    tax_notice: string | null;
+    pic_sender_phone: string | null;
   }

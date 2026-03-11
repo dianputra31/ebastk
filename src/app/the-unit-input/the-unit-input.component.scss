@@ -354,3 +354,52 @@
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0.70em 0 0.70em 0;
 }
+
+// Custom styling for Select2 to match native select height
+::ng-deep .select2-container--default .select2-selection--single {
+  width: 90% !important;
+  height: 45px !important;
+  padding: 12px !important;
+  border: 1px solid #D4D2D2 !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: normal !important;
+  padding-left: 0 !important;
+  color: #333 !important;
+}
+
+::ng-deep .select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 43px !important;
+  top: 1px !important;
+  right: 8px !important;
+}
+
+::ng-deep .select2-container {
+  margin-bottom: 16px !important;
+}
+
+// Dropdown styling
+::ng-deep .select2-dropdown {
+  border: 1px solid #D4D2D2 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+::ng-deep .select2-search--dropdown .select2-search__field {
+  padding: 8px 12px !important;
+  border: 1px solid #D4D2D2 !important;
+  border-radius: 6px !important;
+}
+
+::ng-deep .select2-results__option {
+  padding: 8px 12px !important;
+}
+
+::ng-deep .select2-results__option--highlighted {
+  background-color: #EAEFFD !important;
+  color: #312E2E !important;
+}

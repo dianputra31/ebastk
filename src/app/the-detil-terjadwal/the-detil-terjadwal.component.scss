@@ -302,6 +302,54 @@
   word-break: break-word; /* biar nomor panjang nggak kepotong */
 }
 
+// Select2 Styling for MTF Auction House Selection
+::ng-deep .select2-container {
+  width: 90% !important;
+  
+  .select2-selection--single {
+    height: 45px !important;
+    padding: 12px !important;
+    border: 1px solid #D4D2D2 !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    background-color: white !important;
+  }
+
+  .select2-selection__rendered {
+    line-height: normal !important;
+    padding-left: 0 !important;
+    text-transform: uppercase;
+  }
+
+  .select2-selection__arrow {
+    height: 43px !important;
+  }
+}
+
+::ng-deep .select2-dropdown {
+  border: 1px solid #ccc !important;
+  border-radius: 8px !important;
+  
+  .select2-search__field {
+    padding: 8px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    text-transform: uppercase;
+  }
+
+  .select2-results__option {
+    padding: 10px !important;
+    text-transform: uppercase;
+  }
+
+  .select2-results__option--highlighted {
+    background-color: #971909 !important;
+    color: white !important;
+  }
+}
+
+
 /* --- RESPONSIVE UNTUK LAYAR LEBAR --- */
 @media (min-width: 600px) {
   .dynamic-grid {

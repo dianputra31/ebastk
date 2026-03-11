@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand, UnitDocument  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
+import { BalaiLelangResponse } from '../../assets/models/list-location.model';
 import { ApiBrandResponse } from '../../assets/models/list-brand.model';
 import { ApiVariantResponse } from '../../assets/models/list-variant.model';
 import { ApiColorResponse } from '../../assets/models/list-color.model';
@@ -17,6 +18,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MobilisasiUnit, UnitDataMobilisasi } from 'src/assets/models/mobilisasi-unit.model';
 import { ApiUnitCategoryResponse } from 'src/assets/models/list-unit-category.model';
 import { NewApiBranchResponse } from 'src/assets/models/list-branch.model';
+import { CarModelResponse } from 'src/assets/models/list-brand-revised-model';
 declare var $: any;
 
 
@@ -25,7 +27,7 @@ declare var $: any;
   templateUrl: './the-detil-terjadwal.component.html',
   styleUrls: ['./the-detil-terjadwal.component.scss']
 })
-export class TheDetilTerjadwalComponent implements OnInit {
+export class TheDetilTerjadwalComponent implements OnInit, AfterViewInit, OnDestroy {
   // isExpanded: boolean = true;
   expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
   @Output() panelChange = new EventEmitter<string>();
@@ -52,7 +54,8 @@ export class TheDetilTerjadwalComponent implements OnInit {
   display_name: string = '';
   keyword: string = '';
   brands: ApiBrandResponse | null = null
-  variants: ApiVariantResponse | null = null
+  variants: CarModelResponse | null = null
+  // variants: ApiVariantResponse | null = null
   colors: ApiColorResponse | null = null
   vehicletype: ApiVehicleTypeResponse | null = null
   unitcategory: ApiUnitCategoryResponse | null = null
@@ -122,6 +125,12 @@ selectedYearDate: Date | null = null;
 years: number[] = [];
 
 maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
+
+  // MTF Vendor Detection & Select2 for Auction Houses
+  isMandiriTunasFinance: boolean = false;
+  auctionHouses: string[] = [];
+  @ViewChild('auctionHouseSelect') auctionHouseSelect!: ElementRef;
+  selectedLokasiUnit: string = '';
 
   choices: [string, string][] = [
   ['Drive', 'Drive'],
@@ -253,7 +262,7 @@ onYearSelected(event: any) {
 }
 
   onVariantSelected(variant: any) {
-    this.selectedVariantName = variant.variant_name;
+    this.selectedVariantName = variant.grouped_model_name || variant.variant_name;
     this.selectedVariantId = variant.id;
     // lakukan logic lain, misal set ke form, dsb
     this.selectedVariant = this.selectedVariantId;
@@ -496,6 +505,7 @@ onYearSelected(event: any) {
     if (this.selectedKeur) payload.keur = "-";
     // if (this.selectedKeur) payload.keur = this.selectedKeur;
     if (this.selectedVariant) payload.variant_model = this.selectedVariant;
+    if (this.selectedVariantName) payload.brand_model_name  = this.selectedVariantName;
 
 
 
@@ -544,8 +554,8 @@ onYearSelected(event: any) {
     };
     this.errlog = "";
     try {
-      const endpoint = `/brands-model?brand_id=${brand_id}`; // Menambahkan parameter ke endpoint
-      const response = await this.apiClient.getOther<ApiVariantResponse>(endpoint);
+      const endpoint = `/brands-model-only?brand_id=${brand_id}`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.getOther<CarModelResponse>(endpoint);
       if (response) {
         this.variants = response;
         console.log('Variants:', this.variants);
@@ -1190,6 +1200,27 @@ onDecimalInput(event: Event, fieldName: keyof this) {
       if (response && response.id) {
         this.sampleDataVendor = response;  
         console.log('Sample Data Vendor:', this.sampleDataVendor);
+        
+        // Check if vendor is MANDIRI TUNAS FINANCE
+        const vendorNameUpper = (this.sampleDataVendor.vendor_name || '').toUpperCase();
+        if (vendorNameUpper.includes('MANDIRI TUNAS FINANCE')) {
+          this.isMandiriTunasFinance = true;
+          this.loadAuctionHouses();
+          // Initialize Select2 after data is loaded
+          setTimeout(() => this.initializeSelect2(), 200);
+        } else {
+          // Reset if not MTF
+          this.isMandiriTunasFinance = false;
+          this.auctionHouses = [];
+          this.selectedLokasiUnit = '';
+          // Destroy Select2 if it was previously initialized
+          if (typeof $ !== 'undefined' && this.auctionHouseSelect) {
+            const selectElement = $(this.auctionHouseSelect.nativeElement);
+            if (selectElement.data('select2')) {
+              selectElement.select2('destroy');
+            }
+          }
+        }
       }else{
         console.log('here failed')
         this.errlog = 'Username atau password salah';
@@ -1212,6 +1243,76 @@ onDecimalInput(event: Event, fieldName: keyof this) {
       this.isLoading = false;
     }
   }
+
+  // Load auction houses from API
+  async loadAuctionHouses(): Promise<void> {
+    try {
+      const endpoint = `/location-tribik`;
+      const response = await this.apiClient.getOther<BalaiLelangResponse>(endpoint);
+      if (response && response.results) {
+        this.auctionHouses = response.results;
+        console.log('Auction houses loaded:', this.auctionHouses.length);
+        
+        // Check if current unit_location exists in the auction houses and set as default
+        const currentLocation = this.sampleData?.unit_location;
+        if (currentLocation && this.auctionHouses.includes(currentLocation)) {
+          this.selectedLokasiUnit = currentLocation;
+          console.log('Pre-selected location:', currentLocation);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading auction houses:', error);
+    }
+  }
+
+  // Initialize Select2 dropdown
+  initializeSelect2(): void {
+    if (typeof $ === 'undefined') {
+      console.error('jQuery is not loaded');
+      return;
+    }
+
+    if (!this.auctionHouseSelect) {
+      console.error('Auction house select element not found');
+      return;
+    }
+
+    const selectElement = $(this.auctionHouseSelect.nativeElement);
+    
+    // Initialize Select2
+    selectElement.select2({
+      placeholder: 'Pilih atau cari lokasi Balai Lelang',
+      allowClear: true,
+      width: '100%'
+    });
+
+    // Update model when selection changes
+    selectElement.on('change', (e: any) => {
+      this.selectedLokasiUnit = e.target.value;
+      this.savePayloadUnit();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // Initialize Select2 after view is initialized if MTF vendor is detected
+    if (this.isMandiriTunasFinance && this.auctionHouseSelect) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        this.initializeSelect2();
+      }, 100);
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up Select2 instance
+    if (typeof $ !== 'undefined' && this.auctionHouseSelect) {
+      const selectElement = $(this.auctionHouseSelect.nativeElement);
+      if (selectElement.data('select2')) {
+        selectElement.select2('destroy');
+      }
+    }
+  }
+
 
 
   onChipSelected(index: number) {

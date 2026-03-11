@@ -171,8 +171,34 @@ constructor(private router: Router,  private apiClient: ApiClientService, privat
   
       groups[category][subCategory].push(item);
     });
-  
-    return groups;
+
+      const categoryOrder = ['depan', 'tengah', 'belakang'];
+      const sortedGroups: { [category: string]: { [subCategory: string]: any[] } } = {};
+
+      Object.keys(groups).forEach(category => {
+        const subCategories = groups[category];
+        const sortedSubCategories: { [subCategory: string]: any[] } = {};
+
+        categoryOrder.forEach(orderSubCategory => {
+          const matchingSubCategory = Object.keys(subCategories).find(
+            subCat => subCat.toLowerCase() === orderSubCategory
+          );
+
+          if (matchingSubCategory) {
+            sortedSubCategories[matchingSubCategory] = subCategories[matchingSubCategory];
+          }
+        });
+
+        Object.keys(subCategories).forEach(subCategory => {
+          if (!categoryOrder.includes(subCategory.toLowerCase())) {
+            sortedSubCategories[subCategory] = subCategories[subCategory];
+          }
+        });
+
+        sortedGroups[category] = sortedSubCategories;
+      });
+
+      return sortedGroups;
   }
 
 

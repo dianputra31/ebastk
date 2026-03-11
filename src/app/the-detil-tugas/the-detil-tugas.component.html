@@ -18,7 +18,22 @@
                     <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:1px;line-height: 10px;text-transform: uppercase;" readonly/>
                     
                     <label for="vendorAddress">Lokasi Unit</label>
-                    <input id="vendorAddress" type="text" placeholder="Lokasi Unit" value="{{sampleData?.unit_location}}" style="border:1px;line-height: 10px;text-transform: uppercase;" (change)="onLokasiUnitChange($event)"/>
+                    <select *ngIf="isMandiriTunasFinance" 
+                            #auctionHouseSelect 
+                            id="vendorAddress" 
+                            class="form-control auction-house-select"
+                            [(ngModel)]="selectedLokasiUnit"
+                            style="text-transform: uppercase;">
+                      <option value="">Pilih Lokasi Balai Lelang</option>
+                      <option *ngFor="let house of auctionHouses" [value]="house">{{house}}</option>
+                    </select>
+                    <input *ngIf="!isMandiriTunasFinance" 
+                           id="vendorAddress" 
+                           type="text" 
+                           placeholder="Lokasi Unit" 
+                           value="{{sampleData?.unit_location}}" 
+                           style="border:1px;line-height: 10px;text-transform: uppercase;" 
+                           (change)="onLokasiUnitChange($event)"/>
                     <!-- <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;" readonly/> -->
                     <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
                       {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
@@ -34,7 +49,7 @@
                     <input id="deliveryDate" type="text" readonly value=""  style="border:0px;line-height: 10px;text-transform: uppercase;" value="{{tgl_mobilisasi}}" />
 
                     <label for="vendorPhone">No. Telepon</label>
-                    <input id="vendorPhone" type="text" placeholder="No Telp" value="{{sampleDataVendor?.phone}}"  style="border:0px;line-height: 10px;text-transform: uppercase;"  (change)="onPicPhoneChange($event)"/>
+                    <input id="vendorPhone" type="text" placeholder="No Telp" value="{{sampleData?.pic_sender_phone}}"  style="border:0px;line-height: 10px;text-transform: uppercase;"  (change)="onPicPhoneChange($event)"/>
                 </div>
             </div>
         </mat-expansion-panel>
@@ -62,7 +77,33 @@
                     </select>
 
                     <label for="licensePlate">Nomor Polisi</label>
-                    <input id="licensePlate" type="text" placeholder="Nomor Polisi"  value="{{sampleData?.police_number}}" readonly />
+                    <div style="display: flex; gap: 8px; width: 90%;">
+                      <input 
+                        #platePart1
+                        type="text" 
+                        placeholder="XX" 
+                        maxlength="2"
+                        [(ngModel)]="licensePlatePart1"
+                        (input)="onLicensePlateInput($event, 1, platePart2)"
+                        (paste)="onLicensePlatePaste($event)"
+                        style="text-transform: uppercase; width: 60px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                      <input 
+                        #platePart2
+                        type="text" 
+                        placeholder="XXXX" 
+                        maxlength="4"
+                        [(ngModel)]="licensePlatePart2"
+                        (input)="onLicensePlateInput($event, 2, platePart3)"
+                        style="text-align: center; width: 80px; font-weight: bold; letter-spacing: 2px;"/>
+                      <input 
+                        #platePart3
+                        type="text" 
+                        placeholder="XXX" 
+                        maxlength="3"
+                        [(ngModel)]="licensePlatePart3"
+                        (input)="onLicensePlateInput($event, 3, null)"
+                        style="text-transform: uppercase; width: 70px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                    </div>
 
                     <label for="brand">Merek</label>
 
@@ -85,7 +126,7 @@
                     (selectBrand)="onBrandSelected($event)">
                     </app-the-brand-modal>
 
-                    <label for="tipe"  style="display: none;">Tipe</label>
+                    <label for="tipe">Tipe</label>
                     <!-- {{sampleData?.variant_model?.model_name}}#
                     {{sampleData?.variant_model?.id}} -->
                     <!-- <select id="tipeSelect2" name="tipe" placeholder="Tipe" (change)="onVariantChange($event)">
@@ -98,7 +139,7 @@
                       </option>
                     </select> -->
                     <input type="hidden" id="tipe" name="tipe" >
-                    <button  type="button" (click)="openTipeModal()" style="display:none;text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
+                    <button  type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
 
                   <app-the-tipe-modal  
                   *ngIf="isTipeModalOpen"  
@@ -111,11 +152,11 @@
                     <label for="color"  style="display: none;">Tahun</label>
                     <input type="text" id="tahun" placeholder="Tahun"  value="{{sampleData?.unit_year}}"  (keyup)="onChangeTextInput($event, 0)"  style="display: none;"/>
 
-                    <label for="color">Noka</label>
-                    <input type="text" id="noka" placeholder="Noka"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/>
+                    <label for="noka">Noka</label>
+                    <input type="text" id="noka" placeholder="Noka" value="{{sampleData?.chassis_number}}" (input)="onAlphanumericInput($event, 'noka')" (blur)="onChangeTextInput($event, 3)" style="text-transform: uppercase;"/>
                     
-                    <label for="color">Nosin</label>
-                    <input type="text" id="nosin" placeholder="Nosin"  value="{{sampleData?.engine_number}}"  (keyup)="onChangeTextInput($event, 4)"/>
+                    <label for="nosin">Nosin</label>
+                    <input type="text" id="nosin" placeholder="Nosin" value="{{sampleData?.engine_number}}" (input)="onAlphanumericInput($event, 'nosin')" (blur)="onChangeTextInput($event, 4)" style="text-transform: uppercase;"/>
 
 
                      <label for="tglkeur">Keur</label>
@@ -129,7 +170,6 @@
                       </select>
                       
                       <!-- [max]="todayDateString" -->
-
                       <input 
                         *ngIf="selectedKeurStatus === 'Ada'" 
                         type="date" 

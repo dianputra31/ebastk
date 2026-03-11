@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { UnitDetailResponse, Vendor, VariantModel, UnitImage, Color, Brand, UnitDocument  } from '../../assets/models/detail-unit.model'; // Sesuaikan dengan path yang benar  
 import { VendorDetailResponse } from '../../assets/models/vendor-detail.model';
+import { BalaiLelangResponse } from '../../assets/models/list-location.model';
 import { ApiBrandResponse } from '../../assets/models/list-brand.model';
 import { ApiVariantResponse } from '../../assets/models/list-variant.model';
 import { ApiColorResponse } from '../../assets/models/list-color.model';
@@ -18,6 +19,7 @@ import { MobilisasiUnit, UnitDataMobilisasi } from 'src/assets/models/mobilisasi
 import { ApiUnitCategoryResponse } from 'src/assets/models/list-unit-category.model';
 import { NewApiBranchResponse } from 'src/assets/models/list-branch.model';
 import { ApiVendorResponse } from 'src/assets/models/list-vendor.model';
+import { CarModelResponse } from 'src/assets/models/list-brand-revised-model';
 declare var $: any;
 
 
@@ -26,7 +28,7 @@ declare var $: any;
   templateUrl: './the-unit-input.component.html',
   styleUrls: ['./the-unit-input.component.scss']
 })
-export class TheUnitInputComponent implements OnInit {
+export class TheUnitInputComponent implements OnInit, AfterViewInit, OnDestroy {
   // isExpanded: boolean = true;
   expandedPanelIndex: number = 0; // Menyimpan index panel yang diperluas
   @Output() panelChange = new EventEmitter<string>();
@@ -53,7 +55,8 @@ export class TheUnitInputComponent implements OnInit {
   display_name: string = '';
   keyword: string = '';
   brands: ApiBrandResponse | null = null
-  variants: ApiVariantResponse | null = null
+  variants: CarModelResponse | null = null
+  // variants: ApiVariantResponse | null = null
   colors: ApiColorResponse | null = null
   vehicletype: ApiVehicleTypeResponse | null = null
   unitcategory: ApiUnitCategoryResponse | null = null
@@ -135,7 +138,7 @@ maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31);
 
   choices: [string, string][] = [
     ['No', 'No'],
-    ['No-Derek', 'No-Derek']
+    ['Derek', 'Derek']
 ];
 
 
@@ -195,6 +198,10 @@ transmissionOptions: [string, string][] = [
 ];
   isVendorModalOpen: boolean = false;
   selectedLokasiUnit: any;
+  isMandiriTunasFinance: boolean = false;
+  auctionHouses: string[] = [];
+  selectedAuctionHouse: string = '';
+  @ViewChild('auctionHouseSelect') auctionHouseSelect!: ElementRef;
   
 
   @HostListener('window:scroll', [])
@@ -252,10 +259,11 @@ onYearSelected(event: any) {
 }
 
   onVariantSelected(variant: any) {
-    this.selectedVariantName = variant.variant_name;
+    this.selectedVariantName = variant.grouped_model_name || variant.variant_name;
     this.selectedVariantId = variant.id;
     // lakukan logic lain, misal set ke form, dsb
     this.selectedVariant = this.selectedVariantId;
+    // alert(this.selectedVariantName);
     this.savePayloadUnit();
   }
 
@@ -289,6 +297,28 @@ onYearSelected(event: any) {
     this.selectedVendorId = vendor.id;
     this.selectedVendor = this.selectedVendorId;
     this.selectedVendorName = this.selectedVendorName;
+    
+    // Check if vendor name contains MANDIRI TUNAS FINANCE (case-insensitive)
+    const vendorNameUpper = (vendor.vendor_name || '').toUpperCase();
+    this.isMandiriTunasFinance = vendorNameUpper.includes('MANDIRI TUNAS FINANCE');
+    
+    // Reset auction house selection if not Mandiri Tunas Finance
+    if (!this.isMandiriTunasFinance) {
+      this.selectedAuctionHouse = '';
+      this.auctionHouses = [];
+      // Destroy Select2 if it was previously initialized
+      if (typeof $ !== 'undefined' && this.auctionHouseSelect) {
+        const selectElement = $(this.auctionHouseSelect.nativeElement);
+        if (selectElement.data('select2')) {
+          selectElement.select2('destroy');
+        }
+      }
+    } else {
+      // Load auction houses and initialize Select2 when vendor changes to MTF
+      this.loadAuctionHouses();
+      setTimeout(() => this.initializeSelect2(), 200);
+    }
+    
     // Fetch vendor detail and assign to sampleDataVendor
     if (this.selectedVendorId) {
       this.infoVendor(Number(this.selectedVendorId));
@@ -332,6 +362,62 @@ onYearSelected(event: any) {
       for (let y = currentYear; y >= startYear; y--) {
         this.years.push(y);
       }
+  }
+
+  ngAfterViewInit(): void {
+    // Initialize Select2 only if MTF vendor is selected
+    if (this.isMandiriTunasFinance && this.auctionHouseSelect) {
+      setTimeout(() => this.initializeSelect2(), 100);
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Cleanup Select2 when component is destroyed
+    if (typeof $ !== 'undefined' && this.auctionHouseSelect) {
+      const element = $(this.auctionHouseSelect.nativeElement);
+      if (element.data('select2')) {
+        element.select2('destroy');
+      }
+    }
+  }
+
+  initializeSelect2(): void {
+    // Check if jQuery is available
+    if (typeof $ === 'undefined') {
+      console.error('jQuery is not loaded. Select2 requires jQuery.');
+      return;
+    }
+
+    // Wait a bit for the element to be rendered if it's conditional
+    setTimeout(() => {
+      if (this.isMandiriTunasFinance && this.auctionHouseSelect) {
+        const $select = $(this.auctionHouseSelect.nativeElement);
+        
+        // Destroy existing Select2 instance if any
+        if ($select.data('select2')) {
+          $select.select2('destroy');
+        }
+        
+        // Initialize Select2
+        $select.select2({
+          placeholder: 'Pilih atau ketik Balai Lelang',
+          allowClear: true,
+          width: '90%',
+          language: {
+            noResults: function() {
+              return 'Tidak ditemukan';
+            }
+          }
+        });
+
+        // Handle Select2 change event
+        $select.on('change', (e: any) => {
+          this.selectedAuctionHouse = e.target.value;
+          this.selectedLokasiUnit = e.target.value;
+          this.savePayloadUnit();
+        });
+      }
+    }, 100);
   }
 
   
@@ -429,28 +515,33 @@ onYearSelected(event: any) {
     if (this.selectedVehicType) payload.unit_type = this.selectedVehicType;
     if (this.selectedUcat) payload.unit_category = this.selectedUcat;
     if (this.selectedColor) payload.color = this.selectedColor;
+    if (this.selectedVariantName) payload.brand_model_name  = this.selectedVariantName;
     if (this.selectedKeur === 'Ada') {
+      payload.keur = this.selectedKeur;
       if (this.keurDateString) {
         const parts = this.keurDateString.split('-');
-        payload.keur = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        payload.keur_notice = `${parts[0]}-${parts[1]}-${parts[2]}`;
       }
     } else if (this.selectedKeur === 'Tidak Ada') {
       payload.keur = 'T/A';
+      payload.keur_notice = '';
     }
     if (this.selectedVariant) payload.variant_model = this.selectedVariant;
     if (this.selectedNotes) payload.notes = this.selectedNotes;
 
     if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender.toUpperCase();
     if (this.selectedLokasiUnit) payload.unit_location = this.selectedLokasiUnit.toUpperCase();
-    if (this.selectedPicPhoneSender) payload.pic_phone = this.selectedPicPhoneSender.toUpperCase();
+    if (this.selectedPicPhoneSender) payload.pic_sender_phone = this.selectedPicPhoneSender.toUpperCase();
 
     if (this.selectedStnk === 'Ada') {
+      payload.stnk_status = this.selectedStnk;
       if (this.stnkDateString) {
         const parts = this.stnkDateString.split('-');
-        payload.stnk_status = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        payload.tax_notice = `${parts[0]}-${parts[1]}-${parts[2]}`;
       }
     } else if (this.selectedStnk === 'Tidak Ada') {
       payload.stnk_status = 'T/A';
+      payload.tax_notice = '';
     }
 
     
@@ -484,6 +575,32 @@ onYearSelected(event: any) {
     this.savePayloadUnit();
   }
 
+  onAuctionHouseChange(event: any) {
+    const selectedValue = event.target.value;
+    this.selectedAuctionHouse = selectedValue;
+    this.selectedLokasiUnit = selectedValue;
+    this.savePayloadUnit();
+  }
+
+  async loadAuctionHouses(): Promise<void> {
+    try {
+      const endpoint = `/location-tribik`;
+      const response = await this.apiClient.getOther<BalaiLelangResponse>(endpoint);
+      if (response && response.results) {
+        this.auctionHouses = response.results;
+        console.log('Auction houses loaded:', this.auctionHouses.length);
+        
+        // Check if current auction house exists in the auction houses and set as default
+        if (this.selectedAuctionHouse && this.auctionHouses.includes(this.selectedAuctionHouse)) {
+          console.log('Pre-selected auction house:', this.selectedAuctionHouse);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading auction houses:', error);
+      this.auctionHouses = [];
+    }
+  }
+
   onSenderChange(event : any) {
     const inputValue = event.target.value;
     this.selectedPicSender = inputValue;
@@ -512,8 +629,8 @@ onYearSelected(event: any) {
     };
     this.errlog = "";
     try {
-      const endpoint = `/brands-model?brand_id=${brand_id}`; // Menambahkan parameter ke endpoint
-      const response = await this.apiClient.getOther<ApiVariantResponse>(endpoint);
+      const endpoint = `/brands-model-only?brand_id=${brand_id}`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.getOther<CarModelResponse>(endpoint);
       if (response) {
         this.variants = response;
         console.log('Variants:', this.variants);
@@ -718,8 +835,7 @@ onYearSelected(event: any) {
   }
 
   onFuelChange(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
-    const fuel = selectedOption.getAttribute('fuel-id');
+    const fuel = event.target.value || this.selectedFuel;
     this.selectedFuel = fuel;
     this.savePayloadUnit();
   }

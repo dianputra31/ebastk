@@ -49,7 +49,22 @@
                     <input id="vendorName" type="text" placeholder="Nama Vendor" value="{{sampleDataVendor?.vendor_name}}" style="border:0px;line-height: 10px;text-transform: uppercase;" readonly/>
                     
                     <label for="vendorAddress">Alamat</label>
-                    <input id="vendorAddress" type="text" placeholder="Alamat" value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" style="border:0px;line-height: 10px;text-transform: uppercase;" readonly/>
+                    <select *ngIf="isMandiriTunasFinance" 
+                            #auctionHouseSelect 
+                            id="vendorAddress" 
+                            class="form-control auction-house-select"
+                            [(ngModel)]="selectedLokasiUnit"
+                            style="text-transform: uppercase;">
+                      <option value="">Pilih Lokasi Balai Lelang</option>
+                      <option *ngFor="let house of auctionHouses" [value]="house">{{house}}</option>
+                    </select>
+                    <input *ngIf="!isMandiriTunasFinance" 
+                           id="vendorAddress" 
+                           type="text" 
+                           placeholder="Alamat" 
+                           value="{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}" 
+                           style="border:0px;line-height: 10px;text-transform: uppercase;" 
+                           readonly/>
                     <!-- <textarea id="vendorAddress" placeholder="Alamat" rows="6" readonly  style="border:0px;line-height: 10px;" >
                       {{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}
                     </textarea> -->
@@ -394,13 +409,13 @@
                     (selectBrand)="onBrandSelected($event)">
                     </app-the-brand-modal>
 
-                    <label for="tipe" style="display:none;">Tipe
+                    <label for="tipe" >Tipe
                        <button mat-icon-button class="info-button" (click)="openCopasModal()">
                         <mat-icon>info</mat-icon>
                       </button>
                     </label>
                     <input type="hidden" id="tipe" name="tipe" >
-                    <button type="button" (click)="openTipeModal()" style="display:none;text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
+                    <button type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
 
                   <app-the-tipe-modal  
                   *ngIf="isTipeModalOpen"  
