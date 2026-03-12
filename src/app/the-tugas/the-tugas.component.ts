@@ -304,6 +304,12 @@ GoesToDetailTugas(id: number, status: string){
   }
 }
 
+// Mengambil bagian pertama dari display_name sebelum tanda "-"
+getFirstPartOfName(displayName: string): string {
+  if (!displayName) return '';
+  const parts = displayName.split('-');
+  return parts[0].trim();
+}
 
 
 onModalClose() {

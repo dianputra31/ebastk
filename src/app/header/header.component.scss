@@ -282,6 +282,69 @@
             }
         }
 
+      .header-user {  
+          display: flex; // Mengatur elemen dalam satu baris  
+          align-items: center; // Menyelaraskan secara vertikal  
+          padding: 5px; // Padding di dalam header  
+          background-color: #f9f9f9; // Warna latar belakang header  
+          border: 1px solid #ddd; // Border untuk header  
+          border-radius: 16px; // Border-radius untuk header  
+          cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik  
+          transition: all 0.2s ease;
+          
+          &:hover {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+          }
+          
+          .profile-image {  
+            width: 20px; // Ukuran gambar profil  
+            height: 20px; // Ukuran gambar profil  
+            margin-right: 5px; // Jarak antara gambar profil dan info pengguna  
+          
+            img {  
+              width: 100%; // Mengatur gambar agar memenuhi div  
+              height: 100%; // Mengatur gambar agar memenuhi div  
+              border-radius: 50%; // Membuat gambar profil menjadi bulat  
+            }  
+          }  
+          
+          .user-info {  
+            flex: 1; // Mengisi sisa ruang  
+            display: flex;  
+            flex-direction: column; // Mengatur info pengguna dalam kolom  
+            width: 160px;
+          
+            .user-name {  
+              font-weight: bold; // Menebalkan nama pengguna  
+              color: #333; // Warna teks  
+              text-align: left;
+              text-transform: uppercase;
+            }  
+          
+            .user-details {  
+              font-size: 11px; // Ukuran font untuk detail  
+              color: #666; // Warna teks untuk detail  
+              text-align: left;
+            }  
+          }  
+          
+          .dropdown-icon {  
+              width: 20px; // Ukuran ikon dropdown  
+              height: 20px;  
+              
+              img {  
+                width: 100%; // Mengatur ikon agar memenuhi div  
+                height: 100%; // Mengatur ikon agar memenuhi div  
+                transition: transform 0.3s ease; // Animasi transisi saat memutar  
+              
+                &.rotate {  
+                  transform: rotate(180deg); // Memutar gambar 180 derajat  
+                }  
+              }  
+            }   
+        }  
+
       .dropdown-overlay {
         position: fixed;
         top: 0;
@@ -299,10 +362,10 @@
         border-radius: 12px;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         z-index: 1000;
-        margin-top: 8px;
+        margin-top: 1px;
         right: 0;
         top: 100%;
-        min-width: 200px;
+        width: 100%;
         overflow: hidden;
         opacity: 0;
         transform: translateY(-10px);
@@ -397,7 +460,9 @@
         .profile-dropdown {  
           // Gaya untuk dropdown profil  
           display: flex;  
-          align-items: end;  
+          flex-direction: column;
+          align-items: flex-end;  
+          position: relative;
           border: solid blue 0px;
       
           .profile-name {  
@@ -408,7 +473,134 @@
           .dropdown {  
             // Gaya untuk dropdown  
             cursor: pointer;  
-          }  
+          }
+
+          .header-user {  
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            
+            &:hover {
+              background-color: #f0f0f0;
+              border-color: #ccc;
+            }
+            
+            .profile-image {  
+              width: 20px;
+              height: 20px;
+              margin-right: 5px;
+            
+              img {  
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+              }  
+            }  
+            
+            .user-info {  
+              flex: 1;
+              display: flex;  
+              flex-direction: column;
+              width: 160px;
+            
+              .user-name {  
+                font-weight: bold;
+                color: #333;
+                text-align: left;
+                text-transform: uppercase;
+              }  
+            
+              .user-details {  
+                font-size: 11px;
+                color: #666;
+                text-align: left;
+              }  
+            }  
+            
+            .dropdown-icon {  
+              width: 20px;
+              height: 20px;
+              
+              img {  
+                width: 100%;
+                height: 100%;
+                transition: transform 0.3s ease;
+              
+                &.rotate {  
+                  transform: rotate(180deg);
+                }  
+              }  
+            }   
+          }
+
+          .dropdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            z-index: 999;
+          }
+
+          .dropdown-menu {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            z-index: 1000;
+            margin-top: 1px;
+            right: 0;
+            top: 100%;
+            width: 100%;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: dropdownFadeIn 0.2s ease forwards;
+            
+            &.show {
+              opacity: 1;
+              transform: translateY(0);
+            }
+            
+            .dropdown-item {
+              padding: 12px 14px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-family: 'Nunito Sans';
+              font-size: 13px;
+              font-weight: 600;
+              color: #312E2E;
+              transition: all 0.2s ease;
+              
+              i {
+                font-size: 16px;
+                color: #D5230D;
+                transition: transform 0.2s ease;
+              }
+          
+              &:hover {
+                background: linear-gradient(90deg, #FFF5F4 0%, #FFE8E6 100%);
+                color: #D5230D;
+                
+                i {
+                  transform: translateX(2px);
+                }
+              }
+              
+              &:active {
+                background: #FFE8E6;
+              }
+            }
+          }
         }  
       }  
       
@@ -573,138 +765,7 @@
             }  
           }  
         }   
-        
-      
-      
-
-
-
-
-
-
-      .header-user {  
-          display: flex; // Mengatur elemen dalam satu baris  
-          align-items: center; // Menyelaraskan secara vertikal  
-          padding: 5px; // Padding di dalam header  
-          background-color: #f9f9f9; // Warna latar belakang header  
-          border: 1px solid #ddd; // Border untuk header  
-          border-radius: 16px; // Border-radius untuk header  
-          cursor: pointer; // Menunjukkan bahwa ini adalah elemen yang dapat diklik  
-          
-          .profile-image {  
-            width: 20px; // Ukuran gambar profil  
-            height: 20px; // Ukuran gambar profil  
-            margin-right: 5px; // Jarak antara gambar profil dan info pengguna  
-          
-            img {  
-              width: 100%; // Mengatur gambar agar memenuhi div  
-              height: 100%; // Mengatur gambar agar memenuhi div  
-              border-radius: 50%; // Membuat gambar profil menjadi bulat  
-            }  
-          }  
-          
-          .user-info {  
-            flex: 1; // Mengisi sisa ruang  
-            display: flex;  
-            flex-direction: column; // Mengatur info pengguna dalam kolom  
-            width: 160px;
-          
-            .user-name {  
-              font-weight: bold; // Menebalkan nama pengguna  
-              color: #333; // Warna teks  
-              text-align: left;
-            }  
-          
-            .user-details {  
-              font-size: 11px; // Ukuran font untuk detail  
-              color: #666; // Warna teks untuk detail  
-              text-align: left;
-            }  
-          }  
-          
-          .dropdown-icon {  
-              width: 20px; // Ukuran ikon dropdown  
-              height: 20px;  
-              
-              img {  
-                width: 100%; // Mengatur ikon agar memenuhi div  
-                height: 100%; // Mengatur ikon agar memenuhi div  
-                transition: transform 0.3s ease; // Animasi transisi saat memutar  
-              
-                &.rotate {  
-                  transform: rotate(180deg); // Memutar gambar 180 derajat  
-                }  
-              }  
-            }   
-        }  
-
-        
-        
-  }  
-    
-
-  .dropdown-menu {
-      position: absolute;
-      background-color: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-      z-index: 1000;
-      margin-top: 8px;
-      right: 0;
-      top: 100%;
-      min-width: 180px;
-      overflow: hidden;
-      
-      ul {
-        list-style: none;
-        padding: 8px 0;
-        margin: 0;
-      
-        li {
-          padding: 12px 16px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-family: 'Nunito Sans';
-          font-size: 14px;
-          font-weight: 600;
-          color: #312E2E;
-          transition: all 0.2s ease;
-          
-          i {
-            font-size: 16px;
-            color: #D5230D;
-          }
-      
-          &:hover {
-            background-color: #FFF5F4;
-            color: #D5230D;
-            
-            i {
-              transform: translateX(2px);
-            }
-          }
-          
-          &:active {
-            background-color: #FFE8E6;
-          }
-        }
-      }
-  }  
-  
-}
-
-/* Dropdown Overlay */
-.dropdown-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  z-index: 999;
+  }
 }
 
 /* Dropdown Animation */

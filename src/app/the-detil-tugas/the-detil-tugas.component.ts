@@ -126,6 +126,7 @@ transmissionOptions: [string, string][] = [
   isMandiriTunasFinance: boolean = false;
   auctionHouses: string[] = [];
   @ViewChild('auctionHouseSelect') auctionHouseSelect!: ElementRef;
+  HiLocation: string | undefined;
   
 
   @HostListener('window:scroll', [])
@@ -439,7 +440,7 @@ transmissionOptions: [string, string][] = [
         const found = response.results.find((item: any) => item.id === variantId);
 
         if (found) {
-          this.modelname = found.id;
+          this.modelname = this.sampleData?.variant_model?.model_name ? this.sampleData.variant_model.model_name : '';
           console.log(this.sampleData?.variant_model?.model_name)
         } else {
           this.modelname = "";
@@ -682,7 +683,7 @@ transmissionOptions: [string, string][] = [
   }
 
   async infoUnit() {
-  
+  this.HiLocation = localStorage.getItem('branch') || 'Branch';
     const unitData = {
       page: '1'
     };
@@ -763,7 +764,7 @@ transmissionOptions: [string, string][] = [
         
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
-        this.modelname = this.sampleData.variant_model ? this.sampleData.variant_model.model_name : '';
+        this.modelname = this.sampleData.variant_model.model_name ? this.sampleData.variant_model.model_name : '';
         this.selectedVariantName = this.modelname ;
         this.selectedBrandName = this.sampleData.brand.brand_name;
         this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';

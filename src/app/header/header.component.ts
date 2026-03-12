@@ -196,6 +196,13 @@ activePanel: string = '';
     window.location.replace('/login');
   }
 
+  gantiPassword(){
+    this.closeDropdown();
+    // TODO: Implementasi navigasi ke halaman ganti password atau buka modal
+    // this.router.navigate(['/ganti-password']);
+    console.log('Ganti Password clicked');
+  }
+
   scrollToPanel(panelName: string) {
     this.selectedPanel = panelName;
     

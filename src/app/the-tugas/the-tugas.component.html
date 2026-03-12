@@ -82,7 +82,7 @@
         <div class="product-details">  
           <!-- Product Header -->  
           <div class="product-header">  
-              <div class='hy'>{{ product.display_name }}</div>  
+              <div class='hy'>{{ getFirstPartOfName(product.display_name) }}</div>  
               <div class="status-container" *ngIf="fromDashboard==false">  
                 <span class="status-header">Last saved: {{ currentDate | date: 'dd MMMM yyyy, HH:mm' }} WIB</span>  
                 <span class="status" [ngClass]="getStatusClass(product.bastk_status)">{{ getStatusName(product.bastk_status).toUpperCase() }}</span>    

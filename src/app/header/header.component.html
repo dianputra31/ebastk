@@ -35,6 +35,10 @@
           
           <!-- Dropdown Menu -->
           <div class="dropdown-menu" *ngIf="isDropdownOpen" [class.show]="isDropdownOpen">
+            <div class="dropdown-item" (click)="gantiPassword()">
+              <i class="fas fa-key"></i>
+              <span>Ganti Password</span>
+            </div>
             <div class="dropdown-item" (click)="logout()">
               <i class="fas fa-sign-out-alt"></i>
               <span>Keluar</span>

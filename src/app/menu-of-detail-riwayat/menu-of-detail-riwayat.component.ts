@@ -38,4 +38,11 @@ export class MenuOfDetailRiwayatComponent implements OnInit {
     this.panelToScroll.emit(panelName);
   }
 
+  // Mengambil bagian pertama dari display_name sebelum tanda "-"
+  getFirstPartOfName(displayName: string): string {
+    if (!displayName) return '';
+    const parts = displayName.split('-');
+    return parts[0].trim();
+  }
+
 }

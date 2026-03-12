@@ -118,6 +118,7 @@ export class TheDetilTerjadwalComponent implements OnInit, AfterViewInit, OnDest
 // selectedYearDate: Date | null = null;
 // maxYearDate: Date = new Date();
 // maxYearDate: Date = new Date(new Date().getFullYear(), 11, 31); // 31 Desember tahun berjalan
+  HiLocation: string | undefined;
 
 selectedYear: number | null = null;
 selectedYearDate: Date | null = null;
@@ -1055,6 +1056,8 @@ onDecimalInput(event: Event, fieldName: keyof this) {
 
 
   async infoUnitTerjadwal() {
+    this.HiLocation = localStorage.getItem('branch') || 'Branch';
+
     const unitData = {
       page: '1'
     };
