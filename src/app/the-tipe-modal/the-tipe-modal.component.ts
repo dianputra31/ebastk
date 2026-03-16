@@ -28,7 +28,7 @@ export class TheTipeModalComponent {
 
     this.variants.forEach(variant => {
       const rawModel = (variant?.model_name || '').toString();
-      const groupedModelName = rawModel.split('-')[0].trim();
+      const groupedModelName = rawModel.trim();
 
       if (!groupedModelName) {
         return;
@@ -70,7 +70,7 @@ export class TheTipeModalComponent {
 
     this.variants.forEach(variant => {
       const rawModel = (variant?.model_name || '').toString();
-      const groupedModelName = rawModel.split('-')[0].trim();
+      const groupedModelName = rawModel.trim();
 
       if (!groupedModelName) {
         return;
