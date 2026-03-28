@@ -308,3 +308,11 @@
   <div class="loading-spinner"></div>
   <div class="loading-text">Foto sedang ditukar...</div>
 </div>
+
+<app-the-modal
+  [isOpen]="isErrorModalOpen"
+  [message]="errorModalMessage"
+  [showButtonYeah]="false"
+  [showButtonNope]="true"
+  (close)="closeErrorModal()">
+</app-the-modal>

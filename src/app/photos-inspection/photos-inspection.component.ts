@@ -67,6 +67,8 @@ groupedSubItems: { [category: string]: { [subCategory: string]: any[] } } = {};
 groupedItems: { [key: string]: any[] } = {};
 isUploading: boolean = false;
 uploadProgress = { current: 0, total: 0 };
+isErrorModalOpen: boolean = false;
+errorModalMessage: string = '';
 
   readonly bagianLuarDescriptions: string[] = [
     'Foto Depan',
@@ -335,7 +337,17 @@ async aplotMultipleMinus(event: any) {
 
     try {
       const endpoint = `/upload-images/`;
-      await this.apiClient.postDoc<any>(endpoint, formData);
+      const response = await this.apiClient.postDoc<any>(endpoint, formData);
+      
+      // Check if response has rc: 0
+      if (response && response.rc === 0) {
+        this.showErrorModal(response.message || 'Ulangi upload photo');
+        this.isUploading = false;
+        this.uploadProgress = { current: 0, total: 0 };
+        this.infoUnit();
+        return;
+      }
+      
       this.uploadProgress.current = i + 1;
     } catch (error) {
       console.error('Upload gagal:', error);
@@ -372,7 +384,16 @@ async aplotMultiple(event: any) {
 
     try {
       const endpoint = `/upload-images/`;
-      await this.apiClient.postDoc<any>(endpoint, formData);
+      const response = await this.apiClient.postDoc<any>(endpoint, formData);
+      
+      // Check if response has rc: 0
+      if (response && response.rc === 0) {
+        this.showErrorModal(response.message || 'Ulangi upload photo');
+        this.isUploading = false;
+        this.uploadProgress = { current: 0, total: 0 };
+        this.infoUnit();
+        return;
+      }
       
       // Tambahan endpoint untuk 'Foto Depan'
       if (desc === 'Foto Depan') {
@@ -380,7 +401,16 @@ async aplotMultiple(event: any) {
         formDataThumbnail.append('unit_id', this.unit_id); // atau pakai String(this.unit) kalau dynamic
         formDataThumbnail.append('image', file);
         const thumbnailEndpoint = `/upload-thumbnail/`;
-        await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
+        const thumbnailResponse = await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
+        
+        // Check thumbnail response for rc: 0
+        if (thumbnailResponse && thumbnailResponse.rc === 0) {
+          this.showErrorModal(thumbnailResponse.message || 'Ulangi upload photo');
+          this.isUploading = false;
+          this.uploadProgress = { current: 0, total: 0 };
+          this.infoUnit();
+          return;
+        }
       }
       
       this.uploadProgress.current = i + 1;
@@ -791,13 +821,27 @@ async aplot(event: any, desc: string, lab:string) {
 
                 // window.location.reload();
                 const response = await this.apiClient.postDoc<any>(endpoint, formData);
+                
+                // Check if response has rc: 0
+                if (response && response.rc === 0) {
+                  this.showErrorModal(response.message || 'Ulangi upload photo');
+                  this.infoUnit();
+                  return false;
+                }
 
                 if (desc === 'Foto Depan') {
                   const formDataThumbnail = new FormData();
                   formDataThumbnail.append('unit_id', this.unit_id); // atau pakai String(this.unit) kalau dynamic
                   formDataThumbnail.append('image', file);
                   const thumbnailEndpoint = `/upload-thumbnail/`;
-                  await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
+                  const thumbnailResponse = await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
+                  
+                  // Check thumbnail response for rc: 0
+                  if (thumbnailResponse && thumbnailResponse.rc === 0) {
+                    this.showErrorModal(thumbnailResponse.message || 'Ulangi upload photo');
+                    this.infoUnit();
+                    return false;
+                  }
                 }
 
                 if (response) {
@@ -835,6 +879,16 @@ async aplot(event: any, desc: string, lab:string) {
 
 sanitize(desc: string): string {
   return desc.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+}
+
+showErrorModal(message: string) {
+  this.errorModalMessage = message;
+  this.isErrorModalOpen = true;
+}
+
+closeErrorModal() {
+  this.isErrorModalOpen = false;
+  this.errorModalMessage = '';
 }
 
 
