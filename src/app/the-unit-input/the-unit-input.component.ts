@@ -527,7 +527,7 @@ onYearSelected(event: any) {
       payload.keur_notice = '';
     }
     if (this.selectedVariant) payload.variant_model = this.selectedVariant;
-    if (this.selectedNotes) payload.notes = this.selectedNotes;
+    if (this.selectedNotes) payload.notes = this.selectedNotes.toUpperCase();
 
     if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender.toUpperCase();
     if (this.selectedLokasiUnit) payload.unit_location = this.selectedLokasiUnit.toUpperCase();
@@ -977,7 +977,9 @@ onNumberInput(event: Event, fieldName: keyof this) {
     const input = event.target as HTMLInputElement;
     
     // Hapus semua karakter selain huruf dan angka, lalu uppercase
-    let value = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    // let value = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    let value = input.value.replace(/[^A-Za-z0-9\-\/\.\(\)\*]/g, '').toUpperCase();
+
     
     // Simpan ke property yang sesuai
     (this as any)[fieldName] = value;

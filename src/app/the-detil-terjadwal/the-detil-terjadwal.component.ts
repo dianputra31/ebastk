@@ -903,7 +903,8 @@ onDecimalInput(event: Event, fieldName: keyof this) {
     let value = input.value;
     
     // Remove spaces and non-alphanumeric characters
-    value = value.replace(/[^A-Za-z0-9]/g, '');
+    value = value.replace(/[^A-Za-z0-9\-\/\.\(\)\*]/g, '');
+    
     
     // Convert to uppercase
     value = value.toUpperCase();

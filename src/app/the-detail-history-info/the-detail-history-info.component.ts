@@ -40,10 +40,23 @@ variant_model_id: string = '';
 brandid:any = '';
 brandName:any = '';
 unitdocuments: UnitDocument[] = [];
+selectedKeur: string = '';
+keur_notice: any = null;
+tax_notice: any = null;
+selectedKeurStatus: string = 'Tidak Ada';
+keurDateString: string = '';
+selectedStnkStatus: string = 'Tidak Ada';
+stnkDateString: string = '';
+HiLocation: string | undefined;
 
 errlog:string = '';
 isButtonDisabled: boolean = false;
 isLoading: boolean = false;
+
+adaTidakOptions = [
+  'Ada',
+  'Tidak Ada'
+];
 
 choices: [string, string][] = [
   ['Drive', 'Drive'],
@@ -66,9 +79,67 @@ transmissionOptions: [string, string][] = [
 
   constructor(private apiClient: ApiClientService, private modalService: NgbModal, private router: Router) { }
 
+  private normalizeDateForInput(dateValue: any): string {
+    if (!dateValue || typeof dateValue !== 'string') return '';
+
+    const parts = dateValue.trim().split('-');
+    if (parts.length !== 3) return '';
+
+    let day = '';
+    let month = '';
+    let year = '';
+
+    if (parts[0].length === 4) {
+      year = parts[0];
+      month = parts[1];
+      day = parts[2];
+    } else if (parts[2].length === 4) {
+      day = parts[0];
+      month = parts[1];
+      year = parts[2];
+    } else {
+      return '';
+    }
+
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+
+  formatNumber(value: any): string {
+    if (value === null || value === undefined || value === '') return '';
+    return new Intl.NumberFormat('id-ID').format(value);
+  }
+
   ngOnInit(): void {
     this.pic = this.sampleData?.mobilization_unit[0].mobilization.pic;
     console.log('this.sampleData?.brand.brand_name:', this.sampleData);
+    
+    // Initialize HiLocation from localStorage
+    this.HiLocation = localStorage.getItem('branch') || 'Branch';
+    
+    // Initialize keur data and other fields
+    if (this.sampleData) {
+      this.selectedKeur = this.sampleData.keur || 'T/A';
+      this.keur_notice = this.sampleData.keur_notice;
+      this.tax_notice = this.sampleData.tax_notice;
+      this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
+      
+      // Normalize KEUR date ke yyyy-mm-dd untuk input date
+      if (this.selectedKeur && this.selectedKeur !== 'T/A' && this.keur_notice) {
+        this.keurDateString = this.normalizeDateForInput(this.keur_notice);
+      }
+      
+      // Normalize STNK date and set status
+      if (this.tax_notice) {
+        this.stnkDateString = this.normalizeDateForInput(this.tax_notice);
+        this.selectedStnkStatus = 'Ada';
+      } else {
+        this.selectedStnkStatus = 'Tidak Ada';
+      }
+      
+      // Initialize ODO
+      this.selectedOdo = this.sampleData.odo_meter ? String(this.sampleData.odo_meter) : '';
+    }
+    
     this.showVehicleType();
     this.showBrand();
     this.showColor();

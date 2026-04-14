@@ -196,8 +196,15 @@ export class DetailFooterComponent implements OnInit {
               }
             });
           }else if(this.stepNow==='detil-tugas'){
-            window.location.href = '/inspeksi-unit/' + unit_id;
             // this.router.navigate(['/inspeksi-unit'+'/'+unit_id]);
+
+              this.saveStep(0).then(success => {
+              if (success) {
+                // this.router.navigate(['/interior-inspection' + '/' + unit_id]);
+                // this.router.navigate(['/inspeksi-unit' + '/' + unit_id])
+                window.location.href = '/inspeksi-unit/' + unit_id;
+              }
+            });
           }
 
         }else{
@@ -224,7 +231,23 @@ export class DetailFooterComponent implements OnInit {
   async saveStep(a: number) {
     const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
 
-    if(a == 1){
+    if(a == 0){
+      const unitPayload = localStorage.getItem('payloadUnit_' + unit_id);
+
+      if (unitPayload) {
+          console.log('unitPayload', unitPayload);
+          const parsedUnitPayload = JSON.parse(unitPayload);
+
+            // Gabungkan payload existing dengan unitPayload
+            this.payload = {
+              ...parsedUnitPayload
+            };
+        // this.payload = JSON.parse(this.payload);
+        // this.payload.bastk_status = this.bastk_status;
+        this.payload.bastk_status = 'draft';
+      }
+      // return payload !== null; // Return true if payload exists, false otherwise
+    }else if(a == 1){
       const exteriorPayload = localStorage.getItem('exteriorPayload');
       const unitPayload = localStorage.getItem('payloadUnit_' + unit_id);
 
@@ -364,7 +387,10 @@ export class DetailFooterComponent implements OnInit {
         return true;
       }else{
         this.isLoading = false;
-        this.errlog = 'Username atau password salah';
+        // Tampilkan modal error dengan message dari response
+        this.isModalErrorOpen = true;
+        this.errMessage = response?.message || 'Terjadi kesalahan, silakan coba lagi.';
+        this.errlog = response?.message || 'Terjadi kesalahan, silakan coba lagi.';
         return false;
       }
 

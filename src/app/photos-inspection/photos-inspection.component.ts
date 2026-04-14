@@ -152,6 +152,76 @@ draggedFromDesc: string = '';
     this.showGroupingExterior();
   }
 
+  // Fungsi untuk kompresi gambar hingga maksimal 100KB
+  async compressImage(file: File, maxSizeKB: number = 100): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event: any) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          
+          // Resize jika gambar terlalu besar (max 1920px)
+          const maxDimension = 1920;
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = (height / width) * maxDimension;
+              width = maxDimension;
+            } else {
+              width = (width / height) * maxDimension;
+              height = maxDimension;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Mulai dengan quality 0.9, turun sampai ukuran <= maxSizeKB
+          let quality = 0.9;
+          const tryCompress = () => {
+            canvas.toBlob(
+              (blob) => {
+                if (!blob) {
+                  reject(new Error('Gagal kompresi gambar'));
+                  return;
+                }
+                
+                const sizeKB = blob.size / 1024;
+                console.log(`Ukuran: ${sizeKB.toFixed(2)}KB, Quality: ${quality}`);
+                
+                // Jika masih terlalu besar dan quality masih bisa diturunkan
+                if (sizeKB > maxSizeKB && quality > 0.1) {
+                  quality -= 0.1;
+                  tryCompress();
+                } else {
+                  // Konversi blob ke File
+                  const compressedFile = new File([blob], file.name, {
+                    type: 'image/jpeg',
+                    lastModified: Date.now(),
+                  });
+                  console.log(`Kompresi selesai: ${(compressedFile.size / 1024).toFixed(2)}KB`);
+                  resolve(compressedFile);
+                }
+              },
+              'image/jpeg',
+              quality
+            );
+          };
+          
+          tryCompress();
+        };
+        img.onerror = (error) => reject(error);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
 
   getTitleByDescription(desc: string): string {
     if ([
@@ -329,13 +399,16 @@ async aplotMultipleMinus(event: any) {
     const desc = `Foto Minus ${i + 1}`; // Descriptions dinamis
     const lab = 'Foto Kerusakan/Kekurangan Unit (Minus)';
 
-    const formData = new FormData();
-    formData.append('unit', this.unit_id);
-    formData.append('file', file);
-    formData.append('title', lab);
-    formData.append('descriptions', desc);
-
     try {
+      // Kompresi gambar sebelum upload
+      const compressedFile = await this.compressImage(file);
+
+      const formData = new FormData();
+      formData.append('unit', this.unit_id);
+      formData.append('file', compressedFile);
+      formData.append('title', lab);
+      formData.append('descriptions', desc);
+
       const endpoint = `/upload-images/`;
       const response = await this.apiClient.postDoc<any>(endpoint, formData);
       
@@ -376,13 +449,16 @@ async aplotMultiple(event: any) {
     const desc = this.allDescriptions[i] || `Foto ${i + 1}`;
     const lab = this.getTitleByDescription(desc);
 
-    const formData = new FormData();
-    formData.append('unit', this.unit_id);
-    formData.append('file', file);
-    formData.append('title', lab);
-    formData.append('descriptions', desc);
-
     try {
+      // Kompresi gambar sebelum upload
+      const compressedFile = await this.compressImage(file);
+
+      const formData = new FormData();
+      formData.append('unit', this.unit_id);
+      formData.append('file', compressedFile);
+      formData.append('title', lab);
+      formData.append('descriptions', desc);
+
       const endpoint = `/upload-images/`;
       const response = await this.apiClient.postDoc<any>(endpoint, formData);
       
@@ -398,8 +474,8 @@ async aplotMultiple(event: any) {
       // Tambahan endpoint untuk 'Foto Depan'
       if (desc === 'Foto Depan') {
         const formDataThumbnail = new FormData();
-        formDataThumbnail.append('unit_id', this.unit_id); // atau pakai String(this.unit) kalau dynamic
-        formDataThumbnail.append('image', file);
+        formDataThumbnail.append('unit_id', this.unit_id);
+        formDataThumbnail.append('image', compressedFile);
         const thumbnailEndpoint = `/upload-thumbnail/`;
         const thumbnailResponse = await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
         
@@ -795,31 +871,36 @@ async removeOldImage(index: number) {
 
 
 async aplot(event: any, desc: string, lab:string) {
-  // console.log("HHHHH::::",desc);
-  // console.log("CCCC::::",lab);
   const input = event.target as HTMLInputElement;
 
     if (input.files && input.files[0]) {
       try {
           const file = event.target.files[0];
           if (file) {
+            // Kompresi gambar sebelum upload
+            const compressedFile = await this.compressImage(file);
+            
             const reader = new FileReader();
             reader.onload = (e: any) => {
               this.imageUrl = e.target.result;
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(compressedFile);
+            
                 // Siapkan FormData untuk upload ke API
                 const formData = new FormData();
-                formData.append('unit', this.unit_id); // atau pakai String(this.unit) kalau dynamic
-                formData.append('file', file);
+                formData.append('unit', this.unit_id);
+                formData.append('file', compressedFile);
                 formData.append('title', lab);
                 formData.append('descriptions', desc);
 
 
-                // Kirim ke API
-                const endpoint = `/upload-images/`; // Menambahkan parameter ke endpoint
+                // Hapus foto lama dengan descriptions yang sama sebelum upload
+                const ids = this.unitimages.filter(img => img.descriptions === desc).map(img => img.id);
+                await Promise.all(ids.map(id => this.removeOldImage(id)));
 
-                // window.location.reload();
+                // Kirim ke API
+                const endpoint = `/upload-images/`;
+
                 const response = await this.apiClient.postDoc<any>(endpoint, formData);
                 
                 // Check if response has rc: 0
@@ -831,8 +912,8 @@ async aplot(event: any, desc: string, lab:string) {
 
                 if (desc === 'Foto Depan') {
                   const formDataThumbnail = new FormData();
-                  formDataThumbnail.append('unit_id', this.unit_id); // atau pakai String(this.unit) kalau dynamic
-                  formDataThumbnail.append('image', file);
+                  formDataThumbnail.append('unit_id', this.unit_id);
+                  formDataThumbnail.append('image', compressedFile);
                   const thumbnailEndpoint = `/upload-thumbnail/`;
                   const thumbnailResponse = await this.apiClient.postDoc<any>(thumbnailEndpoint, formDataThumbnail);
                   
@@ -845,13 +926,11 @@ async aplot(event: any, desc: string, lab:string) {
                 }
 
                 if (response) {
-                  // console.log("HERE WE GO!")
                   this.infoUnit();
                   return true;
                 }else{
                   console.log('here failed')
                 }
-                // return true;
           }
 
           }catch (error) {

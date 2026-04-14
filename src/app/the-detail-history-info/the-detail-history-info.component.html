@@ -9,20 +9,20 @@
             </div>
             <div>
                 <p>No. Telepon</p>
-                <p class="font-semibold">{{sampleDataVendor?.phone}}</p>
+                <p class="font-semibold">{{sampleData?.pic_sender_phone}}</p>
             </div>
             <div>
-                <p>Alamat</p>
-                <p class="font-semibold">{{sampleDataVendor?.address}}, {{sampleDataVendor?.city}}, {{sampleDataVendor?.province}}</p>
+                <p>Lokasi Unit</p>
+                <p class="font-semibold">{{sampleData?.unit_location}}</p>
             </div>
             <div>
                 <p>PIC Pengirim</p>
-                <p class="font-semibold">{{pic}}</p>
+                <p class="font-semibold">{{sampleData?.pic_sender}}</p>
             </div>
-            <!-- <div>
+            <div>
                 <p>Tanggal Pengiriman</p>
-                <p class="font-semibold"></p>
-            </div> -->
+                <p class="font-semibold">{{sampleData?.bastk_timestamp| date: 'dd MMMM yyyy pukul HH:mm'}}</p>
+            </div>
         </div>
     </div>
 
@@ -42,35 +42,45 @@
             </div>
             <div>
                 <p>Kategori</p>
-                 <select id="category" name="category" placeholder="Pilih Kategori" disabled class="font-semibold">
-                      <option *ngFor="let vehictype of vehicletype?.results"
-                              [value]="vehictype.type_name"
-                              [attr.data-id]="vehictype.id"
-                              [attr.data-name]="vehictype.type_name"
-                              [attr.selected]="vehictype.id === sampleData?.unit_category_id ? '' : null">
-                        {{ vehictype.type_name }}
-                      </option>
-                    </select>
+                <b>{{sampleData?.unit_type?.type_name}}</b>
             </div>
             <div>
                 <p>Nomor Polisi</p>
                 <p class="font-semibold">{{ sampleData?.police_number }}</p>
             </div>
             <div>
-                <p>Status Unit</p>
-                <p class="font-semibold">{{ sampleData?.unit_location }}</p>
-            </div>
-            <div>
                 <p>Merek</p>
                 <p class="font-semibold">{{ sampleData?.brand?.brand_name }}</p>
             </div>
             <div style="display: none;">
+                <p>Tipe</p>
+                <p class="font-semibold">{{sampleData?.brand_model_name}}</p>
+            </div>
+            <div>
+                <p>Noka</p>
+                <p class="font-semibold">{{ sampleData?.chassis_number }}</p>
+            </div>
+            <div>
+                <p>Nosin</p>
+                <p class="font-semibold">{{ sampleData?.engine_number }}</p>
+            </div>
+            <div>
+                <p>Keur</p>
+                <p class="font-semibold">{{ selectedKeurStatus === 'Ada' ? (keurDateString | date:'dd MMMM yyyy') : 'Tidak Ada' }}</p>
+            </div>
+
+            <div style="display: none;">
                 <p>Kapasitas Mesin (cc)</p>
                 <p class="font-semibold">{{ sampleData?.cc ? (sampleData?.cc | number:'1.0-0') : '' }}</p>
             </div>
-            <div style="display: none;">
-                <p>Tipe</p>
-                <p class="font-semibold">{{sampleData?.variant_model?.model_name}}</p>
+
+            <div>
+                <p>Kilometer (ODO)</p>
+                <p class="font-semibold">{{ formatNumber(sampleData?.odo_meter) }}</p>
+            </div>
+            <div>
+                <p>Status Unit</p>
+                <p class="font-semibold" style="text-transform: uppercase;">{{ HiLocation }}</p>
             </div>
             <div>
                 <p>Warna</p>
@@ -84,34 +94,17 @@
                 <p>Transmisi</p>
                 <p class="font-semibold">{{sampleData?.transmission}}</p>
             </div>
+            <div>
+                <p>STNK</p>
+                <p class="font-semibold">{{ selectedStnkStatus === 'Ada' ? (stnkDateString | date:'dd MMMM yyyy') : 'Tidak Ada' }}</p>
+            </div>
         </div>
     </div>
 
     <!-- Dokumen dan Kelengkapan Lainnya Section -->
     <div>
         <h2 class="text-xl font-semibold mb-4">Dokumen dan Kelengkapan Lainnya</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <p>Jenis Surat</p>
-                <label>
-                        <input  type="radio" class="custom-radio" name="transmission" value="automatic" [checked]="sampleData?.transmission !== 'MT'" readonly disabled/>
-                        <p class="font-semibold">Automatic</p>
-                    </label>
-                    &nbsp;
-                    <label>
-                        <input type="radio" class="custom-radio" name="transmission" value="manual" [checked]="sampleData?.transmission === 'MT'" readonly disabled/>
-                        <p class="font-semibold">Manual</p>
-                    </label>
-            </div>
-            <div>
-                <p>Tanggal Pembuatan</p>
-                <p class="font-semibold">{{sampleData?.first_published_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-            </div>
-            <div>
-                <p>No. Surat Kuasa</p>
-                <p class="font-semibold">NP129920/1709/B2298VGU</p>
-            </div>
-        </div>
+
         <div class="mt-4">
             <p class="font-semibold">Lampiran Dokumen</p>
             <div class="flex space-x-4 mt-2">
@@ -122,10 +115,7 @@
                 <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg button-upl-view" (click)="openGallery('BASTK')">Foto BASTK</button>
             </div>
         </div>
-        <div class="mt-4">
-            <p>Status BPKB</p>
-            <p class="font-semibold">{{sampleData?.bpkb}}</p>
-        </div>
+
         <div class="mt-4">
             <p>Keterangan Lainnya</p>
             <p class="font-semibold">{{sampleData?.notes}}</p>

@@ -124,4 +124,5 @@ export interface Brand {
     keur_notice: string | null;
     tax_notice: string | null;
     pic_sender_phone: string | null;
+    brand_model_name: string | null;
   }

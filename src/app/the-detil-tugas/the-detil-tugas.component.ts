@@ -599,7 +599,7 @@ transmissionOptions: [string, string][] = [
     const input = event.target as HTMLInputElement;
     let value = input.value;
 
-    value = value.replace(/[^A-Za-z0-9]/g, '');
+    value = value.replace(/[^A-Za-z0-9\-\/\.\(\)\*]/g, '');
     value = value.toUpperCase();
 
     if (fieldName === 'noka') {
