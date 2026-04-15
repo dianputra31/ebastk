@@ -5,6 +5,134 @@
     font-family: 'NunitoSans';
 }
 
+// Header Unit Info
+.unit-summary-header {
+  margin-bottom: 20px;
+  animation: fadeInHeader 0.5s ease-in;
+}
+
+.unit-summary-header-content {
+  background: linear-gradient(135deg, #C21F0B 0%, #8B1508 100%);
+  padding: 10px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 3px 8px rgba(194, 31, 11, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.unit-summary-header-content:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(194, 31, 11, 0.25), 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.unit-summary-icon {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 8px;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.unit-summary-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.unit-summary-name {
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+  font-family: 'NunitoSans', sans-serif;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  line-height: 1.3;
+}
+
+.police-summary-number {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 4px 10px;
+  border-radius: 6px;
+  width: fit-content;
+  backdrop-filter: blur(10px);
+}
+
+.police-summary-number svg {
+  color: white;
+  flex-shrink: 0;
+}
+
+.nopol-summary-text {
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'NunitoSans', sans-serif;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+@keyframes fadeInHeader {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive untuk mobile
+@media (max-width: 768px) {
+  .unit-summary-header {
+    margin-bottom: 12px;
+  }
+
+  .unit-summary-header-content {
+    padding: 8px 16px;
+    gap: 10px;
+  }
+
+  .unit-summary-icon {
+    padding: 7px;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .unit-summary-name {
+    font-size: 14px;
+  }
+
+  .police-summary-number {
+    padding: 3px 8px;
+    gap: 5px;
+    
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .nopol-summary-text {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+}
+
 
 .bigger{
     font-family: 'Nunito Sans';
