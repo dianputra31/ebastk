@@ -978,7 +978,7 @@ onNumberInput(event: Event, fieldName: keyof this) {
     
     // Hapus semua karakter selain huruf dan angka, lalu uppercase
     // let value = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-    let value = input.value.replace(/[^A-Za-z0-9\-\/\.\(\)\*]/g, '').toUpperCase();
+    let value = input.value.replace(/[^A-Za-z0-9\-\/\.\(\)\*\s]/g, '').toUpperCase();
 
     
     // Simpan ke property yang sesuai
