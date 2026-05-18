@@ -52,6 +52,11 @@ export class InspeksiUnitComponent implements OnInit {
   // Modal properties
   isChoiceModalOpen: boolean = false;
 
+  // Debug modal properties
+  isDebugModalOpen: boolean = false;
+  debugModalTitle: string = '';
+  debugModalItems: any[] = [];
+
   constructor(private router: Router,  private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
@@ -169,6 +174,8 @@ export class InspeksiUnitComponent implements OnInit {
 
 groupItemsByCategoryAndSubCategory(data: any[]) {
   const groups: { [category: string]: CategoryGroup } = {};
+  // Track worst status per category: open > notyet > closed
+  const categoryStatus: { [category: string]: string } = {};
   this.wwgombel = 1;
 
   data.forEach(item => {
@@ -208,45 +215,56 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
     let answeredCount = validQuestions.filter((q: any) => q.answer !== null).length;
     if (item.kondisi === 'Tidak') {
       answeredCount = withNameCount;
-    }    
-    
-    const unansweredCount = withNameCount - answeredCount;
+    }
 
     let status = '';
-    console.log("withNameCount:::", withNameCount);
-    console.log("answeredCount:::", answeredCount);
 
-    if (answeredCount === withNameCount && withNameCount > 0) {
-      status = 'closed';
-      this.wwgombel = this.wwgombel * 1
-    } else if (answeredCount === 0 && withNameCount > 0) {
-      status = 'open';
-      this.wwgombel = this.wwgombel * 0
-    } else if (answeredCount < withNameCount && answeredCount > 0) {
-      status = 'notyet';
-      this.wwgombel = this.wwgombel * 0
+    if (withNameCount > 0) {
+      if (answeredCount === withNameCount) {
+        status = 'closed';
+        this.wwgombel = this.wwgombel * 1;
+      } else if (answeredCount === 0) {
+        status = 'open';
+        this.wwgombel = this.wwgombel * 0;
+      } else {
+        status = 'notyet';
+        this.wwgombel = this.wwgombel * 0;
+      }
     }
 
     groups[category][subCategory]['open'] = status;
 
+    // Accumulate worst status per category (open > notyet > closed)
     if (status === 'open') {
+      categoryStatus[category] = 'open';
+    } else if (status === 'notyet' && categoryStatus[category] !== 'open') {
+      categoryStatus[category] = 'notyet';
+    } else if (status === 'closed' && !categoryStatus[category]) {
+      categoryStatus[category] = 'closed';
+    }
+
+    groups[category][subCategory].push(item);
+  });
+
+  // Apply final aggregated status per category
+  Object.keys(groups).forEach(category => {
+    const catStatus = categoryStatus[category];
+    if (catStatus === 'open') {
       groups[category].item_category_chipclass = 'saiki';
       groups[category].item_category_buttonclass = 'btn-saiki';
       groups[category].item_category_buttonlabel = 'Start Inspection >';
       groups[category].item_posizione = 'Open';
-    } else if (status === 'closed') {
+    } else if (catStatus === 'closed') {
       groups[category].item_category_chipclass = 'wisrampung';
       groups[category].item_category_buttonclass = 'btn-rampung';
       groups[category].item_category_buttonlabel = 'Completed >';
       groups[category].item_posizione = 'Done';
-    } else if (status === 'notyet') {
+    } else if (catStatus === 'notyet') {
       groups[category].item_category_chipclass = 'notyet';
       groups[category].item_category_buttonclass = 'btn-notyet';
       groups[category].item_category_buttonlabel = 'Start Inspection >';
       groups[category].item_posizione = 'Nope';
     }
-
-    groups[category][subCategory].push(item);
   });
 
   if (groups['Exterior']?.item_posizione === 'Open') {
@@ -344,6 +362,28 @@ get sortedGroupedSubItems() {
   
   closeChoiceModal() {
     this.isChoiceModalOpen = false;
+  }
+
+  openDebugModal(event: MouseEvent, categoryGroup: any): void {
+    event.stopPropagation();
+    this.debugModalTitle = categoryGroup.item_category_chipname || '';
+    const allItems: any[] = [];
+    Object.keys(categoryGroup).forEach(key => {
+      if (!key.startsWith('item_')) {
+        const subItems = categoryGroup[key];
+        if (Array.isArray(subItems)) {
+          subItems.forEach((item: any) => {
+            allItems.push({ ...item, _subCategory: key });
+          });
+        }
+      }
+    });
+    this.debugModalItems = allItems;
+    this.isDebugModalOpen = true;
+  }
+
+  closeDebugModal(): void {
+    this.isDebugModalOpen = false;
   }
   
   goToDokumenBASTK() {

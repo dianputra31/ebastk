@@ -6,6 +6,7 @@ import { ApiBrandResponse } from '../../assets/models/list-brand.model';
 import { ApiVariantResponse } from '../../assets/models/list-variant.model';
 import { ApiColorResponse } from '../../assets/models/list-color.model';
 import { ApiVehicleTypeResponse  } from '../../assets/models/list-vehicle-tipe.model';
+import { ApiUnitCategoryResponse } from 'src/assets/models/list-unit-category.model';
 import { HttpClient } from '@angular/common/http';  
 import { Router } from '@angular/router';
 import { trigger, style, transition, animate, stagger, query, animateChild } from '@angular/animations';
@@ -54,11 +55,13 @@ export class TheDetilTugasComponent implements OnInit, AfterViewInit, OnDestroy 
   variants: CarModelResponse | null = null
   colors: ApiColorResponse | null = null
   vehicletype: ApiVehicleTypeResponse | null = null
+  unitcategory: ApiUnitCategoryResponse | null = null
   selectedExpedition: string = '';
   selectedVariant: string = '';
   selectedColor: string = '';
   selectedVehicType: string = '';
   selectedBrand: string = '';
+  selectedUcat: string = '';
   selectedLocation: string = '';
   selectedOdo: string = '';
   selectedNoka: string = '';
@@ -75,10 +78,13 @@ export class TheDetilTugasComponent implements OnInit, AfterViewInit, OnDestroy 
   brandid:any = '';
   isTipeModalOpen = false;
   isBrandModalOpen = false;
+  isUcatModalOpen = false;
   selectedVariantName = '';
   selectedVariantId: string = '';
   selectedBrandName: string = '';
   selectedBrandId: string = '';
+  selectedUcatName: string = '';
+  selectedUcatId: string = '';
   bastk_status: string = '';
   notes: string = '';
   assignment_number: string = '';
@@ -119,8 +125,11 @@ transmissionOptions: [string, string][] = [
   // ['Dual Clutch', 'Dual Clutch'],
   // ['Other', 'Other']
 ];
-  selectedLokasiUnit: any;
-  selectedPicPhoneSender: any;
+  selectedLokasiUnit: string = '';
+  selectedPicPhoneSender: string = '';
+  
+  // Modal alert for validation
+  isLocationAlertOpen: boolean = false;
   
   // MTF Vendor Detection & Select2 for Auction Houses
   isMandiriTunasFinance: boolean = false;
@@ -153,6 +162,10 @@ transmissionOptions: [string, string][] = [
 
   openBrandModal() {
     this.isBrandModalOpen = true;
+  }
+
+  openUnitCategory() {
+    this.isUcatModalOpen = true;
   }
 
   onKeurChange(event : any) {
@@ -229,6 +242,14 @@ transmissionOptions: [string, string][] = [
     this.savePayloadUnit();
   }
 
+  onUcatSelected(brand: any) {
+    this.selectedUcatName = brand.category_name;
+    this.selectedUcatId = brand.id;
+    // lakukan logic lain, misal set ke form, dsb
+    this.selectedUcat = this.selectedUcatId;
+    this.savePayloadUnit();
+  }
+
   isElementInViewport(el: HTMLElement) {
     const rect = el.getBoundingClientRect();
     return (
@@ -285,6 +306,7 @@ transmissionOptions: [string, string][] = [
     this.infoUnit();
     this.showColor();
     this.showVehicleType();
+    this.showUnitCategory();
   }
 
   
@@ -324,7 +346,25 @@ transmissionOptions: [string, string][] = [
   }
 
 
-  async savePayloadUnit() {
+  validateLokasiUnit(): boolean {
+    // Validasi lokasi unit
+    if (!this.selectedLokasiUnit || this.selectedLokasiUnit.trim() === '') {
+      this.isLocationAlertOpen = true;
+      return false;
+    }
+    return true;
+  }
+
+  closeLocationAlert() {
+    this.isLocationAlertOpen = false;
+  }
+
+  async savePayloadUnit(skipValidation: boolean = true) {
+    // Validasi lokasi unit kecuali jika skip validation
+    if (!skipValidation && !this.validateLokasiUnit()) {
+      return;
+    }
+    
     // Build payloadUnit only with fields that have values
     const payload: any = {
       unit_id: this.unit_id,
@@ -335,15 +375,14 @@ transmissionOptions: [string, string][] = [
     if (this.selectedExpedition) payload.expedition = this.selectedExpedition.toUpperCase();
     if (this.selectedTransmission) payload.transmission = this.selectedTransmission;
     if (this.selectedVehicType) payload.unit_type_id = this.selectedVehicType;
+    if (this.selectedUcat) payload.unit_category_id = this.selectedUcat;
     if (this.selectedBrand) payload.brand_id = this.selectedBrand;
     if (this.selectedVariant) payload.variant_model_id = this.selectedVariant;
     if (this.selectedOdo) payload.odo_meter = this.selectedOdo;
-    if (this.selectedLocation) payload.unit_location = this.selectedLocation.toUpperCase();
     if (this.selectedNoka) payload.chassis_number = this.selectedNoka.toUpperCase();
     if (this.selectedNosin) payload.engine_number = this.selectedNosin.toUpperCase();
     if (this.selectedAssignmentDate) payload.assignment_date = this.selectedAssignmentDate;
     if (this.selectedAssignmentNumber) payload.assignment_number = this.selectedAssignmentNumber.toUpperCase();
-    if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus.toUpperCase();
     if (this.selectedBpkbStatus) payload.bpkb_status = this.selectedBpkbStatus.toUpperCase();
     if (this.selectedPicSender) payload.pic_sender = this.selectedPicSender.toUpperCase();
     if (this.selectedLokasiUnit) payload.unit_location = this.selectedLokasiUnit.toUpperCase();
@@ -415,8 +454,7 @@ transmissionOptions: [string, string][] = [
   
 
   onExpeditionChange(event : any) {
-    const selectedOption = event.target.selectedOptions; 
-    this.selectedExpedition = selectedOption[0].value;
+    // selectedExpedition sudah di-update otomatis oleh ngModel
     this.savePayloadUnit();
   }
 
@@ -528,36 +566,51 @@ transmissionOptions: [string, string][] = [
     }
   }
 
+  async showUnitCategory() {
+
+    this.errlog = "";
+    try {
+      const endpoint = `/unit-category`; // Menambahkan parameter ke endpoint
+      const response = await this.apiClient.getOther<ApiUnitCategoryResponse>(endpoint);
+      if (response) {
+        this.unitcategory = response;
+      }else{
+        console.log('here failed')
+        this.errlog = 'Username atau password salah';
+      }
+    } catch (error) {
+      this.isButtonDisabled = false;
+      // this.authService.logout();
+      if (axios.isAxiosError(error)) {
+        // Cek status kode dari respons
+        if (error.response && error.response.status === 401) {
+          this.errlog = 'Username atau password salah.';
+        } else {
+          this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+        }
+      } else {
+        this.errlog = 'Terjadi kesalahan, silakan coba lagi.';
+      }
+      console.error('Error during login:', error);
+      this.isLoading = false;
+    }
+  }
+
 
   onColorChange(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
-    const colorId = selectedOption.getAttribute('color-id');
-    this.selectedColor = colorId;
+    // selectedColor sudah di-update otomatis oleh ngModel (berisi ID)
     this.savePayloadUnit();
-    // Panggil fungsi showVariant dengan brandId yang dipilih
-    // this.showVariant(colorId);
   }
 
   onTransmissionChange(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
-    const transmission = selectedOption.getAttribute('transmission-id');
-    this.selectedTransmission = transmission;
+    // selectedTransmission sudah di-update otomatis oleh ngModel
     this.savePayloadUnit();
-    // Panggil fungsi showVariant dengan brandId yang dipilih
-    // this.showVariant(colorId);
   }
 
 
   onVehicTypeChange(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
-    const dataName = selectedOption.getAttribute('data-name');
-    const dataId = selectedOption.getAttribute('data-id');
-
-    // this.selectedVehicType = dataName;
-    this.selectedVehicType = dataId;
+    // selectedVehicType sudah di-update otomatis oleh ngModel (berisi ID)
     this.savePayloadUnit();
-    // Panggil fungsi showVariant dengan brandId yang dipilih
-    // this.showVariant(colorId);
   }
 
 
@@ -688,6 +741,22 @@ transmissionOptions: [string, string][] = [
       page: '1'
     };
     this.errlog = "";
+    
+    // Simpan nilai tanggal yang sudah diinput user sebelum reload
+    const preservedKeurDate = this.keurDateString;
+    const preservedStnkDate = this.stnkDateString;
+    const preservedKeurStatus = this.selectedKeurStatus;
+    const preservedStnkStatus = this.selectedStnkStatus;
+    const preservedLokasiUnit = this.selectedLokasiUnit;
+    const preservedPicSender = this.selectedPicSender;
+    const preservedPicPhone = this.selectedPicPhoneSender;
+    
+    console.log('Preserving user inputs before reload:', {
+      keurDate: preservedKeurDate,
+      stnkDate: preservedStnkDate,
+      lokasiUnit: preservedLokasiUnit
+    });
+    
     try {
       const page = 1; // Parameter yang ingin dikirim
       const unit_id = this.router.url.split('/').pop(); // Mengambil parameter terakhir dari URL
@@ -722,20 +791,42 @@ transmissionOptions: [string, string][] = [
         this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
         this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
 
-        // Load STNK status dari stnk_status dan tanggal dari tax_notice
-        const stnkValue = this.sampleData.stnk_status || 'T/A';
-        this.selectedStnkStatus = stnkValue === 'T/A' ? 'Tidak Ada' : 'Ada';
-
-        // Normalize STNK date ke yyyy-mm-dd untuk input date
-        if (stnkValue && stnkValue !== 'T/A' && this.sampleData.tax_notice) {
-          this.stnkDateString = this.normalizeDateForInput(this.sampleData.tax_notice);
-          console.log('stnkDateString loaded:', this.stnkDateString);
+        // Load STNK status: gunakan preserved value jika ada, jika tidak gunakan dari server
+        if (preservedStnkDate && preservedStnkDate !== '') {
+          // User sudah input, gunakan preserved value
+          this.stnkDateString = preservedStnkDate;
+          this.selectedStnkStatus = preservedStnkStatus;
+          console.log('Using preserved STNK date:', this.stnkDateString);
         } else {
-          this.stnkDateString = '';
+          // Belum ada input user, gunakan dari server
+          const stnkValue = this.sampleData.stnk_status || 'T/A';
+          this.selectedStnkStatus = stnkValue === 'T/A' ? 'Tidak Ada' : 'Ada';
+          
+          if (stnkValue && stnkValue !== 'T/A' && this.sampleData.tax_notice) {
+            this.stnkDateString = this.normalizeDateForInput(this.sampleData.tax_notice);
+            console.log('stnkDateString loaded from server:', this.stnkDateString);
+          } else {
+            this.stnkDateString = '';
+          }
         }
 
         this.infoVendor(this.sampleData.vendor.id);
         this.brandid = this.sampleData.brand.id;
+        
+        // Load all selected* variables from API data
+        this.selectedBrand = this.sampleData.brand.id?.toString() || '';
+        this.selectedVariant = this.sampleData.variant_model?.id?.toString() || '';
+        this.selectedColor = this.sampleData.color?.id?.toString() || '';
+        this.selectedVehicType = this.sampleData.unit_type?.id?.toString() || '';
+        this.selectedUcat = this.sampleData.unit_category?.id?.toString() || '';
+        this.selectedUcatName = this.sampleData.unit_category?.category_name || '';
+        this.selectedTransmission = this.sampleData.transmission || '';
+        this.selectedExpedition = this.sampleData.expedition || '';
+        this.selectedOdo = this.sampleData.odo_meter?.toString() || '';
+        this.selectedNoka = this.sampleData.chassis_number || '';
+        this.selectedNosin = this.sampleData.engine_number || '';
+        this.selectedYear = this.sampleData.unit_year?.toString() || '';
+        
         this.showBrand();
 
 
@@ -764,29 +855,64 @@ transmissionOptions: [string, string][] = [
         
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
-        this.modelname = this.sampleData.variant_model.model_name ? this.sampleData.variant_model.model_name : '';
-        this.selectedVariantName = this.modelname ;
+        this.modelname = this.sampleData.variant_model?.model_name || '';
+        this.selectedVariantName = this.modelname;
         this.selectedBrandName = this.sampleData.brand.brand_name;
         this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';
         // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
         // console.log('bpkbDocuments:', this.bpkbDocuments);
         this.bastk_status = this.sampleData.bastk_status;
         this.notes = this.sampleData.notes || '';
-        this.selectedKeur = this.sampleData.keur || 'T/A';
+        
+        // Load Keur: gunakan preserved value jika ada, jika tidak gunakan dari server
+        if (preservedKeurDate && preservedKeurDate !== '') {
+          // User sudah input, gunakan preserved value
+          this.keurDateString = preservedKeurDate;
+          this.selectedKeurStatus = preservedKeurStatus;
+          this.selectedKeur = preservedKeurStatus === 'Ada' ? preservedKeurDate : 'T/A';
+          console.log('Using preserved Keur date:', this.keurDateString);
+        } else {
+          // Belum ada input user, gunakan dari server
+          this.selectedKeur = this.sampleData.keur || 'T/A';
+          this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
+          
+          // Normalize KEUR date ke yyyy-mm-dd untuk input date
+          if (this.selectedKeur && this.selectedKeur !== 'T/A' && this.sampleData.keur_notice) {
+            this.keurDateString = this.normalizeDateForInput(this.sampleData.keur_notice);
+            console.log('keurDateString loaded from server:', this.keurDateString);
+          } else {
+            this.keurDateString = '';
+          }
+        }
+        
         this.keur_notice = this.sampleData.keur_notice;
         this.tax_notice = this.sampleData.tax_notice;
-        this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
         this.pic = this.sampleData.pic_sender || '';
-        this.selectedLokasiUnit = this.sampleData.lokasi_unit || '';
-
-
+        
+        // Load Lokasi Unit: gunakan preserved value jika ada
+        if (preservedLokasiUnit && preservedLokasiUnit !== '') {
+          this.selectedLokasiUnit = preservedLokasiUnit;
+          console.log('Using preserved Lokasi Unit:', this.selectedLokasiUnit);
+        } else {
+          this.selectedLokasiUnit = this.sampleData.unit_location || '';
+          console.log('Loaded Lokasi Unit from server:', this.selectedLokasiUnit);
+        }
+        
+        // Load PIC Sender: gunakan preserved value jika ada
+        if (preservedPicSender && preservedPicSender !== '') {
+          this.selectedPicSender = preservedPicSender;
+        } else {
+          this.selectedPicSender = this.sampleData.pic_sender || '';
+        }
+        
+        // Load PIC Phone: gunakan preserved value jika ada
+        if (preservedPicPhone && preservedPicPhone !== '') {
+          this.selectedPicPhoneSender = preservedPicPhone;
+        } else {
+          this.selectedPicPhoneSender = this.sampleData.pic_sender_phone || '';
+        }
 
         this.selectedNotes = this.sampleData.notes || '';
-        
-        // Normalize KEUR date ke yyyy-mm-dd untuk input date
-        if (this.selectedKeur && this.selectedKeur !== 'T/A' && this.keur_notice) {
-          this.keurDateString = this.normalizeDateForInput(this.keur_notice);
-        }
         
 
         
@@ -796,6 +922,7 @@ transmissionOptions: [string, string][] = [
           this.assignment_number = this.sampleData.mobilization_unit[0].mobilization.assignment_number;
         }
 
+        console.log('Final selectedLokasiUnit before savePayloadUnit:', this.selectedLokasiUnit);
         this.savePayloadUnit();
 
        
@@ -855,7 +982,7 @@ transmissionOptions: [string, string][] = [
           // Reset if not MTF
           this.isMandiriTunasFinance = false;
           this.auctionHouses = [];
-          this.selectedLokasiUnit = '';
+          // JANGAN reset selectedLokasiUnit - nilai sudah di-set dari API detail-unit
           // Destroy Select2 if it was previously initialized
           if (typeof $ !== 'undefined' && this.auctionHouseSelect) {
             const selectElement = $(this.auctionHouseSelect.nativeElement);
@@ -896,11 +1023,19 @@ transmissionOptions: [string, string][] = [
         this.auctionHouses = response.results;
         console.log('Auction houses loaded:', this.auctionHouses.length);
         
-        // Check if current unit_location exists in the auction houses and set as default
+        // Check if current unit_location exists in the auction houses
         const currentLocation = this.sampleData?.unit_location;
+        console.log('Checking unit_location from API:', currentLocation);
+        console.log('Current selectedLokasiUnit:', this.selectedLokasiUnit);
+        
         if (currentLocation && this.auctionHouses.includes(currentLocation)) {
-          this.selectedLokasiUnit = currentLocation;
-          console.log('Pre-selected location:', currentLocation);
+          // Hanya set jika belum ada nilai yang di-set sebelumnya
+          if (!this.selectedLokasiUnit || this.selectedLokasiUnit === '') {
+            this.selectedLokasiUnit = currentLocation;
+            console.log('Pre-selected location for MTF vendor:', currentLocation);
+          } else {
+            console.log('selectedLokasiUnit already set, not overriding:', this.selectedLokasiUnit);
+          }
         }
       }
     } catch (error) {
@@ -964,7 +1099,7 @@ transmissionOptions: [string, string][] = [
   async openGallery(a:string) {
 
     try{
-      this.infoUnit();
+      // Hapus this.infoUnit() di sini - tidak perlu reload sebelum buka modal
 
           const modalRef = this.modalService.open(ImageGalleryModalComponent, { size: 'lg' });
           modalRef.componentInstance.carName = this.display_name;

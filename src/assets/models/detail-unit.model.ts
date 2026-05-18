@@ -52,6 +52,11 @@ export interface Brand {
     type_name: string;
   }
   
+  export interface UnitCategory {
+    id: number;
+    category_name: string;
+  }
+  
   export interface Vendor {
     id: number;
     vendor_name: string;
@@ -81,6 +86,7 @@ export interface Brand {
     unitimages: UnitImage[];
     thumbnail_url: string;
     unit_type: UnitType;
+    unit_category: UnitCategory;
     cc: number;
     unit_location: string;
     first_published_at: string;

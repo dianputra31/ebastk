@@ -25,6 +25,7 @@ export class DetailFooterComponent implements OnInit {
   bastk_status: string = '';
   errMessage: string = '';
   isLoading: boolean = false;
+  isLocationAlertOpen: boolean = false;
 
   constructor(private router: Router, private authService: AuthService,  private apiClient: ApiClientService) { }
 
@@ -112,6 +113,10 @@ export class DetailFooterComponent implements OnInit {
 
   onModalClose() {
     this.closeModal(); // Menutup modal
+  }
+
+  closeLocationAlert() {
+    this.isLocationAlertOpen = false;
   }
 
 
@@ -237,6 +242,13 @@ export class DetailFooterComponent implements OnInit {
       if (unitPayload) {
           console.log('unitPayload', unitPayload);
           const parsedUnitPayload = JSON.parse(unitPayload);
+
+          // Validasi lokasi unit
+          if (!parsedUnitPayload.unit_location || parsedUnitPayload.unit_location.trim() === '') {
+            this.isLocationAlertOpen = true;
+            this.isLoading = false;
+            return false;
+          }
 
             // Gabungkan payload existing dengan unitPayload
             this.payload = {

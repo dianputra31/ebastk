@@ -80,6 +80,44 @@ getValueAt(unitData: Record<string, string>, index: number): string {
   return keys[index] ? unitData[keys[index]] : '';
 }
 
+// Engine baca nomor polisi dari unit_data
+// Strategi 1: deteksi format plat Indonesia dari VALUE (misal "B 1848 FKJ")
+// Strategi 2: fallback tebak dari KEY jika tidak ada nilai yang cocok format
+getNomorPolisi(unitData: Record<string, any>): string {
+  if (!unitData) return '';
+  const platRegex = /^[A-Z]{1,2}\s\d{1,4}\s[A-Z]{1,3}$/i;
+
+  // Strategi 1: scan values, cocokkan format plat Indonesia
+  for (const key of Object.keys(unitData)) {
+    const val = String(unitData[key] ?? '').trim();
+    if (platRegex.test(val)) {
+      return val;
+    }
+  }
+
+  // Strategi 2: fallback key-name heuristic
+  for (const key of Object.keys(unitData)) {
+    const norm = key.toLowerCase().replace(/[\s._\-#\/]/g, '');
+    if (
+      norm.includes('nopol') ||
+      norm.includes('polisi') ||
+      norm.includes('platno') ||
+      norm.includes('nomplat') ||
+      norm.includes('policen') ||
+      norm.includes('licensepl') ||
+      norm.includes('licplate') ||
+      norm === 'plat' ||
+      norm === 'pol' ||
+      norm === 'plcnum' ||
+      norm === 'nopol'
+    ) {
+      return String(unitData[key] ?? '').trim();
+    }
+  }
+
+  return '';
+}
+
 
 
 ngOnInit(): void {

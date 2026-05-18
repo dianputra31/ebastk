@@ -40,6 +40,19 @@
 [imageUrl]="'../../assets/icons/warning-icon.svg'">
 </app-the-modal>
 
+<!-- Modal Alert untuk Validasi Lokasi Unit -->
+<app-the-modal
+  *ngIf="isLocationAlertOpen"
+  (confirm)="closeLocationAlert()"
+  (close)="closeLocationAlert()"
+  [isOpen]="isLocationAlertOpen"
+  [message]="'Lokasi Unit Belum Diisi'"
+  [message2]="'Silakan isi lokasi unit terlebih dahulu sebelum melanjutkan.'"
+  [imageUrl]="'../../assets/icons/alert-circle.svg'"
+  [showButtonNope]="false"
+  [showButtonYeah]="true">
+</app-the-modal>
+
 
 <div *ngIf="isLoading" class="loading-overlay">
   <div class="loading-spinner"></div>

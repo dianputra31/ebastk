@@ -27,6 +27,10 @@
     <ng-container *ngIf="sortedGroupedSubItems.length > 0; else emptyState">
       <div *ngFor="let item of sortedGroupedSubItems" style="flex-direction: row;">
         <div class="grid-item {{item.item_category_chipclass}}" >
+          <!-- Badge pojok kanan atas -->
+          <span class="chip-badge badge-done" *ngIf="item.item_posizione === 'Done'" (click)="openDebugModal($event, item)">&#10003;</span>
+          <span class="chip-badge badge-open" *ngIf="item.item_posizione === 'Open'" (click)="openDebugModal($event, item)">&#9679;</span>
+          <span class="chip-badge badge-nope" *ngIf="item.item_posizione === 'Nope'" (click)="openDebugModal($event, item)">&#9675;</span>
           <div class="text">
             <h3 class="labelinspeksi">{{ item.item_category_chiplabel }}. <br/>{{ item.item_category_chipname }}</h3>
             <ng-container *ngIf="item.item_category_chipclass==='notyet';else showbaten">
@@ -54,6 +58,38 @@
     </ng-template>
   </ng-container>
 
+</div>
+
+
+<!-- Debug Modal -->
+<div *ngIf="isDebugModalOpen" class="debug-modal-overlay" (click)="closeDebugModal()">
+  <div class="debug-modal-content" (click)="$event.stopPropagation()">
+    <div class="debug-modal-header">
+      <span class="debug-modal-title">{{ debugModalTitle }}</span>
+      <button class="debug-close-btn" (click)="closeDebugModal()">&times;</button>
+    </div>
+    <div class="debug-modal-body">
+      <ng-container *ngIf="debugModalItems.length === 0">
+        <p class="debug-empty">Tidak ada item di kategori ini.</p>
+      </ng-container>
+      <div *ngFor="let item of debugModalItems" class="debug-item-card">
+        <div class="debug-item-header">
+          <span class="debug-subcategory">{{ item._subCategory }}</span>
+          <span class="debug-kondisi" [ngClass]="{'kondisi-ada': item.kondisi === 'Ada', 'kondisi-tidak': item.kondisi === 'Tidak', 'kondisi-empty': !item.kondisi}">
+            kondisi: {{ item.kondisi || '—' }}
+          </span>
+        </div>
+        <div class="debug-item-desc">{{ item.item_description }}</div>
+        <div class="debug-questions" *ngIf="item.questions && item.questions.length > 0">
+          <div *ngFor="let q of item.questions" class="debug-question-row" [ngClass]="{'q-answered': q.answer !== null && q.answer !== undefined, 'q-empty': q.answer === null || q.answer === undefined}">
+            <span class="q-key">{{ q.key }}</span>
+            <span class="q-arrow">→</span>
+            <span class="q-answer">{{ (q.answer !== null && q.answer !== undefined) ? q.answer : '—' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
