@@ -498,6 +498,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 4px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .debug-subcategory {
@@ -513,6 +515,39 @@
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 10px;
+}
+
+.debug-completion-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.3px;
+  margin-left: auto;
+}
+
+.completion-complete {
+  background: rgba(80, 200, 120, 0.15);
+  color: #6ee39b;
+  border: 1px solid rgba(80, 200, 120, 0.3);
+}
+
+.completion-incomplete {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.completion-empty {
+  background: rgba(213, 35, 13, 0.15);
+  color: #ff7b6b;
+  border: 1px solid rgba(213, 35, 13, 0.3);
+}
+
+.completion-na {
+  background: rgba(150, 150, 150, 0.15);
+  color: #aaa;
+  border: 1px solid rgba(150, 150, 150, 0.3);
 }
 
 .kondisi-ada {
@@ -561,6 +596,10 @@
   &.q-empty {
     background: rgba(213, 35, 13, 0.08);
   }
+
+  &.q-hidden {
+    display: none;
+  }
 }
 
 .q-key {
@@ -568,6 +607,7 @@
   color: #7eb8f7;
   font-size: 10px;
   min-width: 80px;
+  text-transform: uppercase;
 }
 
 .q-arrow {

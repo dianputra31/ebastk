@@ -78,12 +78,16 @@
           <span class="debug-kondisi" [ngClass]="{'kondisi-ada': item.kondisi === 'Ada', 'kondisi-tidak': item.kondisi === 'Tidak', 'kondisi-empty': !item.kondisi}">
             kondisi: {{ item.kondisi || '—' }}
           </span>
+          <span class="debug-completion-badge" [ngClass]="getItemCompletionClass(item)">
+            {{ getItemCompletionText(item) }}
+          </span>
         </div>
         <div class="debug-item-desc">{{ item.item_description }}</div>
         <div class="debug-questions" *ngIf="item.questions && item.questions.length > 0">
-          <div *ngFor="let q of item.questions" class="debug-question-row" [ngClass]="{'q-answered': q.answer !== null && q.answer !== undefined, 'q-empty': q.answer === null || q.answer === undefined}">
-            <span class="q-key">{{ q.key }}</span>
-            <span class="q-arrow">→</span>
+          <div *ngFor="let q of item.questions" class="debug-question-row" 
+               [ngClass]="{'q-answered': q.name && q.answer !== null && q.answer !== undefined, 'q-empty': q.name && (q.answer === null || q.answer === undefined), 'q-hidden': !q.name}">
+            <span class="q-key">{{ q.name || q.key }}</span>
+            <span class="q-arrow" *ngIf="q.name">→</span>
             <span class="q-answer">{{ (q.answer !== null && q.answer !== undefined) ? q.answer : '—' }}</span>
           </div>
         </div>

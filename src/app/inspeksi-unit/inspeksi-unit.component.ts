@@ -210,16 +210,20 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
       groups[category][subCategory] = [];
     }
 
-    const validQuestions = item.questions.filter((q: any) => q.name !== null);
+    // Handle null/undefined questions array
+    const questions = item.questions || [];
+    const validQuestions = questions.filter((q: any) => q.name !== null);
     const withNameCount = validQuestions.length;
     let answeredCount = validQuestions.filter((q: any) => q.answer !== null).length;
-    if (item.kondisi === 'Tidak') {
-      answeredCount = withNameCount;
-    }
 
     let status = '';
 
-    if (withNameCount > 0) {
+    // Item dengan kondisi "Tidak" otomatis dianggap completed
+    if (item.kondisi === 'Tidak') {
+      status = 'closed';
+      this.wwgombel = this.wwgombel * 1;
+    } else if (withNameCount > 0) {
+      // Item dengan kondisi "Ada" cek kelengkapan jawaban
       if (answeredCount === withNameCount) {
         status = 'closed';
         this.wwgombel = this.wwgombel * 1;
@@ -230,6 +234,36 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
         status = 'notyet';
         this.wwgombel = this.wwgombel * 0;
       }
+    } else {
+      // Item tanpa pertanyaan valid dianggap completed
+      status = 'closed';
+      this.wwgombel = this.wwgombel * 1;
+    }
+
+    // Debug logging untuk item yang tidak completed di Exterior
+    if (category === 'Exterior' && status !== 'closed') {
+      console.log(`🔍 Exterior item NOT completed:`, {
+        subCategory,
+        item_description: item.item_description,
+        kondisi: item.kondisi,
+        withNameCount,
+        answeredCount,
+        status,
+        questions: item.questions
+      });
+    }
+
+    // Debug logging untuk item yang tidak completed di Interior
+    if (category === 'Interior' && status !== 'closed') {
+      console.log(`🔍 Interior item NOT completed:`, {
+        subCategory,
+        item_description: item.item_description,
+        kondisi: item.kondisi,
+        withNameCount,
+        answeredCount,
+        status,
+        questions: item.questions
+      });
     }
 
     groups[category][subCategory]['open'] = status;
@@ -249,7 +283,14 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
   // Apply final aggregated status per category
   Object.keys(groups).forEach(category => {
     const catStatus = categoryStatus[category];
-    if (catStatus === 'open') {
+    
+    // Debug logging untuk melihat status final setiap category
+    console.log(`📊 Category "${category}" final status:`, catStatus);
+    
+    if (catStatus === 'open' || catStatus === 'notyet') {
+      // 'open' = belum dijawab sama sekali
+      // 'notyet' = partially answered
+      // Keduanya harus bisa diakses (button aktif) untuk dilengkapi
       groups[category].item_category_chipclass = 'saiki';
       groups[category].item_category_buttonclass = 'btn-saiki';
       groups[category].item_category_buttonlabel = 'Start Inspection >';
@@ -259,7 +300,8 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
       groups[category].item_category_buttonclass = 'btn-rampung';
       groups[category].item_category_buttonlabel = 'Completed >';
       groups[category].item_posizione = 'Done';
-    } else if (catStatus === 'notyet') {
+    } else {
+      // Tidak ada status (belum pernah diisi sama sekali)
       groups[category].item_category_chipclass = 'notyet';
       groups[category].item_category_buttonclass = 'btn-notyet';
       groups[category].item_category_buttonlabel = 'Start Inspection >';
@@ -267,22 +309,37 @@ groupItemsByCategoryAndSubCategory(data: any[]) {
     }
   });
 
-  if (groups['Exterior']?.item_posizione === 'Open') {
-    if (groups['Interior']) {
+  // Logika dependency: Interior harus tunggu Exterior Done, Engine harus tunggu Interior Done
+  console.log('🔒 Dependency check:', {
+    'Exterior status': groups['Exterior']?.item_posizione,
+    'Interior status': groups['Interior']?.item_posizione,
+    'Engine status': groups['Engine']?.item_posizione
+  });
+
+  // Interior hanya di-block jika Exterior belum Done DAN Interior belum pernah diisi
+  // Jika Interior sudah ada data (Open/Nope), tetap bisa diakses untuk dilengkapi
+  if (groups['Exterior']?.item_posizione !== 'Done') {
+    if (groups['Interior'] && groups['Interior'].item_posizione === 'Nope') {
+      // Hanya block jika benar-benar belum pernah diisi
+      console.log('⚠️ Blocking Interior - Exterior not Done and Interior never started');
       groups['Interior'].item_category_chipclass = 'notyet';
       groups['Interior'].item_category_buttonclass = 'btn-notyet';
       groups['Interior'].item_category_buttonlabel = 'Start Inspection >';
+      groups['Interior'].item_posizione = 'Nope';
+    } else {
+      console.log('✅ Interior accessible - has data to complete');
     }
-    if (groups['Engine']) {
+  }
+
+  // Engine hanya di-block jika prerequisites belum Done DAN Engine belum pernah diisi
+  if (groups['Exterior']?.item_posizione !== 'Done' || groups['Interior']?.item_posizione !== 'Done') {
+    if (groups['Engine'] && groups['Engine'].item_posizione === 'Nope') {
+      // Hanya block jika benar-benar belum pernah diisi
+      console.log('⚠️ Blocking Engine - Prerequisites not Done and Engine never started');
       groups['Engine'].item_category_chipclass = 'notyet';
       groups['Engine'].item_category_buttonclass = 'btn-notyet';
       groups['Engine'].item_category_buttonlabel = 'Start Inspection >';
-    }
-  } else if (groups['Interior']?.item_posizione === 'Open') {
-    if (groups['Engine']) {
-      groups['Engine'].item_category_chipclass = 'notyet';
-      groups['Engine'].item_category_buttonclass = 'btn-notyet';
-      groups['Engine'].item_category_buttonlabel = 'Start Inspection >';
+      groups['Engine'].item_posizione = 'Nope';
     }
   }
 
@@ -345,6 +402,53 @@ get sortedGroupedSubItems() {
     });
 
     return groups;
+  }
+
+  // Helper methods untuk debug modal completion status
+  getItemCompletionClass(item: any): string {
+    if (item.kondisi === 'Tidak') {
+      return 'completion-na'; // Not Applicable
+    }
+    
+    const questions = item.questions || [];
+    const validQuestions = questions.filter((q: any) => q.name !== null);
+    const withNameCount = validQuestions.length;
+    const answeredCount = validQuestions.filter((q: any) => q.answer !== null && q.answer !== undefined).length;
+    
+    if (withNameCount === 0) {
+      return 'completion-complete'; // No questions = auto complete
+    }
+    
+    if (answeredCount === withNameCount) {
+      return 'completion-complete';
+    } else if (answeredCount === 0) {
+      return 'completion-empty';
+    } else {
+      return 'completion-incomplete';
+    }
+  }
+
+  getItemCompletionText(item: any): string {
+    if (item.kondisi === 'Tidak') {
+      return 'N/A';
+    }
+    
+    const questions = item.questions || [];
+    const validQuestions = questions.filter((q: any) => q.name !== null);
+    const withNameCount = validQuestions.length;
+    const answeredCount = validQuestions.filter((q: any) => q.answer !== null && q.answer !== undefined).length;
+    
+    if (withNameCount === 0) {
+      return '✓ Complete';
+    }
+    
+    if (answeredCount === withNameCount) {
+      return '✓ Complete';
+    } else if (answeredCount === 0) {
+      return '⚠ Empty';
+    } else {
+      return `⚠ Incomplete (${answeredCount}/${withNameCount})`;
+    }
   }
 
   GoesToInspection(a: any){

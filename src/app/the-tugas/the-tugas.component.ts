@@ -171,7 +171,7 @@ async listTugas(page: number) {
   this.errlog = "";
   try {
     // const page = 1; // Parameter yang ingin dikirim
-    const page_size = 60;
+    const page_size = 300;
     const bastk_status = this.filterStatus;
     console.log("this.filterStatus====>>>>",this.filterStatus);
     // if(this.filterStatus=="0" || this.filterStatus== null || this.filterStatus==undefined){
