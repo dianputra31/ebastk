@@ -71,6 +71,7 @@ export class TheDetilTugasComponent implements OnInit, AfterViewInit, OnDestroy 
   selectedAssignmentNumber: string = '';
   selectedBpkbStatus: string = '';
   selectedTransmission: string = '';
+  selectedFuel: string = '';
   selectedYear: string = '';
   modelname: any = '';
   payloadUnit: any = null;
@@ -117,6 +118,14 @@ export class TheDetilTugasComponent implements OnInit, AfterViewInit, OnDestroy 
   adaTidakOptions = [
     'Ada',
     'Tidak Ada'
+  ];
+
+  fuelOptions = [
+    'Bensin',
+    'Diesel',
+    'Electric',
+    'Hybrid',
+    'Hidrogen'
   ];
 
 transmissionOptions: [string, string][] = [
@@ -380,6 +389,7 @@ transmissionOptions: [string, string][] = [
     if (this.selectedYear) payload.unit_year = this.selectedYear;
     if (this.selectedExpedition) payload.expedition = this.selectedExpedition.toUpperCase();
     if (this.selectedTransmission) payload.transmission = this.selectedTransmission;
+    if (this.selectedFuel) payload.fuel = this.selectedFuel;
     if (this.selectedVehicType) payload.unit_type_id = this.selectedVehicType;
     if (this.selectedUcat) payload.unit_category_id = this.selectedUcat;
     if (this.selectedBrand) payload.brand_id = this.selectedBrand;
@@ -610,6 +620,11 @@ transmissionOptions: [string, string][] = [
 
   onTransmissionChange(event : any) {
     // selectedTransmission sudah di-update otomatis oleh ngModel
+    this.savePayloadUnit();
+  }
+
+  onFuelChange(event : any) {
+    // selectedFuel sudah di-update otomatis oleh ngModel
     this.savePayloadUnit();
   }
 
@@ -855,6 +870,7 @@ transmissionOptions: [string, string][] = [
         this.selectedUcat = this.sampleData.unit_category?.id?.toString() || '';
         this.selectedUcatName = this.sampleData.unit_category?.category_name || '';
         this.selectedTransmission = this.sampleData.transmission || '';
+        this.selectedFuel = this.sampleData.fuel || '';
         this.selectedExpedition = this.sampleData.expedition || '';
         this.selectedOdo = this.sampleData.odo_meter?.toString() || '';
         this.selectedNoka = this.sampleData.chassis_number || '';

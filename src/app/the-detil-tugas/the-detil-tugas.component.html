@@ -147,6 +147,15 @@
                       </option>
                     </select>
 
+                    
+
+                    <label for="fuel-id">Bahan Bakar</label>
+                    <select id="fuel-id" [(ngModel)]="selectedFuel" name="fuel" placeholder="Pilih Fuel" (change)="onFuelChange($event)">
+                      <option *ngFor="let option of fuelOptions" [value]="option">
+                        {{ option }}
+                      </option>
+                    </select>
+
                     <label>Transmisi</label>
 
                     <select id="transmission" name="transmission" placeholder="Pilih Transmisi" [(ngModel)]="selectedTransmission" (change)="onTransmissionChange($event)">
@@ -157,10 +166,6 @@
                       </option>
                     </select>
 
-                     
-
-                    <!-- <label for="color">Fuel</label>
-                    <input type="text" id="fuel" placeholder="Fuel"  value="{{sampleData?.chassis_number}}"  (keyup)="onChangeTextInput($event, 3)"/> -->
                 </div>
 
                 <div class="column">
