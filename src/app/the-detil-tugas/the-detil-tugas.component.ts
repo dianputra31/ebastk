@@ -100,6 +100,12 @@ export class TheDetilTugasComponent implements OnInit, AfterViewInit, OnDestroy 
   licensePlatePart1: string = '';
   licensePlatePart2: string = '';
   licensePlatePart3: string = '';
+  licensePlateHeavyEquipment: string = '';
+  selectedVehicTypeName: string = '';
+
+  get isHeavyEquipment(): boolean {
+    return this.selectedVehicTypeName === 'HEAVY EQUIPMENT';
+  }
 
   choices: [string, string][] = [
   ['Drive', 'Drive'],
@@ -608,8 +614,28 @@ transmissionOptions: [string, string][] = [
   }
 
 
-  onVehicTypeChange(event : any) {
-    // selectedVehicType sudah di-update otomatis oleh ngModel (berisi ID)
+  onVehicTypeChange(event: any) {
+    const selectedOption = event.target.selectedOptions[0];
+    this.selectedVehicTypeName = selectedOption.getAttribute('data-name') || '';
+
+    // Reset semua inputan nomor polisi saat tipe berubah
+    this.licensePlatePart1 = '';
+    this.licensePlatePart2 = '';
+    this.licensePlatePart3 = '';
+    this.licensePlateHeavyEquipment = '';
+    this.selectedLicensePlate = '';
+
+    this.savePayloadUnit();
+  }
+
+  onHeavyEquipmentPlateInput(event: any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+    value = value.replace(/[^A-Za-z0-9\-\/\.\(\)\*\s]/g, '');
+    value = value.toUpperCase();
+    this.licensePlateHeavyEquipment = value;
+    input.value = value;
+    this.selectedLicensePlate = value;
     this.savePayloadUnit();
   }
 
@@ -767,18 +793,26 @@ transmissionOptions: [string, string][] = [
 
       // Jika login berhasil, simpan data ke localStorage
       if (response && response.vendor.id) {
-        this.sampleData = response;  
+        this.sampleData = response;
+
+        // Set vehicle type name dulu sebelum loading plate
+        this.selectedVehicTypeName = this.sampleData.unit_type?.type_name || '';
 
         if (this.sampleData?.police_number) {
-          const cleaned = this.sampleData.police_number.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-          const match = cleaned.match(/^([A-Z]{1,2})(\d{1,4})([A-Z]{0,3})$/);
-          if (match) {
-            this.licensePlatePart1 = match[1].substring(0, 2);
-            this.licensePlatePart2 = match[2].substring(0, 4);
-            this.licensePlatePart3 = match[3].substring(0, 3);
-            this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
-          } else {
+          if (this.isHeavyEquipment) {
+            this.licensePlateHeavyEquipment = this.sampleData.police_number;
             this.selectedLicensePlate = this.sampleData.police_number;
+          } else {
+            const cleaned = this.sampleData.police_number.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+            const match = cleaned.match(/^([A-Z]{1,2})(\d{1,4})([A-Z]{0,3})$/);
+            if (match) {
+              this.licensePlatePart1 = match[1].substring(0, 2);
+              this.licensePlatePart2 = match[2].substring(0, 4);
+              this.licensePlatePart3 = match[3].substring(0, 3);
+              this.selectedLicensePlate = `${this.licensePlatePart1} ${this.licensePlatePart2} ${this.licensePlatePart3}`.trim();
+            } else {
+              this.selectedLicensePlate = this.sampleData.police_number;
+            }
           }
         }
 
@@ -855,8 +889,10 @@ transmissionOptions: [string, string][] = [
         
         this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
         this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
-        this.modelname = this.sampleData.variant_model?.model_name || '';
+        this.modelname = this.sampleData.brand_model_name || this.sampleData.variant_model?.model_name || '';
         this.selectedVariantName = this.modelname;
+        console.log('DEBUG selectedVariantName:', this.selectedVariantName);
+        console.log('DEBUG variant_model:', this.sampleData.variant_model);
         this.selectedBrandName = this.sampleData.brand.brand_name;
         this.selectedBpkbStatus = this.sampleData.bpkb_status || 'TRIBIK';
         // this.selectedVariantName = this.modelname + "-" +  this.sampleData.variant_model.variant_name;
@@ -1119,16 +1155,11 @@ transmissionOptions: [string, string][] = [
             modalRef.componentInstance.images = this.lainnyaDocuments;
           }
           
-          // Refresh data setelah modal ditutup
+          // Refresh hanya dokumen setelah modal ditutup, jangan reload seluruh form
+          // (infoUnit() akan reset field yang sudah dipilih user tapi belum tersimpan ke server)
           modalRef.result.then(
-            (result) => {
-              // Modal ditutup dengan result (misalnya setelah upload sukses)
-              this.infoUnit();
-            },
-            (reason) => {
-              // Modal ditutup dengan dismiss (klik X atau klik di luar)
-              this.infoUnit();
-            }
+            () => this.refreshDocuments(),
+            () => this.refreshDocuments()
           );
     }catch (error) {
         if (axios.isAxiosError(error)) {
@@ -1154,5 +1185,29 @@ transmissionOptions: [string, string][] = [
     // ];
 }
 
+  // Ambil ulang hanya daftar dokumen (tanpa reset field form lain yang belum tersimpan ke server)
+  async refreshDocuments() {
+    try {
+      const unit_id = this.router.url.split('/').pop();
+      const endpoint = `/detail-unit?unit_id=${unit_id}`;
+      const response = await this.apiClient.getOther<UnitDetailResponse>(endpoint);
+
+      if (response && response.vendor.id) {
+        this.unitdocuments = response.unitdocuments;
+        this.bpkbDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BPKB');
+        this.bastkVendorDocuments = this.unitdocuments.filter(doc => doc.file_type === 'BASTK');
+        this.stnkDocuments = this.unitdocuments.filter(doc => doc.file_type === 'STNK');
+        this.suratKuasaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'SURATKUASA');
+        this.lainnyaDocuments = this.unitdocuments.filter(doc => doc.file_type === 'LAINNYA');
+        this.ktpDocuments = response.idcardsender_url ? [{
+          id: 1,
+          file_type: 'KTP',
+          image_url: response.idcardsender_url
+        } as UnitDocument] : [];
+      }
+    } catch (error) {
+      console.error('Error refreshing documents:', error);
+    }
+  }
 
 }

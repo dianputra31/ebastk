@@ -104,7 +104,13 @@ export class TheUnitInputComponent implements OnInit, AfterViewInit, OnDestroy {
   licensePlatePart1: string = '';
   licensePlatePart2: string = '';
   licensePlatePart3: string = '';
+  licensePlateHeavyEquipment: string = '';
+  selectedVehicTypeName: string = '';
   selectedBranchId: string = '';
+
+  get isHeavyEquipment(): boolean {
+    return this.selectedVehicTypeName === 'HEAVY EQUIPMENT';
+  }
   bastk_status: string = '';
   selectedBpkbNumber: string = '';
   selectedBpkbName: string = '';
@@ -917,16 +923,33 @@ onYearSelected(event: any) {
   } 
 
 
-  onVehicTypeChange(event : any) {
-    const selectedOption = event.target.selectedOptions[0]; // Ambil option yang dipilih
+  onVehicTypeChange(event: any) {
+    const selectedOption = event.target.selectedOptions[0];
     const dataName = selectedOption.getAttribute('data-name');
     const dataId = selectedOption.getAttribute('data-id');
 
-    // this.selectedVehicType = dataName;
     this.selectedVehicType = dataId;
+    this.selectedVehicTypeName = dataName || '';
+
+    // Reset semua inputan nomor polisi saat tipe berubah
+    this.licensePlatePart1 = '';
+    this.licensePlatePart2 = '';
+    this.licensePlatePart3 = '';
+    this.licensePlateHeavyEquipment = '';
+    this.selectedLicensePlate = '';
+
     this.savePayloadUnit();
-    // Panggil fungsi showVariant dengan brandId yang dipilih
-    // this.showVariant(colorId);
+  }
+
+  onHeavyEquipmentPlateInput(event: any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+    value = value.replace(/[^A-Za-z0-9\-\/\.\(\)\*\s]/g, '');
+    value = value.toUpperCase();
+    this.licensePlateHeavyEquipment = value;
+    input.value = value;
+    this.selectedLicensePlate = value;
+    this.savePayloadUnit();
   }
 
 

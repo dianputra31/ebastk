@@ -4,9 +4,9 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://admin-tribik.rask.co.id/api/bastk',
-  apiUrlOther: 'https://admin-tribik.rask.co.id/api/masterdata',
-  mediaUrl: 'https://admin-tribik.rask.co.id',
+  apiUrl: 'https://portal.tribikauction.co.id/api/bastk',
+  apiUrlOther: 'https://portal.tribikauction.co.id/api/masterdata',
+  mediaUrl: 'https://portal.tribikauction.co.id',
 };
 
 /*

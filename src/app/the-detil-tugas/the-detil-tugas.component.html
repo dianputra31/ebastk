@@ -77,33 +77,44 @@
                     </select>
 
                     <label for="licensePlate">Nomor Polisi</label>
-                    <div style="display: flex; gap: 8px; width: 90%;">
-                      <input 
-                        #platePart1
-                        type="text" 
-                        placeholder="XX" 
-                        maxlength="2"
-                        [(ngModel)]="licensePlatePart1"
-                        (input)="onLicensePlateInput($event, 1, platePart2)"
-                        (paste)="onLicensePlatePaste($event)"
-                        style="text-transform: uppercase; width: 60px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
-                      <input 
-                        #platePart2
-                        type="text" 
-                        placeholder="XXXX" 
-                        maxlength="4"
-                        [(ngModel)]="licensePlatePart2"
-                        (input)="onLicensePlateInput($event, 2, platePart3)"
-                        style="text-align: center; width: 80px; font-weight: bold; letter-spacing: 2px;"/>
-                      <input 
-                        #platePart3
-                        type="text" 
-                        placeholder="XXX" 
-                        maxlength="3"
-                        [(ngModel)]="licensePlatePart3"
-                        (input)="onLicensePlateInput($event, 3, null)"
-                        style="text-transform: uppercase; width: 70px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                    <div *ngIf="isHeavyEquipment; else normalPlate" style="width: 90%;">
+                      <input
+                        type="text"
+                        placeholder="Nomor Polisi"
+                        [(ngModel)]="licensePlateHeavyEquipment"
+                        (input)="onHeavyEquipmentPlateInput($event)"
+                        (blur)="onHeavyEquipmentPlateInput($event)"
+                        style="text-transform: uppercase; width: 100%; font-weight: bold; letter-spacing: 2px;"/>
                     </div>
+                    <ng-template #normalPlate>
+                      <div style="display: flex; gap: 8px; width: 90%;">
+                        <input
+                          #platePart1
+                          type="text"
+                          placeholder="XX"
+                          maxlength="2"
+                          [(ngModel)]="licensePlatePart1"
+                          (input)="onLicensePlateInput($event, 1, platePart2)"
+                          (paste)="onLicensePlatePaste($event)"
+                          style="text-transform: uppercase; width: 60px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                        <input
+                          #platePart2
+                          type="text"
+                          placeholder="XXXX"
+                          maxlength="4"
+                          [(ngModel)]="licensePlatePart2"
+                          (input)="onLicensePlateInput($event, 2, platePart3)"
+                          style="text-align: center; width: 80px; font-weight: bold; letter-spacing: 2px;"/>
+                        <input
+                          #platePart3
+                          type="text"
+                          placeholder="XXX"
+                          maxlength="3"
+                          [(ngModel)]="licensePlatePart3"
+                          (input)="onLicensePlateInput($event, 3, null)"
+                          style="text-transform: uppercase; width: 70px; text-align: center; font-weight: bold; letter-spacing: 2px;"/>
+                      </div>
+                    </ng-template>
 
                     <label for="unit_location">Status Unit</label>
                     <input type="text" id="unit_location" placeholder="Status Unit" value="{{HiLocation}}" readonly style="text-transform: uppercase;"/>
@@ -191,10 +202,11 @@
                     <input type="hidden" id="tipe" name="tipe" >
                     <button  type="button" (click)="openTipeModal()" style="text-align:left;padding-left:10px;height:45px;width:90%;border:solid #cdcdcd 1px;border-radius:8px;margin-bottom:15px;">{{ selectedVariantName || 'Pilih Tipe' }}</button>
 
-                  <app-the-tipe-modal  
-                  *ngIf="isTipeModalOpen"  
-                  [variants]="variants?.results || []" 
-                  (close)="isTipeModalOpen = false" 
+                  <app-the-tipe-modal
+                  *ngIf="isTipeModalOpen"
+                  [variants]="variants?.results || []"
+                  [selectedVariantName]="selectedVariantName"
+                  (close)="isTipeModalOpen = false"
                   (selectVariant)="onVariantSelected($event)">
                   </app-the-tipe-modal>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { UnitDetailResponse, UnitDocument } from 'src/assets/models/detail-unit.model';
 import { ApiVehicleTypeResponse } from 'src/assets/models/list-vehicle-tipe.model';
 import { VendorDetailResponse } from 'src/assets/models/vendor-detail.model';
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   templateUrl: './the-detail-history-info.component.html',
   styleUrls: ['./the-detail-history-info.component.scss']
 })
-export class TheDetailHistoryInfoComponent implements OnInit {
+export class TheDetailHistoryInfoComponent implements OnInit, OnChanges {
 // @Input() sampleDataVendor: any;
 @Input() sampleDataVendor: VendorDetailResponse | null = null;
 @Input() sampleData: UnitDetailResponse | null = null;
@@ -110,39 +110,47 @@ transmissionOptions: [string, string][] = [
   }
 
   ngOnInit(): void {
-    this.pic = this.sampleData?.mobilization_unit[0].mobilization.pic;
-    console.log('this.sampleData?.brand.brand_name:', this.sampleData);
-    
     // Initialize HiLocation from localStorage
     this.HiLocation = localStorage.getItem('branch') || 'Branch';
-    
-    // Initialize keur data and other fields
-    if (this.sampleData) {
-      this.selectedKeur = this.sampleData.keur || 'T/A';
-      this.keur_notice = this.sampleData.keur_notice;
-      this.tax_notice = this.sampleData.tax_notice;
-      this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
-      
-      // Normalize KEUR date ke yyyy-mm-dd untuk input date
-      if (this.selectedKeur && this.selectedKeur !== 'T/A' && this.keur_notice) {
-        this.keurDateString = this.normalizeDateForInput(this.keur_notice);
-      }
-      
-      // Normalize STNK date and set status
-      if (this.tax_notice) {
-        this.stnkDateString = this.normalizeDateForInput(this.tax_notice);
-        this.selectedStnkStatus = 'Ada';
-      } else {
-        this.selectedStnkStatus = 'Tidak Ada';
-      }
-      
-      // Initialize ODO
-      this.selectedOdo = this.sampleData.odo_meter ? String(this.sampleData.odo_meter) : '';
-    }
-    
+
+    this.applySampleData();
+
     this.showVehicleType();
     this.showBrand();
     this.showColor();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['sampleData']) {
+      this.applySampleData();
+    }
+  }
+
+  private applySampleData(): void {
+    if (!this.sampleData) return;
+
+    this.pic = this.sampleData.mobilization_unit?.[0]?.mobilization?.pic;
+
+    this.selectedKeur = this.sampleData.keur || 'T/A';
+    this.keur_notice = this.sampleData.keur_notice;
+    this.tax_notice = this.sampleData.tax_notice;
+    this.selectedKeurStatus = this.sampleData.keur === 'T/A' ? 'Tidak Ada' : 'Ada';
+
+    // Normalize KEUR date ke yyyy-mm-dd untuk input date
+    if (this.selectedKeur && this.selectedKeur !== 'T/A' && this.keur_notice) {
+      this.keurDateString = this.normalizeDateForInput(this.keur_notice);
+    }
+
+    // Normalize STNK date and set status
+    if (this.tax_notice) {
+      this.stnkDateString = this.normalizeDateForInput(this.tax_notice);
+      this.selectedStnkStatus = 'Ada';
+    } else {
+      this.selectedStnkStatus = 'Tidak Ada';
+    }
+
+    // Initialize ODO
+    this.selectedOdo = this.sampleData.odo_meter ? String(this.sampleData.odo_meter) : '';
   }
 
 

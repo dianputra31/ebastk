@@ -1,17 +1,35 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-the-tipe-modal',
   templateUrl: './the-tipe-modal.component.html',
   styleUrls: ['./the-tipe-modal.component.scss']
 })
-export class TheTipeModalComponent {
+export class TheTipeModalComponent implements OnInit {
   @Input() variants: any[] = [];
+  @Input() selectedVariantName: string = '';
   @Output() close = new EventEmitter<void>();
   @Output() selectVariant = new EventEmitter<any>();
 
   filterText: string = '';
   page: number = 1;
+
+  ngOnInit(): void {
+    if (this.selectedVariantName) {
+      const groupedMap = new Map<string, any[]>();
+      this.variants.forEach(variant => {
+        const modelName = (variant?.model_name || '').toString().trim();
+        if (!modelName) return;
+        if (!groupedMap.has(modelName)) groupedMap.set(modelName, []);
+        groupedMap.get(modelName)!.push(variant);
+      });
+      const keys = Array.from(groupedMap.keys());
+      const index = keys.findIndex(name => name === this.selectedVariantName);
+      if (index >= 0) {
+        this.page = Math.floor(index / this.pageSize) + 1;
+      }
+    }
+  }
   pageSize: number = 10;
 
   get filteredVariants() {

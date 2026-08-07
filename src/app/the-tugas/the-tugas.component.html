@@ -1,8 +1,20 @@
+<div class="search-wrapper">
+  <span class="search-icon">&#9906;</span>
+  <input
+    type="text"
+    class="search-input"
+    [(ngModel)]="filterKeyword"
+    (keydown.enter)="onKeywordSearch()"
+    placeholder="Cari nopol, merek, kategori...">
+  <button *ngIf="filterKeyword" class="search-clear" (click)="clearKeyword()" title="Hapus pencarian">&#10005;</button>
+  <button class="search-btn" (click)="onKeywordSearch()">Cari</button>
+</div>
+
 <div *ngIf="isTerjadwal; else listBastk">
   <div class="task-title" *ngIf="sampleDataTerjadwal?.results && sampleDataTerjadwal.results.length > 0"><b>Tugas Tersedia</b></div>
 
   <div class="product-container" @productCardStagger>
-    <div class="product-card" *ngFor="let product of sampleDataTerjadwal?.results"  @productCardAnimation (click)="GoesToDetailTugas(product.id, 'TERJADWAL')">
+    <div class="product-card" *ngFor="let product of sampleDataTerjadwal?.results" @productCardAnimation (click)="GoesToDetailTugas(product.id, 'TERJADWAL')">
         <div class="product-image" [ngStyle]="{'background-image': 'url(../../assets/icons/noimages.png)'}">  
         </div>
 
@@ -69,6 +81,21 @@
         </div> 
 
     </div>
+  </div>
+
+  <div class="pagination-wrapper" *ngIf="totalPages > 1">
+    <button class="page-btn" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">&#8249;</button>
+    <ng-container *ngFor="let p of getPageNumbers()">
+      <button *ngIf="p !== '...'" class="page-btn" [class.active]="p === currentPage" (click)="changePage(+p)">{{ p }}</button>
+      <span *ngIf="p === '...'" class="page-ellipsis">…</span>
+    </ng-container>
+    <button class="page-btn" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">&#8250;</button>
+    <span class="page-info">Hal {{ currentPage }} / {{ totalPages }}</span>
+    <span class="page-jump">
+      <input type="number" [(ngModel)]="jumpPage" (keydown.enter)="goToPage()"
+             min="1" [max]="totalPages" placeholder="No. hal" class="page-jump-input">
+      <button class="page-btn page-jump-btn" (click)="goToPage()">Pergi</button>
+    </span>
   </div>
 </div>
 
@@ -143,7 +170,22 @@
           </div>  
         </div>  
       </div>  
-  </div>  
+  </div>
+
+  <div class="pagination-wrapper" *ngIf="totalPages > 1">
+    <button class="page-btn" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">&#8249;</button>
+    <ng-container *ngFor="let p of getPageNumbers()">
+      <button *ngIf="p !== '...'" class="page-btn" [class.active]="p === currentPage" (click)="changePage(+p)">{{ p }}</button>
+      <span *ngIf="p === '...'" class="page-ellipsis">…</span>
+    </ng-container>
+    <button class="page-btn" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">&#8250;</button>
+    <span class="page-info">Hal {{ currentPage }} / {{ totalPages }}</span>
+    <span class="page-jump">
+      <input type="number" [(ngModel)]="jumpPage" (keydown.enter)="goToPage()"
+             min="1" [max]="totalPages" placeholder="No. hal" class="page-jump-input">
+      <button class="page-btn page-jump-btn" (click)="goToPage()">Pergi</button>
+    </span>
+  </div>
 </ng-template>
   
 

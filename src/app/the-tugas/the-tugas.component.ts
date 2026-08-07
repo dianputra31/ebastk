@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';  
+import { Component, Input, OnInit } from '@angular/core';  
 import { HttpClient } from '@angular/common/http';  
 import { catchError } from 'rxjs/operators';  
 import { of } from 'rxjs';  
@@ -55,6 +55,8 @@ filter_category: string = '';
 filterSortBy: string = 'asc';
 filter_sort_by: string = '';
 isModalOpen: boolean = false;
+jumpPage: string = '';
+filterKeyword: string = '';
 
 isTerjadwal: boolean = false;
 objectKeys = Object.keys;
@@ -145,19 +147,47 @@ ngOnInit(): void {
   });
 }
 
-@HostListener('window:scroll', ['$event'])
-onScroll(event:any): void {
-  console.log("here we go again");
-  const scrollPosition= window.innerHeight + window.scrollY;
-  const scrollHeight= document.documentElement.scrollHeight;
+get totalPages(): number {
+  return this.isTerjadwal ? this.sampleDataTerjadwal.total_pages : this.sampleData.total_pages;
+}
 
-  if(scrollPosition >= scrollHeight -100 && !this.isLoading){
-    this.isLoading=true;
-    this.currentPage++;
-    this.listTugas(this.currentPage).then(() => {
-      this.isLoading=false;
-    });
+getPageNumbers(): (number | string)[] {
+  const total = this.totalPages;
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | string)[] = [1];
+  if (this.currentPage > 3) pages.push('...');
+  for (let i = Math.max(2, this.currentPage - 1); i <= Math.min(total - 1, this.currentPage + 1); i++) {
+    pages.push(i);
   }
+  if (this.currentPage < total - 2) pages.push('...');
+  pages.push(total);
+  return pages;
+}
+
+changePage(page: number) {
+  if (page < 1 || page > this.totalPages) return;
+  this.currentPage = page;
+  this.listTugas(page);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+goToPage() {
+  const page = parseInt(this.jumpPage, 10);
+  if (!isNaN(page) && page >= 1 && page <= this.totalPages) {
+    this.changePage(page);
+  }
+  this.jumpPage = '';
+}
+
+onKeywordSearch() {
+  this.currentPage = 1;
+  this.listTugas(1);
+}
+
+clearKeyword() {
+  this.filterKeyword = '';
+  this.currentPage = 1;
+  this.listTugas(1);
 }
 
 
@@ -171,7 +201,7 @@ async listTugas(page: number) {
   this.errlog = "";
   try {
     // const page = 1; // Parameter yang ingin dikirim
-    const page_size = 300;
+    const page_size = 20;
     const bastk_status = this.filterStatus;
     console.log("this.filterStatus====>>>>",this.filterStatus);
     // if(this.filterStatus=="0" || this.filterStatus== null || this.filterStatus==undefined){
@@ -202,7 +232,7 @@ async listTugas(page: number) {
     if(this.filterStatus=="1" || this.filterStatus== "2" || this.filterStatus=="3" || this.filterStatus=="4"){
       
       this.isTerjadwal = false;
-        const endpoint = `/units/?page=${page}&page_size=${page_size}` + this.filter_bastk_status + this.filter_category + this.filter_sort_by; // Menambahkan parameter ke endpoint
+        const endpoint = `/units/?page=${page}&page_size=${page_size}` + this.filter_bastk_status + this.filter_category + this.filter_sort_by + `&keyword=${encodeURIComponent(this.filterKeyword)}`;
         const response = await this.apiClient.get<NewApiResponse>(endpoint);
         console.log('Data posted:', response);
 
@@ -212,16 +242,8 @@ async listTugas(page: number) {
       
           const filteredResults = response.results;
           
-          if (page === 1) {
-            this.sampleData = {
-              ...response,
-              results: filteredResults
-            };
-          } else {
-            this.sampleData.results = this.sampleData.results.concat(filteredResults);
-          }
-
-          this.noahService.emitTotalTugas(this.sampleData.results.length);
+          this.sampleData = { ...response, results: filteredResults };
+          this.noahService.emitTotalTugas(this.sampleData.total_items);
           
         }else{
           console.log('here failed')
@@ -232,7 +254,7 @@ async listTugas(page: number) {
 
       console.log("LIST TERJADWAL");
       this.isTerjadwal = true;
-      const endpoint = `/list-mobilisasi/?keyword=`+this.filterCategory+`&page=${page}&page_size=${page_size}`; // Menambahkan parameter ke endpoint
+      const endpoint = `/list-mobilisasi/?keyword=${encodeURIComponent(this.filterKeyword)}&categories=${this.filterCategory}&page=${page}&page_size=${page_size}`;
       const response = await this.apiClient.get<NewApiTerjadwalResponse>(endpoint);
       console.log('Data posted:', response);
 
@@ -242,16 +264,8 @@ async listTugas(page: number) {
     
         const filteredResults = response.results;
         
-        if (page === 1) {
-          this.sampleDataTerjadwal = {
-            ...response,
-            results: filteredResults
-          };
-        } else {
-          this.sampleDataTerjadwal.results = this.sampleDataTerjadwal.results.concat(filteredResults);
-        }
-
-        this.noahService.emitTotalTugas(this.sampleDataTerjadwal.results.length);
+        this.sampleDataTerjadwal = { ...response, results: filteredResults };
+        this.noahService.emitTotalTugas(this.sampleDataTerjadwal.total_items);
 
       }else{
         console.log('here failed')

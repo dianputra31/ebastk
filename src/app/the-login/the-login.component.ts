@@ -76,7 +76,7 @@ export class TheLoginComponent implements OnInit {
   async login() {
     this.isButtonDisabled = true;
     const loginData = {
-      username: this.username.toLowerCase(),
+      username: this.username.toUpperCase(),
       password: this.password
     };
     this.errlog = "";
